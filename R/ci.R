@@ -82,7 +82,9 @@ use_circleci_badge <- function(repo_spec = NULL) {
 
 circleci_activate <- function(owner, browse = is_interactive()) {
   url <- glue("https://circleci.com/add-projects/gh/{owner}")
-  ui_todo("Turn on CircleCI for your repo at {url}")
+  ui_bullets(c(
+    "_" = "Turn on CircleCI for your repo at {.url {url}}."
+  ))
   if (browse) {
     utils::browseURL(url)
   }

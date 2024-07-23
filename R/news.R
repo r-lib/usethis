@@ -40,20 +40,25 @@ use_news_heading <- function(version) {
   }
 
   news <- read_utf8(news_path)
-  title <- glue("# {project_name()} {version}")
+  idx <- match(TRUE, grepl("[^[:space:]]", news))
 
-  if (title == news[[1]]) {
+  if (is.na(idx)) {
+    return(news)
+  }
+
+  title <- glue("# {project_name()} {version}")
+  if (title == news[[idx]]) {
     return(invisible())
   }
 
   development_title <- glue("# {project_name()} (development version)")
-  if (development_title == news[[1]]) {
-    news[[1]] <- title
+  if (development_title == news[[idx]]) {
+    news[[idx]] <- title
 
-    ui_done("Replacing development heading in NEWS.md")
+    ui_bullets(c("v" = "Replacing development heading in {.path NEWS.md}."))
     return(write_utf8(news_path, news))
   }
 
-  ui_done("Adding new heading to NEWS.md")
+  ui_bullets(c("v" = "Adding new heading to {.path NEWS.md}."))
   write_utf8(news_path, c(title, "", news))
 }

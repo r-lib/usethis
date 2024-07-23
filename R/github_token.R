@@ -67,13 +67,12 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
   withr::defer(view_url(url))
 
   hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
-  ui_todo("
-    Call {ui_code(hint)} to register this token in the \\
-    local Git credential store
-    Linux users may need to consult the {ui_value('Managing Git(Hub) Credentials')} article:
-    https://usethis.r-lib.org/articles/articles/git-credentials.html
-    It is also a great idea to store this token in any password-management \\
-    software that you use")
+  ui_bullets(c(
+    "_" = "Call {.code {hint}} to register this token in the local Git
+           credential store.",
+    "i" = "It is also a great idea to store this token in any
+           password-management software that you use."
+  ))
   invisible()
 }
 
@@ -120,63 +119,73 @@ pat_sitrep <- function(host = "https://github.com",
 
   maybe_pat <- purrr::safely(gh::gh_token)(api_url = host)
   if (is.null(maybe_pat$result)) {
-    ui_oops("The PAT discovered for {ui_path(host)} has the wrong structure.")
-    ui_inform(maybe_pat$error)
+    ui_bullets(c(
+      "x" = "The PAT discovered for {.url {host}} has the wrong structure."
+    ))
+    ui_bullets(c("i" = maybe_pat$error))
     return(invisible(FALSE))
   }
   pat <- maybe_pat$result
   have_pat <- pat != ""
 
   if (!have_pat) {
-    kv_line("Personal access token for {ui_value(host)}", NULL)
+    kv_line("Personal access token for {.val {host}}", NULL)
     hint <- code_hint_with_host("create_github_token", host, "host")
-    ui_todo("To create a personal access token, call {ui_code(hint)}")
+    ui_bullets(c(
+      "_" = "To create a personal access token, call {.code {hint}}."
+    ))
     hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
-    ui_todo("To store a token for current and future use, call {ui_code(hint)}")
-    ui_info("
-      Read more in the {ui_value('Managing Git(Hub) Credentials')} article:
-      https://usethis.r-lib.org/articles/articles/git-credentials.html")
+    url <- "https://usethis.r-lib.org/articles/articles/git-credentials.html"
+    ui_bullets(c(
+      "_" = "To store a token for current and future use, call {.code {hint}}.",
+      "i" = "Read more in the {.href [Managing Git(Hub) Credentials]({url})} article."
+    ))
     return(invisible(FALSE))
   }
-  kv_line("Personal access token for {ui_value(host)}", "<discovered>")
+  kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
 
   online <- is_online(host)
   if (!online) {
-    ui_oops("
-      Host is not reachable.
-      No further vetting of the personal access token is possible.
-      Try again when {ui_value(host)} can be reached.")
+    ui_bullets(c(
+      "x" = "Host is not reachable.",
+      " " = "No further vetting of the personal access token is possible.",
+      "_" = "Try again when {.val {host}} can be reached."
+    ))
     return(invisible())
   }
 
   maybe_who <- purrr::safely(gh::gh_whoami)(.token = pat, .api_url = host)
   if (is.null(maybe_who$result)) {
-    message <- "Can't get user information for this token."
+    message <- c("x" = "Can't get user information for this token.")
     if (inherits(maybe_who$error, "http_error_401")) {
-      message <- "
-        Can't get user information for this token.
-        The token may no longer be valid or perhaps it lacks the \\
-        {ui_value('user')} scope."
+      message <- c(
+        message,
+        "i" = "The token may no longer be valid or perhaps it lacks the
+               {.val user} scope."
+      )
     }
-    ui_oops(message)
-    ui_inform(maybe_who$error)
+    message <- c(
+      message,
+      "i" = maybe_who$error$message
+    )
+    ui_bullets(message)
     return(invisible(FALSE))
   }
   who <- maybe_who$result
 
   kv_line("GitHub user", who$login)
-  scopes <- who$scopes
-  kv_line("Token scopes", who$scopes)
-  scopes <- strsplit(scopes, ", ")[[1]]
+  scopes <- strsplit(who$scopes, ", ")[[1]]
+  kv_line("Token scopes", scopes)
   scold_for_scopes(scopes)
 
   maybe_emails <-
     purrr::safely(gh::gh)("/user/emails", .token = pat, .api_url = host)
   if (is.null(maybe_emails$result)) {
-    ui_oops("
-      Can't retrieve registered email addresses from GitHub.
-      Consider re-creating your PAT with the {ui_value('user')} \\
-      or at least {ui_value('user:email')} scope.")
+    ui_bullets(c(
+      "x" = "Can't retrieve registered email addresses from GitHub.",
+      "i" = "Consider re-creating your PAT with the {.val user} (or at least
+             {.val user:email}) scope."
+    ))
   } else {
     emails <- maybe_emails$result
     addresses <- map_chr(
@@ -189,9 +198,10 @@ pat_sitrep <- function(host = "https://github.com",
     )
     git_user_check(user)
     if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
-      ui_oops("
-        Git user's email ({ui_value(user$email)}) doesn't appear to \\
-        be registered with GitHub host.")
+      ui_bullets(c(
+        "x" = "Git user's email ({.val {user$email}}) doesn't appear to be
+               registered with GitHub host."
+      ))
     }
   }
 
@@ -213,29 +223,30 @@ scold_for_renviron <- function() {
   fishy_keys <- re_match(fishy_lines, "^(?<key>.+)=.+")$key
   # TODO: when I switch to cli, this is a good place for `!`
   # in general, lots below is suboptimal, but good enough for now
-  ui_info(c(
-    "{ui_path(renviron_path)} defines environment variable(s):",
-    paste0("- ", fishy_keys),
-    "This can prevent your PAT from being retrieved from the Git credential store."
+  ui_bullets(c(
+    "!" = "{.path {pth(renviron_path)}} defines{cli::qty(length(fishy_keys))}
+           the environment variable{?s}:",
+    bulletize(fishy_keys),
+    "!" = "This can prevent your PAT from being retrieved from the Git
+           credential store.",
+    "i" = "If you are troubleshooting PAT problems, the root cause may be an
+           old, invalid PAT defined in {.path {pth(renviron_path)}}.",
+    "i" = "For most use cases, it is better to NOT define the PAT in
+           {.file .Renviron}.",
+    "_" = "Call {.run usethis::edit_r_environ()} to edit that file.",
+    "_" = "Then call {.run gitcreds::gitcreds_set()} to put the PAT into
+           the Git credential store."
   ))
-  ui_info("
-    If you are troubleshooting PAT problems, the root cause may be an old, \\
-    invalid PAT defined in {ui_path(renviron_path)}.")
-  ui_todo("Call {ui_code('edit_r_environ()')} to edit that file.")
-  ui_info("
-    For most use cases, it is better to NOT define the PAT in \\
-    {ui_code('.Renviron')}.
-    Instead, call {ui_code('gitcreds::gitcreds_set()')} to put the PAT into \\
-    the Git credential store.")
-
   invisible()
 }
 
 scold_for_scopes <- function(scopes) {
   if (length(scopes) == 0) {
-    ui_oops("
-      Token has no scopes!
-      {ui_code('create_github_token()')} defaults to the recommended scopes.")
+    ui_bullets(c(
+      "x" = "Token has no scopes!",
+      "i" = "Tokens initiated with {.fun create_github_token} default to the
+             recommended scopes."
+    ))
     return(invisible())
   }
 
@@ -252,23 +263,17 @@ scold_for_scopes <- function(scopes) {
     return(invisible())
   }
 
-  # current design of the ui_*() functions makes this pretty hard :(
   suggestions <- c(
-    if (!has_repo) {
-      "- {ui_value('repo')}: needed to fully access user's repos"
-    },
-    if (!has_workflow) {
-      "- {ui_value('workflow')}: needed to manage GitHub Actions workflow files"
-    },
-    if (!has_user_email) {
-      "- {ui_value('user:email')}: needed to read user's email addresses"
-    }
+    "*" = if (!has_repo) "{.val repo}: needed to fully access user's repos",
+    "*" = if (!has_workflow) "{.val workflow}: needed to manage GitHub Actions workflow files",
+    "*" = if (!has_user_email) "{.val user:email}: needed to read user's email addresses"
   )
   message <- c(
-    "Token lacks recommended scopes:",
+    "!" = "Token lacks recommended scopes:",
     suggestions,
-    "Consider re-creating your PAT with the missing scopes.",
-    "{ui_code('create_github_token()')} defaults to the recommended scopes."
+    "i" = "Consider re-creating your PAT with the missing scopes.",
+    "i" = "Tokens initiated with {.fun usethis::create_github_token} default to the
+           recommended scopes."
   )
-  ui_oops(glue_collapse(message, sep = "\n"))
+  ui_bullets(message)
 }

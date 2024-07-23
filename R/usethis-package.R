@@ -7,6 +7,7 @@
 #' @importFrom glue glue glue_collapse glue_data
 #' @importFrom lifecycle deprecated
 #' @importFrom purrr map map_chr map_lgl map_int
+#' @importFrom utils available.packages
 ## usethis namespace: end
 NULL
 

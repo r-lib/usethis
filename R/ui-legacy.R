@@ -1,9 +1,22 @@
-#' User interface
+#' Legacy functions related to user interface
 #'
 #' @description
-#' These functions are used to construct the user interface of usethis. Use
-#' them in your own package so that your `use_` functions work the same way
-#' as usethis.
+#' `r lifecycle::badge("superseded")`
+#'
+
+#'   These functions are now superseded. External users of the `usethis::ui_*()`
+#'   functions are encouraged to use the [cli package](https://cli.r-lib.org/)
+#'   instead. The cli package did not have the required functionality when the
+#'   `usethis::ui_*()` functions were created, but it has had that for a while
+#'   now and it's the superior option. There is even a cli vignette about how to
+#'   make this transition: `vignette("usethis-ui", package = "cli")`.
+#'
+#'   usethis itself now uses cli internally for its UI, but these new functions
+#'   are not exported and presumably never will be. There is a developer-focused
+#'   article on the process of transitioning usethis's own UI to use cli (LINK
+#'   TO COME).
+
+#' @details
 #'
 #' The `ui_` functions can be broken down into four main categories:
 #'
@@ -17,9 +30,8 @@
 #' The question functions [ui_yeah()] and [ui_nope()] have their own [help
 #' page][ui-questions].
 #'
-#' @section Silencing output:
 #' All UI output (apart from `ui_yeah()`/`ui_nope()` prompts) can be silenced
-#' by setting `options(usethis.quiet = TRUE)`. Use `ui_silence()` to silence
+#' by setting `options(usethis.quiet = TRUE)`. Use [ui_silence()] to silence
 #' selected actions.
 #'
 #' @param x A character vector.
@@ -34,8 +46,7 @@
 #' @return The block styles, conditions, and questions are called for their
 #'   side-effect. The inline styles return a string.
 #' @keywords internal
-#' @family user interface functions
-#' @name ui
+#' @name ui-legacy-functions
 #' @examples
 #' new_val <- "oxnard"
 #' ui_done("{ui_field('name')} set to {ui_value(new_val)}")
@@ -50,7 +61,7 @@ NULL
 
 # Block styles ------------------------------------------------------------
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_line <- function(x = character(), .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
@@ -58,41 +69,41 @@ ui_line <- function(x = character(), .envir = parent.frame()) {
   ui_inform(x)
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_todo <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$bullet))
+  ui_legacy_bullet(x, crayon::red(cli::symbol$bullet))
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::green(cli::symbol$tick))
+  ui_legacy_bullet(x, crayon::green(cli::symbol$tick))
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_oops <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$cross))
+  ui_legacy_bullet(x, crayon::red(cli::symbol$cross))
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_info <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::yellow(cli::symbol$info))
+  ui_legacy_bullet(x, crayon::yellow(cli::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
 #'   is installed, will copy the code block to the clipboard.
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_code_block <- function(x,
                           copy = rlang::is_interactive(),
@@ -113,7 +124,7 @@ ui_code_block <- function(x,
 
 # Conditions --------------------------------------------------------------
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_stop <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
@@ -127,7 +138,7 @@ ui_stop <- function(x, .envir = parent.frame()) {
   stop(cnd)
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_warn <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
@@ -137,24 +148,20 @@ ui_warn <- function(x, .envir = parent.frame()) {
 }
 
 
-# Silence -----------------------------------------------------------------
-
-#' @rdname ui
-#' @param code Code to execute with usual UI output silenced.
-#' @export
-ui_silence <- function(code) {
-  withr::with_options(list(usethis.quiet = TRUE), code)
-}
 
 # Questions ---------------------------------------------------------------
-
 #' User interface - Questions
 #'
-#' These functions are used to interact with the user by posing a simple yes or
-#' no question. For details on the other `ui_*()` functions, see the [ui] help
-#' page.
+#' @description
+#' `r lifecycle::badge("superseded")`
 #'
-#' @inheritParams ui
+
+#' `ui_yeah()` and `ui_nope()` are technically superseded, but, unlike the rest
+#' of the legacy [`ui_*()`][ui-legacy-functions] functions, there's not yet a
+#' drop-in replacement available in the [cli package](https://cli.r-lib.org/).
+#' `ui_yeah()` and `ui_nope()` are no longer used internally in usethis.
+#'
+#' @inheritParams ui-legacy-functions
 #' @param yes A character vector of "yes" strings, which are randomly sampled to
 #'   populate the menu.
 #' @param no A character vector of "no" strings, which are randomly sampled to
@@ -170,7 +177,6 @@ ui_silence <- function(code) {
 #'   of `ui_yeah()`.
 #' @name ui-questions
 #' @keywords internal
-#' @family user interface functions
 #' @examples
 #' \dontrun{
 #' ui_yeah("Do you like R?")
@@ -206,6 +212,9 @@ ui_yeah <- function(x,
   }
 
   # TODO: should this be ui_inform()?
+  # later observation: probably not? you would not want these prompts to be
+  # suppressed when `usethis.quiet = TRUE`, i.e. if the menu() appears, then
+  # the introduction should also always appear
   rlang::inform(x)
   out <- utils::menu(qs)
   out != 0L && qs[[out]] %in% yes
@@ -229,7 +238,7 @@ ui_nope <- function(x,
 
 # Inline styles -----------------------------------------------------------
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_field <- function(x) {
   x <- crayon::green(x)
@@ -237,7 +246,7 @@ ui_field <- function(x) {
   x
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_value <- function(x) {
   if (is.character(x)) {
@@ -248,25 +257,14 @@ ui_value <- function(x) {
   x
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 #' @param base If specified, paths will be displayed relative to this path.
 ui_path <- function(x, base = NULL) {
-  is_directory <- is_dir(x) | grepl("/$", x)
-  if (is.null(base)) {
-    x <- proj_rel_path(x)
-  } else if (!identical(base, NA)) {
-    x <- path_rel(x, base)
-  }
-
-  # rationalize trailing slashes
-  x <- path_tidy(x)
-  x <- ifelse(is_directory, paste0(x, "/"), x)
-
-  ui_value(x)
+  ui_value(ui_path_impl(x, base = base))
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_code <- function(x) {
   x <- encodeString(x, quote = "`")
@@ -275,7 +273,7 @@ ui_code <- function(x) {
   x
 }
 
-#' @rdname ui
+#' @rdname ui-legacy-functions
 #' @export
 ui_unset <- function(x = "unset") {
   check_string(x)
@@ -291,7 +289,7 @@ indent <- function(x, first = "  ", indent = first) {
   paste0(first, x)
 }
 
-ui_bullet <- function(x, bullet = cli::symbol$bullet) {
+ui_legacy_bullet <- function(x, bullet = cli::symbol$bullet) {
   bullet <- paste0(bullet, " ")
   x <- indent(x, bullet, "  ")
   ui_inform(x)
@@ -302,32 +300,6 @@ ui_bullet <- function(x, bullet = cli::symbol$bullet) {
 ui_inform <- function(...) {
   if (!is_quiet()) {
     inform(paste0(...))
-  }
-  invisible()
-}
-
-is_quiet <- function() {
-  isTRUE(getOption("usethis.quiet", default = FALSE))
-}
-
-# Sitrep helpers ---------------------------------------------------------------
-
-hd_line <- function(name) {
-  ui_inform(crayon::bold(name))
-}
-
-kv_line <- function(key, value, .envir = parent.frame()) {
-  value <- if (is.null(value)) ui_unset() else ui_value(value)
-  key <- glue(key, .envir = .envir)
-  ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
-}
-
-
-# cli wrappers ------------------------------------------------------------
-
-ui_cli_inform <- function(..., .envir = parent.frame()) {
-  if (!is_quiet()) {
-    cli::cli_inform(..., .envir = .envir)
   }
   invisible()
 }

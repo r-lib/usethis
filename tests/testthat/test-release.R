@@ -29,6 +29,8 @@ test_that("non-patch + lifecycle = advanced deprecation process", {
   create_local_package()
   use_package("lifecycle")
 
+  local_mocked_bindings(tidy_minimum_r_version = function() "3.6")
+
   has_deprecation <- function(x) any(grepl("deprecation processes", x))
   expect_true(has_deprecation(release_checklist("1.0.0", on_cran = TRUE)))
   expect_true(has_deprecation(release_checklist("1.1.0", on_cran = TRUE)))
@@ -85,6 +87,37 @@ test_that("RStudio-ness detection works", {
   )
 })
 
+test_that("can find milestone numbers", {
+  skip_if_offline("github.com")
+
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+
+  expect_equal(
+    gh_milestone_number(tr, "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number(tr, "0.0.0", state = "all"),
+    NA_integer_
+  )
+})
+
+test_that("gh_milestone_number() returns NA when gh() errors", {
+  local_mocked_bindings(
+    gh_tr = function(tr) { function(endpoint, ...) { ui_abort("nope!") } }
+  )
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+  expect_true(is.na(gh_milestone_number(tr, "1.1.1")))
+})
+
 # news --------------------------------------------------------------------
 
 test_that("must have at least one heading", {
@@ -123,19 +156,6 @@ test_that("returns empty string if no bullets", {
     "# Heading"
   )
   expect_equal(news_latest(lines), "")
-})
-
-test_that("can find milestone numbers", {
-  skip_if_offline("github.com")
-
-  expect_equal(
-    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
-    8
-  )
-  expect_equal(
-    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
-    NA_integer_
-  )
 })
 
 # draft release ----------------------------------------------------------------
@@ -200,54 +220,28 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
 
-test_that("cran_version() is robust to unset CRAN mirror with unreleased pkg (#1857)", {
-  skip_if_offline()
-  # we don't want this to be the name of a package someone actually releases on CRAN
-  pkg <- "foofy.asdf123"
+test_that("cran_version() returns package version if package found", {
+  local_mocked_bindings(available.packages = function(...) {
+    # simulate minimal available.packages entry
+    as.matrix(data.frame(Package = c(usethis = "usethis"), Version = "1.0.0"))
+  })
 
-  withr::with_options(
-    list(repos = c(CRAN = "https://cloud.r-project.org")),
-    expect_null(cran_version(pkg))
-  )
-
-  withr::with_options(
-    list(repos = c(CRAN = "@CRAN@")),
-    expect_null(cran_version(pkg))
-  )
-
-  withr::with_options(
-    list(repos = c(CRAN = NA)),
-    expect_null(cran_version(pkg))
-  )
-
-  withr::with_options(
-    list(repos = NULL),
-    expect_null(cran_version(pkg))
-  )
+  expect_null(cran_version("doesntexist"))
+  expect_equal(cran_version("usethis"), package_version("1.0.0"))
 })
 
-test_that("cran_version() is robust to unset CRAN mirror with released pkg (#1857)", {
-  skip_if_offline()
-  pkg <- "usethis"
-
-  withr::with_options(
-    list(repos = c(CRAN = "https://cloud.r-project.org")),
-    expect_s3_class(cran_version(pkg), "package_version")
-  )
-
-  withr::with_options(
-    list(repos = c(CRAN = "@CRAN@")),
-    expect_s3_class(cran_version(pkg), "package_version")
-  )
-
-  withr::with_options(
-    list(repos = c(CRAN = NA)),
-    expect_s3_class(cran_version(pkg), "package_version")
-  )
-
-  withr::with_options(
-    list(repos = NULL),
-    expect_s3_class(cran_version(pkg), "package_version")
-  )
+test_that("cran_version() returns NULL if no available packages", {
+  local_mocked_bindings(available.packages = function(...) NULL)
+  expect_null(cran_version("doesntexist"))
 })
 
+test_that("default_cran_mirror() is respects set value but falls back to cloud", {
+  withr::local_options(repos = c(CRAN = "https://example.com"))
+  expect_equal(default_cran_mirror(), c(CRAN = "https://example.com"))
+
+  withr::local_options(repos = c(CRAN = "@CRAN@"))
+  expect_equal(default_cran_mirror(), c(CRAN = "https://cloud.r-project.org"))
+
+  withr::local_options(repos = c())
+  expect_equal(default_cran_mirror(), c(CRAN = "https://cloud.r-project.org"))
+})

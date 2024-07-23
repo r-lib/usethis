@@ -7,9 +7,9 @@ use_dependency <- function(package, type, min_version = NULL) {
   }
 
   if (package == "R" && tolower(type) != "depends") {
-    ui_stop("Set {ui_code('type = \"Depends\"')} when specifying an R version")
+    ui_abort('Set {.code type = "Depends"} when specifying an R version.')
   } else if (package == "R" && is.null(min_version)) {
-    ui_stop("Specify {ui_code('min_version')} when {ui_code('package = \"R\"')}")
+    ui_abort('Specify {.arg min_version} when {.code package = "R"}.')
   }
 
   if (isTRUE(min_version) && package == "R") {
@@ -38,7 +38,9 @@ use_dependency <- function(package, type, min_version = NULL) {
   # * First use of a LinkingTo package as a non-LinkingTo dependency
   # In all cases, we can can simply make the change.
   if (nrow(deps) == 0 || new_linking_to || new_non_linking_to) {
-    ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
+    ui_bullets(c(
+      "v" = "Adding {.pkg {package}} to {.field {type}} field in DESCRIPTION."
+    ))
     desc$set_dep(package, type, version = version)
     desc$write()
     changed <- TRUE
@@ -56,27 +58,29 @@ use_dependency <- function(package, type, min_version = NULL) {
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
     # don't downgrade
-    ui_warn(
-      "Package {ui_value(package)} is already listed in \\
-       {ui_value(existing_type)} in DESCRIPTION, no change made."
-    )
+    ui_bullets(c(
+      "!" = "Package {.pkg {package}} is already listed in
+             {.field {existing_type}} in DESCRIPTION; no change made."
+    ))
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
     upgrade <- existing_version == "*" ||
       numeric_version(min_version) > version_spec(existing_version)
     if (upgrade) {
-      ui_done(
-        "Increasing {ui_value(package)} version to {ui_value(version)} in \\
-         DESCRIPTION")
+      ui_bullets(c(
+        "v" = "Increasing {.pkg {package}} version to {.val {version}} in
+               DESCRIPTION."
+      ))
       desc$set_dep(package, type, version = version)
       desc$write()
       changed <- TRUE
     }
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports
-    ui_done(
-      "Moving {ui_value(package)} from {ui_field(existing_type)} to \\
-       {ui_field(type)} field in DESCRIPTION")
+    ui_bullets(c(
+      "v" = "Moving {.pkg {package}} from {.field {existing_type}} to
+             {.field {type}} field in DESCRIPTION."
+    ))
     desc$del_dep(package, existing_type)
     desc$set_dep(package, type, version = version)
     desc$write()
@@ -99,10 +103,10 @@ version_spec <- function(x) {
 view_url <- function(..., open = is_interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    ui_done("Opening URL {ui_value(url)}")
+    ui_bullets(c("v" = "Opening URL {.url {url}}."))
     utils::browseURL(url)
   } else {
-    ui_todo("Open URL {ui_value(url)}")
+    ui_bullets(c("_" = "Open URL {.url {url}}."))
   }
   invisible(url)
 }

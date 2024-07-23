@@ -24,7 +24,9 @@ rename_files <- function(old, new) {
   r_old_path <- proj_path("R", old, ext = "R")
   r_new_path <- proj_path("R", new, ext = "R")
   if (file_exists(r_old_path)) {
-    ui_done("Moving {ui_path(r_old_path)} to {ui_path(r_new_path)}")
+    ui_bullets(c(
+      "v" = "Moving {.path {pth(r_old_path)}} to {.path {pth(r_new_path)}}."
+    ))
     file_move(r_old_path, r_new_path)
   }
 
@@ -36,7 +38,9 @@ rename_files <- function(old, new) {
     src_new <- path(path_dir(src_old), src_new_file)
 
     if (length(src_old) > 1) {
-      ui_done("Moving {ui_path(src_old)} to {ui_path(src_new)}")
+      ui_bullets(c(
+        "v" = "Moving {.path {pth(src_old)}} to {.path {pth(src_new)}}."
+      ))
       file_move(src_old, src_new)
     }
   }
@@ -57,7 +61,9 @@ rename_files <- function(old, new) {
   )
   new_test <- rename_test(old_test)
   if (length(old_test) > 0) {
-    ui_done("Moving {ui_path(old_test)} to {ui_path(new_test)}")
+    ui_bullets(c(
+      "v" = "Moving {.path {pth(old_test)}} to {.path {pth(new_test)}}."
+    ))
     file_move(old_test, new_test)
   }
   snaps_dir <- proj_path("tests", "testthat", "_snaps")
@@ -65,7 +71,9 @@ rename_files <- function(old, new) {
     old_snaps <- dir_ls(snaps_dir, glob = glue("*/{old}.md"))
     if (length(old_snaps) > 0) {
       new_snaps <- rename_test(old_snaps)
-      ui_done("Moving {ui_path(old_snaps)} to {ui_path(new_snaps)}")
+      ui_bullets(c(
+        "v" = "Moving {.path {pth(old_snaps)}} to {.path {pth(new_snaps)}}."
+      ))
       file_move(old_snaps, new_snaps)
     }
   }
@@ -81,7 +89,7 @@ rename_files <- function(old, new) {
   # Remove old context lines
   context <- grepl("context\\(.*\\)", lines)
   if (any(context)) {
-    ui_done("Removing call to {ui_code('context()')}")
+    ui_bullets(c("v" = "Removing call to {.fun context}."))
     lines <- lines[!context]
     if (lines[[1]] == "") {
       lines <- lines[-1]
@@ -92,7 +100,7 @@ rename_files <- function(old, new) {
   new_test <- new_test[new_test != test_path]
 
   if (length(old_test) > 0) {
-    ui_done("Updating paths in {ui_path(test_path)}")
+    ui_bullets(c("v" = "Updating paths in {.path {pth(test_path)}}."))
 
     for (i in seq_along(old_test)) {
       lines <- gsub(path_file(old_test[[i]]), path_file(new_test[[i]]), lines, fixed = TRUE)

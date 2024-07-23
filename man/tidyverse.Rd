@@ -51,7 +51,7 @@ defaults to the latest published release of \code{r-lib/actions}
 created, provided that the parent path exists.}
 
 \item{copyright_holder}{Name of the copyright holder or holders. This
-defaults to "{package name} authors"; you should only change this if you
+defaults to \code{"{package name} authors"}; you should only change this if you
 use a CLA to assign copyright to a single entity.}
 
 \item{strict}{Boolean indicating whether or not a strict version of styling

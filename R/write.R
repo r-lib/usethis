@@ -60,7 +60,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    ui_done("Adding {ui_value(new)} to {ui_path(path)}")
+    ui_bullets(c("v" = "Adding {.val {new}} to {.path {pth(path)}}."))
   }
 
   all <- c(existing_lines, new)
@@ -70,7 +70,6 @@ write_union <- function(path, lines, quiet = FALSE) {
 #' @describeIn write-this writes a file with specific lines, creating it if
 #'   necessary or overwriting existing, if proposed contents are not identical
 #'   and user is available to give permission.
-#' @param contents Character vector of lines.
 #' @param overwrite Force overwrite of existing file?
 #' @export
 write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
@@ -87,12 +86,12 @@ write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
 
   if (overwrite || can_overwrite(path)) {
     if (!quiet) {
-      ui_done("Writing {ui_path(path)}")
+      ui_bullets(c("v" = "Writing {.path {pth(path)}}."))
     }
     write_utf8(path, lines)
   } else {
     if (!quiet) {
-      ui_done("Leaving {ui_path(path)} unchanged")
+      ui_bullets(c("i" = "Leaving {.path {pth(path)}} unchanged."))
     }
     invisible(FALSE)
   }

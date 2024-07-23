@@ -20,16 +20,17 @@
 use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   check_is_package("use_logo()")
 
-  logo_path <- proj_path("man", "figures", "logo", ext = path_ext(img))
+  ext <- tolower(path_ext(img))
+  logo_path <- proj_path("man", "figures", "logo", ext = ext)
   create_directory(path_dir(logo_path))
   if (!can_overwrite(logo_path)) {
     return(invisible(FALSE))
   }
 
-  if (path_ext(img) == "svg") {
+  if (ext == "svg") {
     logo_path <- path("man", "figures", "logo.svg")
     file_copy(img, proj_path(logo_path), overwrite = TRUE)
-    ui_done("Copied {ui_path(img)} to {ui_path(logo_path)}")
+    ui_bullets(c("v" = "Copied {.path {pth(img)}} to {.path {logo_path}}."))
 
     height <- as.integer(sub(".*x", "", geometry))
   } else {
@@ -38,7 +39,7 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     img_data <- magick::image_read(img)
     img_data <- magick::image_resize(img_data, geometry)
     magick::image_write(img_data, logo_path)
-    ui_done("Resized {ui_path(img)} to {geometry}")
+    ui_bullets(c("v" = "Resized {.path {pth(img)}} to {geometry}."))
 
     height <- magick::image_info(magick::image_read(logo_path))$height
   }
@@ -48,11 +49,25 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     height <- round(height / 2)
   }
 
-  ui_todo("Add logo to your README with the following html:")
+  # Have a clickable hyperlink to jump to README if exists.
+  readme_path <- find_readme()
+  if (is.null(readme_path)) {
+    readme_show <- "your README"
+  } else {
+    readme_show <- cli::format_inline("{.path {pth(readme_path)}}")
+  }
+
+  ui_bullets(c("_" = "Add logo to {readme_show} with the following html:"))
   pd_link <- pkgdown_url(pedantic = TRUE)
   if (is.null(pd_link)) {
-    ui_code_block("# {pkg} <img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" alt=\"\" />")
+    ui_code_snippet(
+      "# {pkg} <img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" alt=\"\" />",
+      language = ""
+    )
   } else {
-    ui_code_block("# {pkg} <a href=\"{pd_link}\"><img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" alt=\"{pkg} website\" /></a>")
+    ui_code_snippet(
+      "# {pkg} <a href=\"{pd_link}\"><img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" alt=\"{pkg} website\" /></a>",
+      language = ""
+    )
   }
 }

@@ -26,11 +26,12 @@ test_that("use_data_table() blocks use of Depends", {
   local_roxygen_update_ns()
   local_check_fun_exists()
 
-  expect_warning(
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(
     use_data_table(),
-    "data.table should be in Imports or Suggests, not Depends"
+    transform = scrub_testpkg
   )
 
-  expect_match(proj_desc()$get("Imports"), "data.table")
+  expect_match(desc::desc_get("Imports"), "data.table")
   expect_snapshot(roxygen_ns_show())
 })
