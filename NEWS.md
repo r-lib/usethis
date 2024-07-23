@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* The README templates now recommend [pak](https://pak.r-lib.org) instead of
+  devtools for package installation (@olivroy, #1723).
+
 * `use_github()` now knows that you can reuse the name of an earlier repo that
   has since been renamed (@ateucher, #1893).
 
