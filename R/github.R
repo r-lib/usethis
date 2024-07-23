@@ -239,8 +239,9 @@ use_github_links <- function(auth_token = deprecated(),
   invisible()
 }
 
-has_github_links <- function() {
-  github_url <- github_url_from_git_remotes()
+has_github_links <- function(target_repo = NULL) {
+  url <- if (is.null(target_repo)) NULL else target_repo$url
+  github_url <- github_url_from_git_remotes(url)
   if (is.null(github_url)) {
     return(FALSE)
   }

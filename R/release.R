@@ -56,7 +56,7 @@ use_release_issue <- function(version = NULL) {
   }
 
   on_cran <- !is.null(cran_version())
-  checklist <- release_checklist(version, on_cran)
+  checklist <- release_checklist(version, on_cran, tr)
 
   gh <- gh_tr(tr)
   issue <- gh(
@@ -69,23 +69,16 @@ use_release_issue <- function(version = NULL) {
   view_url(issue$html_url)
 }
 
-release_checklist <- function(version, on_cran) {
+release_checklist <- function(version, on_cran, target_repo = NULL) {
   type <- release_type(version)
   cran_results <- cran_results_url()
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
-  has_github_links <- has_github_links()
+  has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
-
-  milestone_num <- NA # for testing (and general fallback)
-  if (uses_git() && curl::has_internet()) {
-    milestone_num <- tryCatch(
-      gh_milestone_number(target_repo_spec(), version),
-      error = function(e) NA
-    )
-  }
+  milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
     if (!on_cran) c(
@@ -104,9 +97,7 @@ release_checklist <- function(version, on_cran) {
     "Prepare for release:",
     "",
     todo("`git pull`"),
-    if (!is.na(milestone_num)) {
-      todo("[Close v{version} milestone](../milestone/{milestone_num})")
-    },
+    todo("[Close v{version} milestone](../milestone/{milestone_num})", !is.na(milestone_num)),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("
       Check if any deprecation processes should be advanced, as described in \\
@@ -144,11 +135,11 @@ release_checklist <- function(version, on_cran) {
   )
 }
 
-gh_milestone_number <- function(repo_spec, version, state = "open") {
-  milestones <- gh::gh(
-    "/repos/{repo_spec}/milestones",
-    repo_spec = repo_spec,
-    state = state
+gh_milestone_number <- function(target_repo, version, state = "open") {
+  gh <- gh_tr(target_repo)
+  milestones <- tryCatch(
+    gh("/repos/{owner}/{repo}/milestones", state = state),
+    error = function(e) list()
   )
   titles <- map_chr(milestones, "title")
   numbers <- map_int(milestones, "number")

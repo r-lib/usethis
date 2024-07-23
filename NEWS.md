@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_release_issue()` and `use_upkeep()` behave better when the user has a
+  fork. The user is asked just once to choose between `origin` and `upstream` as
+  the target repo (#2023).
+
 * The README templates now recommend [pak](https://pak.r-lib.org) instead of
   devtools for package installation (@olivroy, #1723).
 
