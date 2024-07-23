@@ -136,10 +136,6 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
 }
 
 gh_milestone_number <- function(target_repo, version, state = "open") {
-  if (!curl::has_internet()) {
-    return(NA)
-  }
-
   gh <- gh_tr(target_repo)
   milestones <- tryCatch(
     gh("/repos/{owner}/{repo}/milestones", state = state),
