@@ -271,14 +271,13 @@ check_no_github_repo <- function(owner, repo, host) {
   spec <- glue("{owner}/{repo}")
   repo_found <- tryCatch(
     {
-      repo_info <- gh::gh(
-        "/repos/{owner}/{repo}",
-        owner = owner, repo = repo,
-        .api_url = host
-      )
-      # FALSE if there is a redirect due to renamed repo
-      # so we should be able to push, otherwise
-      # TRUE if it really exists. #1893
+      repo_info <- gh::gh("/repos/{spec}", spec = spec, .api_url = host)
+      # when does repo_info$full_name != the spec we sent?
+      # this happens if you reuse the original name of a repo that has since
+      # been renamed
+      # there's no 404, because of the automatic redirect, but you CAN create
+      # a new repo with this name
+      # https://github.com/r-lib/usethis/issues/1893
       repo_info$full_name == spec
     },
     "http_error_404" = function(err) FALSE
