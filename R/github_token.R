@@ -67,12 +67,23 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
   withr::defer(view_url(url))
 
   hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
-  ui_bullets(c(
+  message <- c(
     "_" = "Call {.code {hint}} to register this token in the local Git
-           credential store.",
+           credential store."
+  )
+  if (is_linux()) {
+    message <- c(
+      message,
+      "!" = "On Linux, it can be tricky to store credentials persistently.",
+      "i" = "Read more in the {.href ['Managing Git(Hub) Credentials' article](https://usethis.r-lib.org/articles/articles/git-credentials.html)}."
+    )
+  }
+  message <- c(
+    message,
     "i" = "It is also a great idea to store this token in any
            password-management software that you use."
-  ))
+  )
+  ui_bullets(message)
   invisible()
 }
 
