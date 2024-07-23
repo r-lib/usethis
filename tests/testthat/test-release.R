@@ -87,6 +87,37 @@ test_that("RStudio-ness detection works", {
   )
 })
 
+test_that("can find milestone numbers", {
+  skip_if_offline("github.com")
+
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+
+  expect_equal(
+    gh_milestone_number(tr, "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number(tr, "0.0.0", state = "all"),
+    NA_integer_
+  )
+})
+
+test_that("gh_milestone_number() returns NA when gh() errors", {
+  local_mocked_bindings(
+    gh_tr = function(tr) { function(endpoint, ...) { ui_abort("nope!") } }
+  )
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+  expect_true(is.na(gh_milestone_number(tr, "1.1.1")))
+})
+
 # news --------------------------------------------------------------------
 
 test_that("must have at least one heading", {
@@ -125,25 +156,6 @@ test_that("returns empty string if no bullets", {
     "# Heading"
   )
   expect_equal(news_latest(lines), "")
-})
-
-test_that("can find milestone numbers", {
-  skip_if_offline("github.com")
-
-  tr <- list(
-    repo_owner = "r-lib",
-    repo_name = "usethis",
-    api_url = "https://api.github.com"
-  )
-
-  expect_equal(
-    gh_milestone_number(tr, "2.1.6", state = "all"),
-    8
-  )
-  expect_equal(
-    gh_milestone_number(tr, "0.0.0", state = "all"),
-    NA_integer_
-  )
 })
 
 # draft release ----------------------------------------------------------------
