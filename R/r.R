@@ -4,16 +4,10 @@
 #' using the convention that the tests for `R/foofy.R` should live
 #' in `tests/testthat/test-foofy.R`. You can use them to create new files
 #' from scratch by supplying `name`, or if you use RStudio, you can call
-#' to create (or navigate to) the paired file based on the currently open
-#' script.
-#'
-#' @section Test helper files:
-#'
-#' Test helper files are functions loaded with `devtools::load_all()` that are
-#' helpful to run tests. helper functions related to `R/foofy.R` can live
-#' in `tests/testthat/helper.R` or `tests/testthat/helper-foofy.R`, but you will
-#' have to supply `name` explicitly to do so.
-#' Use `use_test_helper("")`
+#' to create (or navigate to) the companion file based on the currently open
+#' file. This also works when a test snapshot file is active, i.e. if you're
+#' looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take
+#' you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 #'
 #' @section Renaming files in an existing package:
 #'
@@ -53,10 +47,22 @@
 #' * The [testing](https://r-pkgs.org/testing-basics.html) and
 #'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
-#' * The testthat vignette on special files
-#' `vignette("special-files", package = "testthat")`.
+#' * [use_test_helper()] to create a testthat helper file.
 #'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # create a new .R file below R/
+#' use_r("coolstuff")
+#'
+#' # if `R/coolstuff.R` is active in a supported IDE, you can now do:
+#' use_test()
+#'
+#' # if `tests/testthat/test-coolstuff.R` is active in a supported IDE, you can
+#' # return to `R/coolstuff.R` with:
+#' use_r()
+#' }
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
 
@@ -82,29 +88,35 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
   invisible(TRUE)
 }
 
-#' @rdname use_r
+#' Create or edit a test helper file
+#'
+#' This function helps create a test helper file, namely a file named
+#'`tests/testthat/helper.R`. Test helper files are functions loaded with
+#'`devtools::load_all()` that are  helpful to run tests.
+#'
+#' @inheritParams use_test
+#' @seealso
+#' * [use_test()] to create tests.
+#' * The testthat vignette on special files
+#' `vignette("special-files", package = "testthat")`.
 #' @export
-use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
+use_test_helper <- function(open = rlang::is_interactive()) {
   if (!uses_testthat()) {
-    use_testthat_impl()
-  }
-  if (identical(name, "")) {
-    target_path <- path("tests", "testthat", "helper.R")
-  } else if  (is.null(name)) {
-    # Will not force the creation of new helper-{name}.R file if helper exists
-    # when name is not provided explicitly
-    path_specific <- path("tests", "testthat", paste0("helper-", compute_name(name)))
-    path_generic <- path("tests", "testthat", "helper.R")
-    target_path <- path_first_existing(path_specific) %||% path_generic
-  } else {
-    target_path <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+    ui_abort(c(
+      "Your package must use {.pkg testthat} to create a helper file"
+    ))
   }
 
-  edit_file(proj_path(target_path), open = open)
-  ui_bullets(c(
-    "_" = "Run {.run devtools::load_all()} to load objects from helper files in
+  target_path <- path("tests", "testthat", "helper.R")
+  if (!file_exists(proj_path(target_path))) {
+    ui_bullets(c(
+      "_" = "Add functions to the testthat helper file.",
+      "_" = "Run {.run devtools::load_all()} to load objects from helper files in
          your environment."
-  ))
+    ))
+  }
+  edit_file(proj_path(target_path), open = open)
+
   invisible(TRUE)
 }
 
@@ -154,8 +166,8 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat")) {
-    cli::cli_abort("Open file must be a code or test file.", call = error_call)
+  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
+    cli::cli_abort("Open file must be code, test, or snapshot.", call = error_call)
   }
 
   file <- path_file(path)
@@ -205,4 +217,3 @@ check_file_name <- function(name, call = caller_env()) {
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
-

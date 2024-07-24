@@ -3,14 +3,11 @@
 \name{use_r}
 \alias{use_r}
 \alias{use_test}
-\alias{use_test_helper}
 \title{Create or edit R or test files}
 \usage{
 use_r(name = NULL, open = rlang::is_interactive())
 
 use_test(name = NULL, open = rlang::is_interactive())
-
-use_test_helper(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
@@ -23,19 +20,11 @@ This pair of functions makes it easy to create paired R and test files,
 using the convention that the tests for \code{R/foofy.R} should live
 in \code{tests/testthat/test-foofy.R}. You can use them to create new files
 from scratch by supplying \code{name}, or if you use RStudio, you can call
-to create (or navigate to) the paired file based on the currently open
-script.
+to create (or navigate to) the companion file based on the currently open
+file. This also works when a test snapshot file is active, i.e. if you're
+looking at \verb{tests/testthat/_snaps/foofy.md}, \code{use_r()} or \code{use_test()} take
+you to \code{R/foofy.R} or \code{tests/testthat/test-foofy.R}, respectively.
 }
-\section{Test helper files}{
-
-
-Test helper files are functions loaded with \code{devtools::load_all()} that are
-helpful to run tests. helper functions related to \code{R/foofy.R} can live
-in \code{tests/testthat/helper.R} or \code{tests/testthat/helper-foofy.R}, but you will
-have to supply \code{name} explicitly to do so.
-Use \code{use_test_helper("")}
-}
-
 \section{Renaming files in an existing package}{
 
 
@@ -68,12 +57,24 @@ bind_rows(
 The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
 }
 
+\examples{
+\dontrun{
+# create a new .R file below R/
+use_r("coolstuff")
+
+# if `R/coolstuff.R` is active in a supported IDE, you can now do:
+use_test()
+
+# if `tests/testthat/test-coolstuff.R` is active in a supported IDE, you can
+# return to `R/coolstuff.R` with:
+use_r()
+}
+}
 \seealso{
 \itemize{
 \item The \href{https://r-pkgs.org/testing-basics.html}{testing} and
 \href{https://r-pkgs.org/code.html}{R code} chapters of
 \href{https://r-pkgs.org}{R Packages}.
-\item The testthat vignette on special files
-\code{vignette("special-files", package = "testthat")}.
+\item \code{\link[=use_test_helper]{use_test_helper()}} to create a testthat helper file.
 }
 }

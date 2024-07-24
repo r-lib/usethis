@@ -239,8 +239,9 @@ use_github_links <- function(auth_token = deprecated(),
   invisible()
 }
 
-has_github_links <- function() {
-  github_url <- github_url_from_git_remotes()
+has_github_links <- function(target_repo = NULL) {
+  url <- if (is.null(target_repo)) NULL else target_repo$url
+  github_url <- github_url_from_git_remotes(url)
   if (is.null(github_url)) {
     return(FALSE)
   }
@@ -269,21 +270,23 @@ check_no_origin <- function() {
 }
 
 check_no_github_repo <- function(owner, repo, host) {
+  spec <- glue("{owner}/{repo}")
   repo_found <- tryCatch(
     {
-      repo_info <- gh::gh(
-        "/repos/{owner}/{repo}",
-        owner = owner, repo = repo,
-        .api_url = host
-      )
-      TRUE
+      repo_info <- gh::gh("/repos/{spec}", spec = spec, .api_url = host)
+      # when does repo_info$full_name != the spec we sent?
+      # this happens if you reuse the original name of a repo that has since
+      # been renamed
+      # there's no 404, because of the automatic redirect, but you CAN create
+      # a new repo with this name
+      # https://github.com/r-lib/usethis/issues/1893
+      repo_info$full_name == spec
     },
     "http_error_404" = function(err) FALSE
   )
   if (!repo_found) {
     return(invisible())
   }
-  spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
   ui_abort("Repo {.val {spec}} already exists on {.val {empirical_host}}.")
 }

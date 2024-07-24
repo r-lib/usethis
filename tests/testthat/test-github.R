@@ -1,3 +1,17 @@
+test_that("has_github_links() uses the target_repo, if provided", {
+  skip_if_no_git_user()
+  create_local_package()
+  local_interactive(FALSE)
+  use_git()
+
+  desc::desc_set_urls("https://github.com/OWNER/REPO")
+  desc::desc_set("BugReports", "https://github.com/OWNER/REPO/issues")
+
+  tr <- list(url = "git@github.com:OWNER/REPO.git")
+
+  expect_true(has_github_links(tr))
+})
+
 test_that("use_github_links populates empty URL field", {
   skip_if_no_git_user()
   local_interactive(FALSE)

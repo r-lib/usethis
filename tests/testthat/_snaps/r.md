@@ -1,3 +1,11 @@
+# use_test_helper() creates a test file
+
+    Code
+      use_test_helper(open = FALSE)
+    Condition
+      Error in `use_test_helper()`:
+      x Your package must use testthat to create a helper file
+
 # compute_name() errors if no RStudio
 
     Code
@@ -50,5 +58,5 @@
       compute_active_name("foo/bar.R")
     Condition
       Error:
-      ! Open file must be a code or test file.
+      ! Open file must be code, test, or snapshot.
 

@@ -42,7 +42,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
                the conversion process."
       ))
     }
-    ui_bullets(c("v" = "Run {.run devtools::document()} when you're done."))
+    ui_bullets(c("_" = "Run {.run devtools::document()} when you're done."))
 
     return(invisible())
   }
@@ -128,9 +128,10 @@ check_uses_roxygen <- function(whos_asking) {
     return(invisible())
   }
 
+  whos_asking_fn <- sub("()", "", whos_asking, fixed = TRUE)
   ui_abort(c(
     "Package {.pkg {project_name()}} does not use roxygen2.",
-    "{.fun {whos_asking}} can not work without it.",
+    "{.fun {whos_asking_fn}} can not work without it.",
     "You might just need to run {.run devtools::document()} once, then try again."
   ))
 }
