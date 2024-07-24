@@ -58,7 +58,7 @@ directory_has_files <- function(x) {
 
 check_directory_is_empty <- function(x) {
   if (directory_has_files(x)) {
-    ui_abort("{.path {pth(path)}} exists and is not an empty directory.")
+    ui_abort("{.path {pth(x)}} exists and is not an empty directory.")
   }
   invisible(x)
 }

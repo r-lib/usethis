@@ -86,12 +86,21 @@ parse_repo_url <- function(x) {
   }
 }
 
-github_url_from_git_remotes <- function() {
-  tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
-  if (is.null(tr)) {
-    return()
+# Can be called in contexts where we have already asked user to choose between
+# origin and upstsream and, therefore, we know the remote URL. We parse it
+# regardless, because:
+# (1) Could be SSH not HTTPS
+# (2) Could be hosted on GHE not github.com
+github_url_from_git_remotes <- function(url = NULL) {
+  if (is.null(url)) {
+    tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
+    if (is.null(tr)) {
+      return()
+    }
+    url <- tr$url
   }
-  parsed <- parse_github_remotes(tr$url)
+
+  parsed <- parse_github_remotes(url)
   glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}")
 }
 

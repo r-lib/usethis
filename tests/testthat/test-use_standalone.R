@@ -1,3 +1,34 @@
+test_that("standalone_header() works with various inputs", {
+  expect_snapshot(
+    standalone_header("OWNER/REPO", "R/standalone-foo.R")
+  )
+  expect_snapshot(
+    standalone_header("OWNER/REPO", "R/standalone-foo.R", ref = "blah")
+  )
+  expect_snapshot(
+    standalone_header(
+      "OWNER/REPO", "R/standalone-foo.R", host = "https://github.com"
+    )
+  )
+  expect_snapshot(
+    standalone_header(
+      "OWNER/REPO", "R/standalone-foo.R", host = "https://github.acme.com"
+    )
+  )
+  expect_snapshot(
+    standalone_header(
+      "OWNER/REPO", "R/standalone-foo.R",
+      ref = "blah", host = "https://github.com"
+    )
+  )
+  expect_snapshot(
+    standalone_header(
+      "OWNER/REPO", "R/standalone-foo.R",
+      ref = "blah", host = "https://github.acme.com"
+    )
+  )
+})
+
 test_that("can import standalone file with dependencies", {
   skip_if_offline("github.com")
   create_local_package()
@@ -38,10 +69,6 @@ test_that("can offer choices", {
     standalone_choose("tidyverse/forcats", ref = "v1.0.0")
     standalone_choose("r-lib/rlang", ref = "4670cb233ecc8d11")
   })
-})
-
-test_that("header provides useful summary", {
-  expect_snapshot(standalone_header("r-lib/usethis", "R/standalone-test.R"))
 })
 
 test_that("can extract dependencies", {
