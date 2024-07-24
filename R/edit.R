@@ -144,7 +144,7 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @param type Snippet type (case insensitive text).
 edit_rstudio_snippets <- function(type = c(
                                     "r", "markdown", "c_cpp", "css",
-                                    "html", "java", "javascript", "python", "sql", "stan", "tex"
+                                    "html", "java", "javascript", "python", "sql", "stan", "tex", "yaml"
                                     )) {
 
   type <- tolower(type)

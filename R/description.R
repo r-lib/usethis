@@ -13,7 +13,7 @@
 
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
-#' * `fields` argument of [create_package()] or [use_description()]
+#' * `fields` argument of [create_package()] or `use_description()`
 #' * `getOption("usethis.description")`
 #' * Defaults built into usethis
 #'
@@ -44,8 +44,9 @@
 #' supported.
 #'
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
-#'   overriding default values. See [use_description()] for how you can set
-#'   personalized defaults using package options.
+#'   overriding default values. Default values are taken from the
+#'   `"usethis.description"` option or the usethis package (in that order), and
+#'   can be viewed with `use_description_defaults()`.
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
 #'   error if not.
 #' @param roxygen If `TRUE`, sets `RoxygenNote` to current roxygen2 version
