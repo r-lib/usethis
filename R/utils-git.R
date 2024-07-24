@@ -224,11 +224,11 @@ git_conflict_report <- function() {
     bulletize(conflicted_paths, n_show = 10)
   ))
 
-  msg <- "Are you ready to sort this out?"
   yes <- "Yes, open the conflicted files for editing."
   yes_soft <- "Yes, but do not open the conflicted files."
   no <- "No, I want to abort this merge."
   choice <- utils::menu(
+    title = "Do you want to proceed with this merge?",
     choices = c(yes, yes_soft, no),
     title = msg
   )
