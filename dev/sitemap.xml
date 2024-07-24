@@ -16,12 +16,12 @@
 <url><loc>https://usethis.r-lib.org/dev/principles.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/badges.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/browse-this.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/browse_github_token.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/create_from_github.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/create_package.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/edit.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/edit_file.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git-default-branch.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/git_branch_default.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_credentials.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_protocol.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_sitrep.html</loc></url>
@@ -30,7 +30,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/index.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/issue-this.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/licenses.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/pr_pull_upstream.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/proj_activate.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/proj_sitrep.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/proj_utils.html</loc></url>
