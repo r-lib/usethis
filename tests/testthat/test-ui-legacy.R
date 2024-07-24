@@ -1,4 +1,4 @@
-test_that("basic UI actions behave as expected", {
+test_that("basic legacy UI actions behave as expected", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
@@ -13,10 +13,10 @@ test_that("basic UI actions behave as expected", {
   })
 })
 
-test_that("UI actions respect usethis.quiet = TRUE", {
+test_that("legacy UI actions respect usethis.quiet = TRUE", {
   withr::local_options(list(usethis.quiet = TRUE))
 
-  expect_snapshot({
+  expect_no_message({
     ui_line("line")
     ui_todo("to do")
     ui_done("done")
@@ -35,21 +35,4 @@ test_that("ui_silence() suppresses output", {
   withr::local_options(list(usethis.quiet = FALSE))
 
   expect_output(ui_silence(ui_line()), NA)
-})
-
-test_that("trailing slash behaviour of ui_path()", {
-  withr::local_options(list(crayon.enabled = FALSE))
-  # target doesn't exist so no empirical evidence that it's a directory
-  expect_match(ui_path("abc"), "abc'$")
-
-  # path suggests it's a directory
-  expect_match(ui_path("abc/"), "abc/'$")
-  expect_match(ui_path("abc//"), "abc/'$")
-
-  # path is known to be a directory
-  tmpdir <- withr::local_tempdir(pattern = "ui_path")
-
-  expect_match(ui_path(tmpdir), "/'$")
-  expect_match(ui_path(paste0(tmpdir, "/")), "[^/]/'$")
-  expect_match(ui_path(paste0(tmpdir, "//")), "[^/]/'$")
 })

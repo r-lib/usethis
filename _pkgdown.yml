@@ -103,10 +103,11 @@ reference:
     - matches("tidy")
   - title: Configuration
     desc: >
-      Configure the behaviour of R or RStudio, globally as a user or
+      Configure the behaviour of R or RStudio or usethis, globally as a user or
       for a specific project
     contents:
     - usethis_options
+    - ui_silence
     - use_blank_slate
     - use_devtools
     - use_usethis
@@ -169,3 +170,21 @@ reference:
     - use_github_actions
     - use_tidy_labels
     - use_travis
+
+articles:
+- title: Basics
+  navbar: ~
+  contents:
+  - articles/usethis-setup
+
+- title: Git and GitHub
+  navbar: Git and GitHub
+  contents:
+  - articles/git-credentials
+  - articles/pr-functions
+
+- title: Developer
+  desc: Articles about package internals and development experiments
+  contents:
+  - articles/ui-cli-conversion
+  - articles/badge-accessibility

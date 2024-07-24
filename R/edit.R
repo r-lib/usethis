@@ -24,11 +24,11 @@ edit_file <- function(path, open = rlang::is_interactive()) {
   file_create(path)
 
   if (!open) {
-    ui_todo("Edit {ui_path(path)}")
+    ui_bullets(c("_" = "Edit {.path {pth(path)}}."))
     return(invisible(path))
   }
 
-  ui_todo("Modify {ui_path(path)}")
+  ui_bullets(c("_" = "Modify {.path {pth(path)}}."))
   if (rstudio_available() && rstudioapi::hasFun("navigateToFile")) {
     rstudioapi::navigateToFile(path)
   } else {
@@ -45,7 +45,9 @@ edit_template <- function(template = NULL, open = rlang::is_interactive()) {
   check_is_package("edit_template()")
 
   if (is.null(template)) {
-    ui_info("No template specified... checking {ui_path('inst/templates')}")
+    ui_bullets(c(
+      "!" = "No template specified ... checking {.path {pth('inst/templates')}}."
+    ))
     template <- choose_template()
   }
 
@@ -110,7 +112,7 @@ NULL
 edit_r_profile <- function(scope = c("user", "project")) {
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
   edit_file(path)
-  ui_todo("Restart R for changes to take effect")
+  ui_bullets(c("_" = "Restart R for changes to take effect."))
   invisible(path)
 }
 
@@ -119,7 +121,7 @@ edit_r_profile <- function(scope = c("user", "project")) {
 edit_r_environ <- function(scope = c("user", "project")) {
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   edit_file(path)
-  ui_todo("Restart R for changes to take effect")
+  ui_bullets(c("_" = "Restart R for changes to take effect."))
   invisible(path)
 }
 
@@ -159,15 +161,17 @@ edit_rstudio_snippets <- function(type = c(
   if (new_rstudio && file_exists(old_path) && !file_exists(new_path)) {
     create_directory(path_dir(new_path))
     file_copy(old_path, new_path)
-    ui_done("Copying snippets file to {ui_path(new_path)}")
+    ui_bullets(c(
+      "v" = "Copying snippets file to {.path {pth(new_path)}}."
+    ))
   }
 
   path <- if (new_rstudio) new_path else old_path
   if (!file_exists(path)) {
-    ui_done("New snippet file at {ui_path(path)}")
-    ui_info(c(
-      "This masks the default snippets for {ui_field(type)}.",
-      "Delete this file and restart RStudio to restore the default snippets."
+    ui_bullets(c(
+      "v" = "New snippet file at {.path {pth(path)}}.",
+      "i" = "This masks the default snippets for {.field {type}}.",
+      "i" = "Delete this file and restart RStudio to restore the default snippets."
     ))
   }
   edit_file(path)
@@ -179,7 +183,7 @@ edit_rstudio_prefs <- function() {
   path <- rstudio_config_path("rstudio-prefs.json")
 
   edit_file(path)
-  ui_todo("Restart RStudio for changes to take effect")
+  ui_bullets(c("_" = "Restart RStudio for changes to take effect."))
   invisible(path)
 }
 
@@ -248,7 +252,7 @@ git_ignore_path <- function(scope = c("user", "project")) {
 edit_pkgdown_config <- function() {
   path <- pkgdown_config_path()
   if (is.null(path)) {
-    ui_oops("No pkgdown config file found in current Project.")
+    ui_bullets(c("x" = "No pkgdown config file found in current Project."))
   } else {
     invisible(edit_file(path))
   }

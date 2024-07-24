@@ -18,7 +18,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
 
     proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = FALSE)
     proj_desc_field_update("RoxygenNote", roxy_ver, overwrite = FALSE)
-    ui_todo("Run {ui_code('devtools::document()')}")
+    ui_bullets(c("_" = "Run {.run devtools::document()}."))
     return(invisible())
   }
 
@@ -32,22 +32,25 @@ use_roxygen_md <- function(overwrite = FALSE) {
     proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = TRUE)
 
     check_installed("roxygen2md")
-    ui_todo("
-      Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd \\
-      comments to markdown")
+    ui_bullets(c(
+      "_" = "Run {.run roxygen2md::roxygen2md()} to convert existing Rd
+             comments to markdown."
+    ))
     if (!uses_git()) {
-      ui_todo("
-        Consider using Git for greater visibility into and control over the \\
-        conversion process")
+      ui_bullets(c(
+        "!" = "Consider using Git for greater visibility into and control over
+               the conversion process."
+      ))
     }
-    ui_todo("Run {ui_code('devtools::document()')} when you're done")
+    ui_bullets(c("_" = "Run {.run devtools::document()} when you're done."))
 
     return(invisible())
   }
 
-  ui_stop("
-    {ui_path('DESCRIPTION')} already has a {ui_field('Roxygen')} field
-    Delete it and try again or call {ui_code('use_roxygen_md(overwrite = TRUE)')}")
+  ui_abort(c(
+    "DESCRIPTION already has a {.field Roxygen} field.",
+    "Delete that field and try again or call {.code use_roxygen_md(overwrite = TRUE)}."
+  ))
 
   invisible()
 }
@@ -77,7 +80,7 @@ uses_roxygen <- function() {
 
 roxygen_ns_append <- function(tag) {
   block_append(
-    glue("{ui_value(tag)}"),
+    tag,
     glue("#' {tag}"),
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
@@ -96,18 +99,20 @@ roxygen_ns_show <- function() {
 }
 
 roxygen_remind <- function() {
-  ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
+  ui_bullets(c(
+    "_" = "Run {.run devtools::document()} to update {.path {pth('NAMESPACE')}}."
+  ))
   TRUE
 }
 
 roxygen_update_ns <- function(load = is_interactive()) {
-  ui_done("Writing {ui_path('NAMESPACE')}")
+  ui_bullets(c("v" = "Writing {.path {pth('NAMESPACE')}}."))
   utils::capture.output(
     suppressMessages(roxygen2::roxygenise(proj_get(), "namespace"))
   )
 
   if (load) {
-    ui_done("Loading {project_name()}")
+    ui_bullets(c("v" = "Loading {.pkg {project_name()}}."))
     pkgload::load_all(path = proj_get(), quiet = TRUE)
   }
 
@@ -123,11 +128,10 @@ check_uses_roxygen <- function(whos_asking) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    Project {ui_value(project_name())} does not use roxygen2.
-    {ui_code(whos_asking)} can not work without it.
-    You might just need to run {ui_code('devtools::document()')} once, then try again.
-    "
-  )
+  whos_asking_fn <- sub("()", "", whos_asking, fixed = TRUE)
+  ui_abort(c(
+    "Package {.pkg {project_name()}} does not use roxygen2.",
+    "{.fun {whos_asking_fn}} can not work without it.",
+    "You might just need to run {.run devtools::document()} once, then try again."
+  ))
 }

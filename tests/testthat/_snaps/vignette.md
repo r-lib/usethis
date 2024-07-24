@@ -8,8 +8,8 @@
     Code
       use_vignette("bad name")
     Condition
-      Error:
-      ! 'bad name' is not a valid filename for a vignette. It must:
-      * Start with a letter.
-      * Contain only letters, numbers, '_', and '-'.
+      Error in `check_vignette_name()`:
+      x "bad name" is not a valid filename for a vignette. It must:
+      i Start with a letter.
+      i Contain only letters, numbers, '_', and '-'.
 

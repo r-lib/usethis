@@ -3,6 +3,6 @@
     Code
       use_github_links(overwrite = FALSE)
     Condition
-      Error:
-      ! URL has a different value in DESCRIPTION. Use `overwrite = TRUE` to overwrite.
+      Error in `proj_desc_field_update()`:
+      x 'URL' has a different value in DESCRIPTION. Use `overwrite = TRUE` to overwrite.
 

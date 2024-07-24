@@ -186,8 +186,7 @@ check_license_version <- function(version, possible) {
   version <- as.double(version)
 
   if (!version %in% possible) {
-    possible <- glue_collapse(possible, sep = ", ", last = ", or ")
-    ui_stop("`version` must be {possible}")
+    ui_abort("{.arg version} must be {.or {possible}}.")
   }
 
   version

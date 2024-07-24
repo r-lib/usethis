@@ -19,15 +19,10 @@ pr_pull_upstream <- function() {
 #' @rdname pr_pull_upstream
 #' @export
 pr_sync <- function() {
-  details <- glue("
-    Sync a PR with:
-      * {ui_code('pr_pull()')}
-      * {ui_code('pr_merge_main()')}
-      * {ui_code('pr_push()')}")
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "pr_sync()",
-    details = details
+    details = "Sync a PR with:`pr_pull(); pr_merge_main(); pr_push();`"
   )
 }
 
@@ -65,9 +60,9 @@ browse_github_pat <- function(...) {
 #' @export
 github_token <- function() {
   details <- glue("
-    Call {ui_code('gh::gh_token()')} to retrieve a GitHub personal access token
-    Call {ui_code('gh_token_help()')} if you need help getting or configuring \\
-    your token")
+    Call `gh::gh_token()` to retrieve a GitHub personal access token.
+    Call `usethis::gh_token_help()` if you need help getting or configuring \\
+    your token.")
   lifecycle::deprecate_stop(
     "2.0.0",
     what = "github_token()",
@@ -190,9 +185,9 @@ deprecate_warn_host <- function(whos_asking, details = NULL) {
   what <- glue("{whos_asking}(host = )")
 
   host_explanation <- glue("
-    usethis now determines the {ui_code('host')} from the current project's \\
+    usethis now determines the `host` from the current project's \\
     Git remotes.
-    The {ui_code('host')} argument is ignored and will eventually be removed.")
+    The `host` argument is ignored and will eventually be removed.")
 
   lifecycle::deprecate_warn(
     "2.0.0",
@@ -209,8 +204,7 @@ deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
     usethis now delegates token lookup to the gh package, which retrieves \\
     credentials based on the targeted host URL.
     This URL is determined by the current project's Git remotes.
-    The {ui_code('auth_token')} argument is ignored and will eventually be \\
-    removed.")
+    The `auth_token` argument is ignored and will eventually be removed.")
 
   lifecycle::deprecate_warn(
     "2.0.0",
@@ -226,8 +220,7 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
   repo_spec_explanation <- glue("
     usethis now consults the current project's Git remotes to determine the \\
     target repo.
-    The {ui_code('repo_spec')} argument is ignored and will eventually be \\
-    removed.")
+    The `repo_spec` argument is ignored and will eventually be removed.")
 
   lifecycle::deprecate_warn(
     "2.0.0",
@@ -412,9 +405,8 @@ use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
   details <- glue("
     It is overkill for the vast majority of R packages.
     The \"check-full\" workflow is among those configured by \\
-    {ui_code('use_tidy_github_actions()')}.
-    If you really want it, request it by name with \\
-    {ui_code('use_github_action()')}.")
+    `use_tidy_github_actions()`.
+    If you really want it, request it by name with `use_github_action()`.")
   lifecycle::deprecate_stop(
     "2.1.0",
     "use_github_action_check_full()",
