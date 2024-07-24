@@ -13,7 +13,7 @@
 #'   * Prepare the roxygen directive necessary to import at least one function
 #'     from tibble:
 #'     - If possible, the directive is inserted into existing package-level
-#'       documentation, i.e. the roxygen snippet created by  [use_package_doc()]
+#'       documentation, i.e. the roxygen snippet created by [use_package_doc()]
 #'     - Otherwise, we issue advice on where the user should add the directive
 #'
 #' This is necessary when your package returns a stored data object that has
@@ -33,8 +33,12 @@ use_tibble <- function() {
 
   created <- use_import_from("tibble", "tibble")
 
-  ui_todo("Document a returned tibble like so:")
-  ui_code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
+  ui_bullets(c("_" = "Document a returned tibble like so:"))
+  ui_code_snippet(
+    "#' @return a [tibble][tibble::tibble-package]",
+    language = "",
+    copy = FALSE
+  )
 
   invisible(created)
 }

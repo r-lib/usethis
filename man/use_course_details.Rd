@@ -2,20 +2,34 @@
 % Please edit documentation in R/course.R
 \name{use_course_details}
 \alias{use_course_details}
+\alias{tidy_download}
+\alias{tidy_unzip}
 \alias{create_download_url}
 \title{Helpers to download and unpack a ZIP file}
 \usage{
+tidy_download(url, destdir = getwd())
+tidy_unzip(zipfile, cleanup = FALSE)
+
 create_download_url(url)
 }
 \arguments{
-\item{url}{a GitHub, DropBox, or Google Drive URL, as copied from a web
-browser.}
+\item{url}{A GitHub, DropBox, or Google Drive URL.
+\itemize{
+\item For \code{create_download_url()}: A URL copied from a web browser.
+\item For \code{tidy_download()}: A download link for a ZIP file, possibly behind a
+shortlink or other redirect. \code{create_download_url()} can be helpful for
+creating this URL from typical browser URLs.
+}}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
 stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
 has different default behavior.}
 
 \item{zipfile}{Path to local ZIP file.}
+
+\item{cleanup}{Whether to delete the ZIP file after unpacking. In an
+interactive session, \code{cleanup = NA} leads to asking the user if they
+want to delete or keep the ZIP file.}
 }
 \description{
 Details on the internal and helper functions that power \code{\link[=use_course]{use_course()}} and
@@ -24,12 +38,10 @@ Details on the internal and helper functions that power \code{\link[=use_course]
 \section{tidy_download()}{
 
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## function signature
-tidy_download(url, destdir = getwd())
-
-# as called inside use_course()
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# how it's used inside use_course()
 tidy_download(
-  url, ## after post-processing with normalize_url()
+  # url has been processed with internal helper normalize_url()
+  url,
   # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
   # directory or working directory
   destdir = destdir \%||\% conspicuous_place()
@@ -149,10 +161,6 @@ hidden files, such as \code{.RData}, \code{.Rhistory}, and those below \verb{.gi
 }
 
 \examples{
-\dontrun{
-tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
-}
-
 \dontrun{
 tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
 tidy_unzip("rematch2-main.zip")

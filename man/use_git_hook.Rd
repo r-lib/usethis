@@ -20,8 +20,8 @@ needed, and sets correct permissions on hook.
 }
 \seealso{
 Other git helpers: 
+\code{\link{use_git}()},
 \code{\link{use_git_config}()},
-\code{\link{use_git_ignore}()},
-\code{\link{use_git}()}
+\code{\link{use_git_ignore}()}
 }
 \concept{git helpers}

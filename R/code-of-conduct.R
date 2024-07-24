@@ -23,9 +23,8 @@
 #' @export
 use_code_of_conduct <- function(contact, path = NULL) {
   if (missing(contact)) {
-      ui_stop("
-        {ui_code('use_code_of_conduct()')} requires contact details in \\
-        first argument")
+    ui_abort("
+      {.fun use_code_of_conduct} requires contact details in first argument.")
   }
 
   new <- use_coc(contact = contact, path = path)
@@ -35,13 +34,16 @@ use_code_of_conduct <- function(contact, path = NULL) {
   href <- sub("/$", "", href)
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
-  ui_todo("You may also want to describe the code of conduct in your README:")
-  ui_code_block("
+  ui_bullets(c(
+    "_" = "You may also want to describe the code of conduct in your README:"
+  ))
+  ui_code_snippet("
     ## Code of Conduct
 
     Please note that the {project_name()} project is released with a \\
     [Contributor Code of Conduct]({href}). By contributing to this project, \\
-    you agree to abide by its terms."
+    you agree to abide by its terms.",
+    language = ""
   )
 
   invisible(new)

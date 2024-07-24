@@ -77,7 +77,10 @@ browse_package <- function(package = NULL) {
     grl <- set_names(grl$url, nm = grl$remote)
     parsed <- parse_github_remotes(grl)
     urls <- c(urls, glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}"))
-    details <- c(details, map(parsed$name, ~ glue("{ui_value(.x)} remote")))
+    details <- c(
+      details,
+      map(parsed$name, ~ cli::cli_fmt(cli::cli_text("{.val {.x}} remote")))
+    )
   }
 
   desc_urls_dat <- desc_urls(package, include_cran = TRUE)
@@ -86,11 +89,11 @@ browse_package <- function(package = NULL) {
     details,
     map(
       desc_urls_dat$desc_field,
-      ~ if (is.na(.x)) "CRAN" else glue("{ui_field(.x)} field in DESCRIPTION")
+      ~ if (is.na(.x)) "CRAN" else cli::cli_fmt(cli::cli_text("{.field {.x}} field in DESCRIPTION"))
     )
   )
   if (length(urls) == 0) {
-    ui_oops("Can't find any URLs")
+    ui_bullets(c(x = "Can't find any URLs."))
     return(invisible(character()))
   }
 
@@ -171,15 +174,17 @@ github_url <- function(package = NULL) {
 
   if (is.null(desc_urls_dat)) {
     if (is.null(package)) {
-      ui_stop("
-        Project {ui_value(project_name())} has no DESCRIPTION file and \\
-        has no GitHub remotes configured
-        No way to discover URLs")
+      ui_abort(c(
+        "Project {.val {project_name()}} has no DESCRIPTION file and
+         has no GitHub remotes configured.",
+        "No way to discover URLs."
+      ))
     } else {
-      ui_stop("
-        Can't find DESCRIPTION for package {ui_value(package)} locally \\
-        or on CRAN
-        No way to discover URLs")
+      ui_abort(c(
+        "Can't find DESCRIPTION for package {.pkg {package}} locally
+         or on CRAN.",
+        "No way to discover URLs."
+      ))
     }
   }
 
@@ -191,13 +196,13 @@ github_url <- function(package = NULL) {
   }
 
   if (is.null(package)) {
-    ui_stop("
-      Project {ui_value(project_name())} has no GitHub remotes configured \\
-      and has no GitHub URLs in DESCRIPTION")
+    ui_abort("
+      Project {.val {project_name()}} has no GitHub remotes configured
+      and has no GitHub URLs in DESCRIPTION.")
   }
-  ui_warn("
-    Package {ui_value(package)} has no GitHub URLs in DESCRIPTION
-    Trying the GitHub CRAN mirror")
+  cli::cli_warn(c(
+    "!" = "Package {.val {package}} has no GitHub URLs in DESCRIPTION.",
+    " " = "Trying the GitHub CRAN mirror."))
   glue_chr("https://github.com/cran/{package}")
 }
 

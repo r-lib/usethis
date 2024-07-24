@@ -43,15 +43,15 @@ NULL
 use_badge <- function(badge_name, href, src) {
   path <- find_readme()
   if (is.null(path)) {
-    ui_oops("
-    Can't find a README for the current project.
-    See {ui_code('usethis::use_readme_rmd()')} for help creating this file.
-    Badge link can only be printed to screen.
-    ")
+    ui_bullets(c(
+      "!" = "Can't find a README for the current project.",
+      "i" = "See {.fun usethis::use_readme_rmd} for help creating this file.",
+      "i" = "Badge link will only be printed to screen."
+    ))
     path <- "README"
   }
   changed <- block_append(
-    glue("{ui_field(badge_name)} badge"),
+    glue("{badge_name} badge"),
     glue("[![{badge_name}]({src})]({href})"),
     path = path,
     block_start = badge_start,
@@ -59,7 +59,9 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    ui_todo("Re-knit {ui_path(path)} with {ui_code('devtools::build_readme()')}")
+    ui_bullets(c(
+      "_" = "Re-knit {.path {pth(path)}} with {.run devtools::build_readme()}."
+    ))
   }
   invisible(changed)
 }
@@ -153,10 +155,10 @@ use_posit_cloud_badge <- function(url) {
     img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     use_badge("Launch Posit Cloud", url, img)
   } else {
-    usethis_abort("
-      {.fun usethis::use_posit_cloud_badge} requires a link to an \\
-      existing Posit Cloud project of the form \\
-      {.val https://posit.cloud/content/<project-id>} or \\
+    ui_abort("
+      {.fun usethis::use_posit_cloud_badge} requires a link to an
+      existing Posit Cloud project of the form
+      {.val https://posit.cloud/content/<project-id>} or
       {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}.")
   }
 

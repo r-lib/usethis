@@ -1,4 +1,4 @@
-# basic UI actions behave as expected
+# basic legacy UI actions behave as expected
 
     Code
       ui_line("line")

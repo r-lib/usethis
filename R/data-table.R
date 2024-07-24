@@ -20,9 +20,11 @@ use_data_table <- function() {
   deps <- desc$get_deps()
 
   if (any(deps$type == "Depends" & deps$package == "data.table")) {
-    ui_warn("data.table should be in Imports or Suggests, not Depends")
-    ui_done("Deleting data.table from {ui_field('Depends')}")
-
+    ui_bullets(c(
+      "!" = "{.pkg data.table} should be in {.field Imports} or
+             {.field Suggests}, not {.field Depends}!",
+      "v" = "Removing {.pkg data.table} from {.field Depends}."
+    ))
     desc$del_dep("data.table", "Depends")
     desc$write()
   }

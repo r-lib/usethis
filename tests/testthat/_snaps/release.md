@@ -38,7 +38,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 ---
 
@@ -106,7 +106,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 # construct correct revdep bullet
 
@@ -136,7 +136,6 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
-      * [ ] Bump required R version in DESCRIPTION to 3.6
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `usethis::use_github_links()`
@@ -163,5 +162,5 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 

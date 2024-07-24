@@ -63,19 +63,20 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
   check_path_is_directory(destdir)
 
   if (destdir_not_specified && is_interactive()) {
-    ui_line(c(
-      "Downloading into {ui_path(destdir)}.",
-      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
+    ui_bullets(c(
+      "i" = "Downloading into {.path {pth(destdir)}}.",
+      "_" = "Prefer a different location? Cancel, try again, and specify
+             {.arg destdir}."
     ))
-    if (ui_nope("OK to proceed?")) {
-      ui_oops("Cancelling download.")
+    if (ui_nah("OK to proceed?")) {
+      ui_bullets(c(x = "Cancelling download."))
       return(invisible())
     }
   }
 
-  ui_done("Downloading from {ui_value(url)}")
+  ui_bullets(c("v" = "Downloading from {.url {url}}."))
   zipfile <- tidy_download(url, destdir)
-  ui_done("Download stored in {ui_path(zipfile)}")
+  ui_bullets(c("v" = "Download stored in {.path {pth(zipfile)}}."))
   check_is_zip(attr(zipfile, "content-type"))
   tidy_unzip(zipfile, cleanup = NA)
 }
@@ -90,9 +91,9 @@ use_zip <- function(url,
                     cleanup = if (rlang::is_interactive()) NA else FALSE) {
   url <- normalize_url(url)
   check_path_is_directory(destdir)
-  ui_done("Downloading from {ui_value(url)}")
+  ui_bullets(c("v" = "Downloading from {.url {url}}."))
   zipfile <- tidy_download(url, destdir)
-  ui_done("Download stored in {ui_path(zipfile)}")
+  ui_bullets(c("v" = "Download stored in {.path {pth(zipfile)}}."))
   check_is_zip(attr(zipfile, "content-type"))
   tidy_unzip(zipfile, cleanup)
 }
@@ -105,16 +106,32 @@ use_zip <- function(url,
 #'
 #' @name use_course_details
 #' @keywords internal
+#' @usage
+#' tidy_download(url, destdir = getwd())
+#' tidy_unzip(zipfile, cleanup = FALSE)
 #'
+#' @aliases tidy_download tidy_unzip
+
+#' @param url A GitHub, DropBox, or Google Drive URL.
+#' * For `create_download_url()`: A URL copied from a web browser.
+#' * For `tidy_download()`: A download link for a ZIP file, possibly behind a
+#'   shortlink or other redirect. `create_download_url()` can be helpful for
+#'   creating this URL from typical browser URLs.
+#' @param destdir Path to existing local directory where the ZIP file will be
+#'   stored. Defaults to current working directory, but note that [use_course()]
+#'   has different default behavior.
+#' @param zipfile Path to local ZIP file.
+#' @param cleanup Whether to delete the ZIP file after unpacking. In an
+#'   interactive session, `cleanup = NA` leads to asking the user if they
+#'   want to delete or keep the ZIP file.
+
 #' @section tidy_download():
 #'
 #' ```
-#' ## function signature
-#' tidy_download(url, destdir = getwd())
-#'
-#' # as called inside use_course()
+#' # how it's used inside use_course()
 #' tidy_download(
-#'   url, ## after post-processing with normalize_url()
+#'   # url has been processed with internal helper normalize_url()
+#'   url,
 #'   # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
 #'   # directory or working directory
 #'   destdir = destdir %||% conspicuous_place()
@@ -198,17 +215,6 @@ use_zip <- function(url,
 #'
 #' Use `create_download_url()` to perform this transformation automatically.
 #'
-#' @param url Download link for the ZIP file, possibly behind a shortlink or
-#'   other redirect. See Details.
-#' @param destdir Path to existing local directory where the ZIP file will be
-#'   stored. Defaults to current working directory, but note that [use_course()]
-#'   has different default behavior.
-#'
-#' @examples
-#' \dontrun{
-#' tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
-#' }
-#'
 #' @section tidy_unzip():
 #'
 #' Special-purpose function to unpack a ZIP file and (attempt to) create the
@@ -234,8 +240,6 @@ use_zip <- function(url,
 #' hidden files, such as `.RData`, `.Rhistory`, and those below `.git/` and
 #' `.Rproj.user`.
 #'
-#' @param zipfile Path to local ZIP file.
-#'
 #' @examples
 #' \dontrun{
 #' tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
@@ -252,14 +256,15 @@ tidy_download <- function(url, destdir = getwd()) {
   tmp <- file_temp("tidy-download-")
 
   h <- download_url(url, destfile = tmp)
-  ui_line()
+  cli::cat_line()
 
   cd <- content_disposition(h)
   base_name <- make_filename(cd, fallback = path_file(url))
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
-    ui_stop("Cancelling download, to avoid overwriting {ui_path(full_path)}")
+    ui_abort("
+      Cancelling download, to avoid overwriting {.path {pth(full_path)}}.")
   }
   attr(full_path, "content-type") <- content_type(h)
   attr(full_path, "content-disposition") <- cd
@@ -300,12 +305,12 @@ download_url <- function(url,
 
   status <- try_download(url, destfile, handle = handle)
   if (inherits(status, "error") && is_interactive()) {
-    ui_oops(status$message)
-    if (ui_nope("
-      Download failed :(
-      See above for everything we know about why it failed.
-      Shall we try a couple more times, with a longer timeout?
-    ")) {
+    ui_bullets(c("x" = status$message))
+    if (ui_nah(c(
+      "!" = "Download failed :(",
+      "i" = "See above for everything we know about why it failed.",
+      " " = "Shall we try a couple more times, with a longer timeout?"
+    ))) {
       n_tries <- 1
     }
   }
@@ -320,7 +325,7 @@ download_url <- function(url,
       )
     }
     i <- i + 1
-    ui_info("Retrying download ... attempt {i}")
+    ui_bullets(c("i" = "Retrying download ... attempt {i}."))
     status <- try_download(url, destfile, handle = handle)
   }
 
@@ -365,28 +370,30 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
     target <- path(base_path, td)
     utils::unzip(zipfile, files = filenames, exdir = base_path)
   }
-  ui_done(
-    "Unpacking ZIP file into {ui_path(target, base_path)} \\
-    ({length(filenames)} files extracted)"
-  )
+  ui_bullets(c(
+    "v" = "Unpacking ZIP file into {.path {pth(target, base_path)}}
+           ({length(filenames)} file{?s} extracted)."
+  ))
 
   if (isNA(cleanup)) {
     cleanup <- is_interactive() &&
-      ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")
+      ui_yep("Shall we delete the ZIP file ({.path {pth(zipfile, base_path)}})?")
   }
 
   if (isTRUE(cleanup)) {
-    ui_done("Deleting {ui_path(zipfile, base_path)}")
+    ui_bullets(c("v" = "Deleting {.path {pth(zipfile, base_path)}}."))
     file_delete(zipfile)
   }
 
   if (is_interactive()) {
     rproj_path <- rproj_paths(target)
     if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
-      ui_done("Opening project in RStudio")
+      ui_bullets(c("v" = "Opening project in RStudio."))
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      ui_done("Opening {ui_path(target, base_path)} in the file manager")
+      ui_bullets(c(
+        "v" = "Opening {.path {pth(target, base_path)}} in the file manager."
+      ))
       utils::browseURL(path_real(target))
     }
   }
@@ -395,8 +402,6 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 }
 
 #' @rdname use_course_details
-#' @param url a GitHub, DropBox, or Google Drive URL, as copied from a web
-#'   browser.
 #' @examples
 #' # GitHub
 #' create_download_url("https://github.com/r-lib/usethis")
@@ -461,10 +466,10 @@ modify_github_url <- function(url) {
 }
 
 hopeless_url <- function(url) {
-  ui_info(
-    "URL does not match a recognized form for Google Drive or DropBox. \\
-     No change made."
-  )
+  ui_bullets(c(
+    "!" = "URL does not match a recognized form for Google Drive or DropBox;
+           no change made."
+  ))
   url
 }
 
@@ -551,9 +556,9 @@ check_is_zip <- function(ct) {
   # see https://github.com/r-lib/usethis/issues/573
   allowed <- c("application/zip", "application/x-zip-compressed")
   if (!ct %in% allowed) {
-    ui_stop(c(
-      "Download does not have MIME type {ui_value('application/zip')}.",
-      "Instead it's {ui_value(ct)}."
+    ui_abort(c(
+      "Download does not have MIME type {.val application/zip}.",
+      "Instead it's {.val {ct}}."
     ))
   }
   invisible(ct)
@@ -567,9 +572,9 @@ check_is_zip <- function(ct) {
 # http://test.greenbytes.de/tech/tc2231/
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    ui_stop(c(
-      "{ui_code('Content-Disposition')} header doesn't start with {ui_value('attachment')}.",
-      "Actual header: {ui_value(cd)}"
+    ui_abort(c(
+      "{.code Content-Disposition} header doesn't start with {.val attachment}.",
+      "Actual header: {.val cd}"
     ))
   }
 

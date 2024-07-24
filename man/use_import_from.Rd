@@ -29,6 +29,6 @@ session.
 }
 \examples{
 \dontrun{
-use_import_from("usethis", "ui_todo")
+use_import_from("glue", "glue")
 }
 }

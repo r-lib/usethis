@@ -32,7 +32,7 @@ use_proprietary_license(copyright_holder)
 }
 \arguments{
 \item{copyright_holder}{Name of the copyright holder or holders. This
-defaults to "{package name} authors"; you should only change this if you
+defaults to \code{"{package name} authors"}; you should only change this if you
 use a CLA to assign copyright to a single entity.}
 
 \item{version}{License version. This defaults to latest version all licenses.}
