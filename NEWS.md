@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `edit_rstudio_snippets()` now accepts yaml snippets (@olivroy, #1941).
+
 * `use_standalone()` inserts an improved header that includes the code needed to
   update the standalone file (@krlmlr, #1903).
 
