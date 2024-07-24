@@ -23,8 +23,8 @@
 #'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 #'   is case insensitive.
 #' @param min_version Optionally, supply a minimum version for the package. Set
-#'   to `TRUE` to use the currently installed version or use a character vector
-#'   to specify an exact version.
+#'   to `TRUE` to use the currently installed version or use a version string
+#'   suitable for [numeric_version()], such as "2.5.0".
 #' @param remote By default, an `OWNER/REPO` GitHub remote is inserted.
 #'   Optionally, you can supply a character string to specify the remote, e.g.
 #'   `"gitlab::jimhester/covr"`, using any syntax supported by the [remotes
