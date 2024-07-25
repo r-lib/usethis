@@ -51,23 +51,23 @@ These changes have been in place for a long time now:
 * Use of git config and the gh package to infer, e.g., the target repo spec.
 * Pivot towards GitHub Actions and away from Travis and AppVeyor.
 
-Functions that are removed:
+Functions that are removed and, where applicable, what to use instead:
 
 * `git_credentials()`
 * `use_git_credentials()`
-* `browse_github_token()`
-* `browse_github_pat()`
-* `github_token()`
-* `pr_pull_upstream()`
-* `pr_sync()`
+* `browse_github_token()` (do `create_github_token()`)
+* `browse_github_pat()` (do `create_github_token()`)
+* `github_token()` (do `gh_token_help()` or `gh::gh_token()`)
+* `pr_pull_upstream()` (do `pr_merge_main()`)
+* `pr_sync()` (do `pr_merge_main(); pr_push()`)
 * `use_appveyor()`
 * `use_appveyor_badge()`
 * `use_travis()`
 * `use_travis_badge()`
 * `browse_travis()`
 * `use_pkgdown_travis()`
-* `use_tidy_ci()`
-* `use_tidy_labels()`
+* `use_tidy_ci()` *deprecated in v2.1.0* (do `use_tidy_github_actions()`)
+* `use_tidy_labels()` *deprecated in v2.1.0* (do `use_tidy_github_labels()`)
 
 Function arguments that are removed:
 
