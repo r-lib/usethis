@@ -17,26 +17,10 @@ git_branch_default <- function() {
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' * `use_tidy_labels()` has been replaced by [use_tidy_github_labels()].
-#' * `use_tidy_ci()` has been replaced by [use_tidy_github_actions()].
 #' * `use_tidy_eval()` is deprecated because there's no longer a need to
 #'    systematically import and re-export a large number of functions in order
 #'    to use tidy evaluation. Instead, use [use_import_from()] to tactically
 #'    import functions as you need them.
-#'
-#' @keywords internal
-#' @export
-use_tidy_labels <- function() {
-  lifecycle::deprecate_stop("2.1.0", "use_tidy_labels()", "use_tidy_github_labels()")
-}
-
-#' @rdname use_tidy_labels
-#' @export
-use_tidy_ci <- function(...) {
-  lifecycle::deprecate_stop("2.1.0", "use_tidy_ci()", "use_tidy_github_actions()")
-}
-
-#' @rdname use_tidy_labels
 #' @keywords internal
 #' @export
 use_tidy_eval <- function() {

@@ -66,6 +66,8 @@ Functions that are removed:
 * `use_travis_badge()`
 * `browse_travis()`
 * `use_pkgdown_travis()`
+* `use_tidy_ci()`
+* `use_tidy_labels()`
 
 Function arguments that are removed:
 

@@ -161,7 +161,7 @@ reference:
     contents:
     - git_branch_default
     - use_github_actions
-    - use_tidy_labels
+    - use_tidy_eval
 
 articles:
 - title: Basics
