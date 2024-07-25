@@ -25,10 +25,6 @@ use_cpp11 <- function() {
 
   check_cpp_register_deps()
 
-  roxygen_ns_append(
-    sprintf("@useDynLib %s, .registration = TRUE", project_name())
-  ) && roxygen_remind()
-
   invisible()
 }
 
