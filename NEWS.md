@@ -1,9 +1,5 @@
 # usethis (development version)
 
-* `browse_github_token()`, `browse_github_pat()`, and `github_token()` have been removed after being deprecated in usethis 2.0.0. `create_github_token()`, `gh::gh_token()`, and `gh_token_help()` should be used instead.
-
-* `pr_pull_upstream()` and `pr_sync()` have been removed after being deprecated in usethis 2.0.0. `pr_merge_main()` and `pr_push()` should be used instead.
-
 * `pr_merge_main()` now offers the choice to not open the files with merge conflicts (@olivroy, #1720).
 
 * `edit_rstudio_snippets()` now accepts yaml snippets (@olivroy, #1941).
@@ -43,6 +39,43 @@
 
 * `usethis::use_version()` now tolerates empty / blank lines preceding the
   first section title in the package NEWS file. (#1976)
+
+## Deprecated function and argument removal
+
+We are removing functions and arguments that were deprecated as of usethis
+v2.0.0, which was released in December 2020.
+
+These changes have been in place for a long time now:
+
+* Switch from git2r to gert (+ credentials).
+* Use of git config and the gh package to infer, e.g., the target repo spec.
+* Pivot towards GitHub Actions and away from Travis and AppVeyor.
+
+Functions that are removed and, where applicable, what to use instead:
+
+* `git_credentials()`
+* `use_git_credentials()`
+* `browse_github_token()` (do `create_github_token()`)
+* `browse_github_pat()` (do `create_github_token()`)
+* `github_token()` (do `gh_token_help()` or `gh::gh_token()`)
+* `pr_pull_upstream()` (do `pr_merge_main()`)
+* `pr_sync()` (do `pr_merge_main(); pr_push()`)
+* `use_appveyor()`
+* `use_appveyor_badge()`
+* `use_travis()`
+* `use_travis_badge()`
+* `browse_travis()`
+* `use_pkgdown_travis()`
+* `use_tidy_ci()` *deprecated in v2.1.0* (do `use_tidy_github_actions()`)
+* `use_tidy_labels()` *deprecated in v2.1.0* (do `use_tidy_github_labels()`)
+
+Function arguments that are removed:
+
+* `create_from_github(auth_token =, credentials =)`
+* `use_github(auth_token =, credentials =)`
+* `use_github_labels(repo_spec =, host =, auth_token =)`
+* `use_github_links(auth_token =, host =)`
+* `use_github_release(host =, auth_token =)`
 
 # usethis 2.2.3
 
@@ -206,14 +239,14 @@
 * `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
   hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (#1871).
 
-## Defunct functions
+## Deprecated functions
 
-* `use_tidy_eval()` is now defunct because it imports and re-exports a large
+* `use_tidy_eval()` is now deprecated because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy
   evaluation (#1656).
 
 * `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
-  are now defunct because we no longer recommend Travis or Appveyor. We
+  are now deprecated because we no longer recommend Travis or Appveyor. We
   recommend GitHub actions instead (#1517).
 
 # usethis 2.1.6
@@ -531,7 +564,7 @@ GitHub Actions is the preferred platform for continuous integration, because tha
 
 `use_tidy_pkgdown()` implements the complete pkgdown configuration used by the tidyverse team (#224).
 
-`pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
+`pr_sync()` is deprecated and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
 
 ## Licensing improvements
 
@@ -1183,7 +1216,7 @@ build paths within it (#415, #425).
 
 * `create_from_github()`: the `repo` argument is renamed to `repo_spec`, since it takes input of the form "OWNER/REPO" (#376).
 
-* `use_depsy_badge()` is defunct. The Depsy project has officially concluded and is no longer being maintained (#354).
+* `use_depsy_badge()` is deprecated. The Depsy project has officially concluded and is no longer being maintained (#354).
 
 * `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
 
