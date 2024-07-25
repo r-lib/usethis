@@ -229,8 +229,7 @@ git_conflict_report <- function() {
   no <- "No, I want to abort this merge."
   choice <- utils::menu(
     title = "Do you want to proceed with this merge?",
-    choices = c(yes, yes_soft, no),
-    title = msg
+    choices = c(yes, yes_soft, no)
   )
 
   if (choice < 1 || choice > 2) {
