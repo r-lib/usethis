@@ -10,10 +10,6 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   # pretend Rcpp is installed
   local_check_installed()
 
-  local_mocked_bindings(
-    check_cpp_register_deps = function() NULL
-  )
-
   use_rcpp("test")
   expect_match(desc::desc_get("LinkingTo"), "Rcpp")
   expect_match(desc::desc_get("Imports"), "Rcpp")
