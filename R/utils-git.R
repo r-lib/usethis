@@ -215,7 +215,6 @@ challenge_uncommitted_changes <- function(
         "Uncommitted changes. Please commit before continuing.",
         call = caller_env()
       )
-      return(invisible())
     }
   }
 }
