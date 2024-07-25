@@ -109,9 +109,7 @@ work.</p>
 <span>  private <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  visibility <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"private"</span>, <span class="st">"internal"</span><span class="op">)</span>,</span>
 <span>  protocol <span class="op">=</span> <span class="fu"><a href="git_protocol.html">git_protocol</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  host <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  auth_token <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  credentials <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  host <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -151,14 +149,6 @@ environment variable.</p>
 <p>For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.</p></dd>
-
-
-<dt id="arg-auth-token-credentials">auth_token, credentials<a class="anchor" aria-label="anchor" href="#arg-auth-token-credentials"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
-consulted now that usethis uses the gert package for Git operations,
-instead of git2r; gert relies on the credentials package for auth. The API
-requests are now authorized with the token associated with the <code>host</code>, as
-retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html" class="external-link">gh::gh_token()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

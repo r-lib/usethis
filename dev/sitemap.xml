@@ -22,7 +22,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/edit_file.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git-default-branch.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_branch_default.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/git_credentials.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_protocol.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_sitrep.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_vaccinate.html</loc></url>
@@ -95,9 +94,8 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_template.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_testthat.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tibble.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_labels.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_eval.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_thanks.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_travis.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tutorial.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_upkeep_issue.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_version.html</loc></url>
