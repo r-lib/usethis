@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_cpp11()` makes it easier to update `NAMESPACE` (@pachadotdev, #1921).
+
 * `pr_merge_main()` now offers the choice to not open the files with merge conflicts (@olivroy, #1720).
 
 * `edit_rstudio_snippets()` now accepts yaml snippets (@olivroy, #1941).
