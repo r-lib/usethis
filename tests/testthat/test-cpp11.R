@@ -9,13 +9,9 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   use_roxygen_md()
   use_package_doc() # needed for use_cpp11()
 
-  # pretend cpp11 is installed
+  local_interactive(FALSE)
   local_check_installed()
-  local_mocked_bindings(
-    check_cpp_register_deps = function() NULL
-  )
-
-
+  local_mocked_bindings(check_cpp_register_deps = function() invisible())
 
   use_cpp11()
   expect_match(desc::desc_get("LinkingTo"), "cpp11")
