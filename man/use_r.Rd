@@ -20,8 +20,10 @@ This pair of functions makes it easy to create paired R and test files,
 using the convention that the tests for \code{R/foofy.R} should live
 in \code{tests/testthat/test-foofy.R}. You can use them to create new files
 from scratch by supplying \code{name}, or if you use RStudio, you can call
-to create (or navigate to) the paired file based on the currently open
-script.
+to create (or navigate to) the companion file based on the currently open
+file. This also works when a test snapshot file is active, i.e. if you're
+looking at \verb{tests/testthat/_snaps/foofy.md}, \code{use_r()} or \code{use_test()} take
+you to \code{R/foofy.R} or \code{tests/testthat/test-foofy.R}, respectively.
 }
 \section{Renaming files in an existing package}{
 
@@ -55,6 +57,19 @@ bind_rows(
 The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
 }
 
+\examples{
+\dontrun{
+# create a new .R file below R/
+use_r("coolstuff")
+
+# if `R/coolstuff.R` is active in a supported IDE, you can now do:
+use_test()
+
+# if `tests/testthat/test-coolstuff.R` is active in a supported IDE, you can
+# return to `R/coolstuff.R` with:
+use_r()
+}
+}
 \seealso{
 The \href{https://r-pkgs.org/testing-basics.html}{testing} and
 \href{https://r-pkgs.org/code.html}{R code} chapters of

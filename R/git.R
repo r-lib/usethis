@@ -15,6 +15,13 @@ use_git <- function(message = "Initial commit") {
   if (needs_init) {
     ui_bullets(c("v" = "Initialising Git repo."))
     git_init()
+    # hacky but helps prevent a pop-up in Positron, where early attempts to
+    # interact with a newly created repo lead to:
+    # Git: There are no available repositories
+    # https://github.com/r-lib/usethis/pull/2011#issue-2380380721
+    if (is_positron()) {
+      Sys.sleep(1)
+    }
   }
 
   use_git_ignore(git_ignore_lines)
@@ -22,7 +29,7 @@ use_git <- function(message = "Initial commit") {
     git_ask_commit(message, untracked = TRUE)
   }
 
-  if (needs_init) {
+  if (needs_init && !is_positron()) {
     restart_rstudio("A restart of RStudio is required to activate the Git pane.")
   }
 

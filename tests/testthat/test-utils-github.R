@@ -150,6 +150,12 @@ test_that("github_remotes() works", {
   expect_true(is.na(grl$is_fork))
 })
 
+test_that("github_url_from_git_remotes() is idempotent", {
+  url <- "https://github.com/r-lib/usethis.git"
+  out <- github_url_from_git_remotes(url)
+  expect_equal(out, github_url_from_git_remotes(out))
+})
+
 # GitHub remote configuration --------------------------------------------------
 
 test_that("we understand the list of all possible configs", {
