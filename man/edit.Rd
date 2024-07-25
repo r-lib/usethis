@@ -54,7 +54,7 @@ its path is declared in your global Git config.
 \item \code{edit_pkgdown_config} opens the pkgdown YAML configuration file for the
 current Project.
 \item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
-\item \code{edit_rstudio_prefs()} opens RStudio's preference file.
+\item \code{edit_rstudio_prefs()} opens \link[=use_rstudio_preferences]{RStudio's preference file}.
 }
 }
 \details{

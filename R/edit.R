@@ -87,7 +87,7 @@ choose_template <- function() {
 #' * `edit_pkgdown_config` opens the pkgdown YAML configuration file for the
 #'   current Project.
 #' * `edit_rstudio_snippets()` opens RStudio's snippet config for the given type.
-#' * `edit_rstudio_prefs()` opens RStudio's preference file.
+#' * `edit_rstudio_prefs()` opens [RStudio's preference file][use_rstudio_preferences()].
 #'
 #' The `edit_r_*()` functions consult R's notion of user's home directory.
 #' The `edit_git_*()` functions (and \pkg{usethis} in general) inherit home
