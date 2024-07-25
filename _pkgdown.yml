@@ -91,11 +91,9 @@ reference:
   - title: Continuous integration
     contents:
     - use_github_action
-    - use_appveyor
     - use_circleci
     - use_gitlab_ci
     - use_jenkins
-    - use_travis
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
