@@ -155,20 +155,15 @@ reference:
     - use_rmarkdown_template
     - use_rstudio
     - use_rstudio_preferences
-  - title: Defunct and deprecated functions
+  - title: Deprecated functions
     desc: >
-      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
-      <img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle'/>
-      </a>
-      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
+      <a href="https://lifecycle.r-lib.org/articles/stages.html">
       <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
       </a>
     contents:
-    - git_credentials
     - git_branch_default
     - use_github_actions
     - use_tidy_labels
-    - use_travis
 
 articles:
 - title: Basics
@@ -187,8 +182,3 @@ articles:
   contents:
   - articles/ui-cli-conversion
   - articles/badge-accessibility
-
-redirects:
-  - ["reference/browse_github_pat.html", "reference/github-token.html"]
-  - ["reference/pr_pull_upstream.html","reference/pull-requests.html"]
-  - ["reference/browse_github_token.html", "reference/github-token.html"]
