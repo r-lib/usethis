@@ -36,11 +36,12 @@ use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
   tr <- target_repo(github_get = TRUE)
   if (!isTRUE(tr$can_push)) {
-    ui_line("
-      It is very unusual to open a release issue on a repo you can't push to:
-        {ui_value(tr$repo_spec)}")
-    if (ui_nope("Do you really want to do this?")) {
-      ui_oops("Cancelling.")
+    ui_bullets(c(
+      "!" = "It is very unusual to open a release issue on a repo you can't push
+             to ({.val {tr$repo_spec}})."
+    ))
+    if (ui_nah("Do you really want to do this?")) {
+      ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
   }
@@ -55,7 +56,7 @@ use_release_issue <- function(version = NULL) {
   }
 
   on_cran <- !is.null(cran_version())
-  checklist <- release_checklist(version, on_cran)
+  checklist <- release_checklist(version, on_cran, tr)
 
   gh <- gh_tr(tr)
   issue <- gh(
@@ -68,23 +69,16 @@ use_release_issue <- function(version = NULL) {
   view_url(issue$html_url)
 }
 
-release_checklist <- function(version, on_cran) {
+release_checklist <- function(version, on_cran, target_repo = NULL) {
   type <- release_type(version)
   cran_results <- cran_results_url()
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
-  has_github_links <- has_github_links()
+  has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
-
-  milestone_num <- NA # for testing (and general fallback)
-  if (uses_git() && curl::has_internet()) {
-    milestone_num <- tryCatch(
-      gh_milestone_number(target_repo_spec(), version),
-      error = function(e) NA
-    )
-  }
+  milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
     if (!on_cran) c(
@@ -103,9 +97,7 @@ release_checklist <- function(version, on_cran) {
     "Prepare for release:",
     "",
     todo("`git pull`"),
-    if (!is.na(milestone_num)) {
-      todo("[Close v{version} milestone](../milestone/{milestone_num})")
-    },
+    todo("[Close v{version} milestone](../milestone/{milestone_num})", !is.na(milestone_num)),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("
       Check if any deprecation processes should be advanced, as described in \\
@@ -139,15 +131,15 @@ release_checklist <- function(version, on_cran) {
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
-    todo("Tweet", type != "patch")
+    todo("Share on social media", type != "patch")
   )
 }
 
-gh_milestone_number <- function(repo_spec, version, state = "open") {
-  milestones <- gh::gh(
-    "/repos/{repo_spec}/milestones",
-    repo_spec = repo_spec,
-    state = state
+gh_milestone_number <- function(target_repo, version, state = "open") {
+  gh <- gh_tr(target_repo)
+  milestones <- tryCatch(
+    gh("/repos/{owner}/{repo}/milestones", state = state),
+    error = function(e) list()
   )
   titles <- map_chr(milestones, "title")
   numbers <- map_int(milestones, "number")
@@ -225,22 +217,11 @@ release_type <- function(version) {
 #' assume that current state (SHA of `HEAD`, package version, NEWS) is the
 #' submitted state.
 #'
-#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
-#'   consulted now that usethis allows the gh package to lookup a token based on
-#'   a URL determined from the current project's GitHub remotes.
 #' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft
 #'   release.
 #' @export
-use_github_release <- function(publish = TRUE,
-                               host = deprecated(),
-                               auth_token = deprecated()) {
+use_github_release <- function(publish = TRUE) {
   check_is_package("use_github_release()")
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_release")
-  }
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_release")
-  }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to create a release")
@@ -262,7 +243,7 @@ use_github_release <- function(publish = TRUE,
 
   gh <- gh_tr(tr)
 
-  ui_cli_inform("Publishing {tag_name} release to GitHub")
+  ui_bullets("Publishing {tag_name} release to GitHub")
   release <- gh(
     "POST /repos/{owner}/{repo}/releases",
     name = release_name,
@@ -271,10 +252,10 @@ use_github_release <- function(publish = TRUE,
     body = news,
     draft = !publish
   )
-  ui_cli_inform("Release at {.url {release$html_url}}")
+  ui_bullets("Release at {.url {release$html_url}}")
 
   if (!is.null(dat$file)) {
-    ui_cli_inform("Deleting {.path {dat$file}}")
+    ui_bullets("Deleting {.path {dat$file}}")
     file_delete(dat$file)
   }
 
@@ -286,7 +267,7 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
     path_first_existing(proj_path(c("CRAN-SUBMISSION", "CRAN-RELEASE")))
 
   if (is.null(cran_submission)) {
-    ui_done("Using current HEAD commit for the release")
+    ui_bullets(c("v" = "Using current HEAD commit for the release."))
     challenge_non_default_branch()
     check_branch_pushed()
     return(list(
@@ -345,8 +326,9 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
 
   out$Package <- project_name()
   out$file <- cran_submission
-  ui_done("
-    {ui_path(out$file)} file found, from a submission on {as.Date(out$Date)}")
+  ui_bullets(c(
+    "{.path {pth(out$file)}} file found, from a submission on {as.Date(out$Date)}."
+  ))
 
   out
 }
@@ -362,11 +344,12 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
     return()
   }
   if (inherits(SHA_GET$error, "http_error_404")) {
-    ui_stop("
-      Can't find SHA {ui_value(substr(SHA, 1, 7))} in {ui_value(tr$repo_spec)}.
-      Do you need to push?")
+    ui_abort(c(
+      "Can't find SHA {.val {substr(SHA, 1, 7)}} in {.val {tr$repo_spec}}.",
+      "Do you need to push?"
+    ))
   }
-  ui_stop("Internal error: Unexpected error when checking for SHA on GitHub")
+  ui_abort("Internal error: Unexpected error when checking for SHA on GitHub.")
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
@@ -390,10 +373,11 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
   }
 
   if (is.null(news)) {
-    ui_oops("
-      Can't find {ui_path('NEWS.md')} in the released package source.
-      usethis consults this file for release notes.
-      Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
+    ui_bullets(c(
+      "x" = "Can't find {.path {pth('NEWS.md')}} in the released package source.",
+      "i" = "{.pkg usethis} consults this file for release notes.",
+      "i" = "Call {.run usethis::use_news_md()} to set this up for the future."
+    ))
     if (on_cran) "-- no release notes --" else "Initial release"
   } else {
     news_latest(news)
@@ -433,7 +417,7 @@ news_latest <- function(lines) {
   headings <- which(grepl("^#\\s+", lines))
 
   if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value('NEWS.md')}")
+    ui_abort("No top-level headings found in {.path {pth('NEWS.md')}}.")
   } else if (length(headings) == 1) {
     news <- lines[seq2(headings + 1, length(lines))]
   } else {

@@ -16,7 +16,9 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
-    ui_todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
+    ui_bullets(c(
+      "_" = "Turn on coveralls for this repo at {.url https://coveralls.io/repos/new}."
+    ))
   }
 
   switch(
@@ -25,9 +27,10 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
     coveralls = use_coveralls_badge(repo_spec)
   )
 
-  ui_todo("
-    Call {ui_code('use_github_action(\"test-coverage\")')} to continuously \\
-    monitor test coverage.")
+  ui_bullets(c(
+    "_" = "Call {.code use_github_action(\"test-coverage\")} to continuously
+           monitor test coverage."
+  ))
 
   invisible(TRUE)
 }
@@ -41,9 +44,8 @@ use_covr_ignore <- function(files) {
 }
 
 use_codecov_badge <- function(repo_spec) {
-  default_branch <- git_default_branch()
-  url <- glue("https://app.codecov.io/gh/{repo_spec}?branch={default_branch}")
-  img <- glue("https://codecov.io/gh/{repo_spec}/branch/{default_branch}/graph/badge.svg")
+  url <- glue("https://codecov.io/gh/{repo_spec}")
+  img <- glue("https://codecov.io/gh/{repo_spec}/graph/badge.svg")
   use_badge("Codecov test coverage", url, img)
 }
 

@@ -39,11 +39,6 @@
 #'   For a hypothetical GitHub Enterprise instance, either
 #'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
 #'   acceptable.
-#' @param auth_token,credentials `r lifecycle::badge("deprecated")`: No longer
-#'   consulted now that usethis uses the gert package for Git operations,
-#'   instead of git2r; gert relies on the credentials package for auth. The API
-#'   requests are now authorized with the token associated with the `host`, as
-#'   retrieved by [gh::gh_token()].
 #'
 #' @export
 #' @examples
@@ -61,16 +56,7 @@ use_github <- function(organisation = NULL,
                        private = FALSE,
                        visibility = c("public", "private", "internal"),
                        protocol = git_protocol(),
-                       host = NULL,
-                       auth_token = deprecated(),
-                       credentials = deprecated()) {
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github")
-  }
-  if (lifecycle::is_present(credentials)) {
-    deprecate_warn_credentials("use_github")
-  }
-
+                       host = NULL) {
   visibility_specified <- !missing(visibility)
   visibility <- match.arg(visibility)
   check_protocol(protocol)
@@ -80,7 +66,7 @@ use_github <- function(organisation = NULL,
     is = default_branch,
     # glue-ing happens inside check_current_branch(), where `gb` gives the
     # current branch
-    "Must be on the default branch ({ui_value(is)}), not {ui_value(gb)}."
+    message = c("x" = "Must be on the default branch {.val {is}}, not {.val {gb}}.")
   )
   challenge_uncommitted_changes(msg = "
     There are uncommitted changes and we're about to create and push to a new \\
@@ -89,10 +75,9 @@ use_github <- function(organisation = NULL,
 
   if (is.null(organisation)) {
     if (visibility_specified) {
-      ui_stop("
-        The {ui_code('visibility')} setting is only relevant for
-        organisation-owned repos, within the context of certain \\
-        GitHub Enterprise products.")
+      ui_abort("
+        The {.arg visibility} setting is only relevant for organisation-owned
+        repos, within the context of certain GitHub Enterprise products.")
     }
     visibility <- if (private) "private" else "public"
   }
@@ -103,15 +88,15 @@ use_github <- function(organisation = NULL,
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   if (is.null(whoami)) {
-    ui_stop("
-      Unable to discover a GitHub personal access token
-      A token is required in order to create and push to a new repo
-
-      Call {ui_code('gh_token_help()')} for help configuring a token")
+    ui_abort(c(
+      "x" = "Unable to discover a GitHub personal access token.",
+      "i" = "A token is required in order to create and push to a new repo.",
+      "_" = "Call {.run usethis::gh_token_help()} for help configuring a token."
+    ))
   }
   empirical_host <- parse_github_remotes(glue("{whoami$html_url}/REPO"))$host
   if (empirical_host != "github.com") {
-    ui_info("Targeting the GitHub host {ui_value(empirical_host)}")
+    ui_bullets(c("i" = "Targeting the GitHub host {.val {empirical_host}}."))
   }
 
   owner <- organisation %||% whoami$login
@@ -123,7 +108,9 @@ use_github <- function(organisation = NULL,
   repo_spec <- glue("{owner}/{repo_name}")
 
   visibility_string <- if (visibility == "public") "" else glue("{visibility} ")
-  ui_done("Creating {visibility_string}GitHub repository {ui_value(repo_spec)}")
+  ui_bullets(c(
+    "v" = "Creating {visibility_string}GitHub repository {.val {repo_spec}}."
+  ))
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
@@ -153,7 +140,7 @@ use_github <- function(organisation = NULL,
   )
   withr::defer(view_url(create$html_url))
 
-  ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
+  ui_bullets(c("v" = "Setting remote {.val origin} to {.val {origin_url}}."))
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
@@ -171,8 +158,7 @@ use_github <- function(organisation = NULL,
   repo <- git_repo()
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   if (nrow(gbl) > 1) {
-    ui_done("
-      Setting {ui_value(default_branch)} as default branch on GitHub")
+    ui_bullets(c("v" = "Setting {.val {default_branch}} as default branch on GitHub."))
     gh::gh(
       "PATCH /repos/{owner}/{repo}",
       owner = owner, repo = repo_name,
@@ -197,9 +183,6 @@ use_github <- function(organisation = NULL,
 #'   an interactive session, the user can confirm which repo to use for the
 #'   links. In a noninteractive session, links are formed using `upstream`.
 #'
-#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer consulted
-#'   now that usethis consults the current project's GitHub remotes to get the
-#'   `host` and then relies on gh to discover an appropriate token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing
 #'   fields. Set to `TRUE` to overwrite existing links.
 #' @export
@@ -208,16 +191,7 @@ use_github <- function(organisation = NULL,
 #' use_github_links()
 #' }
 #'
-use_github_links <- function(auth_token = deprecated(),
-                             host = deprecated(),
-                             overwrite = FALSE) {
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_links")
-  }
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_links")
-  }
-
+use_github_links <- function(overwrite = FALSE) {
   check_is_package("use_github_links()")
 
   gh_url <- github_url_from_git_remotes()
@@ -239,8 +213,9 @@ use_github_links <- function(auth_token = deprecated(),
   invisible()
 }
 
-has_github_links <- function() {
-  github_url <- github_url_from_git_remotes()
+has_github_links <- function(target_repo = NULL) {
+  url <- if (is.null(target_repo)) NULL else target_repo$url
+  github_url <- github_url_from_git_remotes(url)
   if (is.null(github_url)) {
     return(FALSE)
   }
@@ -258,31 +233,34 @@ has_github_links <- function() {
 check_no_origin <- function() {
   remotes <- git_remotes()
   if ("origin" %in% names(remotes)) {
-    ui_stop("
-      This repo already has an {ui_value('origin')} remote, \\
-      with value {ui_value(remotes[['origin']])}.
-      You can remove this setting with:
-      {ui_code('usethis::use_git_remote(\"origin\", url = NULL, overwrite = TRUE)')}")
+    ui_abort(c(
+      "x" = "This repo already has an {.val origin} remote, with value
+             {.val {remotes[['origin']]}}.",
+      "i" = "You can remove this setting with:",
+      " " = '{.code usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)}'
+    ))
   }
   invisible()
 }
 
 check_no_github_repo <- function(owner, repo, host) {
+  spec <- glue("{owner}/{repo}")
   repo_found <- tryCatch(
     {
-      repo_info <- gh::gh(
-        "/repos/{owner}/{repo}",
-        owner = owner, repo = repo,
-        .api_url = host
-      )
-      TRUE
+      repo_info <- gh::gh("/repos/{spec}", spec = spec, .api_url = host)
+      # when does repo_info$full_name != the spec we sent?
+      # this happens if you reuse the original name of a repo that has since
+      # been renamed
+      # there's no 404, because of the automatic redirect, but you CAN create
+      # a new repo with this name
+      # https://github.com/r-lib/usethis/issues/1893
+      repo_info$full_name == spec
     },
     "http_error_404" = function(err) FALSE
   )
   if (!repo_found) {
     return(invisible())
   }
-  spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
-  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(empirical_host)}")
+  ui_abort("Repo {.val {spec}} already exists on {.val {empirical_host}}.")
 }

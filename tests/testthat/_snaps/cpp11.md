@@ -3,5 +3,5 @@
     Code
       check_cpp_register_deps()
     Message
-      * Now install 'decor', 'vctrs' to use cpp11.
+      [ ] Now install decor and vctrs to use cpp11.
 

@@ -9,8 +9,8 @@
 #'
 #' @export
 use_cpp11 <- function() {
-  check_installed("cpp11")
   check_is_package("use_cpp11()")
+  check_installed("cpp11")
   check_uses_roxygen("use_cpp11()")
   check_has_package_doc("use_cpp11()")
   use_src()
@@ -38,6 +38,8 @@ check_cpp_register_deps <- function() {
   installed <- map_lgl(cpp_register_deps, is_installed)
 
   if (!all(installed)) {
-    ui_todo("Now install {ui_value(cpp_register_deps[!installed])} to use cpp11.")
+    ui_bullets(c(
+      "_" = "Now install {.pkg {cpp_register_deps[!installed]}} to use {.pkg cpp11}."
+    ))
   }
 }

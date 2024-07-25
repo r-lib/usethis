@@ -60,8 +60,9 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
   }
 
   if (is_pkg && !data$on_github) {
-    ui_todo("
-      Update {ui_path('README.Rmd')} to include installation instructions.")
+    ui_bullets(c(
+      "_" = "Update {.path {pth('README.Rmd')}} to include installation instructions."
+    ))
   }
 
   if (uses_git()) {
@@ -96,8 +97,9 @@ use_readme_md <- function(open = rlang::is_interactive()) {
   )
 
   if (is_pkg && !data$on_github) {
-    ui_todo("
-      Update {ui_path('README.md')} to include installation instructions.")
+    ui_bullets(c(
+      "_" = "Update {.path {pth('README.md')}} to include installation instructions."
+    ))
   }
 
   invisible(new)

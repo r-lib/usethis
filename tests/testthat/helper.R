@@ -6,10 +6,10 @@
 session_temp_proj <- proj_find(path_temp())
 if (!is.null(session_temp_proj)) {
   Rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
-  ui_line(c(
-    "Rproj file(s) found at or above session temp dir:",
-    paste0("* ", Rproj_files),
-    "Expect this to cause spurious test failures."
+  ui_bullets(c(
+    "x" = "Rproj {cli::qty(length(Rproj_files))} file{?s} found at or above session temp dir:",
+    bulletize(usethis_map_cli(Rproj_files)),
+    "!" = "Expect this to cause spurious test failures."
   ))
 }
 
@@ -31,7 +31,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
                                thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
-    ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
+    ui_abort("Target {.arg dir} {.path {pth(dir)}} already exists.")
   }
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
@@ -39,7 +39,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
   withr::defer(
     {
-      ui_done("Deleting temporary project: {ui_path(dir)}")
+      ui_bullets(c("Deleting temporary project: {.path {dir}}"))
       fs::dir_delete(dir)
     },
     envir = env
@@ -68,7 +68,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
   withr::defer(
     {
-      ui_done("Restoring original working directory: {ui_path(old_wd)}")
+      ui_bullets(c("Restoring original working directory: {.path {old_wd}}"))
       setwd(old_wd)
     },
     envir = env
@@ -80,6 +80,10 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
 scrub_testpkg <- function(message) {
   gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
+}
+
+scrub_testproj <- function(message) {
+  gsub("testproj[a-zA-Z0-9]+", "{TESTPROJ}", message, perl = TRUE)
 }
 
 skip_if_not_ci <- function() {

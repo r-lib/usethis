@@ -20,6 +20,8 @@ use_revdep <- function() {
     )
   )
 
-  ui_todo("Run checks with {ui_code('revdepcheck::revdep_check(num_workers = 4)')}")
+  ui_bullets(c(
+    "_" = "Run checks with {.run revdepcheck::revdep_check(num_workers = 4)}."
+  ))
   invisible()
 }

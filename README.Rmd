@@ -17,10 +17,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![.github/workflows/R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise during project setup and development, both for R packages and non-package projects.
@@ -46,7 +46,7 @@ Most `use_*()` functions operate on the *active project*: literally, a directory
 
 A few usethis functions have no strong connections to projects and will expect you to provide a path.
 
-usethis is quite chatty, explaining what it's doing and assigning you tasks. `✔` indicates something usethis has done for you. `●` indicates that you'll need to do some work yourself.
+usethis is quite chatty, explaining what it's doing and assigning you tasks. `✔` indicates something usethis has done for you. `☐` indicates that you'll need to do some work yourself.
 
 Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.
 

@@ -4,8 +4,10 @@
 #' using the convention that the tests for `R/foofy.R` should live
 #' in `tests/testthat/test-foofy.R`. You can use them to create new files
 #' from scratch by supplying `name`, or if you use RStudio, you can call
-#' to create (or navigate to) the paired file based on the currently open
-#' script.
+#' to create (or navigate to) the companion file based on the currently open
+#' file. This also works when a test snapshot file is active, i.e. if you're
+#' looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take
+#' you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 #'
 #' @section Renaming files in an existing package:
 #'
@@ -45,6 +47,19 @@
 #'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # create a new .R file below R/
+#' use_r("coolstuff")
+#'
+#' # if `R/coolstuff.R` is active in a supported IDE, you can now do:
+#' use_test()
+#'
+#' # if `tests/testthat/test-coolstuff.R` is active in a supported IDE, you can
+#' # return to `R/coolstuff.R` with:
+#' use_r()
+#' }
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
 
@@ -116,8 +131,8 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat")) {
-    cli::cli_abort("Open file must be a code or test file.", call = error_call)
+  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
+    cli::cli_abort("Open file must be code, test, or snapshot.", call = error_call)
   }
 
   file <- path_file(path)
@@ -157,4 +172,3 @@ check_file_name <- function(name, call = caller_env()) {
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
-

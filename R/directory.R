@@ -26,17 +26,17 @@ create_directory <- function(path) {
   if (dir_exists(path)) {
     return(invisible(FALSE))
   } else if (file_exists(path)) {
-    ui_stop("{ui_path(path)} exists but is not a directory.")
+    ui_abort("{.path {pth(path)}} exists but is not a directory.")
   }
 
   dir_create(path, recurse = TRUE)
-  ui_done("Creating {ui_path(path)}")
+  ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
   invisible(TRUE)
 }
 
 check_path_is_directory <- function(path) {
   if (!file_exists(path)) {
-    ui_stop("Directory {ui_path(path)} does not exist.")
+    ui_abort("Directory {.path {pth(path)}} does not exist.")
   }
 
   if (is_link(path)) {
@@ -44,7 +44,7 @@ check_path_is_directory <- function(path) {
   }
 
   if (!is_dir(path)) {
-    ui_stop("{ui_path(path)} is not a directory.")
+    ui_abort("{.path {pth(path)}} is not a directory.")
   }
 }
 
@@ -58,7 +58,7 @@ directory_has_files <- function(x) {
 
 check_directory_is_empty <- function(x) {
   if (directory_has_files(x)) {
-    ui_stop("{ui_path(x)} exists and is not an empty directory.")
+    ui_abort("{.path {pth(x)}} exists and is not an empty directory.")
   }
   invisible(x)
 }

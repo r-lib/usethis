@@ -29,11 +29,12 @@ make_upkeep_issue <- function(year, tidy) {
   tr <- target_repo(github_get = TRUE)
 
   if (!isTRUE(tr$can_push)) {
-    ui_line("
-      It is very unusual to open an upkeep issue on a repo you can't push to:
-        {ui_value(tr$repo_spec)}")
-    if (ui_nope("Do you really want to do this?")) {
-      ui_oops("Cancelling.")
+    ui_bullets(c(
+      "!" = "It is very unusual to open an upkeep issue on a repo you can't push
+             to ({.val {tr$repo_spec}})."
+    ))
+    if (ui_nah("Do you really want to do this?")) {
+      ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
   }
@@ -42,7 +43,7 @@ make_upkeep_issue <- function(year, tidy) {
   if (tidy) {
     checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
   } else {
-    checklist <- upkeep_checklist()
+    checklist <- upkeep_checklist(tr)
   }
 
   title_year <- year %||% format(Sys.Date(), "%Y")
@@ -57,11 +58,13 @@ make_upkeep_issue <- function(year, tidy) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function() {
+upkeep_checklist <- function(target_repo = NULL) {
+  has_github_links <- has_github_links(target_repo)
+
   bullets <- c(
     todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
-    todo("`usethis::use_github_links()`", !has_github_links()),
+    todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
     todo("`usethis::use_tidy_description()`"),
     todo(

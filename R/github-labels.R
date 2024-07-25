@@ -43,10 +43,6 @@
 #' This keeps the issue page visually harmonious while still giving enough
 #' variation to easily distinguish different types of label.
 #'
-#' @param repo_spec,host,auth_token `r lifecycle::badge("deprecated")`: These
-#'   arguments are now deprecated and will be removed in the future. Any input
-#'   provided via these arguments is not used. The target repo, host, and auth
-#'   token are all now determined from the current project's Git remotes.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
@@ -77,24 +73,11 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(repo_spec = deprecated(),
-                              labels = character(),
+use_github_labels <- function(labels = character(),
                               rename = character(),
                               colours = character(),
                               descriptions = character(),
-                              delete_default = FALSE,
-                              host = deprecated(),
-                              auth_token = deprecated()) {
-  if (lifecycle::is_present(repo_spec)) {
-    deprecate_warn_repo_spec("use_github_labels")
-  }
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_labels")
-  }
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_labels")
-  }
-
+                              delete_default = FALSE) {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to modify labels")
 
@@ -109,11 +92,16 @@ use_github_labels <- function(repo_spec = deprecated(),
   cur_label_names <- label_attr("name", cur_labels)
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
-    delta <- purrr::map2_chr(
-      to_rename, rename[to_rename],
-      ~ paste0(ui_value(.x), " -> ", ui_value(.y))
+    dat <- data.frame(from = to_rename, to = rename[to_rename])
+    delta <- glue_data(
+      dat,
+      "{.val <<from>>} {cli::symbol$arrow_right} {.val <<to>>}",
+      .open = "<<", .close = ">>"
     )
-    ui_done("Renaming labels: {paste0(delta, collapse = '\n')}")
+    ui_bullets(c(
+      "v" = "Renaming labels:",
+      bulletize(delta)
+    ))
 
     # Can't do this at label level, i.e. "old_label_name --> new_label_name"
     # Fails if "new_label_name" already exists
@@ -153,7 +141,7 @@ use_github_labels <- function(repo_spec = deprecated(),
     )
     labels <- union(labels, setdiff(rename, cur_label_names))
   } else {
-    ui_info("No labels need renaming")
+    ui_bullets(c("i" = "No labels need renaming."))
   }
 
   cur_labels <- gh("GET /repos/{owner}/{repo}/labels")
@@ -161,10 +149,13 @@ use_github_labels <- function(repo_spec = deprecated(),
 
   # Add missing labels
   if (all(labels %in% cur_label_names)) {
-    ui_info("No new labels needed")
+    ui_bullets(c("i" = "No new labels needed."))
   } else {
     to_add <- setdiff(labels, cur_label_names)
-    ui_done("Adding missing labels: {ui_value(to_add)}")
+    ui_bullets(c(
+      "v" = "Adding missing labels:",
+      bulletize(usethis_map_cli(to_add))
+    ))
 
     for (label in to_add) {
       gh(
@@ -184,10 +175,13 @@ use_github_labels <- function(repo_spec = deprecated(),
     label_attr("color", cur_labels), cur_label_names
   )
   if (identical(cur_label_colours[names(colours)], colours)) {
-    ui_info("Label colours are up-to-date")
+    ui_bullets(c("i" = "Label colours are up-to-date."))
   } else {
     to_update <- intersect(cur_label_names, names(colours))
-    ui_done("Updating colours: {ui_value(to_update)}")
+    ui_bullets(c(
+      "v" = "Updating colours:",
+      bulletize(usethis_map_cli(to_update))
+    ))
 
     for (label in to_update) {
       gh(
@@ -203,10 +197,13 @@ use_github_labels <- function(repo_spec = deprecated(),
     label_attr("description", cur_labels), cur_label_names
   )
   if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
-    ui_info("Label descriptions are up-to-date")
+    ui_bullets(c("i" = "Label descriptions are up-to-date."))
   } else {
     to_update <- intersect(cur_label_names, names(descriptions))
-    ui_done("Updating descriptions: {ui_value(to_update)}")
+    ui_bullets(c(
+      "v" = "Updating descriptions:",
+      bulletize(usethis_map_cli(to_update))
+    ))
 
     for (label in to_update) {
       gh(
@@ -223,12 +220,17 @@ use_github_labels <- function(repo_spec = deprecated(),
     to_remove <- setdiff(cur_label_names[default], labels)
 
     if (length(to_remove) > 0) {
-      ui_done("Removing default labels: {ui_value(to_remove)}")
+      ui_bullets(c(
+        "v" = "Removing default labels:",
+        bulletize(usethis_map_cli(to_remove))
+      ))
 
       for (label in to_remove) {
         issues <- gh("GET /repos/{owner}/{repo}/issues", labels = label)
         if (length(issues) > 0) {
-          ui_todo("Delete {ui_value(label)} label manually; it has associated issues")
+          ui_bullets(c(
+            "_" = "Delete {.val {label}} label manually; it has associated issues."
+          ))
         } else {
           gh("DELETE /repos/{owner}/{repo}/labels/{name}", name = label)
         }

@@ -6,13 +6,13 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![.github/workflows/R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/r-lib/usethis/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise
@@ -48,7 +48,7 @@ A few usethis functions have no strong connections to projects and will
 expect you to provide a path.
 
 usethis is quite chatty, explaining what it’s doing and assigning you
-tasks. `✔` indicates something usethis has done for you. `●` indicates
+tasks. `✔` indicates something usethis has done for you. `☐` indicates
 that you’ll need to do some work yourself.
 
 Below is a quick look at how usethis can help to set up a package. But
@@ -61,10 +61,10 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/RtmpPqIkgo/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'
-#> ✔ Creating 'R/'
-#> ✔ Writing 'DESCRIPTION'
+#> ✔ Creating '/tmp/RtmpMuqeSm/mypkg/'.
+#> ✔ Setting active project to "/private/tmp/RtmpMuqeSm/mypkg".
+#> ✔ Creating 'R/'.
+#> ✔ Writing 'DESCRIPTION'.
 #> Package: mypkg
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
@@ -75,55 +75,57 @@ create_package(path)
 #>     license
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.2.3
-#> ✔ Writing 'NAMESPACE'
-#> ✔ Setting active project to '<no active project>'
+#> RoxygenNote: 7.3.1
+#> ✔ Writing 'NAMESPACE'.
+#> ✔ Setting active project to "<no active project>".
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'
-#> ✔ Changing working directory to '/tmp/RtmpPqIkgo/mypkg/'
+#> ✔ Setting active project to "/private/tmp/RtmpMuqeSm/mypkg".
+#> ✔ Changing working directory to '/tmp/RtmpMuqeSm/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
-#> ✔ Adding 'MIT + file LICENSE' to License
-#> ✔ Writing 'LICENSE'
-#> ✔ Writing 'LICENSE.md'
-#> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+#> ✔ Adding "MIT + file LICENSE" to 'License'.
+#> ✔ Writing 'LICENSE'.
+#> ✔ Writing 'LICENSE.md'.
+#> ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.
 
 use_package("ggplot2", "Suggests")
-#> ✔ Adding 'ggplot2' to Suggests field in DESCRIPTION
-#> • Use `requireNamespace("ggplot2", quietly = TRUE)` to test if package is installed
-#> • Then directly refer to functions with `ggplot2::fun()`
+#> ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.
+#> ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is
+#>   installed.
+#> ☐ Then directly refer to functions with `ggplot2::fun()`.
 
 # Set up other files -------------------------------------------------
 use_readme_md()
-#> ✔ Writing 'README.md'
-#> • Update 'README.md' to include installation instructions.
+#> ✔ Writing 'README.md'.
+#> ☐ Update 'README.md' to include installation instructions.
 
 use_news_md()
-#> ✔ Writing 'NEWS.md'
+#> ✔ Writing 'NEWS.md'.
 
 use_test("my-test")
-#> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
-#> ✔ Adding '3' to Config/testthat/edition
-#> ✔ Creating 'tests/testthat/'
-#> ✔ Writing 'tests/testthat.R'
-#> ✔ Writing 'tests/testthat/test-my-test.R'
-#> • Edit 'tests/testthat/test-my-test.R'
+#> ✔ Adding testthat to 'Suggests' field in DESCRIPTION.
+#> ✔ Adding "3" to 'Config/testthat/edition'.
+#> ✔ Creating 'tests/testthat/'.
+#> ✔ Writing 'tests/testthat.R'.
+#> ✔ Writing 'tests/testthat/test-my-test.R'.
+#> ☐ Edit 'tests/testthat/test-my-test.R'.
 
 x <- 1
 y <- 2
 use_data(x, y)
-#> ✔ Adding 'R' to Depends field in DESCRIPTION
-#> ✔ Creating 'data/'
-#> ✔ Setting LazyData to 'true' in 'DESCRIPTION'
-#> ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
-#> • Document your data (see 'https://r-pkgs.org/data.html')
+#> ✔ Adding R to 'Depends' field in DESCRIPTION.
+#> ✔ Creating 'data/'.
+#> ✔ Setting 'LazyData' to "true" in 'DESCRIPTION'.
+#> ✔ Saving "x" and "y" to "data/x.rda" and "data/y.rda".
+#> ☐ Document your data (see <https://r-pkgs.org/data.html>).
 
 # Use git ------------------------------------------------------------
 use_git()
-#> ✔ Initialising Git repo
-#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store', '.quarto' to '.gitignore'
+#> ✔ Initialising Git repo.
+#> ✔ Adding ".Rproj.user", ".Rhistory", ".Rdata", ".httr-oauth", ".DS_Store", and
+#>   ".quarto" to '.gitignore'.
 ```
 
 ## Code of Conduct
