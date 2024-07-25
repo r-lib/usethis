@@ -1,25 +1,20 @@
 test_that("use_cpp11() requires a package", {
   create_local_project()
-  local_check_installed()
   expect_usethis_error(use_cpp11(), "not an R package")
 })
 
 test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
-  skip_if_not_installed("cpp11")
-
   create_local_package()
   use_roxygen_md()
-  use_package_doc()
+  use_package_doc() # needed for use_cpp11()
 
-  local_interactive(FALSE)
+  # pretend cpp11 is installed
   local_check_installed()
 
   use_cpp11()
-
-  deps <- proj_deps()
-  expect_equal(deps$type, "LinkingTo")
-  expect_equal(deps$package, "cpp11")
+  expect_match(desc::desc_get("LinkingTo"), "cpp11")
   expect_proj_dir("src")
+  expect_proj_file("src", "code.cpp")
 
   ignores <- read_utf8(proj_path("src", ".gitignore"))
   expect_contains(ignores, c("*.o", "*.so", "*.dll"))
