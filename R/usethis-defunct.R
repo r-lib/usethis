@@ -12,14 +12,14 @@ git_branch_default <- function() {
   git_default_branch()
 }
 
-#' Defunct tidyverse functions
+#' Deprecated tidyverse functions
 #'
 #' @description
-#' `r lifecycle::badge("defunct")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' * `use_tidy_labels()` has been replaced by [use_tidy_github_labels()].
 #' * `use_tidy_ci()` has been replaced by [use_tidy_github_actions()].
-#' * `use_tidy_eval()` is defunct because there's no longer a need to
+#' * `use_tidy_eval()` is deprecated because there's no longer a need to
 #'    systematically import and re-export a large number of functions in order
 #'    to use tidy evaluation. Instead, use [use_import_from()] to tactically
 #'    import functions as you need them.
@@ -51,195 +51,9 @@ use_tidy_eval <- function() {
   )
 }
 
-#' Defunct git2r functions
-#'
-#' @description
-#' `r lifecycle::badge("defunct")`
-#'
-#' In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
-#' all Git operations. This pair of packages (gert + credentials) is designed to
-#' discover and use the same credentials as command line Git. As a result, a
-#' great deal of credential-handling assistance has been removed from usethis,
-#' primarily around SSH keys.
-#'
-#' If you have credential problems, focus your troubleshooting on getting the
-#' credentials package to find your credentials. The [introductory
-#' vignette](https://docs.ropensci.org/credentials/articles/intro.html)
-#' is a good place to start.
-#'
-#' If you use the HTTPS protocol (which we recommend), a GitHub personal access
-#' token will satisfy all auth needs, for both Git and the GitHub API, and is
-#' therefore the easiest approach to get working. See [gh_token_help()] for
-#' more.
-#'
-#' @param protocol Deprecated.
-#' @param auth_token Deprecated.
-#' @param credentials Deprecated.
-#'
-#' @return These functions raise a warning and return an invisible `NULL`.
-#' @export
-git_credentials <- function(protocol = deprecated(),
-                            auth_token = deprecated()) {
-  lifecycle::deprecate_stop(
-    "2.0.0",
-    "git_credentials()",
-    details = git2r_explanation
-  )
-  invisible()
-}
-
-#' @rdname git_credentials
-#' @export
-use_git_credentials <- function(credentials = deprecated()) {
-  lifecycle::deprecate_stop(
-    "2.0.0",
-    "use_git_credentials()",
-    details = git2r_explanation
-  )
-  invisible()
-}
-
-git2r_explanation <- glue("
-  usethis now uses the gert package for Git operations, instead of git2r, and
-  gert relies on the credentials package for auth. Therefore git2r credentials
-  are no longer accepted.")
-
-deprecate_warn_credentials <- function(whos_asking, details = NULL) {
-  whos_asking <- sub("[()]+$", "", whos_asking)
-  what <- glue("{whos_asking}(credentials = )")
-
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    what,
-    details = details %||% git2r_explanation
-  )
-}
-
-deprecate_warn_host <- function(whos_asking, details = NULL) {
-  whos_asking <- sub("[()]+$", "", whos_asking)
-  what <- glue("{whos_asking}(host = )")
-
-  host_explanation <- glue("
-    usethis now determines the `host` from the current project's \\
-    Git remotes.
-    The `host` argument is ignored and will eventually be removed.")
-
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    what,
-    details = details %||% host_explanation
-  )
-}
-
-deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
-  whos_asking <- sub("[()]+$", "", whos_asking)
-  what <- glue("{whos_asking}(auth_token = )")
-
-  auth_token_explanation <- glue("
-    usethis now delegates token lookup to the gh package, which retrieves \\
-    credentials based on the targeted host URL.
-    This URL is determined by the current project's Git remotes.
-    The `auth_token` argument is ignored and will eventually be removed.")
-
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    what,
-    details = details %||% auth_token_explanation
-  )
-}
-
-deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
-  whos_asking <- sub("[()]+$", "", whos_asking)
-  what <- glue("{whos_asking}(repo_spec = )")
-
-  repo_spec_explanation <- glue("
-    usethis now consults the current project's Git remotes to determine the \\
-    target repo.
-    The `repo_spec` argument is ignored and will eventually be removed.")
-
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    what,
-    details = details %||% repo_spec_explanation
-  )
-}
-
-
-# ci ----------------------------------------------------------------------
-
-
-#' Defunct Travis and Appveyor functions
-#'
-#' @description
-#' `r lifecycle::badge("defunct")`
-#'
-#' These functions which formally supported CI on Appveyor and Travis are
-#' now defunct as we no longer recommend using these services. We now
-#' recommend using GitHub actions, e.g. with [use_github_action()].
-#'
-#' @export
-#' @keywords internal
-use_travis <- function(browse = rlang::is_interactive(),
-                       ext = c("com", "org")) {
-
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "use_travis()",
-    with = "use_github_action()"
-  )
-}
-
-#' @export
-#' @rdname use_travis
-use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "use_travis_badge()"
-  )
-}
-
-#' @export
-#' @rdname use_travis
-use_pkgdown_travis <- function() {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "use_pkgdown_travis()",
-    with = "use_pkgdown_github_pages()"
-  )
-}
-
-#' @export
-#' @rdname use_travis
-use_appveyor <- function(browse = rlang::is_interactive()) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "use_appveyor()",
-    with = "use_github_action()"
-  )
-}
-
-#' @export
-#' @rdname use_travis
-use_appveyor_badge <- function(repo_spec = NULL) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "use_appveyor_badge()",
-  )
-}
-
-#' @export
-#' @rdname use_travis
-browse_travis <- function(package = NULL, ext = c("com", "org")) {
-  lifecycle::deprecate_stop(
-    when = "2.2.0",
-    what = "browse_travis()",
-  )
-}
-
-
 # GitHub actions --------------------------------------------------------------
 
-#' Defunct GitHub Actions workflows
+#' Deprecated GitHub Actions functions
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`

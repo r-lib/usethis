@@ -6,7 +6,7 @@
 \alias{use_github_action_check_standard}
 \alias{use_github_action_pr_commands}
 \alias{use_github_action_check_full}
-\title{Defunct GitHub Actions workflows}
+\title{Deprecated GitHub Actions functions}
 \usage{
 use_github_actions()
 

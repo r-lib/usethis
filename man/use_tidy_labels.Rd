@@ -4,7 +4,7 @@
 \alias{use_tidy_labels}
 \alias{use_tidy_ci}
 \alias{use_tidy_eval}
-\title{Defunct tidyverse functions}
+\title{Deprecated tidyverse functions}
 \usage{
 use_tidy_labels()
 
@@ -13,11 +13,11 @@ use_tidy_ci(...)
 use_tidy_eval()
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 \itemize{
 \item \code{use_tidy_labels()} has been replaced by \code{\link[=use_tidy_github_labels]{use_tidy_github_labels()}}.
 \item \code{use_tidy_ci()} has been replaced by \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}}.
-\item \code{use_tidy_eval()} is defunct because there's no longer a need to
+\item \code{use_tidy_eval()} is deprecated because there's no longer a need to
 systematically import and re-export a large number of functions in order
 to use tidy evaluation. Instead, use \code{\link[=use_import_from]{use_import_from()}} to tactically
 import functions as you need them.

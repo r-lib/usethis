@@ -39,11 +39,6 @@
 #'   For a hypothetical GitHub Enterprise instance, either
 #'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
 #'   acceptable.
-#' @param auth_token,credentials `r lifecycle::badge("deprecated")`: No longer
-#'   consulted now that usethis uses the gert package for Git operations,
-#'   instead of git2r; gert relies on the credentials package for auth. The API
-#'   requests are now authorized with the token associated with the `host`, as
-#'   retrieved by [gh::gh_token()].
 #'
 #' @export
 #' @examples
@@ -61,16 +56,7 @@ use_github <- function(organisation = NULL,
                        private = FALSE,
                        visibility = c("public", "private", "internal"),
                        protocol = git_protocol(),
-                       host = NULL,
-                       auth_token = deprecated(),
-                       credentials = deprecated()) {
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github")
-  }
-  if (lifecycle::is_present(credentials)) {
-    deprecate_warn_credentials("use_github")
-  }
-
+                       host = NULL) {
   visibility_specified <- !missing(visibility)
   visibility <- match.arg(visibility)
   check_protocol(protocol)
@@ -197,9 +183,6 @@ use_github <- function(organisation = NULL,
 #'   an interactive session, the user can confirm which repo to use for the
 #'   links. In a noninteractive session, links are formed using `upstream`.
 #'
-#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer consulted
-#'   now that usethis consults the current project's GitHub remotes to get the
-#'   `host` and then relies on gh to discover an appropriate token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing
 #'   fields. Set to `TRUE` to overwrite existing links.
 #' @export
@@ -208,16 +191,7 @@ use_github <- function(organisation = NULL,
 #' use_github_links()
 #' }
 #'
-use_github_links <- function(auth_token = deprecated(),
-                             host = deprecated(),
-                             overwrite = FALSE) {
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_links")
-  }
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_links")
-  }
-
+use_github_links <- function(overwrite = FALSE) {
   check_is_package("use_github_links()")
 
   gh_url <- github_url_from_git_remotes()

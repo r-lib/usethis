@@ -188,15 +188,7 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = rlang::is_interactive(),
                                protocol = git_protocol(),
-                               host = NULL,
-                               auth_token = deprecated(),
-                               credentials = deprecated()) {
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("create_from_github")
-  }
-  if (lifecycle::is_present(credentials)) {
-    deprecate_warn_credentials("create_from_github")
-  }
+                               host = NULL) {
   check_protocol(protocol)
 
   parsed_repo_spec <- parse_repo_url(repo_spec)
