@@ -1,5 +1,6 @@
 test_that("use_cpp11() requires a package", {
   create_local_project()
+  local_check_installed()
   expect_usethis_error(use_cpp11(), "not an R package")
 })
 
@@ -10,6 +11,11 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 
   # pretend cpp11 is installed
   local_check_installed()
+  local_mocked_bindings(
+    check_cpp_register_deps = function() NULL
+  )
+
+
 
   use_cpp11()
   expect_match(desc::desc_get("LinkingTo"), "cpp11")
