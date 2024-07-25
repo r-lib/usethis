@@ -58,6 +58,7 @@ reference:
     - use_rmarkdown_template
     - use_spell_check
     - use_test
+    - use_test_helper
     - use_vignette
     - use_addin
     - use_citation
