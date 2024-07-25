@@ -184,7 +184,7 @@ Git/GitHub credential management is detailed in a separate article:
 
 ## Prepare your system to build packages from source
 
-As you participate more in R development, you will inevitably want to run development versions of other people's packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with `devtools::install_github("OWNER/REPO")`.
+As you participate more in R development, you will inevitably want to run development versions of other people's packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with `pak::pak("OWNER/REPO")`.
 
 But, unlike using `install.packages()` and CRAN, you will be downloading and installing a *source* package, not a *binary* package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.
 

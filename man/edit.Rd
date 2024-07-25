@@ -23,7 +23,7 @@ edit_r_makevars(scope = c("user", "project"))
 
 edit_rstudio_snippets(
   type = c("r", "markdown", "c_cpp", "css", "html", "java", "javascript", "python",
-    "sql", "stan", "tex")
+    "sql", "stan", "tex", "yaml")
 )
 
 edit_rstudio_prefs()

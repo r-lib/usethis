@@ -95,6 +95,10 @@ is_windows <- function() {
   .Platform$OS.type == "windows"
 }
 
+is_linux <- function() {
+  identical(tolower(Sys.info()[["sysname"]]), "linux")
+}
+
 # For stability of `stringsAsFactors` across versions
 data.frame <- function(..., stringsAsFactors = FALSE) {
   base::data.frame(..., stringsAsFactors = stringsAsFactors)

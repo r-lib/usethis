@@ -143,10 +143,10 @@
       ui_code_snippet(
         "\n      options(\n        warnPartialMatchArgs = TRUE,\n        warnPartialMatchDollar = TRUE,\n        warnPartialMatchAttr = TRUE\n      )")
     Message
-        [36moptions[39m[33m([39m
-          warnPartialMatchArgs = [34mTRUE[39m,
-          warnPartialMatchDollar = [34mTRUE[39m,
-          warnPartialMatchAttr = [34mTRUE[39m
+        [1moptions[22m[33m([39m
+          warnPartialMatchArgs = [35mTRUE[39m,
+          warnPartialMatchDollar = [35mTRUE[39m,
+          warnPartialMatchAttr = [35mTRUE[39m
         [33m)[39m
 
 # ui_code_snippet() with vector input [plain]
@@ -167,10 +167,10 @@
       ui_code_snippet(c("options(", "  warnPartialMatchArgs = TRUE,",
         "  warnPartialMatchDollar = TRUE,", "  warnPartialMatchAttr = TRUE", ")"))
     Message
-        [36moptions[39m[33m([39m
-          warnPartialMatchArgs = [34mTRUE[39m,
-          warnPartialMatchDollar = [34mTRUE[39m,
-          warnPartialMatchAttr = [34mTRUE[39m
+        [1moptions[22m[33m([39m
+          warnPartialMatchArgs = [35mTRUE[39m,
+          warnPartialMatchDollar = [35mTRUE[39m,
+          warnPartialMatchAttr = [35mTRUE[39m
         [33m)[39m
 
 # ui_code_snippet() when language is not R [plain]
@@ -199,7 +199,7 @@
     Code
       ui_code_snippet("if (1) {true_val} else {false_val}")
     Message
-        [31mif[39m [33m([39m[34m1[39m[33m)[39m [34mTRUE[39m [31melse[39m [33m'FALSE'[39m
+        [33mif[39m [33m([39m[35m1[39m[33m)[39m [35mTRUE[39m [33melse[39m [36m'FALSE'[39m
 
 # ui_code_snippet() can NOT interpolate [plain]
 
@@ -217,11 +217,11 @@
     Code
       ui_code_snippet("foo <- function(x){x}", interpolate = FALSE)
     Message
-        foo [32m<-[39m [31mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
+        foo [33m<-[39m [33mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
     Code
       ui_code_snippet("foo <- function(x){{x}}", interpolate = TRUE)
     Message
-        foo [32m<-[39m [31mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
+        foo [33m<-[39m [33mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
 
 # bulletize() works
 
