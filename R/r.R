@@ -97,7 +97,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 #' define test helper functions for use throughout your test suite, such as
 #' a custom expectation.
 #'
-#' @param Can be used to specify the optional "SLUG" in
+#' @param name Can be used to specify the optional "SLUG" in
 #'   `tests/testthat/helper-SLUG.R`.
 #' @seealso
 #' * [use_test()] to create a test file.

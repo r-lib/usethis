@@ -7,7 +7,7 @@
 use_test_helper(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
-\item{Can}{be used to specify the optional "SLUG" in
+\item{name}{Can be used to specify the optional "SLUG" in
 \code{tests/testthat/helper-SLUG.R}.}
 }
 \description{
