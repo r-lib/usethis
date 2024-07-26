@@ -9,6 +9,8 @@ use_test_helper(name = NULL, open = rlang::is_interactive())
 \arguments{
 \item{name}{Can be used to specify the optional "SLUG" in
 \code{tests/testthat/helper-SLUG.R}.}
+
+\item{open}{Whether to open the file for interactive editing.}
 }
 \description{
 This function creates (or opens) a test helper file, typically

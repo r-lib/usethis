@@ -99,6 +99,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 #'
 #' @param name Can be used to specify the optional "SLUG" in
 #'   `tests/testthat/helper-SLUG.R`.
+#' @inheritParams edit_file
 #' @seealso
 #' * [use_test()] to create a test file.
 #' * The testthat vignette on special files
