@@ -155,10 +155,6 @@ reference:
     - use_rstudio
     - use_rstudio_preferences
   - title: Deprecated functions
-    desc: >
-      <a href="https://lifecycle.r-lib.org/articles/stages.html">
-      <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
-      </a>
     contents:
     - git_branch_default
     - use_github_actions
