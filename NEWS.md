@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* `use_test_helper()` is a new function to create testthat helpers (@olivroy, #1822).
+* `use_test_helper()` is a new function to create a test helper file (@olivroy, #1822).
 
 * `use_cpp11()` makes it easier to update `NAMESPACE` (@pachadotdev, #1921).
 
