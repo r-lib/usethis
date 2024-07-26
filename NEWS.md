@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_test_helper()` is a new function to create a test helper file (@olivroy, #1822).
+
 * `use_cpp11()` makes it easier to update `NAMESPACE` (@pachadotdev, #1921).
 
 * `pr_merge_main()` now offers the choice to not open the files with merge conflicts (@olivroy, #1720).
