@@ -115,7 +115,7 @@ use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
 
   if (!uses_testthat()) {
     ui_abort(c(
-      "Your package must use {.pkg testthat} to use a helper file.",
+      "x" = "Your package must use {.pkg testthat} to use a helper file.",
       "_" = "Call {.run usethis::use_testthat()} to set up {.pkg testthat}."
     ))
   }
