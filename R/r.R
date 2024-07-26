@@ -90,32 +90,48 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 
 #' Create or edit a test helper file
 #'
-#' This function helps create a test helper file, namely a file named
-#'`tests/testthat/helper.R`. Test helper files are functions loaded with
-#'`devtools::load_all()` that are  helpful to run tests.
+#' This function helps create (or navigate to) a test helper file, typically
+#' `tests/testthat/helper.R`. Test helper files are executed at the
+#' beginning of every automated test run and are also executed by
+#' [`load_all()`][pkgload::load_all]. A helper file is a great place to
+#' define test helper functions for use throughout your test suite, such as
+#' a custom expectation.
 #'
-#' @inheritParams use_test
+#' @param Can be used to specify the optional "SLUG" in
+#'   `tests/testthat/helper-SLUG.R`.
 #' @seealso
-#' * [use_test()] to create tests.
+#' * [use_test()] to create a test file.
 #' * The testthat vignette on special files
-#' `vignette("special-files", package = "testthat")`.
+#'   `vignette("special-files", package = "testthat")`.
 #' @export
-use_test_helper <- function(open = rlang::is_interactive()) {
+#'
+#' @examples
+#' \dontrun{
+#' use_test_helper()
+#' use_test_helper("mocks")
+#' }
+use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
+  maybe_name(name)
+
   if (!uses_testthat()) {
     ui_abort(c(
-      "Your package must use {.pkg testthat} to create a helper file"
+      "Your package must use {.pkg testthat} to use a helper file.",
+      "_" = "Call {.run usethis::use_testthat()} to set up {.pkg testthat}."
     ))
   }
 
-  target_path <- path("tests", "testthat", "helper.R")
-  if (!file_exists(proj_path(target_path))) {
+  target_path <- proj_path(
+    path("tests", "testthat", as_test_helper_file(name))
+  )
+
+  if (!file_exists(target_path)) {
     ui_bullets(c(
-      "_" = "Add functions to the testthat helper file.",
-      "_" = "Run {.run devtools::load_all()} to load objects from helper files in
-         your environment."
+      "i" = "Test helper files are executed at the start of all automated
+             test runs.",
+      "i" = "{.run devtools::load_all()} also sources test helper files."
     ))
   }
-  edit_file(proj_path(target_path), open = open)
+  edit_file(target_path, open = open)
 
   invisible(TRUE)
 }
@@ -206,4 +222,15 @@ check_file_name <- function(name, call = caller_env()) {
 
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
+}
+
+as_test_helper_file <- function(name = NULL) {
+  file <- name %||% "helper.R"
+  if (!grepl("^helper", file)) {
+    file <- glue("helper-{file}")
+  }
+  if (path_ext(file) == "") {
+    file <- path_ext_set(file, "R")
+  }
+  unclass(file)
 }

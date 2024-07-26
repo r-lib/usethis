@@ -4,19 +4,29 @@
 \alias{use_test_helper}
 \title{Create or edit a test helper file}
 \usage{
-use_test_helper(open = rlang::is_interactive())
+use_test_helper(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
-\item{open}{Whether to open the file for interactive editing.}
+\item{Can}{be used to specify the optional "SLUG" in
+\code{tests/testthat/helper-SLUG.R}.}
 }
 \description{
-This function helps create a test helper file, namely a file named
-\code{tests/testthat/helper.R}. Test helper files are functions loaded with
-\code{devtools::load_all()} that are  helpful to run tests.
+This function helps create (or navigate to) a test helper file, typically
+\code{tests/testthat/helper.R}. Test helper files are executed at the
+beginning of every automated test run and are also executed by
+\code{\link[pkgload:load_all]{load_all()}}. A helper file is a great place to
+define test helper functions for use throughout your test suite, such as
+a custom expectation.
+}
+\examples{
+\dontrun{
+use_test_helper()
+use_test_helper("mocks")
+}
 }
 \seealso{
 \itemize{
-\item \code{\link[=use_test]{use_test()}} to create tests.
+\item \code{\link[=use_test]{use_test()}} to create a test file.
 \item The testthat vignette on special files
 \code{vignette("special-files", package = "testthat")}.
 }
