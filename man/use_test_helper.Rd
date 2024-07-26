@@ -11,7 +11,7 @@ use_test_helper(name = NULL, open = rlang::is_interactive())
 \code{tests/testthat/helper-SLUG.R}.}
 }
 \description{
-This function helps create (or navigate to) a test helper file, typically
+This function creates (or opens) a test helper file, typically
 \code{tests/testthat/helper.R}. Test helper files are executed at the
 beginning of every automated test run and are also executed by
 \code{\link[pkgload:load_all]{load_all()}}. A helper file is a great place to

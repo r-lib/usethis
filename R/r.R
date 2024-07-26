@@ -90,7 +90,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 
 #' Create or edit a test helper file
 #'
-#' This function helps create (or navigate to) a test helper file, typically
+#' This function creates (or opens) a test helper file, typically
 #' `tests/testthat/helper.R`. Test helper files are executed at the
 #' beginning of every automated test run and are also executed by
 #' [`load_all()`][pkgload::load_all]. A helper file is a great place to
