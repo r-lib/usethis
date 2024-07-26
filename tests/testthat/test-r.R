@@ -10,9 +10,28 @@ test_that("use_test() creates a test file", {
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
 
+test_that("use_test_helper() creates a helper file", {
+  create_local_package()
+
+  expect_snapshot(
+    error = TRUE,
+    use_test_helper(open = FALSE)
+  )
+  use_testthat()
+
+  use_test_helper(open = FALSE)
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(
+    use_test_helper("foo", open = FALSE)
+  )
+
+  expect_proj_file("tests", "testthat", "helper.R")
+  expect_proj_file("tests", "testthat", "helper-foo.R")
+})
+
 test_that("can use use_test() in a project", {
   create_local_project()
-  expect_error(use_test("foofy"), NA)
+  expect_no_error(use_test("foofy"))
 })
 
 # helpers -----------------------------------------------------------------
@@ -74,4 +93,14 @@ test_that("compute_active_name() standardises name", {
 # https://github.com/r-lib/usethis/issues/1863
 test_that("compute_name() accepts the declared extension", {
   expect_equal(compute_name("foo.cpp", ext = "cpp"), "foo.cpp")
+})
+
+test_that("as_test_helper_file() works", {
+  expect_equal(as_test_helper_file(), "helper.R")
+  expect_equal(as_test_helper_file("helper"), "helper.R")
+  expect_equal(as_test_helper_file("helper.R"), "helper.R")
+  expect_equal(as_test_helper_file("stuff"), "helper-stuff.R")
+  expect_equal(as_test_helper_file("helper-stuff"), "helper-stuff.R")
+  expect_equal(as_test_helper_file("stuff.R"), "helper-stuff.R")
+  expect_equal(as_test_helper_file("helper-stuff.R"), "helper-stuff.R")
 })
