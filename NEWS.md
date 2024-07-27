@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_zip()` and `use_course()` are equipped to handle a ZIP where the parent folder is implicit (@burnsal, #1961).
+
 * `use_test_helper()` is a new function to create a test helper file (@olivroy, #1822).
 
 * `use_cpp11()` makes it easier to update `NAMESPACE` (@pachadotdev, #1921).
