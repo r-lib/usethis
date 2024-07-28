@@ -123,13 +123,11 @@ use_github_action <- function(name = NULL,
   if (!is.null(readme)) {
     ui_bullets(c("_" = "Learn more at {.url {readme}}."))
   }
-  badge0 <- badge
-  badge <- badge0 %||% is_check_action(url)
-  if (badge) {
+
+  if (badge %||% is_check_action(url)) {
     use_github_actions_badge(path_file(save_as))
   }
-  badge <- badge0 %||% is_coverage_action(url)
-  if (badge) {
+  if (badge %||% is_coverage_action(url)) {
     use_codecov_badge(target_repo_spec())
   }
 
@@ -172,7 +170,7 @@ is_check_action <- function(url) {
 }
 
 is_coverage_action <- function(url) {
-  grepl("coverage", path_file(url))
+  grepl("test-coverage", path_file(url))
 }
 
 #' Generates a GitHub Actions badge
