@@ -106,27 +106,3 @@ Run `revdepcheck::cloud_details(, "exampletestr")` for more info
       ‘one-function-at-a-time.Rmd’ using ‘UTF-8’... OK
       ‘whole-package.Rmd’ using ‘UTF-8’... failed
     ```
-
-# pharmaverseadam
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/pharmaverse/pharmaverseadam
-* Source code: https://github.com/cran/pharmaverseadam
-* Date/Publication: 2024-07-01 09:30:02 UTC
-* Number of recursive dependencies: 120
-
-Run `revdepcheck::cloud_details(, "pharmaverseadam")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  7.9Mb
-      sub-directories of 1Mb or more:
-        data   7.5Mb
-    ```
-

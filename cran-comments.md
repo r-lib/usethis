@@ -6,8 +6,8 @@
 
 We checked 217 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 3 new problems
- * We failed to check 1 packages
+ * We saw 2 new problems
+ * We failed to check 0 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -24,12 +24,3 @@ Issues with CRAN packages are summarised below.
   message originating in usethis.
   That test fails because usethis's error message has changed slightly.
   I have opened an issue in exampletestr's GitHub repository.
-
-* pharmaverseadam
-  I saw the NOTE about the installed package size being large.
-  I believe this is spurious/random as I don't see how this could be related to
-  usethis.
-
-### Failed to check
-
-* scaper (NA)
