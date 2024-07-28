@@ -3,13 +3,29 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' * `git_branch_default()` has been replaced by [git_default_branch()].
+#' `git_branch_default()` has been replaced by [git_default_branch()].
 #'
 #' @keywords internal
 #' @export
 git_branch_default <- function() {
-  lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
+  lifecycle::deprecate_warn("2.1.0", "git_branch_default()", "git_default_branch()")
   git_default_branch()
+}
+
+#' Deprecated badge function
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `use_rscloud_badge()` has been replaced by [use_posit_cloud_badge()].
+#'
+#' @keywords internal
+#' @export
+use_rscloud_badge <- function(url) {
+  lifecycle::deprecate_stop(
+    "2.2.0", "use_rscloud_badge()",
+    "use_posit_cloud_badge()"
+  )
 }
 
 #' Deprecated tidyverse functions
