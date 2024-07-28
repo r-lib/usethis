@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 3.0.0
 
 ## Transition to cli package for UI
 
