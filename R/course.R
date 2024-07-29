@@ -11,13 +11,13 @@
 #' @param url Link to a ZIP file containing the materials. To reduce the chance
 #'   of typos in live settings, these shorter forms are accepted:
 #'
-#'     * GitHub repo spec: "OWNER/REPO". Equivalent to
-#'       `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
-#'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
-#'       The instructor must then arrange for the shortlink to point to a valid
-#'       download URL for the target ZIP file. The helper
-#'       [create_download_url()] helps to create such URLs for GitHub, DropBox,
-#'       and Google Drive.
+#'   * GitHub repo spec: "OWNER/REPO". Equivalent to
+#'     `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
+#'   * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+#'     The instructor must then arrange for the shortlink to point to a valid
+#'     download URL for the target ZIP file. The helper
+#'     [create_download_url()] helps to create such URLs for GitHub, DropBox,
+#'     and Google Drive.
 #' @param destdir Destination for the new folder. Defaults to the location
 #'   stored in the global option `usethis.destdir`, if defined, or to the user's
 #'   Desktop or similarly conspicuous place otherwise.
