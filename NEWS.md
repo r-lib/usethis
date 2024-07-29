@@ -71,9 +71,9 @@ Function arguments that are removed:
 * `use_standalone()` inserts an improved header that includes the code needed to
   update the standalone file (@krlmlr, #1903).
 
-* `use_release_issue()` and `use_upkeep()` behave better when the user has a
-  fork. The user is asked just once to choose between `origin` and `upstream` as
-  the target repo (#2023).
+* `use_release_issue()` and `use_upkeep_issue()` behave better when the user has
+  a fork. The user is asked just once to choose between `origin` and `upstream`
+  as the target repo (#2023).
 
 * The README templates now recommend [pak](https://pak.r-lib.org) instead of
   devtools for package installation (@olivroy, #1723).
