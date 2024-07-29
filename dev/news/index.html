@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.2.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,12 +55,15 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="3.0.0" id="usethis-300">usethis 3.0.0<a class="anchor" aria-label="anchor" href="#usethis-300"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
 <div class="section level3">
-<h3 id="transition-to-cli-package-for-ui-development-version">Transition to cli package for UI<a class="anchor" aria-label="anchor" href="#transition-to-cli-package-for-ui-development-version"></a></h3>
+<h3 id="transition-to-cli-package-for-ui-3-0-0">Transition to cli package for UI<a class="anchor" aria-label="anchor" href="#transition-to-cli-package-for-ui-3-0-0"></a></h3>
 <ul><li>The <code>ui_*()</code> functions have been marked as <a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link">superseded</a>. External users of these functions are encouraged to use the <a href="https://cli.r-lib.org/" class="external-link">cli package</a> instead. The cli package did not have the required functionality when the <code>usethis::ui_*()</code> functions were first created, but it does now and it’s the superior option. There is a cli vignette about how to make this transition: <code><a href="https://cli.r-lib.org/articles/usethis-ui.html" class="external-link">vignette("usethis-ui", package = "cli")</a></code>. usethis no longer uses the <code>ui_*()</code> functions internally, in favor of new cli-based helpers that are not exported.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecated-function-and-argument-removal-development-version">Deprecated function and argument removal<a class="anchor" aria-label="anchor" href="#deprecated-function-and-argument-removal-development-version"></a></h3>
+<h3 id="deprecated-function-and-argument-removal-3-0-0">Deprecated function and argument removal<a class="anchor" aria-label="anchor" href="#deprecated-function-and-argument-removal-3-0-0"></a></h3>
 <p>We are removing functions and arguments that were deprecated as of usethis v2.0.0, which was released in December 2020.</p>
 <p>These changes have been in place for a long time now:</p>
 <ul><li>Switch from git2r to gert (+ credentials).</li>
@@ -97,7 +100,7 @@
 <li><code>use_github_release(host =, auth_token =)</code></li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-changes-development-version">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-development-version"></a></h3>
+<h3 id="other-changes-3-0-0">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-3-0-0"></a></h3>
 <ul><li><p><code><a href="../reference/zip-utils.html">use_zip()</a></code> and <code><a href="../reference/zip-utils.html">use_course()</a></code> are equipped to handle a ZIP where the parent folder is implicit (<a href="https://github.com/burnsal" class="external-link">@burnsal</a>, <a href="https://github.com/r-lib/usethis/issues/1961" class="external-link">#1961</a>).</p></li>
 <li><p><code><a href="../reference/use_test_helper.html">use_test_helper()</a></code> is a new function to create a test helper file (<a href="https://github.com/olivroy" class="external-link">@olivroy</a>, <a href="https://github.com/r-lib/usethis/issues/1822" class="external-link">#1822</a>).</p></li>
 <li><p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> makes it easier to update <code>NAMESPACE</code> (<a href="https://github.com/pachadotdev" class="external-link">@pachadotdev</a>, <a href="https://github.com/r-lib/usethis/issues/1921" class="external-link">#1921</a>).</p></li>
