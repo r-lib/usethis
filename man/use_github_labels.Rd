@@ -10,14 +10,11 @@
 \title{Manage GitHub issue labels}
 \usage{
 use_github_labels(
-  repo_spec = deprecated(),
   labels = character(),
   rename = character(),
   colours = character(),
   descriptions = character(),
-  delete_default = FALSE,
-  host = deprecated(),
-  auth_token = deprecated()
+  delete_default = FALSE
 )
 
 use_tidy_github_labels()
@@ -31,11 +28,6 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec, host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: These
-arguments are now deprecated and will be removed in the future. Any input
-provided via these arguments is not used. The target repo, host, and auth
-token are all now determined from the current project's Git remotes.}
-
 \item{labels}{A character vector giving labels to add.}
 
 \item{rename}{A named vector with names giving old names and values giving

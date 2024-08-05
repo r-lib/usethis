@@ -71,7 +71,10 @@ use_r()
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/testing-basics.html}{testing} and
+\itemize{
+\item The \href{https://r-pkgs.org/testing-basics.html}{testing} and
 \href{https://r-pkgs.org/code.html}{R code} chapters of
 \href{https://r-pkgs.org}{R Packages}.
+\item \code{\link[=use_test_helper]{use_test_helper()}} to create a testthat helper file.
+}
 }

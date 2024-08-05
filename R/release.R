@@ -217,22 +217,11 @@ release_type <- function(version) {
 #' assume that current state (SHA of `HEAD`, package version, NEWS) is the
 #' submitted state.
 #'
-#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
-#'   consulted now that usethis allows the gh package to lookup a token based on
-#'   a URL determined from the current project's GitHub remotes.
 #' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft
 #'   release.
 #' @export
-use_github_release <- function(publish = TRUE,
-                               host = deprecated(),
-                               auth_token = deprecated()) {
+use_github_release <- function(publish = TRUE) {
   check_is_package("use_github_release()")
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_release")
-  }
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_release")
-  }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to create a release")

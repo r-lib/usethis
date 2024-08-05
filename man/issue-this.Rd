@@ -22,8 +22,8 @@ with large numbers of issues, particularly motivated by the challenges faced
 by the tidyverse team.
 \itemize{
 \item \code{issue_close_community()} closes an issue, because it's not a bug report or
-feature request, and points the author towards RStudio Community as a
-better place to discuss usage (\url{https://community.rstudio.com}).
+feature request, and points the author towards Posit Community as a
+better place to discuss usage (\url{https://forum.posit.co}).
 \item \code{issue_reprex_needed()} labels the issue with the "reprex" label and
 gives the author some advice about what is needed.
 }

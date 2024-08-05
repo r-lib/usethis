@@ -4,39 +4,72 @@ ZIP file structures
 ``` r
 devtools::load_all("~/rrr/usethis")
 #> ℹ Loading usethis
-#> x unloadNamespace("usethis") failed because another loaded package needs it
-#> ℹ Forcing unload. If you encounter problems, please restart R.
 library(fs)
 ```
 
 ## Different styles of ZIP file
 
-Examples based on foo folder found here.
+usethis has an unexported function `tidy_unzip()`, which is used under
+the hood in `use_course()` and `use_zip()`. It is a wrapper around
+`utils::unzip()` that uses some heuristics to choose a good value for
+`exdir`, which is the “the directory to extract files to.” Why do we do
+this? Because it’s really easy to *not* get the desired result when
+unpacking a ZIP archive.
+
+Common aggravations:
+
+- Instead of the unpacked files being corraled within a folder, they
+  explode as “loose parts” into the current working directory. Too
+  little nesting.
+- The unpacked files are contained in a folder, but that folder itself
+  is contained inside another folder. Too much nesting.
+
+`tidy_unzip()` tries to get the nesting just right.
+
+Why doesn’t unzipping “just work”? Because the people who make `.zip`
+files make lots of different choices when they actually create the
+archive and these details aren’t baked in, i.e. a successful roundtrip
+isn’t automatic. It usually requires some peeking inside the archive and
+adjusting the unpack options.
+
+This README documents specific `.zip` situations that we anticipate.
+
+## Explicit parent folder
+
+Consider the foo folder:
 
 ``` bash
 tree foo
-#> [01;34mfoo[00m
+#> foo
 #> └── file.txt
-#> 
-#> 0 directories, 1 file
+#>
+#> 1 directory, 1 file
 ```
 
-### Not Loose Parts, a.k.a. GitHub style
-
-This is the structure of ZIP files yielded by GitHub via links of the
-forms <https://github.com/r-lib/usethis/archive/master.zip> and
-<http://github.com/r-lib/usethis/zipball/master/>.
+Zip it up like so:
 
 ``` bash
-zip -r foo-not-loose.zip foo/
+zip -r foo-explicit-parent.zip foo/
 ```
 
-Notice that everything is packaged below one top-level directory.
+This is the type of ZIP file that we get from GitHub via links of the
+forms <https://github.com/r-lib/usethis/archive/main.zip> and
+<http://github.com/r-lib/usethis/zipball/main/>.
+
+Inspect it in the shell:
+
+``` bash
+unzip -Z1 foo-explicit-parent.zip
+#> foo/
+#> foo/file.txt
+```
+
+Or from R:
 
 ``` r
-foo_not_loose_files <- unzip("foo-not-loose.zip", list = TRUE)
+foo_files <- unzip("foo-explicit-parent.zip", list = TRUE)
 with(
-  foo_not_loose_files,
+  foo_files,
   data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>           Name dirname basename
@@ -44,30 +77,115 @@ with(
 #> 2 foo/file.txt     foo file.txt
 ```
 
-### Loose Parts, the Regular Way
+Note that the folder `foo/` is explicitly included and all of the files
+are contained in it (in this case, just one file).
 
-This is the structure of many ZIP files I’ve seen, just in general.
+## Implicit parent folder
+
+Consider the foo folder:
 
 ``` bash
-cd foo
-zip ../foo-loose-regular.zip *
-cd ..
+tree foo
+#> foo
+#> └── file.txt
+#>
+#> 1 directory, 1 file
 ```
 
-All the files are packaged in the ZIP archive as “loose parts”,
-i.e. there is no explicit top-level directory.
+Zip it up like so:
+
+``` bash
+zip -r foo-implicit-parent.zip foo/*
+```
+
+Note the use of `foo/*`, as opposed to `foo` or `foo/`. This type of ZIP
+file was reported in <https://github.com/r-lib/usethis/issues/1961>. The
+example given there is
+<https://agdatacommons.nal.usda.gov/ndownloader/files/44576230>.
+
+Inspect our small example in the shell:
+
+``` bash
+unzip -Z1 foo-implicit-parent.zip
+#> foo/file.txt
+```
+
+Or from R:
 
 ``` r
-foo_loose_regular_files <- unzip("foo-loose-regular.zip", list = TRUE)
+foo_files <- unzip("foo-implicit-parent.zip", list = TRUE)
 with(
-  foo_loose_regular_files,
+  foo_files,
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
+)
+#>           Name dirname basename
+#> 1 foo/file.txt     foo file.txt
+```
+
+Note that `foo/` is not included and its (original) existence is just
+implicit in the relative path to, e.g., `foo/file.txt`.
+
+Here’s a similar look at the example from issue \#1961:
+
+``` bash
+~/rrr/usethis/tests/testthat/ref % unzip -l ~/Downloads/Species\ v2.3.zip
+Archive:  /Users/jenny/Downloads/Species v2.3.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+     1241  04-27-2023 09:16   species_v2/label_encoder.txt
+175187560  04-06-2023 15:13   species_v2/model_arch.pt
+174953575  04-14-2023 12:28   species_v2/model_weights.pth
+---------                     -------
+350142376                     3 files
+```
+
+Note also that the implicit parent folder `species_v2` is not the base
+of the ZIP file name `Species v2.3.zip`.
+
+## No parent
+
+Consider the foo folder:
+
+``` bash
+tree foo
+#> foo
+#> └── file.txt
+#>
+#> 1 directory, 1 file
+```
+
+Zip it up like so:
+
+``` bash
+(cd foo && zip -r ../foo-no-parent.zip .)
+```
+
+Note that we are zipping everything in a folder from *inside* the
+folder.
+
+Inspect our small example in the shell:
+
+``` bash
+unzip -Z1 foo-no-parent.zip
+#> file.txt
+```
+
+Or from R:
+
+``` r
+foo_files <- unzip("foo-no-parent.zip", list = TRUE)
+with(
+  foo_files,
   data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>       Name dirname basename
 #> 1 file.txt       . file.txt
 ```
 
-### Loose Parts, the DropBox Way
+All the files are packaged in the ZIP archive as “loose parts”,
+i.e. there is no explicit or implicit top-level directory.
+
+## No parent, the DropBox Variation
 
 This is the structure of ZIP files yielded by DropBox via links of this
 form <https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1>. I can’t
@@ -77,21 +195,31 @@ with `archive::archive_write_files()`.
 
 <https://www.dropbox.com/sh/5qfvssimxf2ja58/AABz3zrpf-iPYgvQCgyjCVdKa?dl=1>
 
-It’s basically like the “loose parts” above, except it includes a
+It’s basically like the “no parent” example above, except it includes a
 spurious top-level directory `"/"`.
+
+Inspect our small example in the shell:
+
+``` bash
+unzip -Z1 foo-loose-dropbox.zip
+#> /
+#> file.txt
+```
+
+Or from R:
 
 ``` r
 # curl::curl_download(
 #   "https://www.dropbox.com/sh/5qfvssimxf2ja58/AABz3zrpf-iPYgvQCgyjCVdKa?dl=1",
 #    destfile = "foo-loose-dropbox.zip"
 # )
-foo_loose_dropbox_files <- unzip("foo-loose-dropbox.zip", list = TRUE)
+foo_files <- unzip("foo-loose-dropbox.zip", list = TRUE)
 with(
-  foo_loose_dropbox_files,
+  foo_files,
   data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>       Name dirname basename
-#> 1        /       /         
+#> 1        /       /
 #> 2 file.txt       . file.txt
 ```
 
@@ -103,72 +231,79 @@ result:
     mapname:  conversion of  failed
       inflating: file.txt
 
-So this is a pretty odd ZIP packing strategy. But we need to plan for
-it.
+which indicates some tripping over the `/`. Only `file.txt` is left
+behind.
 
-## Subdirs only at top-level
+This is a pretty odd ZIP packing strategy. But we need to plan for it.
 
-Let’s make sure we detect loose parts (or not) when the top-level has
-only directories, not files.
+## Only subdirectories
 
-Example based on the yo directory here:
+For testing purposes, we also want an example where all the files are
+inside subdirectories.
+
+Examples based on the yo directory here:
 
 ``` bash
 tree yo
-#> [01;34myo[00m
-#> ├── [01;34msubdir1[00m
+#> yo
+#> ├── subdir1
 #> │   └── file1.txt
-#> └── [01;34msubdir2[00m
+#> └── subdir2
 #>     └── file2.txt
-#> 
-#> 2 directories, 2 files
+#>
+#> 3 directories, 2 files
 ```
+
+Zip it up, in all the usual ways:
 
 ``` bash
-zip -r yo-not-loose.zip yo/
+zip -r yo-explicit-parent.zip yo/
+zip -r yo-implicit-parent.zip yo/*
+(cd yo && zip -r ../yo-no-parent.zip .)
 ```
 
-``` r
-(yo_not_loose_files <- unzip("yo-not-loose.zip", list = TRUE))
-#>                   Name Length                Date
-#> 1                  yo/      0 2018-01-11 15:48:00
-#> 2          yo/subdir1/      0 2018-01-11 15:48:00
-#> 3 yo/subdir1/file1.txt     42 2018-01-11 15:48:00
-#> 4          yo/subdir2/      0 2018-01-11 15:49:00
-#> 5 yo/subdir2/file2.txt     42 2018-01-11 15:49:00
-top_directory(yo_not_loose_files$Name)
-#> [1] "yo/"
-```
-
-``` bash
-cd yo
-zip -r ../yo-loose-regular.zip *
-cd ..
-```
-
-``` r
-(yo_loose_regular_files <- unzip("yo-loose-regular.zip", list = TRUE))
-#>                Name Length                Date
-#> 1          subdir1/      0 2018-01-11 15:48:00
-#> 2 subdir1/file1.txt     42 2018-01-11 15:48:00
-#> 3          subdir2/      0 2018-01-11 15:49:00
-#> 4 subdir2/file2.txt     42 2018-01-11 15:49:00
-top_directory(yo_loose_regular_files$Name)
-#> [1] NA
-```
+Again, I couldn’t create the DropBox variant locally, so I did it by
+downloading from DropBox.
 
 ``` r
 # curl::curl_download(
 #   "https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1",
 #    destfile = "yo-loose-dropbox.zip"
 # )
-(yo_loose_dropbox_files <- unzip("yo-loose-dropbox.zip", list = TRUE))
-#>                Name Length                Date
-#> 1                 /      0 2018-01-11 23:57:00
-#> 2 subdir1/file1.txt     42 2018-01-11 23:57:00
-#> 3 subdir2/file2.txt     42 2018-01-11 23:57:00
-#> 4          subdir1/      0 2018-01-11 23:57:00
-#> 5          subdir2/      0 2018-01-11 23:57:00
-top_directory(yo_loose_dropbox_files$Name)
-#> [1] NA
+```
+
+Inspect each in the shell:
+
+``` bash
+unzip -Z1 yo-explicit-parent.zip
+#> yo/
+#> yo/subdir2/
+#> yo/subdir2/file2.txt
+#> yo/subdir1/
+#> yo/subdir1/file1.txt
+```
+
+``` bash
+unzip -Z1 yo-implicit-parent.zip
+#> yo/subdir1/
+#> yo/subdir1/file1.txt
+#> yo/subdir2/
+#> yo/subdir2/file2.txt
+```
+
+``` bash
+unzip -Z1 yo-no-parent.zip
+#> subdir2/
+#> subdir2/file2.txt
+#> subdir1/
+#> subdir1/file1.txt
+```
+
+``` bash
+unzip -Z1 yo-loose-dropbox.zip
+#> /
+#> subdir1/file1.txt
+#> subdir2/file2.txt
+#> subdir1/
+#> subdir2/
 ```

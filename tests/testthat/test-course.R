@@ -83,27 +83,121 @@ test_that("tidy_download() works", {
 
 ## tidy_unzip ----
 
-test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
-  tmp <- file_temp(ext = ".zip")
-  fs::file_copy(test_file("yo-loose-regular.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  loose_regular_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
-  fs::dir_delete(dest)
+test_that("tidy_unzip(): explicit parent, file example", {
+  local_interactive(FALSE)
 
-  tmp <- file_temp(ext = ".zip")
-  fs::file_copy(test_file("yo-loose-dropbox.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  loose_dropbox_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
-  fs::dir_delete(dest)
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("foo-explicit-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), "foo")
 
-  tmp <- file_temp(ext = ".zip")
-  fs::file_copy(test_file("yo-not-loose.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  not_loose_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
-  fs::dir_delete(dest)
+  explicit_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_equal(explicit_parent_files, "file.txt")
+})
 
-  expect_identical(loose_regular_files, loose_dropbox_files)
-  expect_identical(loose_dropbox_files, not_loose_files)
+test_that("tidy_unzip(): explicit parent, folders example", {
+  local_interactive(FALSE)
+  files <- c("subdir1", "file1.txt", "subdir2", "file2.txt")
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("yo-explicit-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), "yo")
+
+  explicit_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(explicit_parent_files, files)
+})
+
+test_that("tidy_unzip(): implicit parent, file example", {
+  local_interactive(FALSE)
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("foo-implicit-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), "foo")
+
+  implicit_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_equal(implicit_parent_files, "file.txt")
+})
+
+test_that("tidy_unzip(): implicit parent, folders example", {
+  local_interactive(FALSE)
+  files <- c("subdir1", "file1.txt", "subdir2", "file2.txt")
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("yo-implicit-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), "yo")
+
+  implicit_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(implicit_parent_files, files)
+})
+
+test_that("tidy_unzip(): no parent, file example", {
+  local_interactive(FALSE)
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("foo-no-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), path_ext_remove(path_file(zipfile)))
+
+  no_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(no_parent_files, "file.txt")
+})
+
+test_that("tidy_unzip(): no parent, folders example", {
+  local_interactive(FALSE)
+  files <- c("subdir1", "file1.txt", "subdir2", "file2.txt")
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("yo-no-parent.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), path_ext_remove(path_file(zipfile)))
+
+  no_parent_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(no_parent_files, files)
+})
+
+test_that("tidy_unzip(): DropBox, file example", {
+  local_interactive(FALSE)
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("foo-loose-dropbox.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), path_ext_remove(path_file(zipfile)))
+
+  loose_dropbox_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(loose_dropbox_files, "file.txt")
+})
+
+test_that("tidy_unzip(): DropBox, folders example", {
+  local_interactive(FALSE)
+  files <- c("subdir1", "file1.txt", "subdir2", "file2.txt")
+
+  zipfile <- withr::local_tempfile(fileext = ".zip")
+  file_copy(test_file("yo-loose-dropbox.zip"), zipfile)
+  dest <- tidy_unzip(zipfile)
+  withr::defer(dir_delete(dest))
+  expect_equal(path_file(dest), path_ext_remove(path_file(zipfile)))
+
+  loose_dropbox_files <- path_file(dir_ls(dest, recurse = TRUE))
+  expect_setequal(loose_dropbox_files, files)
+})
+
+test_that("path_before_slash() works", {
+  expect_equal(path_before_slash(""), "")
+  expect_equal(path_before_slash("/"), "")
+  expect_equal(path_before_slash("a/"), "a")
+  expect_equal(path_before_slash("a/b"), "a")
+  expect_equal(path_before_slash("a/b/c"), "a")
+  expect_equal(path_before_slash("a/b/c/"), "a")
 })
 
 ## helpers ----
@@ -259,16 +353,4 @@ test_that("keep_lgl() keeps and drops correct files", {
     ".Rhistory", ".RData"
   )
   expect_false(any(keep_lgl(droppers)))
-})
-
-test_that("top_directory() identifies a unique top directory (or not)", {
-  ## there is >= 1 file at top-level or >1 directories
-  expect_identical(top_directory("a"), NA_character_)
-  expect_identical(top_directory(c("a/", "b")), NA_character_)
-  expect_identical(top_directory(c("a/", "b/")), NA_character_)
-
-  ## there are no files at top-level and exactly 1 directory
-  expect_identical(top_directory("a/"), "a/")
-  expect_identical(top_directory(c("a/", "a/b")), "a/")
-  expect_identical(top_directory(c("a/", "a/b", "a/c")), "a/")
 })

@@ -1,4 +1,4 @@
-# use_tidy_eval() is defunct
+# use_tidy_eval() is deprecated
 
     Code
       use_tidy_eval()

@@ -17,15 +17,15 @@ use_zip(
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. To reduce the chance
 of typos in live settings, these shorter forms are accepted:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{* GitHub repo spec: "OWNER/REPO". Equivalent to
-  `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
-* bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
-  The instructor must then arrange for the shortlink to point to a valid
-  download URL for the target ZIP file. The helper
-  [create_download_url()] helps to create such URLs for GitHub, DropBox,
-  and Google Drive.
-}\if{html}{\out{</div>}}}
+\itemize{
+\item GitHub repo spec: "OWNER/REPO". Equivalent to
+\verb{https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip}.
+\item bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+The instructor must then arrange for the shortlink to point to a valid
+download URL for the target ZIP file. The helper
+\code{\link[=create_download_url]{create_download_url()}} helps to create such URLs for GitHub, DropBox,
+and Google Drive.
+}}
 
 \item{destdir}{Destination for the new folder. Defaults to the location
 stored in the global option \code{usethis.destdir}, if defined, or to the user's

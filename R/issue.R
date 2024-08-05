@@ -7,8 +7,8 @@
 #' by the tidyverse team.
 #'
 #' * `issue_close_community()` closes an issue, because it's not a bug report or
-#'   feature request, and points the author towards RStudio Community as a
-#'   better place to discuss usage (<https://community.rstudio.com>).
+#'   feature request, and points the author towards Posit Community as a
+#'   better place to discuss usage (<https://forum.posit.co>).
 #'
 #' * `issue_reprex_needed()` labels the issue with the "reprex" label and
 #'   gives the author some advice about what is needed.

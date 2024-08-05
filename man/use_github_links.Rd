@@ -4,17 +4,9 @@
 \alias{use_github_links}
 \title{Use GitHub links in URL and BugReports}
 \usage{
-use_github_links(
-  auth_token = deprecated(),
-  host = deprecated(),
-  overwrite = FALSE
-)
+use_github_links(overwrite = FALSE)
 }
 \arguments{
-\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer consulted
-now that usethis consults the current project's GitHub remotes to get the
-\code{host} and then relies on gh to discover an appropriate token.}
-
 \item{overwrite}{By default, \code{use_github_links()} will not overwrite existing
 fields. Set to \code{TRUE} to overwrite existing links.}
 }

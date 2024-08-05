@@ -11,9 +11,7 @@ create_from_github(
   rstudio = NULL,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
-  host = NULL,
-  auth_token = deprecated(),
-  credentials = deprecated()
+  host = NULL
 )
 }
 \arguments{
@@ -69,12 +67,6 @@ variable.
 For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.}
-
-\item{auth_token, credentials}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
-consulted now that usethis uses the gert package for Git operations,
-instead of git2r; gert relies on the credentials package for auth. The API
-requests are now authorized with the token associated with the \code{host}, as
-retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 Creates a new local project and Git repository from a repo on GitHub, by
