@@ -18,9 +18,9 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
-#' @param version The serialization format version to use. The default, 2, was
-#'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
-#'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
+#' @param version The serialization format version to use. The default, 3, can
+#'   only be read by R versions 3.5.0 and higher. For R 1.4.0 to 3.5.3, use
+#'   version 2.
 #' @inheritParams base::save
 #'
 #' @seealso The [data chapter](https://r-pkgs.org/data.html) of [R
