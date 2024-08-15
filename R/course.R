@@ -13,7 +13,7 @@
 #'
 #'   * GitHub repo spec: "OWNER/REPO". Equivalent to
 #'     `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
-#'   * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+#'   * bit.ly, pos.it, or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz", "pos.it/foofy" or "rstd.io/foofy".
 #'     The instructor must then arrange for the shortlink to point to a valid
 #'     download URL for the target ZIP file. The helper
 #'     [create_download_url()] helps to create such URLs for GitHub, DropBox,
@@ -492,7 +492,7 @@ normalize_url <- function(url) {
 }
 
 is_shortlink <- function(url) {
-  shortlink_hosts <- c("rstd\\.io", "bit\\.ly")
+  shortlink_hosts <- c("rstd\\.io", "bit\\.ly", "pos\\.it")
   any(map_lgl(shortlink_hosts, grepl, x = url))
 }
 
