@@ -63,11 +63,11 @@ use_dependency <- function(package, type, min_version = NULL) {
              {.field {existing_type}} in DESCRIPTION; no change made."
     ))
   } else if (delta == 0 && version_spec(version) != version_spec(existing_version)) {
-    # change version
     if (version_spec(version) > version_spec(existing_version)) {
       direction <- "Increasing"
+    } else {
+      direction <- "Decreasing"
     }
-    else direction <- "Decreasing"
 
     ui_bullets(c(
       "v" = "{.drn {direction}} {.pkg {package}} version to {.val {version}} in
