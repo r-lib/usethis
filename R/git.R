@@ -357,7 +357,8 @@ git_sitrep <- function(tool = c("git", "github"),
     if (!vaccinated) {
       ui_bullets(c("i" = "See {.fun usethis::git_vaccinate} to learn more."))
     }
-    kv_line("Default Git protocol", git_protocol())
+    protocol <- suppressMessages(git_protocol())
+    kv_line("Default Git protocol", protocol)
     kv_line("Default initial branch name", init_default_branch)
   }
 
