@@ -1,5 +1,19 @@
+test_that("checks uncommitted files", {
+  create_local_package()
+  expect_error(rename_files("foo", "bar"), class = "usethis_error")
+
+  git_init()
+  use_r("foo", open = FALSE)
+  expect_error(
+    rename_files("foo", "bar"),
+    "uncommitted changes",
+    class = "usethis_error"
+  )
+})
+
 test_that("renames R and test and snapshot files", {
   create_local_package()
+  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
   git_init()
 
   use_r("foo", open = FALSE)
@@ -18,6 +32,7 @@ test_that("renames R and test and snapshot files", {
 
 test_that("renames src/ files", {
   create_local_package()
+  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
   git_init()
 
   use_src()
@@ -35,6 +50,7 @@ test_that("renames src/ files", {
 
 test_that("strips context from test file", {
   create_local_package()
+  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
   git_init()
 
   use_testthat()
@@ -54,6 +70,7 @@ test_that("strips context from test file", {
 
 test_that("rename paths in test file", {
   create_local_package()
+  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
   git_init()
 
   use_testthat()

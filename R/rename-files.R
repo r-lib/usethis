@@ -16,6 +16,12 @@
 #' @export
 rename_files <- function(old, new) {
   check_uses_git()
+  challenge_uncommitted_changes(
+    msg = "
+    There are uncommitted changes and we're about to bulk-rename files. It is \\
+    highly recommended to get into a clean Git state before bulk-editing files",
+    untracked = TRUE
+  )
 
   old <- path_ext_remove(old)
   new <- path_ext_remove(new)
