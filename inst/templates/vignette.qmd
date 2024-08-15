@@ -1,20 +1,18 @@
 ---
 title: "{{{ vignette_title }}}"
 format: html
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: "#>"
 vignette: >
-  %\VignetteIndexEntry{Vignette's Title}
+  %\VignetteIndexEntry{{{ braced_vignette_title }}}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
+```{r}
+#| label: setup
 library({{Package}})
 ```
 
