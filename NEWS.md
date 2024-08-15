@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_data()` now uses serialization version 3 by default. (@laurabrianna, #2044)
+
 # usethis 3.0.0
 
 ## Transition to cli package for UI
