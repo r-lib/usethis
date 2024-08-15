@@ -85,7 +85,7 @@ test_that("rename paths in test file", {
 
 test_that("does not remove non-R dots in filename", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
+  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
   git_init()
 
   file_create(proj_path("R/foo.bar.R"))
