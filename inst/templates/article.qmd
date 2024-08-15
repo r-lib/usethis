@@ -1,6 +1,10 @@
 ---
 title: "{{{ vignette_title }}}"
 format: html
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: "#>"
 ---
 
 ```{r, include = FALSE}

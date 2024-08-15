@@ -37,7 +37,6 @@ use_vignette <- function(name, title = name, type = c("rmarkdown", "quarto")) {
     proj_desc_field_update("VignetteBuilder", "quarto", overwrite = FALSE)
     use_vignette_template("vignette.qmd", name, title)
     use_build_ignore("vignettes/*_files")
-    #use_git_ignore("*_files", "vignettes/")
   }
   use_git_ignore("inst/doc")
 
@@ -87,7 +86,7 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
   # make sure nothing else is caught. (this should be assured as `.` are not allowed.)
   vignette_ext <- path_ext(template)
   arg_match0(vignette_ext, c("qmd", "Rmd"))
-  if (vignette_ext == "qmd") {
+  if (vignette_ext == "qmd" && uses_git()) {
     # https://quarto-dev.github.io/quarto-r/articles/hello.html
     use_git_ignore("*_files", directory = "vignettes")
   }
