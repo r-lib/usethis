@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* Reverse dependency checks are only suggested if they exist 
+  (#1817, @seankross).
+
 # usethis 3.0.0
 
 ## Transition to cli package for UI
