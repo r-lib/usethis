@@ -38,7 +38,7 @@ use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
                      compress = "bzip2",
-                     version = 2,
+                     version = 3,
                      ascii = FALSE) {
   check_is_package("use_data()")
 

@@ -10,7 +10,7 @@ use_data(
   internal = FALSE,
   overwrite = FALSE,
   compress = "bzip2",
-  version = 2,
+  version = 3,
   ascii = FALSE
 )
 
