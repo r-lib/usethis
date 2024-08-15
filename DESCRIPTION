@@ -48,6 +48,7 @@ Suggests:
     knitr,
     magick,
     pkgload (>= 1.3.2.1),
+    quarto,
     rmarkdown,
     roxygen2 (>= 7.1.2),
     spelling (>= 1.2),
