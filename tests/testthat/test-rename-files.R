@@ -82,3 +82,13 @@ test_that("rename paths in test file", {
   lines <- read_utf8(proj_path("tests", "testthat", "test-bar.R"))
   expect_equal(lines, "test-bar.txt")
 })
+
+test_that("does not remove non-R dots in filename", {
+  create_local_package()
+  local_mocked_bindings(challenge_uncommitted_changes = \(...) invisible())
+  git_init()
+
+  file_create(proj_path("R/foo.bar.R"))
+  rename_files("foo.bar", "baz.qux")
+  expect_proj_file("R/baz.qux.R")
+})
