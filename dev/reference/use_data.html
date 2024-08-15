@@ -71,7 +71,7 @@ recommend you save scripts that generate package data in <code>data-raw</code>: 
 <span>  internal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  compress <span class="op">=</span> <span class="st">"bzip2"</span>,</span>
-<span>  version <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  version <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  ascii <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -108,9 +108,9 @@ Should be one of "gzip", "bzip2", or "xz".</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
-<dd><p>The serialization format version to use. The default, 2, was
-the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
-R 3.6.0 and can only be read by R versions 3.5.0 and higher.</p></dd>
+<dd><p>The serialization format version to use. The default, 3, can
+only be read by R versions 3.5.0 and higher. For R 1.4.0 to 3.5.3, use
+version 2.</p></dd>
 
 
 <dt id="arg-ascii">ascii<a class="anchor" aria-label="anchor" href="#arg-ascii"></a></dt>
