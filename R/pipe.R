@@ -1,7 +1,7 @@
 #' Use magrittr's pipe in your package
 #'
 #' Does setup necessary to use magrittr's pipe operator, `%>%` in your package.
-#' This function requires the use roxygen.
+#' This function requires the use of \pkg{roxygen2}.
 #' * Adds magrittr to "Imports" in `DESCRIPTION`.
 #' * Imports the pipe operator specifically, which is necessary for internal
 #'   use.
