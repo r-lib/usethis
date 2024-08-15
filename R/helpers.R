@@ -70,7 +70,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     }
 
     ui_bullets(c(
-      "v" = "{.drn {direction}} {.pkg {package}} version to {.val {version}} in
+      "v" = "{direction} {.pkg {package}} version to {.val {version}} in
              DESCRIPTION."
     ))
     desc$set_dep(package, type, version = version)
