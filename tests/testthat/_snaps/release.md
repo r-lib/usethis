@@ -38,7 +38,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 ---
 
@@ -106,7 +106,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 # construct correct revdep bullet
 
@@ -162,5 +162,5 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 

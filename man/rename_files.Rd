@@ -7,7 +7,7 @@
 rename_files(old, new)
 }
 \arguments{
-\item{old, new}{Old and new file names (with or without extensions).}
+\item{old, new}{Old and new file names (with or without \code{.R} extensions).}
 }
 \description{
 \itemize{

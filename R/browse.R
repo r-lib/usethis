@@ -9,7 +9,6 @@
 #'   DESCRIPTION file is sought first in the local package library and then
 #'   on CRAN.
 #' * Fixed templates:
-#'   - Travis CI: `https://travis-ci.{EXT}/{OWNER}/{PACKAGE}`
 #'   - Circle CI: `https://circleci.com/gh/{OWNER}/{PACKAGE}`
 #'   - CRAN landing page: `https://cran.r-project.org/package={PACKAGE}`
 #'   - GitHub mirror of a CRAN package: `https://github.com/cran/{PACKAGE}`
@@ -29,8 +28,6 @@
 #'   issue.
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #'   specific pull request.
-#' * `browse_travis()`: Visits the project's page on
-#'   [Travis CI](https://www.travis-ci.com/).
 #' * `browse_circleci()`: Visits the project's page on
 #'   [Circle CI](https://circleci.com).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.

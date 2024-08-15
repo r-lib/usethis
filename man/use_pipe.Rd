@@ -13,7 +13,7 @@ roxygen directive is added, if possible, or otherwise instructions are given.}
 }
 \description{
 Does setup necessary to use magrittr's pipe operator, \verb{\%>\%} in your package.
-This function requires the use roxygen.
+This function requires the use of \pkg{roxygen2}.
 \itemize{
 \item Adds magrittr to "Imports" in \code{DESCRIPTION}.
 \item Imports the pipe operator specifically, which is necessary for internal

@@ -8,6 +8,6 @@
       i Badge link will only be printed to screen.
       [ ] Copy and paste the following lines into 'README':
         <!-- badges: start -->
-        [![Codecov test coverage](https://codecov.io/gh/OWNER/REPO/graph/badge.svg)](https://codecov.io/gh/OWNER/REPO)
+        [![Codecov test coverage](https://codecov.io/gh/OWNER/REPO/graph/badge.svg)](https://app.codecov.io/gh/OWNER/REPO)
         <!-- badges: end -->
 

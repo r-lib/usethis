@@ -532,6 +532,7 @@ pr_forget <- function() pr_clean(mode = "forget")
 pr_clean <- function(number = NULL,
                      target = c("source", "primary"),
                      mode = c("finish", "forget")) {
+  withr::defer(rstudio_git_tickle())
   mode <- match.arg(mode)
   repo <- git_repo()
   tr <- target_repo(github_get = NA, role = target, ask = FALSE)
@@ -967,7 +968,7 @@ pr_branch_delete <- function(pr) {
 
   if (is.null(pr_ref)) {
     ui_bullets(c(
-      "i" = "PR {.val {pr$pr_string}} originated from branch {.val {pr_remref}},
+      "i" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} originated from branch {.val {pr_remref}},
              which no longer exists."
     ))
     return(invisible(FALSE))
@@ -975,14 +976,14 @@ pr_branch_delete <- function(pr) {
 
   if (is.na(pr$pr_merged_at)) {
     ui_bullets(c(
-      "i" = "PR {.val {pr$pr_string}} is unmerged, we will not delete the
+      "i" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} is unmerged, we will not delete the
              remote branch {.val {pr_remref}}."
     ))
     return(invisible(FALSE))
   }
 
   ui_bullets(c(
-    "v" = "PR {.val {pr$pr_string}} has been merged, deleting remote branch
+    "v" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} has been merged, deleting remote branch
            {.val {pr_remref}}."
   ))
   # TODO: tryCatch here?

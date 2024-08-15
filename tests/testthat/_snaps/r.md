@@ -1,3 +1,21 @@
+# use_test_helper() creates a helper file
+
+    Code
+      use_test_helper(open = FALSE)
+    Condition
+      Error in `use_test_helper()`:
+      x Your package must use testthat to use a helper file.
+      Call `usethis::use_testthat()` to set up testthat.
+
+---
+
+    Code
+      use_test_helper("foo", open = FALSE)
+    Message
+      i Test helper files are executed at the start of all automated test runs.
+      i `devtools::load_all()` also sources test helper files.
+      [ ] Edit 'tests/testthat/helper-foo.R'.
+
 # compute_name() errors if no RStudio
 
     Code
