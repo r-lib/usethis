@@ -301,7 +301,7 @@ tidy_label_descriptions <- function() {
     "good first issue :heart:" = "good issue for first-time contributors",
     "help wanted :heart:" = "we'd love your help!",
     "breaking change :skull_and_crossbones:" = "API change likely to affect existing code",
-    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day rstd.io/tidy-dev-day"
+    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day"
   )
 }
 
