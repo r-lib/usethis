@@ -11,13 +11,13 @@
 #' @param url Link to a ZIP file containing the materials. To reduce the chance
 #'   of typos in live settings, these shorter forms are accepted:
 #'
-#'     * GitHub repo spec: "OWNER/REPO". Equivalent to
-#'       `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
-#'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
-#'       The instructor must then arrange for the shortlink to point to a valid
-#'       download URL for the target ZIP file. The helper
-#'       [create_download_url()] helps to create such URLs for GitHub, DropBox,
-#'       and Google Drive.
+#'   * GitHub repo spec: "OWNER/REPO". Equivalent to
+#'     `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
+#'   * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+#'     The instructor must then arrange for the shortlink to point to a valid
+#'     download URL for the target ZIP file. The helper
+#'     [create_download_url()] helps to create such URLs for GitHub, DropBox,
+#'     and Google Drive.
 #' @param destdir Destination for the new folder. Defaults to the location
 #'   stored in the global option `usethis.destdir`, if defined, or to the user's
 #'   Desktop or similarly conspicuous place otherwise.
@@ -360,15 +360,15 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   ## DropBox ZIP files often include lots of hidden R, RStudio, and Git files
   filenames <- filenames[keep_lgl(filenames)]
 
-  td <- top_directory(filenames)
-  loose_parts <- is.na(td)
-
-  if (loose_parts) {
+  parents <- path_before_slash(filenames)
+  unique_parents <- unique(parents)
+  if (length(unique_parents) == 1 && unique_parents != "") {
+    target <- path(base_path, unique_parents)
+    utils::unzip(zipfile, files = filenames, exdir = base_path)
+  } else {
+    # there is no parent; archive contains loose parts
     target <- path_ext_remove(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
-  } else {
-    target <- path(base_path, td)
-    utils::unzip(zipfile, files = filenames, exdir = base_path)
   }
   ui_bullets(c(
     "v" = "Unpacking ZIP file into {.path {pth(target, base_path)}}
@@ -398,7 +398,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
     }
   }
 
-  invisible(target)
+  invisible(unclass(target))
 }
 
 #' @rdname use_course_details
@@ -525,15 +525,17 @@ keep_lgl <- function(file,
   !grepl(ignores, file, perl = TRUE)
 }
 
-top_directory <- function(filenames) {
-  in_top <- path_dir(filenames) == "."
-  unique_top <- unique(filenames[in_top])
-  is_directory <- grepl("/$", unique_top)
-  if (length(unique_top) > 1 || !is_directory) {
-    NA_character_
-  } else {
-    unique_top
+path_before_slash <- function(filepath) {
+  f <- function(x) {
+    parts <- strsplit(x, "/", fixed = TRUE)[[1]]
+    if (length(parts) > 1 || grepl("/", x)) {
+      parts[1]
+    } else {
+      ""
+    }
   }
+  purrr::map_chr(filepath, f)
+
 }
 
 content_type <- function(h) {

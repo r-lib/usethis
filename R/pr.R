@@ -532,6 +532,7 @@ pr_forget <- function() pr_clean(mode = "forget")
 pr_clean <- function(number = NULL,
                      target = c("source", "primary"),
                      mode = c("finish", "forget")) {
+  withr::defer(rstudio_git_tickle())
   mode <- match.arg(mode)
   repo <- git_repo()
   tr <- target_repo(github_get = NA, role = target, ask = FALSE)

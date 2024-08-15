@@ -19,8 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![.github/workflows/R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/.github/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis)
+[![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise during project setup and development, both for R packages and non-package projects.
