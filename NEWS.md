@@ -4,7 +4,7 @@
 
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
-  file (@JosiahParry, #1957).
+  file (@jplecavalier, #1957).
   
 * `use_data()` now uses serialization version 3 by default. (@laurabrianna, #2044)
 
