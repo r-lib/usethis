@@ -5,6 +5,9 @@
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
   file (@JosiahParry, #1957).
+  
+* Reverse dependency checks are only suggested if they exist 
+  (#1817, @seankross).
 
 # usethis 3.0.0
 

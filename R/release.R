@@ -147,8 +147,14 @@ gh_milestone_number <- function(target_repo, version, state = "open") {
   numbers[match(paste0("v", version), titles)]
 }
 
+# Get revdeps for current package
+get_revdeps <- function() {
+  pkg <- proj_desc()$get_field("Package")
+  tools::package_dependencies(pkg, which = "all", reverse = TRUE)[[pkg]]
+}
+
 release_revdepcheck <- function(on_cran = TRUE, is_posit_pkg = TRUE, env = NULL) {
-  if (!on_cran) {
+  if (!on_cran || length(get_revdeps()) == 0) {
     return()
   }
 
