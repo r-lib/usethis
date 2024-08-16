@@ -2,6 +2,9 @@
 
 ## Bug fixes and minor improvements
 
+* `use_readme_rmd()` now adds the pre-commit hook for making sure README.Rmd
+  was knited before commit (@jplecavalier, #2035).
+
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
   file (@jplecavalier, #1957).

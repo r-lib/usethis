@@ -48,6 +48,13 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
     github_spec = repo_spec
   )
 
+  if (uses_git()) {
+    use_git_hook(
+      "pre-commit",
+      render_template("readme-rmd-pre-commit.sh")
+    )
+  }
+
   new <- use_template(
     if (is_pkg) "package-README" else "project-README",
     "README.Rmd",
@@ -63,13 +70,6 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
     ui_bullets(c(
       "_" = "Update {.path {pth('README.Rmd')}} to include installation instructions."
     ))
-  }
-
-  if (uses_git()) {
-    use_git_hook(
-      "pre-commit",
-      render_template("readme-rmd-pre-commit.sh")
-    )
   }
 
   invisible(TRUE)
