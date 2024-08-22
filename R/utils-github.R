@@ -193,7 +193,7 @@ github_remotes <- function(these = c("origin", "upstream"),
   # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
   # 2. If so, did we call it with auth? Means we know if we can push.
   grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
-  if (isTRUE(github_get) && any(!grl$github_got)) {
+  if (isTRUE(github_get) && !all(grl$github_got)) {
     oops <- which(!grl$github_got)
     oops_remotes <- grl$remote[oops]
     oops_hosts <- unique(grl$host[oops])

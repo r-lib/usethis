@@ -247,7 +247,7 @@ as_version_info_row <- function(field, error_call = caller_env()) {
 
   ver <- strsplit(ver, " ")[[1]]
 
-  if (!is_character(ver, n = 2) || any(is.na(ver)) || !all(nzchar(ver))) {
+  if (!is_character(ver, n = 2) || anyNA(ver) || !all(nzchar(ver))) {
     cli::cli_abort(
       c(
         "Can't parse version `{field}` in `imports:` field.",

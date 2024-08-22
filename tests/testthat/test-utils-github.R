@@ -11,7 +11,7 @@ test_that("parse_github_remotes() works, on named list or named character", {
     bitbucket2 = "git@bitbucket.org:OWNER/REPO.git"
   )
   parsed <- parse_github_remotes(urls)
-  expect_equal(parsed$name, names(urls))
+  expect_named(urls, parsed$name)
   expect_equal(unique(parsed$repo_owner), "OWNER")
   expect_equal(
     parsed$host,

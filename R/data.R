@@ -92,7 +92,7 @@ get_objs_from_dots <- function(.dots) {
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
-  if (any(!is_name)) {
+  if (!all(is_name)) {
     ui_abort("Can only save existing named objects.")
   }
 
