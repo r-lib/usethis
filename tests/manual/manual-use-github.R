@@ -59,7 +59,7 @@ expect_match(desc::desc_get_field("BugReports"), BugReports)
 
 # remove the GitHub links
 desc::desc_del(c("BugReports", "URL"))
-expect_true(all(!desc::desc_has_fields(c("BugReports", "URL"))))
+expect_true(!any(desc::desc_has_fields(c("BugReports", "URL"))))
 
 # restore the GitHub links
 # should see a warning that `host` is deprecated and ignored
