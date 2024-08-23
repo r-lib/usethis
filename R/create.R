@@ -2,13 +2,15 @@
 #'
 #' @description
 #' These functions create an R project:
-#'   * `create_package()` creates an R package
+#'   * `create_package()` creates an R package.
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
-#'   project
-#'   * `create_quarto_project()` creates a Quarto project
+#'     project.
+#'   * `create_quarto_project()` creates a Quarto project. It is a simplified
+#'     convenience wrapper around [quarto::quarto_create_project()], which you
+#'     should call directly for more advanced usage.
 #'
-#' Both functions can be called on an existing project; you will be asked before
-#' any existing files are changed.
+#' These functions can be called on an existing project; you will be asked
+#' before any existing files are changed.
 #'
 #' @inheritParams use_description
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
@@ -29,9 +31,8 @@
 #'   * If using RStudio desktop, the package is opened in a new session.
 #'   * If on RStudio server, the current RStudio project is activated.
 #'   * Otherwise, the working directory and active project is changed.
-#' @param ... pass quarto_create_project aditional arguments.
-#' @param name name for quarto project folder
-#' @return Path to the newly created project or package, invisibly.
+#' @returns Path to the newly created project or package,
+#'   invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
 #'   development conventions as possible.
@@ -115,12 +116,42 @@ create_project <- function(path,
 
 #' @rdname create_package
 #' @export
-create_quarto_project <- function(name, ...) {
+create_quarto_project <- function(path,
+                                  type = "default",
+                                  rstudio = rstudioapi::isAvailable(),
+                                  open = rlang::is_interactive()) {
+  browser()
+  check_installed("quarto")
 
-  rlang::check_installed("quarto", reason = "to use `quarto_create_project()`")
+  path <- user_path_prep(path)
+  parent_dir <- path_dir(path)
+  check_path_is_directory(parent_dir)
 
-  quarto::quarto_create_project(name = name, ...)
+  # why do I call path_abs() here?
+  name <- path_file(path_abs(path))
+  challenge_nested_project(parent_dir, name)
+  challenge_home_directory(path)
 
+  create_directory(path)
+  local_project(path, force = TRUE)
+
+  res <- quarto::quarto_create_project(
+    name = name,
+    dir = parent_dir,
+    type = type,
+    no_prompt = TRUE,
+    quiet = getOption("usethis.quiet", default = FALSE)
+  )
+
+  if (open) {
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
+    }
+  }
+
+  invisible(proj_get())
 }
 
 #' Create a project from a GitHub repo
@@ -394,5 +425,3 @@ challenge_home_directory <- function(path) {
   }
   invisible()
 }
-
-
