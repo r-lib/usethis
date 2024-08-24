@@ -27,3 +27,4 @@ its type, class, dimensions (rows and columns), and a placeholder for each
 variable's description. This description is formatted as a string that could
 be used directly in R documentation files or other descriptive materials.
 }
+\keyword{internal}

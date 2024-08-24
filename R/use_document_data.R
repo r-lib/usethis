@@ -64,6 +64,7 @@ use_document_data <- function(.data, path = ".", overwrite = FALSE,
 #'         for the data set. This includes the data set's basic information and
 #'         placeholders for detailed descriptions of each variable.
 #'
+#' @keywords internal
 #'
 create_data_description <- function(dataset, name, description, source) {
   data_info <- generate_data_info(dataset)
