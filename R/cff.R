@@ -2,8 +2,7 @@
 #'
 #' `use_cff()` ...
 #'
-#' @seealso The [data chapter](https://r-pkgs.org/data.html) of [R
-#'   Packages](https://r-pkgs.org).
+#' @seealso The Turing way [tutorial on CFF](https://book.the-turing-way.org/communication/citable/citable-cffinit.html).
 #' @export
 #' @examples
 #' \dontrun{
