@@ -12,13 +12,19 @@
 #' This is a potentially dangerous operation, so you must be using Git in
 #' order to use this function.
 #'
-#' @param old,new Old and new file names (with or without extensions).
+#' @param old,new Old and new file names (with or without `.R` extensions).
 #' @export
 rename_files <- function(old, new) {
   check_uses_git()
+  challenge_uncommitted_changes(
+    msg = "
+    There are uncommitted changes and we're about to bulk-rename files. It is \\
+    highly recommended to get into a clean Git state before bulk-editing files",
+    untracked = TRUE
+  )
 
-  old <- path_ext_remove(old)
-  new <- path_ext_remove(new)
+  old <- sub("\\.R$", "", old)
+  new <- sub("\\.R$", "", new)
 
   # R/ ------------------------------------------------------------------------
   r_old_path <- proj_path("R", old, ext = "R")

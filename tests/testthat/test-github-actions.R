@@ -102,10 +102,6 @@ test_that("use_github_action() accepts a name", {
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
 
-  yml <- yaml::yaml.load_file(proj_path(".github/workflows/R-CMD-check.yaml"))
-  expect_identical(yml$name, "R-CMD-check")
-  expect_named(yml$jobs, "R-CMD-check")
-
   readme_lines <- read_utf8(proj_path("README.md"))
   expect_match(readme_lines, "R-CMD-check", all = FALSE)
 
@@ -129,9 +125,6 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
 
   yml <- yaml::yaml.load_file(proj_path(".github/workflows/R-CMD-check.yaml"))
-  expect_identical(yml$name, "R-CMD-check")
-  expect_named(yml$jobs, "R-CMD-check")
-
   size_build_matrix <-
     length(yml[["jobs"]][["R-CMD-check"]][["strategy"]][["matrix"]][["config"]])
   expect_gte(size_build_matrix, 6) # release, r-devel, 4 previous versions

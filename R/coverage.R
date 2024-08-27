@@ -44,9 +44,8 @@ use_covr_ignore <- function(files) {
 }
 
 use_codecov_badge <- function(repo_spec) {
-  default_branch <- git_default_branch()
-  url <- glue("https://app.codecov.io/gh/{repo_spec}?branch={default_branch}")
-  img <- glue("https://codecov.io/gh/{repo_spec}/branch/{default_branch}/graph/badge.svg")
+  url <- glue("https://app.codecov.io/gh/{repo_spec}")
+  img <- glue("https://codecov.io/gh/{repo_spec}/graph/badge.svg")
   use_badge("Codecov test coverage", url, img)
 }
 

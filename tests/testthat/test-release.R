@@ -5,6 +5,10 @@ test_that("release bullets don't change accidentally", {
   withr::local_options(usethis.description = NULL)
   create_local_package()
 
+  local_mocked_bindings(
+    get_revdeps = function() "usethis"
+  )
+
   # First release
   expect_snapshot(
     writeLines(release_checklist("0.1.0", on_cran = FALSE)),
@@ -52,6 +56,10 @@ test_that("construct correct revdep bullet", {
   create_local_package()
   env <- env(release_extra_revdeps = function() c("waldo", "testthat"))
 
+  local_mocked_bindings(
+    get_revdeps = function() "usethis"
+  )
+
   expect_snapshot({
     release_revdepcheck(on_cran = FALSE)
     release_revdepcheck(on_cran = TRUE, is_posit_pkg = FALSE)
@@ -64,7 +72,8 @@ test_that("RStudio-ness detection works", {
   withr::local_options(usethis.description = NULL)
   create_local_package()
   local_mocked_bindings(
-    tidy_minimum_r_version = function() numeric_version("3.6")
+    tidy_minimum_r_version = function() numeric_version("3.6"),
+    get_revdeps = function() "usethis"
   )
 
   expect_false(is_posit_pkg())
@@ -85,6 +94,37 @@ test_that("RStudio-ness detection works", {
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),
     transform = scrub_testpkg
   )
+})
+
+test_that("can find milestone numbers", {
+  skip_if_offline("github.com")
+
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+
+  expect_equal(
+    gh_milestone_number(tr, "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number(tr, "0.0.0", state = "all"),
+    NA_integer_
+  )
+})
+
+test_that("gh_milestone_number() returns NA when gh() errors", {
+  local_mocked_bindings(
+    gh_tr = function(tr) { function(endpoint, ...) { ui_abort("nope!") } }
+  )
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+  expect_true(is.na(gh_milestone_number(tr, "1.1.1")))
 })
 
 # news --------------------------------------------------------------------
@@ -125,19 +165,6 @@ test_that("returns empty string if no bullets", {
     "# Heading"
   )
   expect_equal(news_latest(lines), "")
-})
-
-test_that("can find milestone numbers", {
-  skip_if_offline("github.com")
-
-  expect_equal(
-    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
-    8
-  )
-  expect_equal(
-    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
-    NA_integer_
-  )
 })
 
 # draft release ----------------------------------------------------------------
@@ -226,4 +253,18 @@ test_that("default_cran_mirror() is respects set value but falls back to cloud",
 
   withr::local_options(repos = c())
   expect_equal(default_cran_mirror(), c(CRAN = "https://cloud.r-project.org"))
+})
+
+test_that("no revdep release bullets when there are no revdeps", {
+  withr::local_options(usethis.description = NULL)
+  create_local_package()
+
+  local_mocked_bindings(
+    get_revdeps = function() NULL
+  )
+
+  expect_snapshot(
+    writeLines(release_checklist("1.0.0", on_cran = TRUE)),
+    transform = scrub_testpkg
+  )
 })

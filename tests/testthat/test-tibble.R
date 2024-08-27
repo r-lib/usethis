@@ -3,7 +3,7 @@ test_that("use_tibble() requires a package", {
   expect_usethis_error(use_tibble(), "not an R package")
 })
 
-test_that("use_tibble() Imports tibble", {
+test_that("use_tibble() Imports tibble and imports tibble::tibble()", {
   create_local_package()
 
   withr::local_options(list(usethis.quiet = FALSE))
@@ -18,4 +18,7 @@ test_that("use_tibble() Imports tibble", {
   )
 
   expect_match(proj_desc()$get("Imports"), "tibble")
+
+  pkg_doc <- readLines(package_doc_path())
+  expect_match(pkg_doc, "#' @importFrom tibble tibble", all = FALSE)
 })

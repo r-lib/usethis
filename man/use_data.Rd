@@ -10,7 +10,7 @@ use_data(
   internal = FALSE,
   overwrite = FALSE,
   compress = "bzip2",
-  version = 2,
+  version = 3,
   ascii = FALSE
 )
 
@@ -35,9 +35,9 @@ files. If you really want to do so, set this to \code{TRUE}.}
 \item{compress}{Choose the type of compression used by \code{\link[=save]{save()}}.
 Should be one of "gzip", "bzip2", or "xz".}
 
-\item{version}{The serialization format version to use. The default, 2, was
-the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
-R 3.6.0 and can only be read by R versions 3.5.0 and higher.}
+\item{version}{The serialization format version to use. The default, 3, can
+only be read by R versions 3.5.0 and higher. For R 1.4.0 to 3.5.3, use
+version 2.}
 
 \item{ascii}{if \code{TRUE}, an ASCII representation of the data is
     written.  The default value of \code{ascii} is \code{FALSE} which

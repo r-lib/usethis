@@ -26,6 +26,13 @@
     Message
       v Increasing crayon version to ">= 2.0.0" in DESCRIPTION.
 
+---
+
+    Code
+      use_dependency("crayon", "Imports", min_version = "1.0.0")
+    Message
+      v Decreasing crayon version to ">= 1.0.0" in DESCRIPTION.
+
 # use_dependency() upgrades a dependency
 
     Code

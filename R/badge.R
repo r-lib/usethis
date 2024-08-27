@@ -45,7 +45,7 @@ use_badge <- function(badge_name, href, src) {
   if (is.null(path)) {
     ui_bullets(c(
       "!" = "Can't find a README for the current project.",
-      "i" = "See {.help usethis::use_readme_rmd} for help creating this file.",
+      "i" = "See {.fun usethis::use_readme_rmd} for help creating this file.",
       "i" = "Badge link will only be printed to screen."
     ))
     path <- "README"
@@ -60,7 +60,7 @@ use_badge <- function(badge_name, href, src) {
 
   if (changed && path_ext(path) == "Rmd") {
     ui_bullets(c(
-      "_" = "Re-knit {.path {pth(path)}} with {.fun devtools::build_readme}."
+      "_" = "Re-knit {.path {pth(path)}} with {.run devtools::build_readme()}."
     ))
   }
   invisible(changed)
@@ -163,16 +163,6 @@ use_posit_cloud_badge <- function(url) {
   }
 
   invisible(TRUE)
-}
-
-#' @rdname badges
-#' @export
-use_rscloud_badge <- function(url) {
-  lifecycle::deprecate_warn(
-    "2.2.0", "use_rscloud_badge()",
-    "use_posit_cloud_badge()"
-  )
-  use_posit_cloud_badge(url)
 }
 
 has_badge <- function(href) {

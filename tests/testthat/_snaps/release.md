@@ -38,7 +38,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 ---
 
@@ -106,7 +106,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
 
 # construct correct revdep bullet
 
@@ -162,5 +162,40 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Tweet
+      * [ ] Share on social media
+
+# no revdep release bullets when there are no revdeps
+
+    Code
+      writeLines(release_checklist("1.0.0", on_cran = TRUE))
+    Output
+      Prepare for release:
+      
+      * [ ] `git pull`
+      * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] `usethis::use_news_md()`
+      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
+      * [ ] `urlchecker::url_check()`
+      * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
+      * [ ] `devtools::check_win_devel()`
+      * [ ] Update `cran-comments.md`
+      * [ ] `git push`
+      * [ ] Draft blog post
+      
+      Submit to CRAN:
+      
+      * [ ] `usethis::use_version('major')`
+      * [ ] `devtools::submit_cran()`
+      * [ ] Approve email
+      
+      Wait for CRAN...
+      
+      * [ ] Accepted :tada:
+      * [ ] Finish & publish blog post
+      * [ ] Add link to blog post in pkgdown news menu
+      * [ ] `usethis::use_github_release()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
+      * [ ] Share on social media
 

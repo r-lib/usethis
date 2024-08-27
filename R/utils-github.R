@@ -86,12 +86,21 @@ parse_repo_url <- function(x) {
   }
 }
 
-github_url_from_git_remotes <- function() {
-  tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
-  if (is.null(tr)) {
-    return()
+# Can be called in contexts where we have already asked user to choose between
+# origin and upstsream and, therefore, we know the remote URL. We parse it
+# regardless, because:
+# (1) Could be SSH not HTTPS
+# (2) Could be hosted on GHE not github.com
+github_url_from_git_remotes <- function(url = NULL) {
+  if (is.null(url)) {
+    tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
+    if (is.null(tr)) {
+      return()
+    }
+    url <- tr$url
   }
-  parsed <- parse_github_remotes(tr$url)
+
+  parsed <- parse_github_remotes(url)
   glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}")
 }
 
@@ -184,7 +193,7 @@ github_remotes <- function(these = c("origin", "upstream"),
   # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
   # 2. If so, did we call it with auth? Means we know if we can push.
   grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
-  if (isTRUE(github_get) && any(!grl$github_got)) {
+  if (isTRUE(github_get) && !all(grl$github_got)) {
     oops <- which(!grl$github_got)
     oops_remotes <- grl$remote[oops]
     oops_hosts <- unique(grl$host[oops])
