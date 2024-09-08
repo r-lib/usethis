@@ -223,7 +223,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       todo('Use `pak::pak("{repo_spec}")` in README'),
       todo("
         Consider running `usethis::use_tidy_dependencies()` and/or \\
-        replace compat files with `use_standalone()`"),
+        replace compact files with `use_standalone()`"),
       todo("Use cli errors or [file an issue](new) if you don\'t have time to do it now"),
       todo('
         `usethis::use_standalone("r-lib/rlang", "types-check")` \\
