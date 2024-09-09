@@ -171,41 +171,33 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 #' @noRd
 github_remotes <- function(these = c("origin", "upstream"),
                            github_get = NA,
-                           x = NULL) {
+                           x = NULL,
+                           error_call = caller_env()) {
+  check_bool(github_get, allow_na = TRUE)
+
   grl <- github_remote_list(these = these, x = x)
-  get_gh_repo <- function(repo_owner, repo_name,
-                          api_url = "https://api.github.com") {
-    if (isFALSE(github_get)) {
-      f <- function(...) list()
+
+  get_gh_repo <- function(repo_owner, repo_name, api_url) {
+    if (isTRUE(github_get)) {
+      github_remote_api(repo_owner, repo_name, api_url, error_call = error_call)
+    } else if (is.na(github_get)) {
+      # Use if possible
+      tryCatch(
+        github_remote_api(repo_owner, repo_name, api_url, error_call = error_call),
+        error = function(cnd) list()
+      )
     } else {
-      f <- purrr::possibly(gh::gh, otherwise = list())
+      # Only use local info
+      list()
     }
-    f(
-      "GET /repos/{owner}/{repo}",
-      owner = repo_owner, repo = repo_name, .api_url = api_url
-    )
   }
-  repo_info <- purrr::pmap(
-    grl[c("repo_owner", "repo_name", "api_url")],
-    get_gh_repo
-  )
+
+  remote_cols <- grl[c("repo_owner", "repo_name", "api_url")]
+  repo_info <- unwrap_purrr_error(purrr::pmap(remote_cols, get_gh_repo))
+
   # NOTE: these can be two separate matters:
   # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
   # 2. If so, did we call it with auth? Means we know if we can push.
-  grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
-  if (isTRUE(github_get) && !all(grl$github_got)) {
-    oops <- which(!grl$github_got)
-    oops_remotes <- grl$remote[oops]
-    oops_hosts <- unique(grl$host[oops])
-    ui_abort(c(
-      "Unable to get GitHub info for these remotes: {.val {oops_remotes}}.",
-      "Are we offline? Is GitHub down? Has the repo been deleted?",
-      "Otherwise, you probably need to configure a personal access token (PAT)
-       for {.val {oops_hosts}}.",
-      "See {.run usethis::gh_token_help()} for advice."
-    ))
-  }
-
   grl$default_branch <- map_chr(repo_info, "default_branch", .default = NA)
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
   # `permissions` is an example of data that is not present if the request
@@ -213,23 +205,67 @@ github_remotes <- function(these = c("origin", "upstream"),
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"), .default = NA)
   grl$can_admin <- map_lgl(repo_info, c("permissions", "admin"), .default = NA)
   grl$perm_known <- !is.na(grl$can_push)
+
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
   grl$parent_repo_name <-
     map_chr(repo_info, c("parent", "name"), .default = NA)
   grl$parent_repo_spec <-  make_spec(grl$parent_repo_owner, grl$parent_repo_name)
 
-  parent_info <- purrr::pmap(
-    set_names(
-      grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
-      ~ sub("parent_", "", .x)
-    ),
-    get_gh_repo
+  parent_cols <- set_names(
+    grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
+    ~ sub("parent_", "", .x)
   )
-  grl$can_push_to_parent <-
+  parent_info <- unwrap_purrr_error(purrr::pmap(parent_cols[grl$is_fork, , drop = FALSE], get_gh_repo))
+  grl$can_push_to_parent <- rep(FALSE, nrow(grl))
+  grl$can_push_to_parent[grl$is_fork] <-
     map_lgl(parent_info, c("permissions", "push"), .default = NA)
 
   grl
+}
+
+# Wrap GET /repos/{owner}/{repo} with user friendly errors
+github_remote_api <- function(repo_owner,
+                              repo_name,
+                              api_url = "https://api.github.com",
+                              error_call = caller_env()) {
+
+  withCallingHandlers(
+    gh::gh(
+      "GET /repos/{owner}/{repo}",
+      owner = repo_owner,
+      repo = repo_name,
+      .api_url = api_url
+    ),
+    httr2_failure = function(cnd) {
+      ui_abort(
+        c(
+          "Can't reach {.url {api_url}}.",
+          "Are you offline? Is GitHub down?"
+        ),
+        parent = cnd,
+        call = error_call
+      )
+    },
+    httr2_http_404 = function(cnd) {
+      # Might be because it's a private repo & no PAT
+      ui_abort(
+        c(
+          "Can't find {repo_owner}/{repo_name}.",
+          if (!gh::gh_token_exists()) c(
+            "Do you need to configure a GitHub token?",
+            "See {.run usethis::gh_token_help()} for advice."
+          )
+        ),
+        parent = cnd,
+        call = error_call
+      )
+    },
+    httr2_http_403 = function(cnd) {
+      # No token?
+      ui_abort(c("Can't find {repo_owner}/{repo_name}"), parent = cnd, call = error_call)
+    }
+  )
 }
 
 #' Classify the GitHub remote configuration
@@ -324,7 +360,9 @@ new_github_remote_config <- function() {
 
 github_remote_config <- function(github_get = NA) {
   cfg <- new_github_remote_config()
-  grl <- github_remotes(github_get = github_get)
+
+  # TODO: need to figure out how to get error messages from get_github_Remote to here
+  grl <- github_remotes(github_get = TRUE)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
@@ -764,6 +802,9 @@ cfg_theirs <- function(cfg) {
 }
 
 cfg_maybe_ours_or_theirs <- function(cfg) {
+  # TODO: figure out how to get information from github_remote_api to
+  # here because that actually has precise information about what's wrong
+
   if (cfg$origin$is_configured) {
     configured <- "origin"
     not_configured <- "upstream"

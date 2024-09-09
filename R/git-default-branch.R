@@ -100,32 +100,10 @@ git_default_branch <- function() {
   # target_repo(). In that case, we don't need to start from scratch as we do
   # here. But I'm not sure it's worth adding complexity to allow passing this
   # data in.
-
-  # TODO: this critique feels somewhat mis-placed, i.e. it brings up a general
-  # concern about a repo's config (or the user's permissions and creds)
-  # related to whether github_remotes() should be as silent as it is about
-  # 404s
-  critique_remote <- function(remote) {
-    if (remote$is_configured && is.na(remote$default_branch)) {
-      ui_bullets(c(
-        "x" = "The {.val {remote$name}} remote is configured, but we can't
-               determine its default branch.",
-        " " = "Possible reasons:",
-        "*" = "The remote repo no longer exists, suggesting the local remote
-               should be deleted.",
-        "*" = "We are offline or that specific Git server is down.",
-        "*" = "You don't have the necessary permission or something is wrong
-               with your credentials."
-      ))
-    }
-  }
-
   upstream <- git_default_branch_remote("upstream")
   if (is.na(upstream$default_branch)) {
-    critique_remote(upstream)
     origin <- git_default_branch_remote("origin")
     if (is.na(origin$default_branch)) {
-      critique_remote(origin)
       db_source <- list()
     } else {
       db_source <- origin
@@ -209,7 +187,7 @@ git_default_branch_remote <- function(remote = "origin") {
   # if the protocol is ssh, I suppose we can't assume a PAT, i.e. it's better
   # to use the Git approach vs. the GitHub API approach
   if (grepl("github", parsed$host) && parsed$protocol == "https") {
-    remote_dat <- github_remotes(remote, github_get = NA)
+    remote_dat <- github_remotes(remote, github_get = TRUE)
     out$repo_spec <- remote_dat$repo_spec
     out$default_branch <- remote_dat$default_branch
     return(out)

@@ -111,3 +111,12 @@ maybe_name <- function(x, ..., arg = caller_arg(x),
   check_name(x, ..., allow_null = TRUE,
              arg = arg, call = call)
 }
+
+unwrap_purrr_error <- function(code) {
+  withCallingHandlers(
+    code,
+    purrr_error_indexed = function(err) {
+      cnd_signal(err$parent)
+    }
+  )
+}
