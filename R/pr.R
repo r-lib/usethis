@@ -662,7 +662,7 @@ pr_create <- function() {
   branch <- git_branch()
   tracking_branch <- git_branch_tracking(branch)
   remote <- remref_remote(tracking_branch)
-  remote_dat <- github_remotes(remote, github_get = FALSE)
+  remote_dat <- github_remote_list(remote)
   ui_bullets(c("_" = "Create PR at link given below."))
   view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }

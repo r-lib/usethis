@@ -899,7 +899,7 @@ new_ours <- function() {
 
 new_theirs <- function() {
   remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <- grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
