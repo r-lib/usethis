@@ -883,7 +883,7 @@ new_no_github <- function() {
 
 new_ours <- function() {
   remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <- grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -917,7 +917,7 @@ new_fork <- function() {
     name = c("origin", "upstream"),
     url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
   )
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <- grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -940,7 +940,7 @@ new_fork <- function() {
 
 new_maybe_ours_or_theirs <- function() {
   remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <-grl$perm_known <- FALSE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -956,7 +956,7 @@ new_maybe_fork <- function() {
     name = c("origin", "upstream"),
     url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
   )
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <-grl$perm_known <- FALSE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -973,7 +973,7 @@ new_fork_cannot_push_origin <- function() {
     name = c("origin", "upstream"),
     url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
   )
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <-grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -993,7 +993,7 @@ new_fork_upstream_is_not_origin_parent<- function() {
     name = c("origin", "upstream"),
     url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OLD_OWNER/REPO.git")
   )
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <- grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
@@ -1018,7 +1018,7 @@ new_upstream_but_origin_is_not_fork <- function() {
     name = c("origin", "upstream"),
     url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
   )
-  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl <- github_remote_list(x = remotes)
   grl$github_got <-grl$perm_known <- TRUE
   grl$default_branch <- "DEFAULT_BRANCH"
 
