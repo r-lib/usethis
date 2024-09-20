@@ -167,30 +167,41 @@ pr_init <- function(branch) {
   cfg <- github_remote_config(github_get = NA)
   check_for_bad_config(cfg)
   tr <- target_repo(cfg, ask = FALSE)
+  online <- is_online(tr$host)
 
-  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
-  if (cfg$type %in% maybe_good_configs) {
+  if (!online) {
     ui_bullets(c(
-      "x" = 'Unable to confirm the GitHub remote configuration is
-             "pull request ready".',
-      "i" = "You probably need to configure a personal access token for
-             {.val {tr$host}}.",
-      "i" = "See {.run usethis::gh_token_help()} for help with that.",
-      "i" = "(Or maybe we're just offline?)"
+      "x" = "You are not currently online.",
+      "i" = "You can still create a local branch, but you won't be able to setup
+            or push to the remote branch."
     ))
-    if (ui_github_remote_config_wat(cfg)) {
+    if (ui_nah("Do you want to continue?")) {
       ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
+  } else {
+    maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
+    if (cfg$type %in% maybe_good_configs) {
+      ui_bullets(c(
+        "x" = 'Unable to confirm the GitHub remote configuration is
+               "pull request ready".',
+        "i" = "You probably need to configure a personal access token for
+               {.val {tr$host}}.",
+        "i" = "See {.run usethis::gh_token_help()} for help with that.",
+      ))
+      if (ui_github_remote_config_wat(cfg)) {
+        ui_bullets(c("x" = "Cancelling."))
+        return(invisible())
+      }
+    }
   }
 
-  default_branch <- git_default_branch()
+  default_branch <- if (online) git_default_branch() else guess_local_default_branch()
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
     default_branch = default_branch
   )
 
-  online <- is_online(tr$host)
   if (online) {
     # this is not pr_pull_source_override() because:
     # a) we may NOT be on default branch (although we probably are)
@@ -213,10 +224,6 @@ pr_init <- function(branch) {
       ui_bullets(c("v" = "Pulling changes from {.val {remref}}."))
       git_pull(remref = remref, verbose = FALSE)
     }
-  } else {
-    ui_bullets(c(
-      "!" = "Unable to pull changes for current branch, since we are offline."
-    ))
   }
 
   ui_bullets(c("v" = "Creating and switching to local branch {.val {branch}}."))
