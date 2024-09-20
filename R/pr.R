@@ -237,7 +237,7 @@ pr_resume <- function(branch = NULL) {
     ui_bullets(c(
       "i" = "No branch specified ... looking up local branches and associated PRs."
     ))
-    default_branch <- git_default_branch()
+    default_branch <- guess_local_default_branch()
     branch <- choose_branch(exclude = default_branch)
     if (is.null(branch)) {
       ui_bullets(c("x" = "Repo doesn't seem to have any non-default branches."))
@@ -632,14 +632,10 @@ pr_clean <- function(number = NULL,
 # we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the
 # DEFAULT branch in the source repo, but this protects us against sub-optimal
 # setup.
-pr_pull_source_override <- function(tr = NULL, default_branch = NULL) {
-  # naive selection of target repo; calling function should analyse the config
-  tr <- tr %||% target_repo(github_get = FALSE, ask = FALSE)
-
+pr_pull_source_override <- function(tr, default_branch) {
   # TODO: why does this not use a check_*() function, i.e. shared helper?
   # I guess to issue a specific error message?
   current_branch <- git_branch()
-  default_branch <- default_branch %||% git_default_branch()
   if (current_branch != default_branch) {
     ui_abort("
       Internal error: {.fun pr_pull_source_override} should only be used when on
