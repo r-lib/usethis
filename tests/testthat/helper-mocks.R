@@ -28,7 +28,7 @@ local_ui_yep <- function(.env = caller_env()) {
 
 local_git_default_branch_remote <- function(.env = caller_env()) {
   local_mocked_bindings(
-    git_default_branch_remote = function(remote) {
+    git_default_branch_remote = function(cfg, remote) {
       list(
         name = remote,
         is_configured = TRUE,

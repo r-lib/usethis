@@ -13,8 +13,8 @@
 #'
 #'   usethis itself now uses cli internally for its UI, but these new functions
 #'   are not exported and presumably never will be. There is a developer-focused
-#'   article on the process of transitioning usethis's own UI to use cli (LINK
-#'   TO COME).
+#'   article on the process of transitioning usethis's own UI to use cli:
+#'   [Converting usethis's UI to use cli](https://usethis.r-lib.org/articles/ui-cli-conversion.html).
 
 #' @details
 #'

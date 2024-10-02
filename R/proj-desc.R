@@ -41,7 +41,7 @@ proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE)
     return(invisible())
   }
 
-  if (!overwrite && length(old > 0) && any(old != "")) {
+  if (!overwrite && length(old) > 0 && any(old != "")) {
     ui_abort("
       {.field {key}} has a different value in DESCRIPTION.
       Use {.code overwrite = TRUE} to overwrite.")
