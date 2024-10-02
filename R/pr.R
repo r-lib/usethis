@@ -173,7 +173,7 @@ pr_init <- function(branch) {
     ui_bullets(c(
       "x" = "You are not currently online.",
       "i" = "You can still create a local branch, but we can't check that your
-             default branch is up-to-date or setup to the remote branch."
+             current branch is up-to-date or setup the remote branch."
     ))
     if (ui_nah("Do you want to continue?")) {
       ui_bullets(c("x" = "Cancelling."))
