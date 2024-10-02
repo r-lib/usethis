@@ -61,7 +61,7 @@ use_github <- function(organisation = NULL,
   visibility <- match.arg(visibility)
   check_protocol(protocol)
   check_uses_git()
-  default_branch <- git_default_branch()
+  default_branch <- guess_local_default_branch()
   check_current_branch(
     is = default_branch,
     # glue-ing happens inside check_current_branch(), where `gb` gives the
