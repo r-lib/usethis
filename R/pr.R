@@ -219,7 +219,7 @@ pr_init <- function(branch) {
     if (!is.na(remref)) {
       comparison <- git_branch_compare(current_branch, remref)
       if (comparison$remote_only > 0) {
-        challenge_uncommitted_changes(which = c("pull", "switch branches"))
+        challenge_uncommitted_changes(action = c("pull", "switch branches"))
       }
       ui_bullets(c("v" = "Pulling changes from {.val {remref}}."))
       git_pull(remref = remref, verbose = FALSE)
@@ -265,7 +265,7 @@ pr_resume <- function(branch = NULL) {
     ))
   }
 
-  challenge_uncommitted_changes(which = c("pull", "switch", "compare branches"))
+  challenge_uncommitted_changes(action = c("pull", "switch", "compare branches"))
 
   ui_bullets(c("v" = "Switching to branch {.val {branch}}."))
   gert::git_branch_checkout(branch, repo = repo)
@@ -290,7 +290,7 @@ pr_resume <- function(branch = NULL) {
 pr_fetch <- function(number = NULL, target = c("source", "primary")) {
   repo <- git_repo()
   tr <- target_repo(github_get = NA, role = target, ask = FALSE)
-  challenge_uncommitted_changes(which = c("pull", "switch branches"))
+  challenge_uncommitted_changes(action = c("pull", "switch branches"))
 
   if (is.null(number)) {
     ui_bullets(c("i" = "No PR specified ... looking up open PRs."))
@@ -384,7 +384,7 @@ pr_push <- function() {
   check_for_config(cfg, ok_configs = c("ours", "fork"))
   default_branch <- git_default_branch_(cfg)
   check_pr_branch(default_branch)
-  challenge_uncommitted_changes(which = "push")
+  challenge_uncommitted_changes(action = "push")
 
   branch <- git_branch()
   remref <- git_branch_tracking(branch)
@@ -432,7 +432,7 @@ pr_pull <- function() {
   check_for_config(cfg)
   default_branch <- git_default_branch_(cfg)
   check_pr_branch(default_branch)
-  challenge_uncommitted_changes(which = "pull")
+  challenge_uncommitted_changes(action = "pull")
 
   git_pull()
 
@@ -447,7 +447,7 @@ pr_pull <- function() {
 #' @rdname pull-requests
 pr_merge_main <- function() {
   tr <- target_repo(github_get = TRUE, ask = FALSE)
-  challenge_uncommitted_changes(which = "pull")
+  challenge_uncommitted_changes(action = "pull")
   remref <- glue("{tr$remote}/{tr$default_branch}")
   ui_bullets(c("v" = "Pulling changes from {.val {remref}}."))
   git_pull(remref, verbose = FALSE)
@@ -511,7 +511,7 @@ pr_pause <- function() {
     ))
     return(invisible())
   }
-  challenge_uncommitted_changes(which = "switch branches")
+  challenge_uncommitted_changes(action = "switch branches")
   # TODO: what happens here if offline?
   check_branch_pulled(use = "pr_pull()")
 

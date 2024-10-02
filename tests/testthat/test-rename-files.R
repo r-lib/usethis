@@ -6,7 +6,7 @@ test_that("checks uncommitted files", {
   use_r("foo", open = FALSE)
   expect_error(
     rename_files("foo", "bar"),
-    "uncommitted changes",
+    "Uncommitted changes",
     class = "usethis_error"
   )
 })
