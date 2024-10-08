@@ -38,7 +38,7 @@ use_tidy_style(strict = TRUE)
 
 use_tidy_logo(geometry = "240x278", retina = TRUE)
 
-use_tidy_upkeep_issue(year = NULL)
+use_tidy_upkeep_issue(year = last_upkeep_year())
 }
 \arguments{
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
@@ -64,8 +64,9 @@ assumes that you have a hex logo using spec from
 \item{retina}{\code{TRUE}, the default, scales the image on the README,
 assuming that geometry is double the desired size.}
 
-\item{year}{Approximate year when you last touched this package. If \code{NULL},
-the default, will give you a full set of actions to perform.}
+\item{year}{Approximate year when you last touched this package. Default will
+use the recorded year of the last upkeep issue or, if missing, show the full
+checklist}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
