@@ -187,7 +187,7 @@ pr_init <- function(branch) {
                "pull request ready".',
         "i" = "You probably need to configure a personal access token for
                {.val {tr$host}}.",
-        "i" = "See {.run usethis::gh_token_help()} for help with that.",
+        "i" = "See {.run usethis::gh_token_help()} for help with that."
       ))
       if (ui_github_remote_config_wat(cfg)) {
         ui_bullets(c("x" = "Cancelling."))
