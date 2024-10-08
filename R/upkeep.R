@@ -16,13 +16,13 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' use_upkeep_issue(2023)
+#' use_upkeep_issue()
 #' }
 use_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = FALSE)
 }
 
-make_upkeep_issue <- function(year, tidy) {
+make_upkeep_issue <- function(year, last_year, tidy) {
   who <- if (tidy) "use_tidy_upkeep_issue()" else "use_upkeep_issue()"
   check_is_package(who)
 
@@ -41,7 +41,7 @@ make_upkeep_issue <- function(year, tidy) {
 
   gh <- gh_tr(tr)
   if (tidy) {
-    checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
+    checklist <- tidy_upkeep_checklist(last_year, repo_spec = tr$repo_spec)
   } else {
     checklist <- upkeep_checklist(tr)
   }
@@ -118,10 +118,12 @@ upkeep_checklist <- function(target_repo = NULL) {
 
 #' @export
 #' @rdname tidyverse
-#' @param year Approximate year when you last touched this package. If `NULL`,
-#'   the default, will give you a full set of actions to perform.
-use_tidy_upkeep_issue <- function(year = NULL) {
-  make_upkeep_issue(year = year, tidy = TRUE)
+#' @param year Approximate year when you last touched this package. Default will
+#' use the recorded year of the last upkeep issue or, if missing, show the full
+#' checklist
+use_tidy_upkeep_issue <- function(year = last_upkeep_year()) {
+  make_upkeep_issue(year = NULL, last_year = year, tidy = TRUE)
+  record_upkeep_year(format(Sys.Date(), "%Y"))
 }
 
 # for mocking
@@ -326,4 +328,12 @@ has_old_cran_comments <- function() {
   cc <- proj_path("cran-comments.md")
   file_exists(cc) &&
     any(grepl("# test environment", readLines(cc), ignore.case = TRUE))
+}
+
+last_upkeep_year <- function() {
+  as.integer(proj_desc()$get_field("Config/usethis/upkeep", 2000L))
+}
+
+record_upkeep_year <- function(year) {
+  desc <- proj_desc_field_update("Config/usethis/upkeep", as.character(year))
 }

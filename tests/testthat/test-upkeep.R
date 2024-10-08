@@ -1,6 +1,9 @@
 test_that("tidy upkeep bullets don't change accidentally", {
   create_local_package()
   use_mit_license()
+  expect_equal(last_upkeep_year(), 2000L)
+  record_upkeep_year(2022L)
+  expect_equal(last_upkeep_year(), 2022L)
 
   local_mocked_bindings(
     Sys.Date = function() as.Date("2023-01-01"),
