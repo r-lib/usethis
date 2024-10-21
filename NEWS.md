@@ -1,6 +1,6 @@
 # usethis (development version)
 
-## Bug fixes and minor improvements
+* `use_vignette()` and `use_article()` gain `type` to allow creating Quarto vignettes and articles (@olivroy, #1997).
 
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
