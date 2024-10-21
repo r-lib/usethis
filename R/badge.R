@@ -16,6 +16,9 @@
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
+#' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")`: badge
+#' indicates what version of your package is available on [R-universe
+#' ](https://r-universe.dev/search/).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
@@ -28,13 +31,20 @@
 #' @param stage Stage of the package lifecycle. One of "experimental",
 #'   "stable", "superseded", or "deprecated".
 #' @seealso Functions that configure continuous integration, such as
-#'   [use_github_actions()], also create badges.
+#'   [use_github_action("check-standard")][use_github_action()], also create badges.
 #'
 #' @name badges
 #' @examples
 #' \dontrun{
 #' use_cran_badge()
 #' use_lifecycle_badge("stable")
+#' # If you don't have a GitHub repo, or needs something extra
+#' # you can create the r-universe badge
+#' use_badge(
+#'   "R-universe",
+#'   "https://{organization}.r-universe.dev/badges/{package})",
+#'   "https://{organization}.r-universe.dev/{package}"
+#' )
 #' }
 NULL
 
@@ -138,7 +148,31 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 
   invisible(TRUE)
 }
+#' @rdname badges
+#' @export
+use_r_universe_badge <- function() {
+  check_is_package("use_r_universe_badge()")
+  # The r-universe link needs the package name + organization.
 
+  pkg <- project_name()
+  url <- tryCatch(github_url(pkg), error = function(e) NULL)
+  # in order to get organization
+  desc <- proj_desc()
+  urls <- desc$get_urls()
+  dat <- parse_github_remotes(c(urls, url))
+  gh_org <- unique(dat$repo_owner[!is.na(dat$repo_owner)])
+  if (length(gh_org) == 0L) {
+    ui_abort(c(
+      "{.pkg {pkg}} must have a repo URL in DESCRITPION to create a badge.",
+      "Use {.fn usethis::use_badge} if you have a different configuration.",
+      "If {.pkg {pkg}} is on CRAN, you can also see {.url cran.dev/{pkg}}
+       for a redirect to the r-universe homepage."
+    ))
+  }
+  src <- glue("https://{gh_org}.r-universe.dev/badges/{pkg}")
+  href <-  glue("https://{gh_org}.r-universe.dev/{pkg}")
+  use_badge("R-universe", href, src)
+}
 #' @rdname badges
 #' @param url A link to an existing [Posit Cloud](https://posit.cloud)
 #'   project. See the [Posit Cloud

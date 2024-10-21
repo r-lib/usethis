@@ -11,6 +11,8 @@
 * Reverse dependency checks are only suggested if they exist 
   (#1817, @seankross).
 
+* New `use_r_universe_badge()` to indicate which version of your package is available on [R-universe](https://r-universe.dev) (@olivroy, #1883).
+
 # usethis 3.0.0
 
 ## Transition to cli package for UI
