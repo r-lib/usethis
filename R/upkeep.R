@@ -128,6 +128,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 Sys.Date <- NULL
 
 tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+  desc <- proj_desc()
 
   posit_pkg <- is_posit_pkg()
   posit_person_ok <- is_posit_person_canonical()
@@ -191,8 +192,6 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
   }
 
   if (year <= 2023) {
-    desc <- proj_desc()
-
     bullets <- c(
       bullets,
       "### 2023",
