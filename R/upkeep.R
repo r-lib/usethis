@@ -332,7 +332,6 @@ has_old_cran_comments <- function() {
 
 last_upkeep_date <- function() {
   as.Date(proj_desc()$get_field("Config/usethis/upkeep", "2000-01-01"), format = "%Y-%m-%d")
-  as.integer(proj_desc()$get_field("Config/usethis/upkeep", 2000L))
 }
 
 last_upkeep_year <- function() {
