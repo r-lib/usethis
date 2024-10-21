@@ -123,7 +123,7 @@ upkeep_checklist <- function(target_repo = NULL) {
 #' checklist
 use_tidy_upkeep_issue <- function(year = last_upkeep_year()) {
   make_upkeep_issue(year = NULL, last_year = year, tidy = TRUE)
-  record_upkeep_year(format(Sys.Date(), "%Y"))
+  record_upkeep_date(Sys.Date())
 }
 
 # for mocking
@@ -330,10 +330,15 @@ has_old_cran_comments <- function() {
     any(grepl("# test environment", readLines(cc), ignore.case = TRUE))
 }
 
-last_upkeep_year <- function() {
+last_upkeep_date <- function() {
+  as.Date(proj_desc()$get_field("Config/usethis/upkeep", "2000-01-01"), format = "%Y-%m-%d")
   as.integer(proj_desc()$get_field("Config/usethis/upkeep", 2000L))
 }
 
-record_upkeep_year <- function(year) {
-  desc <- proj_desc_field_update("Config/usethis/upkeep", as.character(year))
+last_upkeep_year <- function() {
+  as.integer(format(last_upkeep_date(), "%Y"))
+}
+
+record_upkeep_date <- function(date) {
+  desc <- proj_desc_field_update("Config/usethis/upkeep", format(date, "%Y-%m-%d"))
 }
