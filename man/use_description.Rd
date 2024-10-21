@@ -11,8 +11,9 @@ use_description_defaults(package = NULL, roxygen = TRUE, fields = list())
 }
 \arguments{
 \item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
-overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
-personalized defaults using package options.}
+overriding default values. Default values are taken from the
+\code{"usethis.description"} option or the usethis package (in that order), and
+can be viewed with \code{use_description_defaults()}.}
 
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
 error if not.}
@@ -32,7 +33,7 @@ CRAN-compliant package name. You can turn this off with \code{check_name = FALSE
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
 fields:
 \itemize{
-\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}
+\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{use_description()}
 \item \code{getOption("usethis.description")}
 \item Defaults built into usethis
 }

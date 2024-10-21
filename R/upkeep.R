@@ -43,7 +43,7 @@ make_upkeep_issue <- function(year, tidy) {
   if (tidy) {
     checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
   } else {
-    checklist <- upkeep_checklist()
+    checklist <- upkeep_checklist(tr)
   }
 
   title_year <- year %||% format(Sys.Date(), "%Y")
@@ -58,11 +58,13 @@ make_upkeep_issue <- function(year, tidy) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function() {
+upkeep_checklist <- function(target_repo = NULL) {
+  has_github_links <- has_github_links(target_repo)
+
   bullets <- c(
     todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
-    todo("`usethis::use_github_links()`", !has_github_links()),
+    todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
     todo("`usethis::use_tidy_description()`"),
     todo(
@@ -126,6 +128,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 Sys.Date <- NULL
 
 tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+  desc <- proj_desc()
 
   posit_pkg <- is_posit_pkg()
   posit_person_ok <- is_posit_person_canonical()
@@ -189,8 +192,6 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
   }
 
   if (year <= 2023) {
-    desc <- proj_desc()
-
     bullets <- c(
       bullets,
       "### 2023",

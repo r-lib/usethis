@@ -124,9 +124,11 @@ use_github_action <- function(name = NULL,
     ui_bullets(c("_" = "Learn more at {.url {readme}}."))
   }
 
-  badge <- badge %||% is_check_action(url)
-  if (badge) {
+  if (badge %||% is_check_action(url)) {
     use_github_actions_badge(path_file(save_as))
+  }
+  if (badge %||% is_coverage_action(url)) {
+    use_codecov_badge(target_repo_spec())
   }
 
   invisible(new)
@@ -165,6 +167,10 @@ choose_gha_workflow <- function(error_call = caller_env()) {
 
 is_check_action <- function(url) {
   grepl("^check-", path_file(url))
+}
+
+is_coverage_action <- function(url) {
+  grepl("test-coverage", path_file(url))
 }
 
 #' Generates a GitHub Actions badge

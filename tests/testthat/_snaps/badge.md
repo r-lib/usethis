@@ -17,7 +17,7 @@
       i Use `usethis::use_badge()` if you have a different configuration.
       i If {TESTPKG} is on CRAN, you can also see <cran.dev/{TESTPKG}> for a redirect to the r-universe homepage.
 
-# use_rscloud_badge() handles bad and good input
+# use_posit_cloud_badge() handles bad and good input
 
     Code
       use_posit_cloud_badge()
@@ -37,22 +37,6 @@
 
     Code
       use_posit_cloud_badge("http://posit.cloud/123")
-    Condition
-      Error in `use_posit_cloud_badge()`:
-      x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".
-
----
-
-    Code
-      use_rscloud_badge("https://rstudio.cloud/content/123")
-    Condition
-      Error in `use_posit_cloud_badge()`:
-      x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".
-
----
-
-    Code
-      use_rscloud_badge("https://posit.cloud/project/123")
     Condition
       Error in `use_posit_cloud_badge()`:
       x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".

@@ -43,10 +43,6 @@
 #' This keeps the issue page visually harmonious while still giving enough
 #' variation to easily distinguish different types of label.
 #'
-#' @param repo_spec,host,auth_token `r lifecycle::badge("deprecated")`: These
-#'   arguments are now deprecated and will be removed in the future. Any input
-#'   provided via these arguments is not used. The target repo, host, and auth
-#'   token are all now determined from the current project's Git remotes.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
@@ -77,24 +73,11 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(repo_spec = deprecated(),
-                              labels = character(),
+use_github_labels <- function(labels = character(),
                               rename = character(),
                               colours = character(),
                               descriptions = character(),
-                              delete_default = FALSE,
-                              host = deprecated(),
-                              auth_token = deprecated()) {
-  if (lifecycle::is_present(repo_spec)) {
-    deprecate_warn_repo_spec("use_github_labels")
-  }
-  if (lifecycle::is_present(host)) {
-    deprecate_warn_host("use_github_labels")
-  }
-  if (lifecycle::is_present(auth_token)) {
-    deprecate_warn_auth_token("use_github_labels")
-  }
-
+                              delete_default = FALSE) {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to modify labels")
 
@@ -318,7 +301,7 @@ tidy_label_descriptions <- function() {
     "good first issue :heart:" = "good issue for first-time contributors",
     "help wanted :heart:" = "we'd love your help!",
     "breaking change :skull_and_crossbones:" = "API change likely to affect existing code",
-    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day rstd.io/tidy-dev-day"
+    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day"
   )
 }
 

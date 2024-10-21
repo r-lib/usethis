@@ -9,7 +9,6 @@
 \alias{use_binder_badge}
 \alias{use_r_universe_badge}
 \alias{use_posit_cloud_badge}
-\alias{use_rscloud_badge}
 \title{README badges}
 \usage{
 use_badge(badge_name, href, src)
@@ -25,8 +24,6 @@ use_binder_badge(ref = git_default_branch(), urlpath = NULL)
 use_r_universe_badge()
 
 use_posit_cloud_badge(url)
-
-use_rscloud_badge(url)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}

@@ -167,30 +167,41 @@ pr_init <- function(branch) {
   cfg <- github_remote_config(github_get = NA)
   check_for_bad_config(cfg)
   tr <- target_repo(cfg, ask = FALSE)
+  online <- is_online(tr$host)
 
-  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
-  if (cfg$type %in% maybe_good_configs) {
+  if (!online) {
     ui_bullets(c(
-      "x" = 'Unable to confirm the GitHub remote configuration is
-             "pull request ready".',
-      "i" = "You probably need to configure a personal access token for
-             {.val {tr$host}}.",
-      "i" = "See {.run usethis::gh_token_help()} for help with that.",
-      "i" = "(Or maybe we're just offline?)"
+      "x" = "You are not currently online.",
+      "i" = "You can still create a local branch, but we can't check that your
+             current branch is up-to-date or setup the remote branch."
     ))
-    if (ui_github_remote_config_wat(cfg)) {
+    if (ui_nah("Do you want to continue?")) {
       ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
+  } else {
+    maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
+    if (cfg$type %in% maybe_good_configs) {
+      ui_bullets(c(
+        "x" = 'Unable to confirm the GitHub remote configuration is
+               "pull request ready".',
+        "i" = "You probably need to configure a personal access token for
+               {.val {tr$host}}.",
+        "i" = "See {.run usethis::gh_token_help()} for help with that."
+      ))
+      if (ui_github_remote_config_wat(cfg)) {
+        ui_bullets(c("x" = "Cancelling."))
+        return(invisible())
+      }
+    }
   }
 
-  default_branch <- git_default_branch()
+  default_branch <- if (online) git_default_branch_(cfg) else guess_local_default_branch()
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
     default_branch = default_branch
   )
 
-  online <- is_online(tr$host)
   if (online) {
     # this is not pr_pull_source_override() because:
     # a) we may NOT be on default branch (although we probably are)
@@ -213,10 +224,6 @@ pr_init <- function(branch) {
       ui_bullets(c("v" = "Pulling changes from {.val {remref}}."))
       git_pull(remref = remref, verbose = FALSE)
     }
-  } else {
-    ui_bullets(c(
-      "!" = "Unable to pull changes for current branch, since we are offline."
-    ))
   }
 
   ui_bullets(c("v" = "Creating and switching to local branch {.val {branch}}."))
@@ -237,7 +244,7 @@ pr_resume <- function(branch = NULL) {
     ui_bullets(c(
       "i" = "No branch specified ... looking up local branches and associated PRs."
     ))
-    default_branch <- git_default_branch()
+    default_branch <- guess_local_default_branch()
     branch <- choose_branch(exclude = default_branch)
     if (is.null(branch)) {
       ui_bullets(c("x" = "Repo doesn't seem to have any non-default branches."))
@@ -375,7 +382,7 @@ pr_push <- function() {
   repo <- git_repo()
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg, ok_configs = c("ours", "fork"))
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_(cfg)
   check_pr_branch(default_branch)
   challenge_uncommitted_changes()
 
@@ -423,7 +430,7 @@ pr_push <- function() {
 pr_pull <- function() {
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg)
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_(cfg)
   check_pr_branch(default_branch)
   challenge_uncommitted_changes()
 
@@ -449,11 +456,12 @@ pr_merge_main <- function() {
 #' @export
 #' @rdname pull-requests
 pr_view <- function(number = NULL, target = c("source", "primary")) {
-  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
+  cfg <- github_remote_config(github_get = NA)
+  tr <- target_repo(cfg, github_get = NA, role = target, ask = FALSE)
   url <- NULL
   if (is.null(number)) {
     branch <- git_branch()
-    default_branch <- git_default_branch()
+    default_branch <- git_default_branch_(cfg)
     if (branch != default_branch) {
       url <- pr_url(branch = branch, tr = tr)
       if (is.null(url)) {
@@ -491,11 +499,11 @@ pr_view <- function(number = NULL, target = c("source", "primary")) {
 #' @export
 #' @rdname pull-requests
 pr_pause <- function() {
-  # intentionally naive selection of target repo
-  tr <- target_repo(github_get = FALSE, ask = FALSE)
+  cfg <- github_remote_config(github_get = NA)
+  tr <- target_repo(cfg, github_get = NA, ask = FALSE)
 
   ui_bullets(c("v" = "Switching back to the default branch."))
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_(cfg)
   if (git_branch() == default_branch) {
     ui_bullets(c(
       "!" = "Already on this repo's default branch ({.val {default_branch}}),
@@ -532,10 +540,13 @@ pr_forget <- function() pr_clean(mode = "forget")
 pr_clean <- function(number = NULL,
                      target = c("source", "primary"),
                      mode = c("finish", "forget")) {
+  withr::defer(rstudio_git_tickle())
   mode <- match.arg(mode)
   repo <- git_repo()
-  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
-  default_branch <- git_default_branch()
+
+  cfg <- github_remote_config(github_get = NA)
+  tr <- target_repo(cfg, github_get = NA, role = target, ask = FALSE)
+  default_branch <- git_default_branch_(cfg)
 
   if (is.null(number)) {
     check_pr_branch(default_branch)
@@ -628,14 +639,10 @@ pr_clean <- function(number = NULL,
 # we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the
 # DEFAULT branch in the source repo, but this protects us against sub-optimal
 # setup.
-pr_pull_source_override <- function(tr = NULL, default_branch = NULL) {
-  # naive selection of target repo; calling function should analyse the config
-  tr <- tr %||% target_repo(github_get = FALSE, ask = FALSE)
-
+pr_pull_source_override <- function(tr, default_branch) {
   # TODO: why does this not use a check_*() function, i.e. shared helper?
   # I guess to issue a specific error message?
   current_branch <- git_branch()
-  default_branch <- default_branch %||% git_default_branch()
   if (current_branch != default_branch) {
     ui_abort("
       Internal error: {.fun pr_pull_source_override} should only be used when on
@@ -967,7 +974,7 @@ pr_branch_delete <- function(pr) {
 
   if (is.null(pr_ref)) {
     ui_bullets(c(
-      "i" = "PR {.val {pr$pr_string}} originated from branch {.val {pr_remref}},
+      "i" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} originated from branch {.val {pr_remref}},
              which no longer exists."
     ))
     return(invisible(FALSE))
@@ -975,14 +982,14 @@ pr_branch_delete <- function(pr) {
 
   if (is.na(pr$pr_merged_at)) {
     ui_bullets(c(
-      "i" = "PR {.val {pr$pr_string}} is unmerged, we will not delete the
+      "i" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} is unmerged, we will not delete the
              remote branch {.val {pr_remref}}."
     ))
     return(invisible(FALSE))
   }
 
   ui_bullets(c(
-    "v" = "PR {.val {pr$pr_string}} has been merged, deleting remote branch
+    "v" = "PR {.href [{pr$pr_string}]({pr$pr_html_url})} has been merged, deleting remote branch
            {.val {pr_remref}}."
   ))
   # TODO: tryCatch here?
@@ -993,7 +1000,7 @@ pr_branch_delete <- function(pr) {
   invisible(TRUE)
 }
 
-check_pr_branch <- function(default_branch = git_default_branch()) {
+check_pr_branch <- function(default_branch) {
   # the glue-ing happens inside check_current_branch(), where `gb` gives the
   # current git branch
   check_current_branch(

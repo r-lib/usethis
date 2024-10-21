@@ -199,16 +199,6 @@ use_posit_cloud_badge <- function(url) {
   invisible(TRUE)
 }
 
-#' @rdname badges
-#' @export
-use_rscloud_badge <- function(url) {
-  lifecycle::deprecate_warn(
-    "2.2.0", "use_rscloud_badge()",
-    "use_posit_cloud_badge()"
-  )
-  use_posit_cloud_badge(url)
-}
-
 has_badge <- function(href) {
   readme_path <- proj_path("README.md")
   if (!file_exists(readme_path)) {

@@ -58,6 +58,7 @@ reference:
     - use_rmarkdown_template
     - use_spell_check
     - use_test
+    - use_test_helper
     - use_vignette
     - use_addin
     - use_citation
@@ -91,11 +92,9 @@ reference:
   - title: Continuous integration
     contents:
     - use_github_action
-    - use_appveyor
     - use_circleci
     - use_gitlab_ci
     - use_jenkins
-    - use_travis
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
@@ -155,21 +154,11 @@ reference:
     - use_rmarkdown_template
     - use_rstudio
     - use_rstudio_preferences
-  - title: Defunct and deprecated functions
-    desc: >
-      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
-      <img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle'/>
-      </a>
-      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
-      <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
-      </a>
+  - title: Deprecated functions
     contents:
-    - browse_github_token
-    - git_credentials
-    - pr_pull_upstream
+    - git_branch_default
     - use_github_actions
-    - use_tidy_labels
-    - use_travis
+    - use_tidy_eval
 
 articles:
 - title: Basics

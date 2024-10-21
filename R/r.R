@@ -4,8 +4,10 @@
 #' using the convention that the tests for `R/foofy.R` should live
 #' in `tests/testthat/test-foofy.R`. You can use them to create new files
 #' from scratch by supplying `name`, or if you use RStudio, you can call
-#' to create (or navigate to) the paired file based on the currently open
-#' script.
+#' to create (or navigate to) the companion file based on the currently open
+#' file. This also works when a test snapshot file is active, i.e. if you're
+#' looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take
+#' you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 #'
 #' @section Renaming files in an existing package:
 #'
@@ -41,10 +43,26 @@
 #' @param name Either a string giving a file name (without directory) or
 #'   `NULL` to take the name from the currently open file in RStudio.
 #' @inheritParams edit_file
-#' @seealso The [testing](https://r-pkgs.org/testing-basics.html) and
+#' @seealso
+#' * The [testing](https://r-pkgs.org/testing-basics.html) and
 #'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
+#' * [use_test_helper()] to create a testthat helper file.
+#'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # create a new .R file below R/
+#' use_r("coolstuff")
+#'
+#' # if `R/coolstuff.R` is active in a supported IDE, you can now do:
+#' use_test()
+#'
+#' # if `tests/testthat/test-coolstuff.R` is active in a supported IDE, you can
+#' # return to `R/coolstuff.R` with:
+#' use_r()
+#' }
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
 
@@ -66,6 +84,55 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_template("test-example-2.1.R", save_as = path)
   }
   edit_file(proj_path(path), open = open)
+
+  invisible(TRUE)
+}
+
+#' Create or edit a test helper file
+#'
+#' This function creates (or opens) a test helper file, typically
+#' `tests/testthat/helper.R`. Test helper files are executed at the
+#' beginning of every automated test run and are also executed by
+#' [`load_all()`][pkgload::load_all]. A helper file is a great place to
+#' define test helper functions for use throughout your test suite, such as
+#' a custom expectation.
+#'
+#' @param name Can be used to specify the optional "SLUG" in
+#'   `tests/testthat/helper-SLUG.R`.
+#' @inheritParams edit_file
+#' @seealso
+#' * [use_test()] to create a test file.
+#' * The testthat vignette on special files
+#'   `vignette("special-files", package = "testthat")`.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' use_test_helper()
+#' use_test_helper("mocks")
+#' }
+use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
+  maybe_name(name)
+
+  if (!uses_testthat()) {
+    ui_abort(c(
+      "x" = "Your package must use {.pkg testthat} to use a helper file.",
+      "_" = "Call {.run usethis::use_testthat()} to set up {.pkg testthat}."
+    ))
+  }
+
+  target_path <- proj_path(
+    path("tests", "testthat", as_test_helper_file(name))
+  )
+
+  if (!file_exists(target_path)) {
+    ui_bullets(c(
+      "i" = "Test helper files are executed at the start of all automated
+             test runs.",
+      "i" = "{.run devtools::load_all()} also sources test helper files."
+    ))
+  }
+  edit_file(target_path, open = open)
 
   invisible(TRUE)
 }
@@ -116,8 +183,8 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat")) {
-    cli::cli_abort("Open file must be a code or test file.", call = error_call)
+  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
+    cli::cli_abort("Open file must be code, test, or snapshot.", call = error_call)
   }
 
   file <- path_file(path)
@@ -158,3 +225,13 @@ valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
+as_test_helper_file <- function(name = NULL) {
+  file <- name %||% "helper.R"
+  if (!grepl("^helper", file)) {
+    file <- glue("helper-{file}")
+  }
+  if (path_ext(file) == "") {
+    file <- path_ext_set(file, "R")
+  }
+  unclass(file)
+}
