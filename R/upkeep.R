@@ -118,9 +118,10 @@ upkeep_checklist <- function(target_repo = NULL) {
 
 #' @export
 #' @rdname tidyverse
-#' @param last_upkeep Approximate year when you last touched this package. Default will
-#' use the recorded year of the last upkeep issue or, if missing, show the full
-#' checklist
+#' @param last_upkeep Year of last upkeep. By default, the
+#' `Config/usethis/last-upkeep` field in `DESCRIPTION` is consulted for this, if
+#' it's defined. If there's no information on the last upkeep, the issue will
+#' contain the full checklist.
 use_tidy_upkeep_issue <- function(last_upkeep = last_upkeep_year()) {
   make_upkeep_issue(year = NULL, last_upkeep = last_upkeep, tidy = TRUE)
   record_upkeep_date(Sys.Date())
@@ -331,7 +332,10 @@ has_old_cran_comments <- function() {
 }
 
 last_upkeep_date <- function() {
-  as.Date(proj_desc()$get_field("Config/usethis/last-upkeep", "2000-01-01"), format = "%Y-%m-%d")
+  as.Date(
+    proj_desc()$get_field("Config/usethis/last-upkeep", "2000-01-01"),
+    format = "%Y-%m-%d"
+  )
 }
 
 last_upkeep_year <- function() {
@@ -339,5 +343,5 @@ last_upkeep_year <- function() {
 }
 
 record_upkeep_date <- function(date) {
-  desc <- proj_desc_field_update("Config/usethis/last-upkeep", format(date, "%Y-%m-%d"))
+  proj_desc_field_update("Config/usethis/last-upkeep", format(date, "%Y-%m-%d"))
 }

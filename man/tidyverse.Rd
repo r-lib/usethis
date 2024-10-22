@@ -64,9 +64,10 @@ assumes that you have a hex logo using spec from
 \item{retina}{\code{TRUE}, the default, scales the image on the README,
 assuming that geometry is double the desired size.}
 
-\item{last_upkeep}{Approximate year when you last touched this package. Default will
-use the recorded year of the last upkeep issue or, if missing, show the full
-checklist}
+\item{last_upkeep}{Year of last upkeep. By default, the
+\code{Config/usethis/last-upkeep} field in \code{DESCRIPTION} is consulted for this, if
+it's defined. If there's no information on the last upkeep, the issue will
+contain the full checklist.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
@@ -120,7 +121,9 @@ document in a \verb{.github/} subdirectory.
 \item \code{\link[=use_tidy_github_labels]{use_tidy_github_labels()}} calls \code{use_github_labels()} to implement
 tidyverse conventions around GitHub issue label names and colours.
 \item \code{use_tidy_upkeep_issue()} creates an issue containing a checklist of
-actions to bring your package up to current tidyverse standards.
+actions to bring your package up to current tidyverse standards. Also
+records the current date in the \code{Config/usethis/last-upkeep} field in
+\code{DESCRIPTION}.
 \item \code{use_tidy_logo()} calls \code{use_logo()} on the appropriate hex sticker PNG
 file at \url{https://github.com/rstudio/hex-stickers}.
 }
