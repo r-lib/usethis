@@ -2,11 +2,27 @@ test_that("tidy upkeep bullets don't change accidentally", {
   create_local_package()
   use_mit_license()
   expect_equal(last_upkeep_year(), 2000L)
-  record_upkeep_date(as.Date("2022-04-04"))
-  expect_equal(last_upkeep_year(), 2022L)
 
   local_mocked_bindings(
-    Sys.Date = function() as.Date("2023-01-01"),
+    Sys.Date = function() as.Date("2025-01-01"),
+    usethis_version = function() "1.1.0",
+    author_has_rstudio_email = function() TRUE,
+    is_posit_pkg = function() TRUE,
+    is_posit_person_canonical = function() FALSE
+  )
+
+  expect_snapshot(writeLines(tidy_upkeep_checklist()))
+})
+
+test_that("tidy upkeep omits bullets present in last_upkeep", {
+  create_local_package()
+  use_mit_license()
+  expect_equal(last_upkeep_year(), 2000L)
+  record_upkeep_date(as.Date("2023-04-04"))
+  expect_equal(last_upkeep_year(), 2023L)
+
+  local_mocked_bindings(
+    Sys.Date = function() as.Date("2025-01-01"),
     usethis_version = function() "1.1.0",
     author_has_rstudio_email = function() TRUE,
     is_posit_pkg = function() TRUE,
