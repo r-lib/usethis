@@ -22,7 +22,7 @@ use_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = FALSE)
 }
 
-make_upkeep_issue <- function(year, last_year, tidy) {
+make_upkeep_issue <- function(year, last_upkeep, tidy) {
   who <- if (tidy) "use_tidy_upkeep_issue()" else "use_upkeep_issue()"
   check_is_package(who)
 
@@ -41,7 +41,7 @@ make_upkeep_issue <- function(year, last_year, tidy) {
 
   gh <- gh_tr(tr)
   if (tidy) {
-    checklist <- tidy_upkeep_checklist(last_year, repo_spec = tr$repo_spec)
+    checklist <- tidy_upkeep_checklist(last_upkeep, repo_spec = tr$repo_spec)
   } else {
     checklist <- upkeep_checklist(tr)
   }
@@ -118,11 +118,11 @@ upkeep_checklist <- function(target_repo = NULL) {
 
 #' @export
 #' @rdname tidyverse
-#' @param year Approximate year when you last touched this package. Default will
+#' @param last_upkeep Approximate year when you last touched this package. Default will
 #' use the recorded year of the last upkeep issue or, if missing, show the full
 #' checklist
-use_tidy_upkeep_issue <- function(year = last_upkeep_year()) {
-  make_upkeep_issue(year = NULL, last_year = year, tidy = TRUE)
+use_tidy_upkeep_issue <- function(last_upkeep = last_upkeep_year()) {
+  make_upkeep_issue(year = NULL, last_upkeep = last_upkeep, tidy = TRUE)
   record_upkeep_date(Sys.Date())
 }
 
