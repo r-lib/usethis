@@ -331,7 +331,7 @@ has_old_cran_comments <- function() {
 }
 
 last_upkeep_date <- function() {
-  as.Date(proj_desc()$get_field("Config/usethis/upkeep", "2000-01-01"), format = "%Y-%m-%d")
+  as.Date(proj_desc()$get_field("Config/usethis/last-upkeep", "2000-01-01"), format = "%Y-%m-%d")
 }
 
 last_upkeep_year <- function() {
@@ -339,5 +339,5 @@ last_upkeep_year <- function() {
 }
 
 record_upkeep_date <- function(date) {
-  desc <- proj_desc_field_update("Config/usethis/upkeep", format(date, "%Y-%m-%d"))
+  desc <- proj_desc_field_update("Config/usethis/last-upkeep", format(date, "%Y-%m-%d"))
 }
