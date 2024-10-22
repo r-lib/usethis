@@ -38,7 +38,7 @@ use_tidy_style(strict = TRUE)
 
 use_tidy_logo(geometry = "240x278", retina = TRUE)
 
-use_tidy_upkeep_issue(year = NULL)
+use_tidy_upkeep_issue(last_upkeep = last_upkeep_year())
 }
 \arguments{
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
@@ -64,8 +64,10 @@ assumes that you have a hex logo using spec from
 \item{retina}{\code{TRUE}, the default, scales the image on the README,
 assuming that geometry is double the desired size.}
 
-\item{year}{Approximate year when you last touched this package. If \code{NULL},
-the default, will give you a full set of actions to perform.}
+\item{last_upkeep}{Year of last upkeep. By default, the
+\code{Config/usethis/last-upkeep} field in \code{DESCRIPTION} is consulted for this, if
+it's defined. If there's no information on the last upkeep, the issue will
+contain the full checklist.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
@@ -119,7 +121,9 @@ document in a \verb{.github/} subdirectory.
 \item \code{\link[=use_tidy_github_labels]{use_tidy_github_labels()}} calls \code{use_github_labels()} to implement
 tidyverse conventions around GitHub issue label names and colours.
 \item \code{use_tidy_upkeep_issue()} creates an issue containing a checklist of
-actions to bring your package up to current tidyverse standards.
+actions to bring your package up to current tidyverse standards. Also
+records the current date in the \code{Config/usethis/last-upkeep} field in
+\code{DESCRIPTION}.
 \item \code{use_tidy_logo()} calls \code{use_logo()} on the appropriate hex sticker PNG
 file at \url{https://github.com/rstudio/hex-stickers}.
 }
