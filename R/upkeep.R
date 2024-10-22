@@ -130,12 +130,11 @@ use_tidy_upkeep_issue <- function(last_upkeep = last_upkeep_year()) {
 # for mocking
 Sys.Date <- NULL
 
-tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
+                                  repo_spec = "OWNER/REPO") {
 
   posit_pkg <- is_posit_pkg()
   posit_person_ok <- is_posit_person_canonical()
-
-  year <- year %||% 2000
 
   bullets <- c(
     "### To begin",
@@ -144,7 +143,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     ""
   )
 
-  if (year <= 2000) {
+  if (last_upkeep <= 2000) {
     bullets <- c(
       bullets,
       "### Pre-history",
@@ -159,7 +158,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2020) {
+  if (last_upkeep <= 2020) {
     bullets <- c(
       bullets,
       "### 2020",
@@ -170,7 +169,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2021) {
+  if (last_upkeep <= 2021) {
     bullets <- c(
       bullets,
       "### 2021",
@@ -180,7 +179,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2022) {
+  if (last_upkeep <= 2022) {
     bullets <- c(
       bullets,
       "### 2022",
@@ -193,7 +192,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     )
   }
 
-  if (year <= 2023) {
+  if (last_upkeep <= 2023) {
     desc <- proj_desc()
 
     bullets <- c(
