@@ -22,8 +22,7 @@
 #' DESCRIPTION file and the user hasn't given any author information via the
 #' `fields` argument or the global option `"usethis.description"`. The
 #' placeholder looks something like `First Last <first.last@example.com> [aut,
-#' cre] (YOUR-ORCID-ID)` and `use_author()` offers to remove it in interactive
-#' sessions.
+#' cre]` and `use_author()` offers to remove it in interactive sessions.
 #'
 #' @inheritParams utils::person
 #' @inheritDotParams utils::person
