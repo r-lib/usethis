@@ -89,11 +89,11 @@ use_mit_license("My Name")
 #> ✔ Writing 'LICENSE.md'.
 #> ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.
 
-use_package("ggplot2", "Suggests")
-#> ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.
-#> ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is
+use_package("rmarkdown", "Suggests")
+#> ✔ Adding rmarkdown to 'Suggests' field in DESCRIPTION.
+#> ☐ Use `requireNamespace("rmarkdown", quietly = TRUE)` to test if rmarkdown is
 #>   installed.
-#> ☐ Then directly refer to functions with `ggplot2::fun()`.
+#> ☐ Then directly refer to functions with `rmarkdown::fun()`.
 
 # Set up other files -------------------------------------------------
 use_readme_md()
