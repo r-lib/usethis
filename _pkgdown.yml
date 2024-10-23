@@ -61,6 +61,7 @@ reference:
     - use_test_helper
     - use_vignette
     - use_addin
+    - use_cff
     - use_citation
     - use_tutorial
     - use_author
