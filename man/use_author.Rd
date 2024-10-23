@@ -52,8 +52,7 @@ processed to create \code{Author} and \code{Maintainer} fields, but only when th
 \code{\link[=use_description]{use_description()}}. This happens when \pkg{usethis} has to create a
 DESCRIPTION file and the user hasn't given any author information via the
 \code{fields} argument or the global option \code{"usethis.description"}. The
-placeholder looks something like \verb{First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)} and \code{use_author()} offers to remove it in interactive
-sessions.
+placeholder looks something like \verb{First Last <first.last@example.com> [aut, cre]} and \code{use_author()} offers to remove it in interactive sessions.
 }
 }
 \examples{
