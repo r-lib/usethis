@@ -116,15 +116,15 @@
 <span><span class="co"># Create a new package -------------------------------------------------</span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Creating '/tmp/RtmpCJHMlj/mypkg/'.</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpCJHMlj/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Creating '/tmp/RtmpPZsquk/mypkg/'.</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".</span></span>
 <span><span class="co">#&gt; ✔ Creating 'R/'.</span></span>
 <span><span class="co">#&gt; ✔ Writing 'DESCRIPTION'.</span></span>
 <span><span class="co">#&gt; Package: mypkg</span></span>
 <span><span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span></span>
 <span><span class="co">#&gt; Version: 0.0.0.9000</span></span>
 <span><span class="co">#&gt; Authors@R (parsed):</span></span>
-<span><span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (YOUR-ORCID-ID)</span></span>
+<span><span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre]</span></span>
 <span><span class="co">#&gt; Description: What the package does (one paragraph).</span></span>
 <span><span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span></span>
 <span><span class="co">#&gt;     license</span></span>
@@ -135,8 +135,8 @@
 <span><span class="co">#&gt; ✔ Setting active project to "&lt;no active project&gt;".</span></span>
 <span><span class="co"># only needed since this session isn't interactive</span></span>
 <span><span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpCJHMlj/mypkg".</span></span>
-<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpCJHMlj/mypkg/'</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpPZsquk/mypkg/'</span></span>
 <span></span>
 <span><span class="co"># Modify the description ----------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span></span>
@@ -145,11 +145,11 @@
 <span><span class="co">#&gt; ✔ Writing 'LICENSE.md'.</span></span>
 <span><span class="co">#&gt; ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, <span class="st">"Suggests"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.</span></span>
-<span><span class="co">#&gt; ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is</span></span>
+<span><span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"rmarkdown"</span>, <span class="st">"Suggests"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Adding rmarkdown to 'Suggests' field in DESCRIPTION.</span></span>
+<span><span class="co">#&gt; ☐ Use `requireNamespace("rmarkdown", quietly = TRUE)` to test if rmarkdown is</span></span>
 <span><span class="co">#&gt;   installed.</span></span>
-<span><span class="co">#&gt; ☐ Then directly refer to functions with `ggplot2::fun()`.</span></span>
+<span><span class="co">#&gt; ☐ Then directly refer to functions with `rmarkdown::fun()`.</span></span>
 <span></span>
 <span><span class="co"># Set up other files -------------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span><span class="op">(</span><span class="op">)</span></span>
