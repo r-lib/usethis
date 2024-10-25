@@ -94,7 +94,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
       ver <- import$ver
     }
     ui_silence(
-      use_package(import$pkg, min_version = ver)
+      use_dependency(import$pkg, "Imports", min_version = ver, allow_decrease = FALSE)
     )
   }
 

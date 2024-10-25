@@ -36,6 +36,14 @@ test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
   expect_snapshot(use_package("purrr", "Suggests"))
 })
 
+test_that("use_data() will not decrease R version if called internally.", {
+  create_local_package()
+  # Use a minimum R version
+  use_package("R", "Depends", "4.1")
+  use_dependency("R", "Depends", "3.6", allow_decrease = FALSE)
+  expect_equal(subset(proj_deps(), package == "R")$version, ">= 4.1")
+})
+
 # use_dev_package() -----------------------------------------------------------
 
 test_that("use_dev_package() writes a remote", {

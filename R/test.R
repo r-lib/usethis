@@ -37,7 +37,7 @@ use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
   if (is_package()) {
     edition <- check_edition(edition)
 
-    use_dependency("testthat", "Suggests", paste0(edition, ".0.0"))
+    use_dependency("testthat", "Suggests", paste0(edition, ".0.0"), allow_decrease = FALSE)
     proj_desc_field_update("Config/testthat/edition", as.character(edition), overwrite = TRUE)
 
     if (parallel) {

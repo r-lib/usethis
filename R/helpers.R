@@ -1,6 +1,7 @@
-use_dependency <- function(package, type, min_version = NULL) {
+use_dependency <- function(package, type, min_version = NULL, allow_decrease = TRUE) {
   check_name(package)
   check_name(type)
+  check_bool(allow_decrease)
 
   if (package != "R") {
     check_installed(package)
@@ -65,17 +66,23 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (delta == 0 && version_spec(version) != version_spec(existing_version)) {
     if (version_spec(version) > version_spec(existing_version)) {
       direction <- "Increasing"
-    } else {
+    } else if (allow_decrease) {
       direction <- "Decreasing"
+    } else {
+      direction <- NULL
     }
 
-    ui_bullets(c(
-      "v" = "{direction} {.pkg {package}} version to {.val {version}} in
+    if (!is.null(direction)) {
+      ui_bullets(c(
+        "v" = "{direction} {.pkg {package}} version to {.val {version}} in
              DESCRIPTION."
-    ))
-    desc$set_dep(package, type, version = version)
-    desc$write()
-    changed <- TRUE
+      ))
+      desc$set_dep(package, type, version = version)
+      desc$write()
+      changed <- TRUE
+    } else {
+      changed <- FALSE
+    }
 
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports

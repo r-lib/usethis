@@ -45,9 +45,9 @@ use_data <- function(...,
   objs <- get_objs_from_dots(dots(...))
 
   if (version < 3) {
-    use_dependency("R", "depends", "2.10")
+    use_dependency("R", "depends", "2.10", allow_decrease = FALSE)
   } else {
-    use_dependency("R", "depends", "3.5")
+    use_dependency("R", "depends", "3.5", allow_decrease = FALSE)
   }
   if (internal) {
     use_directory("R")
