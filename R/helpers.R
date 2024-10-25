@@ -75,7 +75,7 @@ use_dependency <- function(package, type, min_version = NULL, allow_decrease = T
     if (!is.null(direction)) {
       ui_bullets(c(
         "v" = "{direction} {.pkg {package}} version to {.val {version}} in
-             DESCRIPTION."
+               DESCRIPTION."
       ))
       desc$set_dep(package, type, version = version)
       desc$write()
