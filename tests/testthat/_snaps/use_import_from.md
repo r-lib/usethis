@@ -3,8 +3,8 @@
     Code
       roxygen_ns_show()
     Output
-      [1] "#' @importFrom tibble deframe" "#' @importFrom tibble enframe"
-      [3] "#' @importFrom tibble tibble" 
+      [1] "#' @importFrom lifecycle deprecate_stop"
+      [2] "#' @importFrom lifecycle deprecate_warn"
 
 # use_import_from() generates helpful errors
 
