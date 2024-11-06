@@ -21,8 +21,8 @@ test_that("use_import_from() generates helpful errors", {
 
   expect_snapshot(error = TRUE, {
     use_import_from(1)
-    use_import_from(c("tibble", "rlang"))
+    use_import_from(c("desc", "rlang"))
 
-    use_import_from("tibble", "pool_noodle")
+    use_import_from("desc", "pool_noodle")
   })
 })
