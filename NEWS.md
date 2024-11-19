@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `use_test()` now creates a unit test with the ['#Arrange, #Act, #Assert'](https://xp123.com/3a-arrange-act-assert/) pattern.
 * `use_tidy_upkeep_issue()` now records the year it is being run in the
   `Config/usethis/upkeep` field in DESCRIPTION. If this value exists it is
   furthermore used to filter the checklist when making the issue.
