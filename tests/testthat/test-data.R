@@ -95,3 +95,14 @@ test_that("use_data_raw() does setup", {
 
   expect_true(is_build_ignored("^data-raw$"))
 })
+
+test_that("use_data() does not decrease minimum version of R itself", {
+  create_local_package()
+
+  use_package("R", "depends", "4.1")
+  original_minimum_r_version <- pkg_minimum_r_version()
+
+  use_data(letters)
+
+  expect_true(pkg_minimum_r_version() >= original_minimum_r_version)
+})
