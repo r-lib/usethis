@@ -537,7 +537,7 @@ pkg_minimum_r_version <- function() {
   if (length(r_dep) > 0) {
     numeric_version(gsub("[^0-9.]", "", r_dep))
   } else {
-    numeric_version(NA_character_)
+    NA_character_
   }
 }
 
