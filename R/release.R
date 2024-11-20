@@ -534,10 +534,11 @@ author_has_rstudio_email <- function() {
 pkg_minimum_r_version <- function() {
   deps <- proj_desc()$get_deps()
   r_dep <- deps[deps$package == "R" & deps$type == "Depends", "version"]
-  if (length(r_dep) == 0) {
-    return(numeric_version("0"))
+  if (length(r_dep) > 0) {
+    numeric_version(gsub("[^0-9.]", "", r_dep))
+  } else {
+    numeric_version(NA_character_)
   }
-  numeric_version(gsub("[^0-9.]", "", r_dep))
 }
 
 # Borrowed from pak, but modified also retain user's non-cran repos:

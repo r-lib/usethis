@@ -243,6 +243,7 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
     )
   }
 
+  minimum_r_version <- pkg_minimum_r_version()
   bullets <- c(
     bullets,
     "### To finish",
@@ -250,7 +251,7 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
     todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
     todo(
       '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
-      tidy_minimum_r_version() > pkg_minimum_r_version()
+      is.na(minimum_r_version) || tidy_minimum_r_version() > minimum_r_version
     ),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
