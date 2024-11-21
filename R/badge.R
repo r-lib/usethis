@@ -155,12 +155,9 @@ use_r_universe_badge <- function() {
   # The r-universe link needs the package name + organization.
 
   pkg <- project_name()
-  url <- tryCatch(github_url(pkg), error = function(e) NULL)
-  # in order to get organization
-  desc <- proj_desc()
-  urls <- desc$get_urls()
-  dat <- parse_github_remotes(c(urls, url))
-  gh_org <- unique(dat$repo_owner[!is.na(dat$repo_owner)])
+  # Get organization to construct R-universe link
+  repo_owner <- tryCatch(target_repo()$repo_owner, error = function(e) NA)
+  gh_org <- unique(repo_owner[!is.na(repo_owner)])
   if (length(gh_org) == 0L) {
     ui_abort(c(
       "{.pkg {pkg}} must have a repo URL in DESCRITPION to create a badge.",
