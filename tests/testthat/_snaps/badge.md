@@ -15,7 +15,7 @@
       Error in `use_r_universe_badge()`:
       x {TESTPKG} must have a repo URL in DESCRITPION to create a badge.
       i Use `usethis::use_badge()` if you have a different configuration.
-      i If {TESTPKG} is on CRAN, you can also see <cran.dev/{TESTPKG}> for a redirect to the r-universe homepage.
+      i If {TESTPKG} is on CRAN, you can also see <https://cran.dev/{TESTPKG}> for a redirect to the r-universe homepage.
 
 # use_posit_cloud_badge() handles bad and good input
 

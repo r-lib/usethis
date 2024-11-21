@@ -157,12 +157,12 @@ use_r_universe_badge <- function() {
   pkg <- project_name()
   # Get organization to construct R-universe link
   repo_owner <- tryCatch(target_repo()$repo_owner, error = function(e) NA)
-  gh_org <- unique(repo_owner[!is.na(repo_owner)])
-  if (length(gh_org) == 0L) {
+  gh_org <- repo_owner[!is.na(repo_owner)]
+  if (length(gh_org) != 1L ) {
     ui_abort(c(
       "{.pkg {pkg}} must have a repo URL in DESCRITPION to create a badge.",
       "Use {.fn usethis::use_badge} if you have a different configuration.",
-      "If {.pkg {pkg}} is on CRAN, you can also see {.url cran.dev/{pkg}}
+      "If {.pkg {pkg}} is on CRAN, you can also see {.url https://cran.dev/{pkg}}
        for a redirect to the r-universe homepage."
     ))
   }
