@@ -60,15 +60,15 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/RtmpCJHMlj/mypkg/'.
-#> ✔ Setting active project to "/private/tmp/RtmpCJHMlj/mypkg".
+#> ✔ Creating '/tmp/RtmpPZsquk/mypkg/'.
+#> ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".
 #> ✔ Creating 'R/'.
 #> ✔ Writing 'DESCRIPTION'.
 #> Package: mypkg
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
 #> Authors@R (parsed):
-#>     * First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
+#>     * First Last <first.last@example.com> [aut, cre]
 #> Description: What the package does (one paragraph).
 #> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 #>     license
@@ -79,8 +79,8 @@ create_package(path)
 #> ✔ Setting active project to "<no active project>".
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to "/private/tmp/RtmpCJHMlj/mypkg".
-#> ✔ Changing working directory to '/tmp/RtmpCJHMlj/mypkg/'
+#> ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".
+#> ✔ Changing working directory to '/tmp/RtmpPZsquk/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -89,11 +89,11 @@ use_mit_license("My Name")
 #> ✔ Writing 'LICENSE.md'.
 #> ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.
 
-use_package("ggplot2", "Suggests")
-#> ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.
-#> ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is
+use_package("rmarkdown", "Suggests")
+#> ✔ Adding rmarkdown to 'Suggests' field in DESCRIPTION.
+#> ☐ Use `requireNamespace("rmarkdown", quietly = TRUE)` to test if rmarkdown is
 #>   installed.
-#> ☐ Then directly refer to functions with `ggplot2::fun()`.
+#> ☐ Then directly refer to functions with `rmarkdown::fun()`.
 
 # Set up other files -------------------------------------------------
 use_readme_md()

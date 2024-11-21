@@ -16,13 +16,13 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' use_upkeep_issue(2023)
+#' use_upkeep_issue()
 #' }
 use_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = FALSE)
 }
 
-make_upkeep_issue <- function(year, tidy) {
+make_upkeep_issue <- function(year, last_upkeep, tidy) {
   who <- if (tidy) "use_tidy_upkeep_issue()" else "use_upkeep_issue()"
   check_is_package(who)
 
@@ -41,7 +41,7 @@ make_upkeep_issue <- function(year, tidy) {
 
   gh <- gh_tr(tr)
   if (tidy) {
-    checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
+    checklist <- tidy_upkeep_checklist(last_upkeep, repo_spec = tr$repo_spec)
   } else {
     checklist <- upkeep_checklist(tr)
   }
@@ -118,21 +118,24 @@ upkeep_checklist <- function(target_repo = NULL) {
 
 #' @export
 #' @rdname tidyverse
-#' @param year Approximate year when you last touched this package. If `NULL`,
-#'   the default, will give you a full set of actions to perform.
-use_tidy_upkeep_issue <- function(year = NULL) {
-  make_upkeep_issue(year = year, tidy = TRUE)
+#' @param last_upkeep Year of last upkeep. By default, the
+#' `Config/usethis/last-upkeep` field in `DESCRIPTION` is consulted for this, if
+#' it's defined. If there's no information on the last upkeep, the issue will
+#' contain the full checklist.
+use_tidy_upkeep_issue <- function(last_upkeep = last_upkeep_year()) {
+  make_upkeep_issue(year = NULL, last_upkeep = last_upkeep, tidy = TRUE)
+  record_upkeep_date(Sys.Date())
 }
 
 # for mocking
 Sys.Date <- NULL
 
-tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
+                                  repo_spec = "OWNER/REPO") {
+  desc <- proj_desc()
 
   posit_pkg <- is_posit_pkg()
   posit_person_ok <- is_posit_person_canonical()
-
-  year <- year %||% 2000
 
   bullets <- c(
     "### To begin",
@@ -141,7 +144,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     ""
   )
 
-  if (year <= 2000) {
+  if (last_upkeep <= 2000) {
     bullets <- c(
       bullets,
       "### Pre-history",
@@ -156,7 +159,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2020) {
+  if (last_upkeep <= 2020) {
     bullets <- c(
       bullets,
       "### 2020",
@@ -167,7 +170,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2021) {
+  if (last_upkeep <= 2021) {
     bullets <- c(
       bullets,
       "### 2021",
@@ -177,7 +180,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
       ""
     )
   }
-  if (year <= 2022) {
+  if (last_upkeep <= 2022) {
     bullets <- c(
       bullets,
       "### 2022",
@@ -190,9 +193,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     )
   }
 
-  if (year <= 2023) {
-    desc <- proj_desc()
-
+  if (last_upkeep <= 2023) {
     bullets <- c(
       bullets,
       "### 2023",
@@ -242,6 +243,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     )
   }
 
+  minimum_r_version <- pkg_minimum_r_version()
   bullets <- c(
     bullets,
     "### To finish",
@@ -249,7 +251,7 @@ tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
     todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
     todo(
       '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
-      tidy_minimum_r_version() > pkg_minimum_r_version()
+      is.na(minimum_r_version) || tidy_minimum_r_version() > minimum_r_version
     ),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
@@ -326,4 +328,19 @@ has_old_cran_comments <- function() {
   cc <- proj_path("cran-comments.md")
   file_exists(cc) &&
     any(grepl("# test environment", readLines(cc), ignore.case = TRUE))
+}
+
+last_upkeep_date <- function() {
+  as.Date(
+    proj_desc()$get_field("Config/usethis/last-upkeep", "2000-01-01"),
+    format = "%Y-%m-%d"
+  )
+}
+
+last_upkeep_year <- function() {
+  as.integer(format(last_upkeep_date(), "%Y"))
+}
+
+record_upkeep_date <- function(date) {
+  proj_desc_field_update("Config/usethis/last-upkeep", format(date, "%Y-%m-%d"))
 }

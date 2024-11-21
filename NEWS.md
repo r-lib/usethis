@@ -2,13 +2,17 @@
 
 * `use_vignette()` and `use_article()` gain `type` to allow creating Quarto vignettes and articles (@olivroy, #1997).
 
+* `use_tidy_upkeep_issue()` now records the year it is being run in the
+  `Config/usethis/upkeep` field in DESCRIPTION. If this value exists it is
+  furthermore used to filter the checklist when making the issue.
+
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
   file (@jplecavalier, #1957).
-  
+
 * `use_data()` now uses serialization version 3 by default. (@laurabrianna, #2044)
 
-* Reverse dependency checks are only suggested if they exist 
+* Reverse dependency checks are only suggested if they exist
   (#1817, @seankross).
 
 # usethis 3.0.0

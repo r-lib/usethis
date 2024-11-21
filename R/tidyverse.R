@@ -44,7 +44,9 @@
 #'   tidyverse conventions around GitHub issue label names and colours.
 #'
 #' * `use_tidy_upkeep_issue()` creates an issue containing a checklist of
-#'   actions to bring your package up to current tidyverse standards.
+#'   actions to bring your package up to current tidyverse standards. Also
+#'   records the current date in the `Config/usethis/last-upkeep` field in
+#'   `DESCRIPTION`.
 #'
 #' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
 #'   file at <https://github.com/rstudio/hex-stickers>.

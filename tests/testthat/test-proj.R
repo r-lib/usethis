@@ -148,12 +148,12 @@ test_that("with_project() runs code in temp proj, restores (lack of) proj", {
   )
 
   proj_set_(NULL)
-  expect_identical(proj_get_(), NULL)
+  expect_null(proj_get_())
 
   res <- with_project(path = temp_proj, proj_get_())
 
   expect_identical(res, temp_proj)
-  expect_identical(proj_get_(), NULL)
+  expect_null(proj_get_())
 })
 
 test_that("with_project() runs code in temp proj, restores original proj", {

@@ -83,7 +83,7 @@ git_user_get <- function(where = c("de_facto", "local", "global")) {
 
 # translate from "usethis" terminology to "git" terminology
 where_from_scope <- function(scope = c("user", "project")) {
-  scope = match.arg(scope)
+  scope <- match.arg(scope)
 
   where_scope <- c(user = "global", project = "de_facto")
 
