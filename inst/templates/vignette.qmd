@@ -1,0 +1,16 @@
+---
+title: "{{{ vignette_title }}}"
+vignette: >
+  %\VignetteIndexEntry{{{ braced_vignette_title }}}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+library({{Package}})
+```

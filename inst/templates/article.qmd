@@ -1,0 +1,12 @@
+---
+title: "{{{ vignette_title }}}"
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+library({{Package}})
+```

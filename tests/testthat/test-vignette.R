@@ -15,7 +15,7 @@ test_that("use_vignette() gives useful errors", {
   })
 })
 
-test_that("use_vignette() does the promised setup", {
+test_that("use_vignette() does the promised setup, Rmd", {
   create_local_package()
 
   use_vignette("name", "title")
@@ -30,6 +30,43 @@ test_that("use_vignette() does the promised setup", {
   )
 
   expect_identical(proj_desc()$get_field("VignetteBuilder"), "knitr")
+})
+
+test_that("use_vignette() does the promised setup, qmd", {
+  create_local_package()
+  local_check_installed()
+
+  use_vignette("name.qmd", "title")
+  expect_proj_file("vignettes/name.qmd")
+
+  ignores <- read_utf8(proj_path(".gitignore"))
+  expect_true("inst/doc" %in% ignores)
+
+  deps <- proj_deps()
+  expect_true(
+    all(c("knitr", "quarto") %in% deps$package[deps$type == "Suggests"])
+  )
+
+  expect_identical(proj_desc()$get_field("VignetteBuilder"), "quarto")
+})
+
+test_that("use_vignette() does the promised setup, mix of Rmd and qmd", {
+  create_local_package()
+  local_check_installed()
+
+  use_vignette("older-vignette", "older Rmd vignette")
+  use_vignette("newer-vignette.qmd", "newer qmd vignette")
+  expect_proj_file("vignettes/older-vignette.Rmd")
+  expect_proj_file("vignettes/newer-vignette.qmd")
+
+  deps <- proj_deps()
+  expect_true(
+    all(c("knitr", "quarto", "rmarkdown") %in% deps$package[deps$type == "Suggests"])
+  )
+
+  vignette_builder <- proj_desc()$get_field("VignetteBuilder")
+  expect_match(vignette_builder, "knitr", fixed = TRUE)
+  expect_match(vignette_builder, "quarto", fixed = TRUE)
 })
 
 # use_article -------------------------------------------------------------

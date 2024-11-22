@@ -5,15 +5,20 @@
 \alias{use_article}
 \title{Create a vignette or article}
 \usage{
-use_vignette(name, title = name)
+use_vignette(name, title = NULL)
 
 use_article(name, title = name)
 }
 \arguments{
-\item{name}{Base for file name to use for new vignette. Should consist only
-of numbers, letters, \verb{_} and \code{-}. Lower case is recommended.}
+\item{name}{File name to use for new vignette. Should consist only of
+numbers, letters, \verb{_} and \code{-}. Lower case is recommended. Can include the
+\code{".Rmd"} or \code{".qmd"} file extension, which also dictates whether to place
+an R Markdown or Quarto vignette. R Markdown (\code{".Rmd"}) is the current
+default, but it is anticipated that Quarto (\code{".qmd"}) will become the
+default in the future.}
 
-\item{title}{The title of the vignette.}
+\item{title}{The title of the vignette. If not provided, a title is generated
+from \code{name}.}
 }
 \description{
 Creates a new vignette or article in \verb{vignettes/}. Articles are a special
@@ -28,15 +33,25 @@ automatically).
 \item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked.
 \item Adds \verb{vignettes/*.html} and \verb{vignettes/*.R} to \code{.gitignore} so
 you never accidentally track rendered vignettes.
+\item For \verb{*.qmd}, adds Quarto-related patterns to \code{.gitignore} and
+\code{.Rbuildignore}.
 }
 }
 
 \examples{
 \dontrun{
 use_vignette("how-to-do-stuff", "How to do stuff")
+use_vignette("r-markdown-is-classic.Rmd", "R Markdown is classic")
+use_vignette("quarto-is-cool.qmd", "Quarto is cool")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/vignettes.html}{vignettes chapter} of
-\href{https://r-pkgs.org}{R Packages}.
+\itemize{
+\item The \href{https://r-pkgs.org/vignettes.html}{vignettes chapter} of
+\href{https://r-pkgs.org}{R Packages}
+\item The pkgdown vignette on Quarto:
+\code{vignette("quarto", package = "pkgdown")}
+\item The quarto (as in the R package) vignette on HTML vignettes:
+\code{vignette("hello", package = "quarto")}
+}
 }
