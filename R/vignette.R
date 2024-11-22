@@ -144,7 +144,7 @@ check_vignette_extension <- function(ext) {
   if (! ext %in% c("Rmd", "rmd", "qmd")) {
     valid_exts_cli <- cli::cli_vec(
       c("Rmd", "qmd"),
-      style = list("vec-last" = ", or ")
+      style = list("vec-last" = " or ", "vec-sep2" = " or ")
     )
     ui_abort(c(
       "Unsupported file extension: {.val {ext}}",
