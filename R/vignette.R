@@ -140,18 +140,17 @@ valid_vignette_name <- function(x) {
 }
 
 check_vignette_extension <- function(ext) {
-  valid_exts <- c("Rmd", "rmd", "qmd")
-  valid_exts_cli <- cli::cli_vec(
-    valid_exts,
-    style = list("vec-last" = ", or ")
-  )
-  if (! ext %in% valid_exts) {
+  # Quietly accept "rmd" here, tho we'll always write ".Rmd" in such a filepath
+  if (! ext %in% c("Rmd", "rmd", "qmd")) {
+    valid_exts_cli <- cli::cli_vec(
+      c("Rmd", "qmd"),
+      style = list("vec-last" = ", or ")
+    )
     ui_abort(c(
-      "Invalid file extension: {.val {ext}}",
+      "Unsupported file extension: {.val {ext}}",
       "usethis can only create a vignette or article with one of these
        extensions: {.val {valid_exts_cli}}."
     ))
-
   }
 }
 

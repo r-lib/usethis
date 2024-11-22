@@ -98,3 +98,10 @@ test_that("valid_vignette_name() works", {
   expect_false(valid_vignette_name("01-test"))
   expect_false(valid_vignette_name("test.1"))
 })
+
+test_that("we error informatively for bad vignette extension", {
+  expect_snapshot(
+    error = TRUE,
+    check_vignette_extension("Rnw")
+  )
+})
