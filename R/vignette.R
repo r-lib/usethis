@@ -67,15 +67,29 @@ use_vignette <- function(name, title = NULL) {
 
 #' @export
 #' @rdname use_vignette
-use_article <- function(name, title = name) {
+use_article <- function(name, title = NULL) {
   check_is_package("use_article()")
+  check_required(name)
+  maybe_name(title)
 
-  deps <- proj_deps()
-  if (!"rmarkdown" %in% deps$package) {
-    proj_desc_field_update("Config/Needs/website", "rmarkdown", append = TRUE)
+  ext <- get_vignette_extension(name)
+  if (ext == "qmd") {
+    check_installed("quarto")
+    check_installed("pkgdown", version = "2.1.0")
   }
 
-  use_vignette_template("article.Rmd", name, title, subdir = "articles")
+  name <- path_ext_remove(name)
+  title <- title %||% name
+
+  if (tolower(ext) == "rmd") {
+    proj_desc_field_update("Config/Needs/website", "rmarkdown", overwrite = TRUE, append = TRUE)
+    use_vignette_template("article.Rmd", name, title, subdir = "articles")
+  } else {
+    # check this dependency stuff
+    use_dependency("quarto", "Suggests")
+    proj_desc_field_update("Config/Needs/website", "quarto", overwrite = TRUE, append = TRUE)
+    use_vignette_template("article.qmd", name, title, subdir = "articles")
+  }
   use_build_ignore("vignettes/articles")
 
   invisible()
@@ -89,22 +103,23 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
 
   ext <- get_vignette_extension(template)
 
-  use_directory("vignettes")
-  if (!is.null(subdir)) {
-    use_directory(path("vignettes", subdir))
-  }
-  use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
-  if (ext == "qmd") {
-    use_build_ignore("vignettes/.quarto")
-    use_build_ignore("vignettes/*_files")
-    use_git_ignore("*_files", "vignettes")
+  if (is.null(subdir)) {
+    target_dir <- "vignettes"
+  } else {
+    target_dir <- path("vignettes", subdir)
   }
 
-  if (is.null(subdir)) {
-    path <- path("vignettes", asciify(name), ext = ext)
-  } else {
-    path <- path("vignettes", subdir, asciify(name), ext = ext)
+  use_directory(target_dir)
+
+  use_git_ignore(c("*.html", "*.R"), directory = target_dir)
+  if (ext == "qmd") {
+    use_git_ignore("**/.quarto/")
+    use_git_ignore("*_files", target_dir)
+    use_build_ignore(path(target_dir, ".quarto"))
+    use_build_ignore(path(target_dir, "*_files"))
   }
+
+  path <- path(target_dir, asciify(name), ext = ext)
 
   data <- list(
     Package = project_name(),
@@ -144,7 +159,7 @@ check_vignette_extension <- function(ext) {
   if (! ext %in% c("Rmd", "rmd", "qmd")) {
     valid_exts_cli <- cli::cli_vec(
       c("Rmd", "qmd"),
-      style = list("vec-last" = " or ", "vec-sep2" = " or ")
+      style = list("vec-sep2" = " or ")
     )
     ui_abort(c(
       "Unsupported file extension: {.val {ext}}",

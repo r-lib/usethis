@@ -70,24 +70,38 @@ test_that("use_vignette() does the promised setup, mix of Rmd and qmd", {
 })
 
 # use_article -------------------------------------------------------------
-
-test_that("use_article goes in article subdirectory", {
-  create_local_package()
-
-  use_article("test")
-  expect_proj_file("vignettes/articles/test.Rmd")
-})
-
-test_that("use_article() adds rmarkdown to Config/Needs/website", {
+test_that("use_article() does the promised setup, Rmd", {
   create_local_package()
   local_interactive(FALSE)
 
-  proj_desc_field_update("Config/Needs/website", "somepackage", append = TRUE)
+  # Let's have another package already in Config/Needs/website
+  proj_desc_field_update("Config/Needs/website", "somepackage")
   use_article("name", "title")
+
+  expect_proj_file("vignettes/articles/name.Rmd")
 
   expect_setequal(
     proj_desc()$get_list("Config/Needs/website"),
     c("rmarkdown", "somepackage")
+  )
+})
+
+# Note that qmd articles seem to cause problems for build_site() rn
+# https://github.com/r-lib/pkgdown/issues/2821
+test_that("use_article() does the promised setup, qmd", {
+  create_local_package()
+  local_check_installed()
+  local_interactive(FALSE)
+
+  # Let's have another package already in Config/Needs/website
+  proj_desc_field_update("Config/Needs/website", "somepackage")
+  use_article("name.qmd", "title")
+
+  expect_proj_file("vignettes/articles/name.qmd")
+
+  expect_setequal(
+    proj_desc()$get_list("Config/Needs/website"),
+    c("quarto", "somepackage")
   )
 })
 

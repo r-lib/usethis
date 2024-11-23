@@ -7,7 +7,7 @@
 \usage{
 use_vignette(name, title = NULL)
 
-use_article(name, title = name)
+use_article(name, title = NULL)
 }
 \arguments{
 \item{name}{File name to use for new vignette. Should consist only of
