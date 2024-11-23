@@ -1,10 +1,13 @@
 # usethis (development version)
 
+* `use_vignette()` and `use_article()` now support Quarto. The `name` of the new
+  vignette or article can optionally include a file extension to signal whether
+  `.Rmd` or `.qmd` is desired, with `.Rmd` remaining the default for now. Thanks
+  to @olivroy for getting the ball rolling (#1997).
+
 * `use_tidy_upkeep_issue()` now records the year it is being run in the
   `Config/usethis/upkeep` field in DESCRIPTION. If this value exists it is
   furthermore used to filter the checklist when making the issue.
-
-## Bug fixes and minor improvements
 
 * `use_package()` now decreases a package minimum version required when
   `min_version` is lower than what is currently specified in the DESCRIPTION
