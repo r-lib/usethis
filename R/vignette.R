@@ -85,7 +85,6 @@ use_article <- function(name, title = NULL) {
     proj_desc_field_update("Config/Needs/website", "rmarkdown", overwrite = TRUE, append = TRUE)
     use_vignette_template("article.Rmd", name, title, subdir = "articles")
   } else {
-    # check this dependency stuff
     use_dependency("quarto", "Suggests")
     proj_desc_field_update("Config/Needs/website", "quarto", overwrite = TRUE, append = TRUE)
     use_vignette_template("article.qmd", name, title, subdir = "articles")
