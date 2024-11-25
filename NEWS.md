@@ -1,22 +1,21 @@
 # usethis (development version)
 
-* `use_vignette()` and `use_article()` now support Quarto. The `name` of the new
+* `use_vignette()` and `use_article()` support Quarto. The `name` of the new
   vignette or article can optionally include a file extension to signal whether
   `.Rmd` or `.qmd` is desired, with `.Rmd` remaining the default for now. Thanks
   to @olivroy for getting the ball rolling (#1997).
 
-* `use_tidy_upkeep_issue()` now records the year it is being run in the
-  `Config/usethis/upkeep` field in DESCRIPTION. If this value exists it is
-  furthermore used to filter the checklist when making the issue.
+* `use_data()` defaults to serialization version 3 (@laurabrianna, #2044).
 
-* `use_package()` now decreases a package minimum version required when
-  `min_version` is lower than what is currently specified in the DESCRIPTION
-  file (@jplecavalier, #1957).
+* `use_package()` can lower a minimum version requirement
+  (@jplecavalier, #1957).
 
-* `use_data()` now uses serialization version 3 by default. (@laurabrianna, #2044)
+* `use_release_issue()` only suggests doing reverse dependency checks if there
+  are, in fact, reverse dependencies (#1817, @seankross).
 
-* Reverse dependency checks are only suggested if they exist
-  (#1817, @seankross).
+* `use_tidy_upkeep_issue()` records the year it is being run in the
+  `Config/usethis/upkeep` field in DESCRIPTION. If this value exists, it is
+  used to filter the checklist when making the issue.
 
 # usethis 3.0.0
 
