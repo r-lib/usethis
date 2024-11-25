@@ -69,9 +69,9 @@ automatically).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">use_vignette</span><span class="op">(</span><span class="va">name</span>, title <span class="op">=</span> <span class="va">name</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">use_vignette</span><span class="op">(</span><span class="va">name</span>, title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">use_article</span><span class="op">(</span><span class="va">name</span>, title <span class="op">=</span> <span class="va">name</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">use_article</span><span class="op">(</span><span class="va">name</span>, title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -79,12 +79,17 @@ automatically).</p>
 
 
 <dl><dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
-<dd><p>Base for file name to use for new vignette. Should consist only
-of numbers, letters, <code>_</code> and <code>-</code>. Lower case is recommended.</p></dd>
+<dd><p>File name to use for new vignette. Should consist only of
+numbers, letters, <code>_</code> and <code>-</code>. Lower case is recommended. Can include the
+<code>".Rmd"</code> or <code>".qmd"</code> file extension, which also dictates whether to place
+an R Markdown or Quarto vignette. R Markdown (<code>".Rmd"</code>) is the current
+default, but it is anticipated that Quarto (<code>".qmd"</code>) will become the
+default in the future.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>The title of the vignette.</p></dd>
+<dd><p>The title of the vignette. If not provided, a title is generated
+from <code>name</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -95,17 +100,27 @@ of numbers, letters, <code>_</code> and <code>-</code>. Lower case is recommende
 <li><p>Adds <code>inst/doc</code> to <code>.gitignore</code> so built vignettes aren't tracked.</p></li>
 <li><p>Adds <code>vignettes/*.html</code> and <code>vignettes/*.R</code> to <code>.gitignore</code> so
 you never accidentally track rendered vignettes.</p></li>
+<li><p>For <code>*.qmd</code>, adds Quarto-related patterns to <code>.gitignore</code> and
+<code>.Rbuildignore</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>The <a href="https://r-pkgs.org/vignettes.html" class="external-link">vignettes chapter</a> of
-<a href="https://r-pkgs.org" class="external-link">R Packages</a>.</p></div>
+    <div class="dont-index">
+<ul><li><p>The <a href="https://r-pkgs.org/vignettes.html" class="external-link">vignettes chapter</a> of
+<a href="https://r-pkgs.org" class="external-link">R Packages</a></p></li>
+<li><p>The pkgdown vignette on Quarto:
+<code><a href="https://pkgdown.r-lib.org/articles/quarto.html" class="external-link">vignette("quarto", package = "pkgdown")</a></code></p></li>
+<li><p>The quarto (as in the R package) vignette on HTML vignettes:
+<code><a href="https://quarto-dev.github.io/quarto-r/articles/hello.html" class="external-link">vignette("hello", package = "quarto")</a></code></p></li>
+</ul></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">use_vignette</span><span class="op">(</span><span class="st">"how-to-do-stuff"</span>, <span class="st">"How to do stuff"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">use_vignette</span><span class="op">(</span><span class="st">"r-markdown-is-classic.Rmd"</span>, <span class="st">"R Markdown is classic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">use_vignette</span><span class="op">(</span><span class="st">"quarto-is-cool.qmd"</span>, <span class="st">"Quarto is cool"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

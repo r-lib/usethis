@@ -55,15 +55,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
-<ul><li>
-<code><a href="../reference/tidyverse.html">use_tidy_upkeep_issue()</a></code> now records the year it is being run in the <code>Config/usethis/upkeep</code> field in DESCRIPTION. If this value exists it is furthermore used to filter the checklist when making the issue.</li>
-</ul><div class="section level3">
-<h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
-<ul><li><p><code><a href="../reference/use_package.html">use_package()</a></code> now decreases a package minimum version required when <code>min_version</code> is lower than what is currently specified in the DESCRIPTION file (<a href="https://github.com/jplecavalier" class="external-link">@jplecavalier</a>, <a href="https://github.com/r-lib/usethis/issues/1957" class="external-link">#1957</a>).</p></li>
+<ul><li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> and <code><a href="../reference/use_vignette.html">use_article()</a></code> now support Quarto. The <code>name</code> of the new vignette or article can optionally include a file extension to signal whether <code>.Rmd</code> or <code>.qmd</code> is desired, with <code>.Rmd</code> remaining the default for now. Thanks to <a href="https://github.com/olivroy" class="external-link">@olivroy</a> for getting the ball rolling (<a href="https://github.com/r-lib/usethis/issues/1997" class="external-link">#1997</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_upkeep_issue()</a></code> now records the year it is being run in the <code>Config/usethis/upkeep</code> field in DESCRIPTION. If this value exists it is furthermore used to filter the checklist when making the issue.</p></li>
+<li><p><code><a href="../reference/use_package.html">use_package()</a></code> now decreases a package minimum version required when <code>min_version</code> is lower than what is currently specified in the DESCRIPTION file (<a href="https://github.com/jplecavalier" class="external-link">@jplecavalier</a>, <a href="https://github.com/r-lib/usethis/issues/1957" class="external-link">#1957</a>).</p></li>
 <li><p><code><a href="../reference/use_data.html">use_data()</a></code> now uses serialization version 3 by default. (<a href="https://github.com/laurabrianna" class="external-link">@laurabrianna</a>, <a href="https://github.com/r-lib/usethis/issues/2044" class="external-link">#2044</a>)</p></li>
 <li><p>Reverse dependency checks are only suggested if they exist (<a href="https://github.com/r-lib/usethis/issues/1817" class="external-link">#1817</a>, <a href="https://github.com/seankross" class="external-link">@seankross</a>).</p></li>
 </ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.0.0" id="usethis-300">usethis 3.0.0<a class="anchor" aria-label="anchor" href="#usethis-300"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
 <div class="section level3">
