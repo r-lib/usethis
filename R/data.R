@@ -44,11 +44,13 @@ use_data <- function(...,
 
   objs <- get_objs_from_dots(dots(...))
 
-  if (version < 3) {
-    use_dependency("R", "depends", "2.10")
-  } else {
-    use_dependency("R", "depends", "3.5")
+  original_minimum_r_version <- pkg_minimum_r_version()
+  serialization_minimum_r_version <- if (version < 3) "2.10" else "3.5"
+  if (is.na(original_minimum_r_version) ||
+      original_minimum_r_version < serialization_minimum_r_version) {
+        use_dependency("R", "depends", serialization_minimum_r_version)
   }
+
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")

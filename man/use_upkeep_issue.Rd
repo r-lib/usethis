@@ -22,6 +22,6 @@ annual package Spring Cleaning.
 }
 \examples{
 \dontrun{
-use_upkeep_issue(2023)
+use_upkeep_issue()
 }
 }

@@ -3,8 +3,8 @@
     Code
       roxygen_ns_show()
     Output
-      [1] "#' @importFrom tibble deframe" "#' @importFrom tibble enframe"
-      [3] "#' @importFrom tibble tibble" 
+      [1] "#' @importFrom lifecycle deprecate_stop"
+      [2] "#' @importFrom lifecycle deprecate_warn"
 
 # use_import_from() generates helpful errors
 
@@ -14,15 +14,15 @@
       Error in `use_import_from()`:
       x `package` must be a single string.
     Code
-      use_import_from(c("tibble", "rlang"))
+      use_import_from(c("desc", "rlang"))
     Condition
       Error in `use_import_from()`:
       x `package` must be a single string.
     Code
-      use_import_from("tibble", "pool_noodle")
+      use_import_from("desc", "pool_noodle")
     Condition
       Error in `map2()`:
       i In index: 1.
       Caused by error in `.f()`:
-      x Can't find `tibble::pool_noodle()`.
+      x Can't find `desc::pool_noodle()`.
 
