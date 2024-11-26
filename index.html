@@ -16,8 +16,8 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Automate Package and Project Setup">
 <meta name="description" content="Automate package and project setup tasks that are otherwise performed manually. This includes setting up unit testing, test coverage, continuous integration, Git, GitHub, licenses, Rcpp, RStudio projects, and more.">
 <meta property="og:description" content="Automate package and project setup tasks that are otherwise performed manually. This includes setting up unit testing, test coverage, continuous integration, Git, GitHub, licenses, Rcpp, RStudio projects, and more.">
@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">usethis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,15 +115,15 @@
 <span><span class="co"># Create a new package -------------------------------------------------</span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Creating '/tmp/Rtmpyt1hd6/mypkg/'.</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/Rtmpyt1hd6/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Creating '/tmp/RtmpPZsquk/mypkg/'.</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".</span></span>
 <span><span class="co">#&gt; ✔ Creating 'R/'.</span></span>
 <span><span class="co">#&gt; ✔ Writing 'DESCRIPTION'.</span></span>
 <span><span class="co">#&gt; Package: mypkg</span></span>
 <span><span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span></span>
 <span><span class="co">#&gt; Version: 0.0.0.9000</span></span>
 <span><span class="co">#&gt; Authors@R (parsed):</span></span>
-<span><span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (YOUR-ORCID-ID)</span></span>
+<span><span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre]</span></span>
 <span><span class="co">#&gt; Description: What the package does (one paragraph).</span></span>
 <span><span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span></span>
 <span><span class="co">#&gt;     license</span></span>
@@ -134,8 +134,8 @@
 <span><span class="co">#&gt; ✔ Setting active project to "&lt;no active project&gt;".</span></span>
 <span><span class="co"># only needed since this session isn't interactive</span></span>
 <span><span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/Rtmpyt1hd6/mypkg".</span></span>
-<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmpyt1hd6/mypkg/'</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpPZsquk/mypkg/'</span></span>
 <span></span>
 <span><span class="co"># Modify the description ----------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span></span>
@@ -144,11 +144,11 @@
 <span><span class="co">#&gt; ✔ Writing 'LICENSE.md'.</span></span>
 <span><span class="co">#&gt; ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, <span class="st">"Suggests"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.</span></span>
-<span><span class="co">#&gt; ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is</span></span>
+<span><span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"rmarkdown"</span>, <span class="st">"Suggests"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Adding rmarkdown to 'Suggests' field in DESCRIPTION.</span></span>
+<span><span class="co">#&gt; ☐ Use `requireNamespace("rmarkdown", quietly = TRUE)` to test if rmarkdown is</span></span>
 <span><span class="co">#&gt;   installed.</span></span>
-<span><span class="co">#&gt; ☐ Then directly refer to functions with `ggplot2::fun()`.</span></span>
+<span><span class="co">#&gt; ☐ Then directly refer to functions with `rmarkdown::fun()`.</span></span>
 <span></span>
 <span><span class="co"># Set up other files -------------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -247,7 +247,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
   </div></footer>
