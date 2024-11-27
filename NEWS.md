@@ -1,3 +1,5 @@
+# usethis (development version)
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
