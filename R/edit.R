@@ -31,7 +31,7 @@ edit_file <- function(path, open = rlang::is_interactive()) {
   ui_bullets(c("_" = "Modify {.path {pth(path)}}."))
   if (rstudio_available() && rstudioapi::hasFun("navigateToFile")) {
     rstudioapi::navigateToFile(path)
-  } else {
+  } else if (nzchar(Sys.which(Sys.getenv("EDITOR")))) {
     utils::file.edit(path)
   }
   invisible(path)
