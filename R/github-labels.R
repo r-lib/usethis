@@ -78,6 +78,10 @@ use_github_labels <- function(labels = character(),
                               colours = character(),
                               descriptions = character(),
                               delete_default = FALSE) {
+
+  # Want to ensure we always have the latest label info
+  withr::local_options(gh_cache = FALSE)
+
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to modify labels")
 
@@ -281,6 +285,7 @@ tidy_label_colours <- function() {
     "documentation" = "CBBAB8",
     "feature" = "B4C3AE",
     "upkeep" = "C2ACC0",
+    "wip" = "E1B996",
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
