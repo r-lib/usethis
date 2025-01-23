@@ -136,11 +136,13 @@ This creates a local branch called `formidable` and we switch to it (or "check i
 Let's go ahead and make the change, which is adding the word "formidable" to the `R/adjective.R` file in the package. Below is the diff and the commit associated with this change.
 
 ```{r, echo = FALSE}
-#| fig-alt: Screenshot of the RStudio Git pane showing the file
+#| fig-alt: >
+#|     Screenshot of the RStudio Git pane showing the file
 #|     R/adjective.R staged for a commit. The preview of the file
 #|     highlights the addition of the line formidabel, with no comma
 #|     at the end of the line. The Commit message says
 #|     Add formidable to adjectives.
+#| out.width: "90%"
 knitr::include_graphics("img/pr-functions-diff.png", dpi = 300)
 ```
 
@@ -174,10 +176,12 @@ looks like the following.
 <!-- in local preview, I Jenny am seeing a very wide image here -->
 
 ```{r, echo = FALSE}
-#| fig-alt: A screenshot showing the diff on GitHub, with the old
+#| fig-alt: >
+#|     A screenshot showing the diff on GitHub, with the old
 #|     version of the file on the left, and the new version
 #|     containing the newly added line formidabel, with no comma,
 #|     on the right. There is a green button that says Create Pull Request.
+#| out.width: "90%"
 knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
 ```
 
@@ -199,19 +203,23 @@ pr_view(90)
 If we're lucky, and our pull request is perfect, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. So the package maintainer leaves us comments requesting changes.
 
 ```{r, echo = FALSE}
-#| fig-alt: A screenshot of the comments section on the pull request.
+#| fig-alt: >
+#|     A screenshot of the comments section on the pull request.
 #|     A comment from a collaborator on the new line says Did
 #|     you mean to add formidable? And can you please add a comma
 #|     at the end? Thanks!
+#| out.width: "90%"
 knitr::include_graphics("img/pr-functions-comments.png", dpi = 300)
 ```
 
 Being somewhat new to all this, we try to address one of these comments (fix spelling) and neglect the other (forget to add the comma). We make another change and commit it.
 
 ```{r, echo = FALSE}
-#| fig-alt: A screenshot of the Rstudio Git pane, showing the changed line
+#| fig-alt: >
+#|     A screenshot of the Rstudio Git pane, showing the changed line
 #|     with formidabel changed to formidable. The file R/adjective.R
 #|     is staged for a commit, with the commit message Fix Spelling!
+#| out.width: "90%"
 knitr::include_graphics("img/pr-functions-address-comments.png", dpi = 300)
 ```
 
