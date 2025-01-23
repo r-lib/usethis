@@ -38,6 +38,9 @@
 #'    [use_package()] to ensure they are included in the `Imports:`
 #'    field of the `DESCRIPTION` file.
 #'
+#' - `suggests`: Similar to `imports`, but the packages are added to the
+#'   `Suggests:` field of the `DESCRIPTION` file.
+#'
 #' Note that lists are specified with standard YAML syntax, using
 #' square brackets, for example: `imports: [rlang (>= 1.0.0), purrr]`.
 #'
@@ -84,19 +87,26 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   }
 
   imports <- dependencies$imports
+  suggests <- dependencies$suggests
 
-  for (i in seq_len(nrow(imports))) {
-    import <- imports[i, , drop = FALSE]
+  add_packages <- function(x, type = c("Imports", "Suggests")) {
+    type <- arg_match(type)
 
-    if (is.na(import$ver)) {
-      ver <- NULL
-    } else {
-      ver <- import$ver
+    for (i in seq_len(nrow(x))) {
+      pkgs <- x[i, , drop = FALSE]
+      if (is.na(pkgs$ver)) {
+        ver <- NULL
+      } else {
+        ver <- pkgs$ver
+      }
+      ui_silence(
+        use_package(pkgs$pkg, min_version = ver, type = type)
+      )
     }
-    ui_silence(
-      use_package(import$pkg, min_version = ver)
-    )
   }
+
+  add_packages(imports, "Imports")
+  add_packages(suggests, "Suggests")
 
   invisible()
 }
@@ -206,6 +216,8 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
   deps <- as_chr_field(yaml$dependencies)
   imports <- as_chr_field(yaml$imports)
   imports <- as_version_info(imports, error_call = error_call)
+  suggests <- as_chr_field(yaml$suggests)
+  suggests <- as_version_info(suggests, error_call = error_call)
 
   if (any(stats::na.omit(imports$cmp) != ">=")) {
     cli::cli_abort(
@@ -214,7 +226,7 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
     )
   }
 
-  list(deps = deps, imports = imports)
+  list(deps = deps, imports = imports, suggests = suggests)
 }
 
 as_version_info <- function(fields, error_call = caller_env()) {
