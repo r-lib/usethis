@@ -64,6 +64,7 @@ reference:
     - use_citation
     - use_tutorial
     - use_author
+    - use_document_data
   - title: Package setup
     desc: >
       Package setup tasks, typically performed once.
