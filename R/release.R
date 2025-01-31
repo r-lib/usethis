@@ -79,6 +79,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
   milestone_num <- gh_milestone_number(target_repo, version)
+  has_translation <- dir_exists(proj_path("po"))
 
   c(
     if (!on_cran) c(
@@ -96,6 +97,9 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     ),
     "Prepare for release:",
     "",
+    todo("Update message translation file with `potools::po_update()", has_translation),
+    todo("Contact translators to collect their translations of the `po/R-...pot` file", has_translation),
+    todo("Compile the collected translations with `potools::po_compile()", has_translation),
     todo("`git pull`"),
     todo("[Close v{version} milestone](../milestone/{milestone_num})", !is.na(milestone_num)),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
