@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* add a translation tasks paragraph in `use_release_issue()` (#2099 @cregouby)
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
