@@ -5,6 +5,7 @@
 #'   * `create_package()` creates an R package
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
+#'   * `create_quarto_project()` creates a Quarto project
 #'
 #' Both functions can be called on an existing project; you will be asked before
 #' any existing files are changed.
@@ -28,7 +29,8 @@
 #'   * If using RStudio desktop, the package is opened in a new session.
 #'   * If on RStudio server, the current RStudio project is activated.
 #'   * Otherwise, the working directory and active project is changed.
-#'
+#' @param ... pass quarto_create_project aditional arguments.
+#' @param name name for quarto project folder
 #' @return Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
@@ -107,6 +109,18 @@ create_project <- function(path,
   }
 
   invisible(proj_get())
+}
+
+
+
+#' @rdname create_package
+#' @export
+create_quarto_project <- function(name, ...) {
+
+  rlang::check_installed("quarto", reason = "to use `quarto_create_project()`")
+
+  quarto::quarto_create_project(name = name, ...)
+
 }
 
 #' Create a project from a GitHub repo
@@ -380,3 +394,5 @@ challenge_home_directory <- function(path) {
   }
   invisible()
 }
+
+
