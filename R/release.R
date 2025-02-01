@@ -96,7 +96,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
       ""
     ),
     if (has_translation) c(
-      "Update messages translation",
+      "Update messages translation:",
       "",
       todo("Update `po/R-{project_name()}.pot` file with `potools::po_update()`"),
       todo("Contact translators to collect their translation `.po` files"),
