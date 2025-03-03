@@ -1,6 +1,6 @@
 # unexported function we are experimenting with
 use_vscode_debug <- function(open = rlang::is_interactive()) {
-  usethis::use_directory(".vscode", ignore = TRUE)
+  create_vscode_directory(ignore = TRUE)
 
   deps <- proj_deps()
   lt_pkgs <- deps$package[deps$type == "LinkingTo"]
@@ -40,4 +40,8 @@ use_vscode_debug <- function(open = rlang::is_interactive()) {
   )
 
   invisible(TRUE)
+}
+
+create_vscode_directory <- function(ignore = FALSE) {
+  use_directory(".vscode", ignore = ignore)
 }
