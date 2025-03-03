@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_air()` is a new function to configure a project to use
+  [Air](https://github.com/posit-dev/air), an extremely fast R code formatter.
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
