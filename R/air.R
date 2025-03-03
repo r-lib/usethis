@@ -12,10 +12,11 @@
 #'   `.vscode/extensions.json`. This includes:
 #'
 #'   - Setting `editor.formatOnSave = true` for R files to enable formatting on
-#'     every save.
+#'     every save. Does nothing if `editor.formatOnSave` was already set.
 #'
 #'   - Setting `editor.defaultFormatter` to Air for R files to ensure that Air
-#'     is always selected as the formatter for this project.
+#'     is always selected as the formatter for this project. Does nothing if
+#'     `editor.defaultFormatter` was already set.
 #'
 #'   - Setting the Air extension as a "recommended" extension for this project,
 #'     which triggers a notification for contributors coming to this project
