@@ -1,7 +1,8 @@
 test_that("creates correct default package files", {
   create_local_package()
 
-  use_air()
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(use_air())
 
   # Empty, but should exist
   expect_proj_file("air.toml")
