@@ -86,7 +86,8 @@ use_air <- function(vscode = TRUE) {
   }
 
   ui_bullets(c(
-    "_" = "Read the {.href [Air editors guide](https://posit-dev.github.io/air/editors.html)} to learn how to invoke Air in your preferred editor."
+    "_" = "Read the {.href [Air editors guide](https://posit-dev.github.io/air/editors.html)}
+           to learn how to invoke Air in your preferred editor."
   ))
 
   invisible(TRUE)
