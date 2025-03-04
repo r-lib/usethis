@@ -29,6 +29,8 @@
 #'   = FALSE`, but remember that even if you work in RStudio, other contributors
 #'   may prefer another editor.
 #'
+#' ## Installation
+#'
 #' Note that this setup does not install an Air binary, so there is an
 #' additional manual step you must take before using Air for the first time:
 #'
@@ -91,6 +93,7 @@ use_air <- function(vscode = TRUE, dot_prefix = FALSE) {
 #' If either `air.toml` or `.air.toml` already exist, no new file is created.
 #'
 #' @keywords internal
+#' @noRd
 create_air_toml <- function(ignore = FALSE, dot_prefix = FALSE) {
   if (file_exists(proj_path("air.toml"))) {
     air_toml <- "air.toml"
@@ -206,6 +209,7 @@ write_air_vscode_extensions_json <- function(path) {
 #'   one, which we don't want.
 #'
 #' @keywords internal
+#' @noRd
 write_vscode_json <- function(x, path) {
   json <- jsonlite::toJSON(x, pretty = 4L, auto_unbox = TRUE)
   json <- base::trimws(json, which = "right")

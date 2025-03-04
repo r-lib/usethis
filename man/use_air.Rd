@@ -47,6 +47,7 @@ package, \code{.Rbuildignore} is updated to ignore this folder.
 If you'd like to opt out of VS Code / Positron specific setup, set \code{vscode = FALSE}, but remember that even if you work in RStudio, other contributors
 may prefer another editor.
 }
+\subsection{Installation}{
 
 Note that this setup does not install an Air binary, so there is an
 additional manual step you must take before using Air for the first time:
@@ -55,6 +56,7 @@ additional manual step you must take before using Air for the first time:
 \item For Positron, install the \href{https://open-vsx.org/extension/posit/air-vscode}{OpenVSX Extension}.
 \item For VS Code, install the \href{https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode}{VS Code Extension}.
 \item For other editors, check to \href{https://posit-dev.github.io/air/editors.html}{see if that editor is supported} by Air.
+}
 }
 }
 \examples{
