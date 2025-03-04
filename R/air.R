@@ -30,6 +30,11 @@
 #'   = FALSE`, but remember that even if you work in RStudio, other contributors
 #'   may prefer another editor.
 #'
+#' Note that `use_air()` does not actually invoke Air, it just configures your
+#' project with the recommended settings. Consult the [editors
+#' guide](https://posit-dev.github.io/air/editors.html) to learn how to invoke
+#' Air in your preferred editor.
+#'
 #' ## Installation
 #'
 #' Note that this setup does not install an Air binary, so there is an
@@ -79,6 +84,10 @@ use_air <- function(vscode = TRUE) {
     path <- create_vscode_json_file("extensions.json")
     write_air_vscode_extensions_json(path)
   }
+
+  ui_bullets(c(
+    "_" = "Read the {.href [Air editors guide](https://posit-dev.github.io/air/editors.html)} to learn how to invoke Air in your preferred editor."
+  ))
 
   invisible(TRUE)
 }

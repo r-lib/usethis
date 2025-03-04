@@ -41,6 +41,10 @@ If the project is an R package, \code{.Rbuildignore} is updated to ignore the
 If you'd like to opt out of VS Code / Positron specific setup, set \code{vscode = FALSE}, but remember that even if you work in RStudio, other contributors
 may prefer another editor.
 }
+
+Note that \code{use_air()} does not actually invoke Air, it just configures your
+project with the recommended settings. Consult the \href{https://posit-dev.github.io/air/editors.html}{editors guide} to learn how to invoke
+Air in your preferred editor.
 \subsection{Installation}{
 
 Note that this setup does not install an Air binary, so there is an
