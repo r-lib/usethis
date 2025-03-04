@@ -4,7 +4,7 @@
 \alias{use_air}
 \title{Configure a project to use Air}
 \usage{
-use_air(vscode = TRUE, dot_prefix = FALSE)
+use_air(vscode = TRUE)
 }
 \arguments{
 \item{vscode}{Either:
@@ -12,13 +12,6 @@ use_air(vscode = TRUE, dot_prefix = FALSE)
 \item \code{TRUE} to set up VS Code and Positron specific Air settings. This is the
 default.
 \item \code{FALSE} to opt out of those settings.
-}}
-
-\item{dot_prefix}{Either:
-\itemize{
-\item \code{FALSE} to create a configuration file named \code{air.toml}. This is the
-default.
-\item \code{TRUE} to create a configuration file named \code{.air.toml}.
 }}
 }
 \description{

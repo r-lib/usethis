@@ -149,9 +149,3 @@ test_that("respects `vscode` option", {
   use_air(vscode = FALSE)
   expect_false(dir_exists(proj_path(".vscode")))
 })
-
-test_that("respects `dot_prefix` option", {
-  create_local_package()
-  use_air(dot_prefix = TRUE)
-  expect_true(file_exists(proj_path(".air.toml")))
-})

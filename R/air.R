@@ -51,25 +51,19 @@
 #'     default.
 #'   - `FALSE` to opt out of those settings.
 #'
-#' @param dot_prefix Either:
-#'   - `FALSE` to create a configuration file named `air.toml`. This is the
-#'     default.
-#'   - `TRUE` to create a configuration file named `.air.toml`.
-#'
 #' @export
 #' @examples
 #' \dontrun{
 #' # Prepare an R package or project to use Air
 #' use_air()
 #' }
-use_air <- function(vscode = TRUE, dot_prefix = FALSE) {
+use_air <- function(vscode = TRUE) {
   check_bool(vscode)
-  check_bool(dot_prefix)
 
   ignore <- is_package()
 
   # Create empty `air.toml` if it doesn't exist
-  create_air_toml(ignore = ignore, dot_prefix = dot_prefix)
+  create_air_toml(ignore = ignore)
 
   if (vscode) {
     create_vscode_directory(ignore = ignore)
@@ -94,18 +88,14 @@ use_air <- function(vscode = TRUE, dot_prefix = FALSE) {
 #'
 #' @keywords internal
 #' @noRd
-create_air_toml <- function(ignore = FALSE, dot_prefix = FALSE) {
+create_air_toml <- function(ignore = FALSE) {
   if (file_exists(proj_path("air.toml"))) {
     air_toml <- "air.toml"
   } else if (file_exists(proj_path(".air.toml"))) {
     air_toml <- ".air.toml"
   } else {
     # No pre-existing configuration file
-    if (dot_prefix) {
-      air_toml <- ".air.toml"
-    } else {
-      air_toml <- "air.toml"
-    }
+    air_toml <- "air.toml"
   }
 
   path <- proj_path(air_toml)
