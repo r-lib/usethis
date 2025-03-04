@@ -4,7 +4,7 @@ test_that("creates correct default package files", {
   use_air()
 
   # Empty, but should exist
-  expect_true(file_exists(proj_path("air.toml")))
+  expect_proj_file("air.toml")
 
   ignore <- read_utf8(proj_path(".Rbuildignore"))
   expect_in(air_toml_regex(), ignore)
@@ -38,7 +38,7 @@ test_that("creates correct default project files", {
   use_air()
 
   # Empty, but should exist
-  expect_true(file_exists(proj_path("air.toml")))
+  expect_proj_file("air.toml")
 
   # Does not add to `.Rbuildignore` in projects
   expect_false(file_exists(proj_path(".Rbuildignore")))
