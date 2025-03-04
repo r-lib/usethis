@@ -89,19 +89,14 @@ use_air <- function(vscode = TRUE) {
 #' @keywords internal
 #' @noRd
 create_air_toml <- function(ignore = FALSE) {
-  if (file_exists(proj_path("air.toml"))) {
-    air_toml <- "air.toml"
-  } else if (file_exists(proj_path(".air.toml"))) {
-    air_toml <- ".air.toml"
-  } else {
-    # No pre-existing configuration file
-    air_toml <- "air.toml"
+  path <- path_first_existing(proj_path(c("air.toml", ".air.toml")))
+
+  if (is.null(path)) {
+    # No pre-existing configuration file, create it
+    path <- proj_path("air.toml")
+    file_create(path)
+    ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
   }
-
-  path <- proj_path(air_toml)
-
-  file_create(path)
-  ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
 
   if (ignore) {
     use_build_ignore(air_toml_regex(), escape = FALSE)
