@@ -114,8 +114,11 @@ create_vscode_json_file <- function(name) {
   arg_match(name, values = c("settings.json", "extensions.json"))
 
   path <- proj_path(".vscode", name)
-  path <- file_create(path)
-  ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
+
+  if (!file_exists(path)) {
+    file_create(path)
+    ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
+  }
 
   # Tools like jsonlite fail to read empty json files,
   # so if we've just created it, write in `{}`. The easiest
