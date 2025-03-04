@@ -1,7 +1,7 @@
 # usethis (development version)
 
 * `use_air()` is a new function to configure a project to use
-  [Air](https://github.com/posit-dev/air), an extremely fast R code formatter.
+  [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
 
 # usethis 3.1.0
 

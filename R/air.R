@@ -1,7 +1,7 @@
 #' Configure a project to use Air
 #'
 #' @description
-#' [Air](https://github.com/posit-dev/air) is an extremely fast R code
+#' [Air](https://posit-dev.github.io/air) is an extremely fast R code
 #' formatter. This function sets up a project to use Air. Specifically, it:
 #'
 #' - Creates an empty `air.toml` configuration file. If either an `air.toml` or
