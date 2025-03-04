@@ -8,22 +8,24 @@
 #'   `.air.toml` file already existed, nothing is changed. If the project is an
 #'   R package, `.Rbuildignore` is updated to ignore this file.
 #'
-#' - Adds recommended settings to `.vscode/settings.json` and
-#'   `.vscode/extensions.json`. This includes:
+#' - Creates a `.vscode/` directory and adds recommended settings to
+#'   `.vscode/settings.json` and `.vscode/extensions.json`. These settings are
+#'   used by the Air extension installed through either VS Code or Positron, see
+#'   the Installation section for more details. Specifically it:
 #'
-#'   - Setting `editor.formatOnSave = true` for R files to enable formatting on
+#'   - Sets `editor.formatOnSave = true` for R files to enable formatting on
 #'     every save. Does nothing if `editor.formatOnSave` was already set.
 #'
-#'   - Setting `editor.defaultFormatter` to Air for R files to ensure that Air
-#'     is always selected as the formatter for this project. Does nothing if
+#'   - Sets `editor.defaultFormatter` to Air for R files to ensure that Air is
+#'     always selected as the formatter for this project. Does nothing if
 #'     `editor.defaultFormatter` was already set.
 #'
-#'   - Setting the Air extension as a "recommended" extension for this project,
+#'   - Sets the Air extension as a "recommended" extension for this project,
 #'     which triggers a notification for contributors coming to this project
 #'     that don't yet have the Air extension installed.
 #'
-#'   If `.vscode/` does not exist yet, it is created. If the project is an R
-#'   package, `.Rbuildignore` is updated to ignore this folder.
+#'   If the project is an R package, `.Rbuildignore` is updated to ignore the
+#'   `.vscode/` directory.
 #'
 #'   If you'd like to opt out of VS Code / Positron specific setup, set `vscode
 #'   = FALSE`, but remember that even if you work in RStudio, other contributors

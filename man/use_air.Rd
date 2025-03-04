@@ -21,21 +21,23 @@ formatter. This function sets up a project to use Air. Specifically, it:
 \item Creates an empty \code{air.toml} configuration file. If either an \code{air.toml} or
 \code{.air.toml} file already existed, nothing is changed. If the project is an
 R package, \code{.Rbuildignore} is updated to ignore this file.
-\item Adds recommended settings to \code{.vscode/settings.json} and
-\code{.vscode/extensions.json}. This includes:
+\item Creates a \verb{.vscode/} directory and adds recommended settings to
+\code{.vscode/settings.json} and \code{.vscode/extensions.json}. These settings are
+used by the Air extension installed through either VS Code or Positron, see
+the Installation section for more details. Specifically it:
 \itemize{
-\item Setting \code{editor.formatOnSave = true} for R files to enable formatting on
+\item Sets \code{editor.formatOnSave = true} for R files to enable formatting on
 every save. Does nothing if \code{editor.formatOnSave} was already set.
-\item Setting \code{editor.defaultFormatter} to Air for R files to ensure that Air
-is always selected as the formatter for this project. Does nothing if
+\item Sets \code{editor.defaultFormatter} to Air for R files to ensure that Air is
+always selected as the formatter for this project. Does nothing if
 \code{editor.defaultFormatter} was already set.
-\item Setting the Air extension as a "recommended" extension for this project,
+\item Sets the Air extension as a "recommended" extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.
 }
 
-If \verb{.vscode/} does not exist yet, it is created. If the project is an R
-package, \code{.Rbuildignore} is updated to ignore this folder.
+If the project is an R package, \code{.Rbuildignore} is updated to ignore the
+\verb{.vscode/} directory.
 
 If you'd like to opt out of VS Code / Positron specific setup, set \code{vscode = FALSE}, but remember that even if you work in RStudio, other contributors
 may prefer another editor.
