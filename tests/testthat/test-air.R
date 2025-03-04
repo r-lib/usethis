@@ -53,7 +53,7 @@ test_that("creates correct default project files", {
   expect_identical(recommendations, list("Posit.air-vscode"))
 })
 
-test_that("respects existing `settings.json`", {
+test_that("respects existing `settings.json`, but overwrites settings we own", {
   create_local_project()
 
   dir_create(proj_path(".vscode"))
@@ -62,7 +62,8 @@ test_that("respects existing `settings.json`", {
   settings <- list(
     "setting" = list(1L, 2L),
     "[r]" = list(
-      "editor.formatOnSave" = FALSE
+      "editor.formatOnSave" = FALSE,
+      "editor.defaultFormatter" = "not-air"
     ),
     "[rust]" = list(
       "editor.formatOnSave" = FALSE
@@ -75,8 +76,8 @@ test_that("respects existing `settings.json`", {
 
   # Here is all that should change
   settings[["[r]"]] <- list(
-    # Stays `FALSE`, adds `editor.defaultFormatter`
-    "editor.formatOnSave" = FALSE,
+    # Overwrite both of these to Air's recommendations
+    "editor.formatOnSave" = TRUE,
     "editor.defaultFormatter" = "Posit.air-vscode"
   )
 

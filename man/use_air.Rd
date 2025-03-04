@@ -27,10 +27,9 @@ used by the Air extension installed through either VS Code or Positron, see
 the Installation section for more details. Specifically it:
 \itemize{
 \item Sets \code{editor.formatOnSave = true} for R files to enable formatting on
-every save. Does nothing if \code{editor.formatOnSave} was already set.
+every save.
 \item Sets \code{editor.defaultFormatter} to Air for R files to ensure that Air is
-always selected as the formatter for this project. Does nothing if
-\code{editor.defaultFormatter} was already set.
+always selected as the formatter for this project.
 \item Sets the Air extension as a "recommended" extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.

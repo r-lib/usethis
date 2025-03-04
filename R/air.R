@@ -14,11 +14,10 @@
 #'   the Installation section for more details. Specifically it:
 #'
 #'   - Sets `editor.formatOnSave = true` for R files to enable formatting on
-#'     every save. Does nothing if `editor.formatOnSave` was already set.
+#'     every save.
 #'
 #'   - Sets `editor.defaultFormatter` to Air for R files to ensure that Air is
-#'     always selected as the formatter for this project. Does nothing if
-#'     `editor.defaultFormatter` was already set.
+#'     always selected as the formatter for this project.
 #'
 #'   - Sets the Air extension as a "recommended" extension for this project,
 #'     which triggers a notification for contributors coming to this project
@@ -141,12 +140,10 @@ write_air_vscode_settings_json <- function(path) {
     settings_r <- set_names(list())
   }
 
-  if (is.null(settings_r[["editor.formatOnSave"]])) {
-    settings_r[["editor.formatOnSave"]] <- TRUE
-  }
-  if (is.null(settings_r[["editor.defaultFormatter"]])) {
-    settings_r[["editor.defaultFormatter"]] <- "Posit.air-vscode"
-  }
+  # Set these regardless of their previous values. Assume that calling
+  # `use_air()` is an explicit request to opt in to these settings.
+  settings_r[["editor.formatOnSave"]] <- TRUE
+  settings_r[["editor.defaultFormatter"]] <- "Posit.air-vscode"
 
   settings[["[r]"]] <- settings_r
 
