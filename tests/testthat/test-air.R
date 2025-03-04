@@ -22,14 +22,12 @@ test_that("creates correct default package files", {
   expect_identical(recommendations, list("Posit.air-vscode"))
 
   # Snapshot exact details to look at indent level and prettyfication
-  expect_snapshot(cat(
-    read_utf8(proj_path(".vscode", "settings.json")),
-    sep = "\n"
-  ))
-  expect_snapshot(cat(
-    read_utf8(proj_path(".vscode", "extensions.json")),
-    sep = "\n"
-  ))
+  expect_snapshot(
+    writeLines(read_utf8(proj_path(".vscode", "settings.json")))
+  )
+  expect_snapshot(
+    writeLines(read_utf8(proj_path(".vscode", "extensions.json")))
+  )
 })
 
 test_that("creates correct default project files", {

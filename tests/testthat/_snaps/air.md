@@ -1,7 +1,7 @@
 # creates correct default package files
 
     Code
-      cat(read_utf8(proj_path(".vscode", "settings.json")), sep = "\n")
+      writeLines(read_utf8(proj_path(".vscode", "settings.json")))
     Output
       {
           "[r]": {
@@ -13,7 +13,7 @@
 ---
 
     Code
-      cat(read_utf8(proj_path(".vscode", "extensions.json")), sep = "\n")
+      writeLines(read_utf8(proj_path(".vscode", "extensions.json")))
     Output
       {
           "recommendations": [
