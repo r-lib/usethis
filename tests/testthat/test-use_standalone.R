@@ -82,40 +82,60 @@ test_that("can extract dependencies", {
   expect_equal(extract_deps("# dependencies: [a, b]"), c("a", "b"))
 })
 
-test_that("can extract imports", {
-  extract_imports <- function(imports) {
+test_that("can extract imports/suggests", {
+  extract_pkgs <- function(pkgs, type = c("imports", "suggests")) {
+    type <- arg_match(type)
     out <- standalone_dependencies(
-      c("# ---", imports, "# ---"),
+      c("# ---", pkgs, "# ---"),
       "test.R",
       error_call = current_env()
     )
-    out$imports
+    out[[type]]
   }
 
   expect_equal(
-    extract_imports(NULL),
+    extract_pkgs(NULL, "imports"),
+    version_info_df()
+  )
+  expect_equal(
+    extract_pkgs(NULL, "suggests"),
     version_info_df()
   )
 
   expect_equal(
-    extract_imports("# imports: rlang"),
+    extract_pkgs("# imports: rlang", "imports"),
+    version_info_df("rlang", NA, NA)
+  )
+  expect_equal(
+    extract_pkgs("# suggests: rlang", "suggests"),
     version_info_df("rlang", NA, NA)
   )
 
   expect_equal(
-    extract_imports("# imports: rlang (>= 1.0.0)"),
+    extract_pkgs("# imports: rlang (>= 1.0.0)", "imports"),
+    version_info_df("rlang", ">=", "1.0.0")
+  )
+  expect_equal(
+    extract_pkgs("# suggests: rlang (>= 1.0.0)", "suggests"),
     version_info_df("rlang", ">=", "1.0.0")
   )
 
   expect_equal(
-    extract_imports("# imports: [rlang (>= 1.0.0), purrr]"),
+    extract_pkgs("# imports: [rlang (>= 1.0.0), purrr]", "imports"),
+    version_info_df(c("rlang", "purrr"), c(">=", NA), c("1.0.0", NA))
+  )
+  expect_equal(
+    extract_pkgs("# suggests: [rlang (>= 1.0.0), purrr]", "suggests"),
     version_info_df(c("rlang", "purrr"), c(">=", NA), c("1.0.0", NA))
   )
 
   expect_snapshot(error = TRUE, {
-    extract_imports("# imports: rlang (== 1.0.0)")
-    extract_imports("# imports: rlang (>= 1.0.0), purrr")
-    extract_imports("# imports: foo (>=0.0.0)")
+    extract_pkgs("# imports: rlang (== 1.0.0)", "imports")
+    extract_pkgs("# suggests: rlang (== 1.0.0)", "suggests")
+    extract_pkgs("# imports: rlang (>= 1.0.0), purrr", "imports")
+    extract_pkgs("# suggests: rlang (>= 1.0.0), purrr", "suggests")
+    extract_pkgs("# imports: foo (>=0.0.0)", "imports")
+    extract_pkgs("# suggests: foo (>=0.0.0)", "suggests")
   })
 })
 
