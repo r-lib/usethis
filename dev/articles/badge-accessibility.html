@@ -164,7 +164,7 @@ or “failing” on a red background.</li>
 of data displayed here, but it seems good to show one badge in full gory
 detail. Later, we will display badge information very selectively.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org" class="external-link">xml2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span></span>
@@ -341,9 +341,7 @@ detail. Later, we will display badge information very selectively.</p>
 <span><span class="co">#&gt; attr(,"aria-label")</span></span>
 <span><span class="co">#&gt; [1] "my_label: my_message"</span></span>
 <span><span class="co">#&gt; attr(,"xmlns")</span></span>
-<span><span class="co">#&gt; [1] "http://www.w3.org/2000/svg"</span></span>
-<span><span class="co">#&gt; attr(,"xmlns:xlink")</span></span>
-<span><span class="co">#&gt; [1] "http://www.w3.org/1999/xlink"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "http://www.w3.org/2000/svg"</span></span></code></pre></div>
 <p>It is my understanding that the two main pieces of metadata are the
 <code>title</code> and the <code>aria-label</code> attribute. Here I
 reveal just those two items from the badge:</p>
