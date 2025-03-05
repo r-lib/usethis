@@ -40,6 +40,7 @@ LinkingTo
 METACRAN
 Makefile
 ORCID
+OpenVSX
 PATs
 PBC
 PRs
@@ -103,6 +104,7 @@ favour
 fiascos
 filenaming
 foofy
+formatter
 formidabel
 frontmatter
 fs
@@ -131,6 +133,7 @@ labelled
 labelling
 learnr
 libgit
+libyajl
 lifecycle
 ly
 macbook
