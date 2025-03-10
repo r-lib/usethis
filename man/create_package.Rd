@@ -3,6 +3,7 @@
 \name{create_package}
 \alias{create_package}
 \alias{create_project}
+\alias{create_quarto_project}
 \title{Create a package or project}
 \usage{
 create_package(
@@ -19,6 +20,8 @@ create_project(
   rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive()
 )
+
+create_quarto_project(name, ...)
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
@@ -46,6 +49,10 @@ error if not.}
 \item If on RStudio server, the current RStudio project is activated.
 \item Otherwise, the working directory and active project is changed.
 }}
+
+\item{name}{name for quarto project folder}
+
+\item{...}{pass quarto_create_project aditional arguments.}
 }
 \value{
 Path to the newly created project or package, invisibly.
@@ -56,6 +63,7 @@ These functions create an R project:
 \item \code{create_package()} creates an R package
 \item \code{create_project()} creates a non-package project, i.e. a data analysis
 project
+\item \code{create_quarto_project()} creates a Quarto project
 }
 
 Both functions can be called on an existing project; you will be asked before
