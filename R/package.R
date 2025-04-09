@@ -46,7 +46,7 @@
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
-    refuse_package(package, verboten = c("tidyverse", "tidymodels"))
+    refuse_package(package, refuse = c("tidyverse", "tidymodels"))
   }
 
   changed <- use_dependency(package, type, min_version = min_version)
@@ -60,7 +60,7 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
 #' @export
 #' @rdname use_package
 use_dev_package <- function(package, type = "Imports", remote = NULL) {
-  refuse_package(package, verboten = c("tidyverse", "tidymodels"))
+  refuse_package(package, refuse = c("tidyverse", "tidymodels"))
 
   changed <- use_dependency(package, type = type, min_version = TRUE)
   use_remote(package, remote)
@@ -130,8 +130,8 @@ package_remote <- function(desc) {
   }
 }
 
-refuse_package <- function(package, verboten) {
-  if (package %in% verboten) {
+refuse_package <- function(package, refuse) {
+  if (package %in% refuse) {
     code <- glue('use_package("{package}", type = "depends")')
     ui_abort(c(
       "x" = "{.pkg {package}} is a meta-package and it is rarely a good idea to
