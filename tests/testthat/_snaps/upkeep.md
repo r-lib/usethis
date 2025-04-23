@@ -63,7 +63,6 @@
       ### To finish
       
       * [ ] `usethis::use_mit_license()`
-      * [ ] `usethis::use_package("R", "Depends", "4.1")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
       * [ ] `devtools::build_readme()`
@@ -109,7 +108,6 @@
       ### To finish
       
       * [ ] `usethis::use_mit_license()`
-      * [ ] `usethis::use_package("R", "Depends", "4.1")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
       * [ ] `devtools::build_readme()`
