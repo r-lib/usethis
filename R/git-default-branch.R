@@ -650,7 +650,9 @@ fishy_bookdown_config <- function(old_name = "master") {
     return(invisible(character()))
   }
   # I am (very weakly) worried about more than 1 match, hence the [[1]]
-  bookdown_config <- purrr::discard(bookdown_config, ~ grepl("revdep", .x))[[1]]
+  bookdown_config <- purrr::discard(bookdown_config, \(x) grepl("revdep", x))[[
+    1
+  ]]
 
   bookdown_config_lines <- read_utf8(bookdown_config)
   linky_lines <- grep(

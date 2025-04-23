@@ -115,7 +115,7 @@ use_github_labels <- function(
     # Must first PATCH issues, then sort out labels
     issues <- map(
       to_rename,
-      ~ gh("GET /repos/{owner}/{repo}/issues", labels = .x)
+      \(x) gh("GET /repos/{owner}/{repo}/issues", labels = x)
     )
     issues <- purrr::flatten(issues)
     number <- map_int(issues, "number")
@@ -133,17 +133,18 @@ use_github_labels <- function(
     new_labels <- split(df$labels, df$number)
     purrr::iwalk(
       new_labels,
-      ~ gh(
-        "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
-        issue_number = .y,
-        labels = I(.x)
-      )
+      \(x, y)
+        gh(
+          "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
+          issue_number = y,
+          labels = I(x)
+        )
     )
 
     # issues have correct labels now; safe to edit labels themselves
     purrr::walk(
       to_rename,
-      ~ gh("DELETE /repos/{owner}/{repo}/labels/{name}", name = .x)
+      \(x) gh("DELETE /repos/{owner}/{repo}/labels/{name}", name = x)
     )
     labels <- union(labels, setdiff(rename, cur_label_names))
   } else {

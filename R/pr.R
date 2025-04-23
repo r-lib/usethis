@@ -832,7 +832,7 @@ pr_list <- function(
     prs <- list(list())
   }
   out <- map(prs, pr_data_tidy)
-  out <- map(out, ~ as.data.frame(.x, stringsAsFactors = FALSE))
+  out <- map(out, \(x) as.data.frame(x, stringsAsFactors = FALSE))
   out <- do.call(rbind, out)
   if (no_prs) {
     out[0, ]
@@ -860,7 +860,7 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   gb_dat$ref <- remref_branch(gb_dat$remref)
   gb_dat$cfg_pr_url <- map_chr(
     glue("branch.{gb_dat$name}.pr-url"),
-    ~ git_cfg_get(.x, where = "local") %||% NA_character_
+    \(x) git_cfg_get(x, where = "local") %||% NA_character_
   )
 
   ghr <- github_remote_list(these = NULL)[["remote"]]
@@ -882,7 +882,7 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   purrr::walk2(
     glue("branch.{dat$name[missing_cfg]}.pr-url"),
     dat$pr_html_url[missing_cfg],
-    ~ gert::git_config_set(.x, .y, repo = repo)
+    \(x, y) gert::git_config_set(x, y, repo = repo)
   )
 
   dat

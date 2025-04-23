@@ -101,7 +101,7 @@ use_remote <- function(package, package_remote = NULL) {
 package_remote <- function(desc) {
   remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
-  is_recognized_remote <- all(map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
+  is_recognized_remote <- all(map_lgl(remote, \(x) is_string(x) && !is.na(x)))
 
   if (is_recognized_remote) {
     # non-GitHub remotes get a 'RemoteType::' prefix

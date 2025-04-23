@@ -43,7 +43,7 @@ update_versions <- function(
   packages <- deps$package[to_change]
   versions <- switch(
     match.arg(source),
-    local = map_chr(packages, ~ as.character(utils::packageVersion(.x))),
+    local = map_chr(packages, \(x) as.character(utils::packageVersion(x))),
     CRAN = utils::available.packages()[packages, "Version"]
   )
   deps$version[to_change] <- paste0(">= ", versions)

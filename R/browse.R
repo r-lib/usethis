@@ -79,7 +79,7 @@ browse_package <- function(package = NULL) {
     )
     details <- c(
       details,
-      map(parsed$name, ~ cli::cli_fmt(cli::cli_text("{.val {.x}} remote")))
+      map(parsed$name, \(x) cli::cli_fmt(cli::cli_text("{.val {x}} remote")))
     )
   }
 
@@ -89,8 +89,9 @@ browse_package <- function(package = NULL) {
     details,
     map(
       desc_urls_dat$desc_field,
-      ~ if (is.na(.x)) "CRAN" else
-        cli::cli_fmt(cli::cli_text("{.field {.x}} field in DESCRIPTION"))
+      \(x)
+        if (is.na(x)) "CRAN" else
+          cli::cli_fmt(cli::cli_text("{.field {x}} field in DESCRIPTION"))
     )
   )
   if (length(urls) == 0) {
@@ -106,7 +107,7 @@ browse_package <- function(package = NULL) {
   pretty <- purrr::map2(
     format(urls, justify = "left"),
     details,
-    ~ glue("{.x} ({.y})")
+    \(x, y) glue("{x} ({y})")
   )
   choice <- utils::menu(title = prompt, choices = pretty)
   if (choice == 0) {

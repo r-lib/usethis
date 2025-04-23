@@ -205,7 +205,7 @@ pat_sitrep <- function(
     emails <- maybe_emails$result
     addresses <- map_chr(
       emails,
-      ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
+      \(x) if (x$primary) glue_data(x, "{email} (primary)") else x[["email"]]
     )
     kv_line("Email(s)", addresses)
     ui_silence(

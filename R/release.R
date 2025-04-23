@@ -534,7 +534,7 @@ is_in_posit_org <- function() {
   urls <- desc$get_urls()
   dat <- parse_github_remotes(urls)
   dat <- dat[dat$host == "github.com", ]
-  purrr::some(dat$repo_owner, ~ .x %in% posit_orgs())
+  purrr::some(dat$repo_owner, \(x) x %in% posit_orgs())
 }
 
 posit_orgs <- function() {

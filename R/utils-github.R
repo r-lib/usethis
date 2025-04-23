@@ -205,7 +205,7 @@ github_remotes <- function(
   # NOTE: these can be two separate matters:
   # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
   # 2. If so, did we call it with auth? Means we know if we can push.
-  grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
+  grl$github_got <- map_lgl(repo_info, \(x) length(x) > 0)
   if (isTRUE(github_get) && !all(grl$github_got)) {
     oops <- which(!grl$github_got)
     oops_remotes <- grl$remote[oops]
@@ -235,7 +235,7 @@ github_remotes <- function(
   parent_info <- purrr::pmap(
     set_names(
       grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
-      ~ sub("parent_", "", .x)
+      \(x) sub("parent_", "", x)
     ),
     get_gh_repo
   )
@@ -325,7 +325,7 @@ new_github_remote_config <- function() {
     )
   )
   # 0-row df --> a well-named list of properly typed NAs
-  ptype <- map(ptype, ~ c(NA, .x))
+  ptype <- map(ptype, \(x) c(NA, x))
   structure(
     list(
       type = NA_character_,
