@@ -140,7 +140,7 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
   bullets <- c(
     "### To begin",
     "",
-    todo('`pr_init("upkeep-{format(Sys.Date(), "%Y-%m")}")`'),
+    todo('`usethis::pr_init("upkeep-{format(Sys.Date(), "%Y-%m")}")`'),
     ""
   )
 

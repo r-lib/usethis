@@ -5,7 +5,7 @@
     Output
       ### To begin
       
-      * [ ] `pr_init("upkeep-2025-01")`
+      * [ ] `usethis::pr_init("upkeep-2025-01")`
       
       ### Pre-history
       
@@ -78,7 +78,7 @@
     Output
       ### To begin
       
-      * [ ] `pr_init("upkeep-2025-01")`
+      * [ ] `usethis::pr_init("upkeep-2025-01")`
       
       ### 2023
       
