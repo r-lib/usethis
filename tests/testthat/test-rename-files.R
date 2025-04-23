@@ -1,13 +1,12 @@
 test_that("checks uncommitted files", {
   create_local_package()
-  expect_error(rename_files("foo", "bar"), class = "usethis_error")
+  expect_usethis_error(rename_files("foo", "bar"))
 
   git_init()
   use_r("foo", open = FALSE)
-  expect_error(
+  expect_usethis_error(
     rename_files("foo", "bar"),
-    "uncommitted changes",
-    class = "usethis_error"
+    "uncommitted changes"
   )
 })
 

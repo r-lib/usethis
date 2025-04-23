@@ -23,24 +23,24 @@ test_that("use_proprietary_license() works", {
 test_that("other licenses work without error", {
   create_local_package()
 
-  expect_error(use_agpl_license(3), NA)
-  expect_error(use_apache_license(2), NA)
-  expect_error(use_cc0_license(), NA)
-  expect_error(use_ccby_license(), NA)
-  expect_error(use_gpl_license(2), NA)
-  expect_error(use_gpl_license(3), NA)
-  expect_error(use_lgpl_license(2.1), NA)
-  expect_error(use_lgpl_license(3), NA)
+  expect_no_error(use_agpl_license(3))
+  expect_no_error(use_apache_license(2))
+  expect_no_error(use_cc0_license())
+  expect_no_error(use_ccby_license())
+  expect_no_error(use_gpl_license(2))
+  expect_no_error(use_gpl_license(3))
+  expect_no_error(use_lgpl_license(2.1))
+  expect_no_error(use_lgpl_license(3))
 
   # old fallbacks
-  expect_error(use_agpl3_license(), NA)
-  expect_error(use_gpl3_license(), NA)
-  expect_error(use_apl2_license(), NA)
+  expect_no_error(use_agpl3_license())
+  expect_no_error(use_gpl3_license())
+  expect_no_error(use_apl2_license())
 })
 
 test_that("check license gives useful errors", {
-  expect_error(check_license_version(1, 2), "must be 2")
-  expect_error(check_license_version(1, 2:4), "must be 2, 3, or 4")
+  expect_usethis_error(check_license_version(1, 2), "must be 2")
+  expect_usethis_error(check_license_version(1, 2:4), "must be 2, 3, or 4")
 })
 
 test_that("generate correct abbreviations", {

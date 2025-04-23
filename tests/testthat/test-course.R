@@ -64,6 +64,7 @@ test_that("tidy_download() errors early if destdir is not a directory", {
 
 test_that("tidy_download() works", {
   skip_if_offline("github.com")
+  local_interactive(FALSE)
 
   tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
 
@@ -78,9 +79,11 @@ test_that("tidy_download() works", {
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
-  expect_error(capture.output(
-    tidy_download(gh_url, destdir = tmp)
-  ))
+  # snapshot impractical due to
+  # (1) output beyond usethis's control re: download progress
+  # (2) a temp file path that would need to be scrubbed (possible but won't
+  #     bother due to (1))
+  expect_usethis_error(tidy_download(gh_url, destdir = tmp))
 })
 
 ## tidy_unzip ----

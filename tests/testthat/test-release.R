@@ -133,10 +133,9 @@ test_that("gh_milestone_number() returns NA when gh() errors", {
 # news --------------------------------------------------------------------
 
 test_that("must have at least one heading", {
-  expect_error(
+  expect_usethis_error(
     news_latest(""),
-    regexp = "No top-level headings",
-    class = "usethis_error"
+    regexp = "No top-level headings"
   )
 })
 

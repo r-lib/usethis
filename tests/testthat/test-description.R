@@ -76,7 +76,7 @@ test_that("creation succeeds even if options are broken", {
   ))
   create_local_project()
 
-  expect_error(use_description(), NA)
+  expect_no_error(use_description())
 })
 
 test_that("default description is tidy", {
@@ -93,11 +93,10 @@ test_that("valid CRAN names checked", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   create_local_package(dir = file_temp(pattern = "invalid_pkg_name"))
 
-  expect_error(use_description(check_name = FALSE), NA)
-  expect_error(
+  expect_no_error(use_description(check_name = FALSE))
+  expect_usethis_error(
     use_description(check_name = TRUE),
-    "is not a valid package name",
-    class = "usethis_error"
+    "is not a valid package name"
   )
 })
 
