@@ -30,18 +30,28 @@ use_testthat <- function(edition = NULL, parallel = FALSE) {
 use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
   check_installed("testthat")
   if (utils::packageVersion("testthat") < "2.1.0") {
-    ui_abort("
-      {.pkg testthat} 2.1.0 or greater needed. Please install before re-trying")
+    ui_abort(
+      "
+      {.pkg testthat} 2.1.0 or greater needed. Please install before re-trying"
+    )
   }
 
   if (is_package()) {
     edition <- check_edition(edition)
 
     use_dependency("testthat", "Suggests", paste0(edition, ".0.0"))
-    proj_desc_field_update("Config/testthat/edition", as.character(edition), overwrite = TRUE)
+    proj_desc_field_update(
+      "Config/testthat/edition",
+      as.character(edition),
+      overwrite = TRUE
+    )
 
     if (parallel) {
-      proj_desc_field_update("Config/testthat/parallel", "true", overwrite = TRUE)
+      proj_desc_field_update(
+        "Config/testthat/parallel",
+        "true",
+        overwrite = TRUE
+      )
     } else {
       proj_desc()$del("Config/testthat/parallel")
     }
@@ -75,9 +85,11 @@ check_edition <- function(edition = NULL) {
     }
     if (edition > version) {
       vers <- utils::packageVersion("testthat")
-      ui_abort("
+      ui_abort(
+        "
         {.var edition} ({edition}) not available in installed verion of
-        {.pkg testthat} ({vers}).")
+        {.pkg testthat} ({vers})."
+      )
     }
     as.integer(edition)
   }

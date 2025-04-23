@@ -1,8 +1,10 @@
-
 # use_description_defaults() ----------------------------------------------
 
 test_that("user's fields > usethis defaults", {
-  d <- use_description_defaults("pkg", fields = list(Title = "TEST1", URL = "TEST1"))
+  d <- use_description_defaults(
+    "pkg",
+    fields = list(Title = "TEST1", URL = "TEST1")
+  )
   expect_equal(d$Title, "TEST1")
   expect_equal(d$URL, "TEST1")
   expect_equal(d$Version, "0.0.0.9000")
@@ -67,9 +69,11 @@ test_that("`roxygen = FALSE` is honoured", {
 # use_description ---------------------------------------------------------
 
 test_that("creation succeeds even if options are broken", {
-  withr::local_options(list(usethis.description = list(
-    `Authors@R` = "person("
-  )))
+  withr::local_options(list(
+    usethis.description = list(
+      `Authors@R` = "person("
+    )
+  ))
   create_local_project()
 
   expect_error(use_description(), NA)

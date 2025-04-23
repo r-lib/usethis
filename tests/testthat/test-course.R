@@ -44,7 +44,9 @@ test_that("download_url() retry logic works as advertised", {
   local_mocked_bindings(
     try_download = faux_download(3)
   )
-  expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
+  expect_snapshot(
+    out <- download_url(url = "URL", destfile = "destfile", n_tries = 10)
+  )
   expect_s3_class(out, "curl_handle")
 })
 
@@ -260,7 +262,10 @@ test_that("shortlinks pass through", {
   url2 <- "rstd.io/usethis-shortlink-example"
   expect_equal(normalize_url(url1), paste0("https://", url1))
   expect_equal(normalize_url(url2), paste0("https://", url2))
-  expect_equal(normalize_url(paste0("https://", url1)), paste0("https://", url1))
+  expect_equal(
+    normalize_url(paste0("https://", url1)),
+    paste0("https://", url1)
+  )
   expect_equal(normalize_url(paste0("http://", url1)), paste0("http://", url1))
 })
 
@@ -347,10 +352,17 @@ test_that("keep_lgl() keeps and drops correct files", {
   expect_true(all(keep_lgl(keepers)))
 
   droppers <- c(
-    ".git", "/.git", "/.git/", ".git/", "foo/.git",
-    ".git/config", ".git/objects/06/3d3gysle",
-    ".Rproj.user", ".Rproj.user/123jkl/persistent-state",
-    ".Rhistory", ".RData"
+    ".git",
+    "/.git",
+    "/.git/",
+    ".git/",
+    "foo/.git",
+    ".git/config",
+    ".git/objects/06/3d3gysle",
+    ".Rproj.user",
+    ".Rproj.user/123jkl/persistent-state",
+    ".Rhistory",
+    ".RData"
   )
   expect_false(any(keep_lgl(droppers)))
 })

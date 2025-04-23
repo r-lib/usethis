@@ -120,15 +120,16 @@ git_default_branch_ <- function(cfg) {
 
   # these error sub-classes and error data are for the benefit of git_sitrep()
 
-  if (is.na(db_local_with_source) ) {
+  if (is.na(db_local_with_source)) {
     if (length(db_source)) {
-      ui_abort(c(
-        "x" = "Default branch mismatch between local repo and remote.",
-        "i" = "The default branch of the {.val {db_source$name}} remote is
+      ui_abort(
+        c(
+          "x" = "Default branch mismatch between local repo and remote.",
+          "i" = "The default branch of the {.val {db_source$name}} remote is
                {.val {db_source$default_branch}}.",
-        " " = "But the local repo has no branch named
+          " " = "But the local repo has no branch named
                {.val {db_source$default_branch}}.",
-        "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
+          "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
         ),
         class = "error_default_branch",
         db_source = db_source
@@ -142,24 +143,28 @@ git_default_branch_ <- function(cfg) {
   }
   # we learned a default branch from the local repo
 
-  if (is.null(db_source$default_branch) ||
+  if (
+    is.null(db_source$default_branch) ||
       is.na(db_source$default_branch) ||
-      identical(db_local_with_source, db_source$default_branch)) {
+      identical(db_local_with_source, db_source$default_branch)
+  ) {
     return(db_local_with_source)
   }
   # we learned a default branch from the source repo and it doesn't match
   # the local default branch
 
-  ui_abort(c(
-    "x" = "Default branch mismatch between local repo and remote.",
-    "i" = "The default branch of the {.val {db_source$name}} remote is
+  ui_abort(
+    c(
+      "x" = "Default branch mismatch between local repo and remote.",
+      "i" = "The default branch of the {.val {db_source$name}} remote is
            {.val {db_source$default_branch}}.",
-    " " = "But the default branch of the local repo appears to be
+      " " = "But the default branch of the local repo appears to be
            {.val {db_local_with_source}}.",
-    "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
+      "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
     ),
     class = "error_default_branch",
-    db_source = db_source, db_local = db_local_with_source
+    db_source = db_source,
+    db_local = db_local_with_source
   )
 }
 
@@ -237,8 +242,10 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
   } else {
     # TODO: perhaps this should be classed, so I can catch it and distinguish
     # from the ui_abort() above, where there are no local branches.
-    ui_abort("
-      Unable to guess which existing local branch plays the role of the default.")
+    ui_abort(
+      "
+      Unable to guess which existing local branch plays the role of the default."
+    )
   }
 
   if (verbose) {
@@ -301,8 +308,10 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
   maybe_name(from)
   check_name(to)
 
-  if (!is.null(from) &&
-      !gert::git_branch_exists(from, local = TRUE, repo = repo)) {
+  if (
+    !is.null(from) &&
+      !gert::git_branch_exists(from, local = TRUE, repo = repo)
+  ) {
     ui_abort("Can't find existing branch named {.val {from}}.")
   }
 
@@ -331,9 +340,11 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
   old_source_db <- tr$default_branch
 
   if (!isTRUE(tr$can_admin)) {
-    ui_abort("
+    ui_abort(
+      "
       You don't seem to have {.field admin} permissions for the source repo
-      {.val {tr$repo_spec}}, which is required to rename the default branch.")
+      {.val {tr$repo_spec}}, which is required to rename the default branch."
+    )
   }
 
   old_local_db <- from %||%
@@ -345,11 +356,16 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
              the source repo are different:",
       " " = "{.val {old_local_db}} (local) != {.val {old_source_db}} (source)"
     ))
-    if (ui_nah(
-      "Are you sure you want to proceed?",
-      yes = "yes", no = "no", shuffle = FALSE)) {
-        ui_bullets(c("x" = "Cancelling."))
-        return(invisible())
+    if (
+      ui_nah(
+        "Are you sure you want to proceed?",
+        yes = "yes",
+        no = "no",
+        shuffle = FALSE
+      )
+    ) {
+      ui_bullets(c("x" = "Cancelling."))
+      return(invisible())
     }
   }
 
@@ -380,7 +396,10 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
   rediscover_default_branch(old_name = old_local_db, report_on_source = FALSE)
 }
 
-rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) {
+rediscover_default_branch <- function(
+  old_name = NULL,
+  report_on_source = TRUE
+) {
   maybe_name(old_name)
 
   # GitHub's official TODOs re: manually updating local environments
@@ -398,8 +417,10 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
   # just as easily be, e.g., upstream.
 
   repo <- git_repo()
-  if (!is.null(old_name) &&
-      !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
+  if (
+    !is.null(old_name) &&
+      !gert::git_branch_exists(old_name, local = TRUE, repo = repo)
+  ) {
     ui_abort("Can't find existing local branch named {.val {old_name}}.")
   }
 
@@ -442,7 +463,9 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
   gert::git_fetch(
     remote = tr$name,
     refspec = glue("refs/heads/{old_name}:refs/remotes/{tr$name}/{old_name}"),
-    verbose = FALSE, repo = repo, prune = TRUE
+    verbose = FALSE,
+    repo = repo,
+    prune = TRUE
   )
 
   # for "ours" and "theirs", the source repo is the only remote on our radar and
@@ -459,12 +482,19 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
         from = old_name_fork,
         new_name = db
       )
-      gert::git_fetch(remote = "origin", refspec = db, verbose = FALSE, repo = repo)
+      gert::git_fetch(
+        remote = "origin",
+        refspec = db,
+        verbose = FALSE,
+        repo = repo
+      )
       gert::git_remote_ls(remote = "origin", verbose = FALSE, repo = repo)
       gert::git_fetch(
         remote = "origin",
         refspec = glue("refs/heads/{old_name}:refs/remotes/origin/{old_name}"),
-        verbose = FALSE, repo = repo, prune = TRUE
+        verbose = FALSE,
+        repo = repo,
+        prune = TRUE
       )
     }
   }
@@ -503,16 +533,20 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
   invisible(db)
 }
 
-challenge_non_default_branch <- function(details = "Are you sure you want to proceed?",
-                                         default_branch = NULL) {
+challenge_non_default_branch <- function(
+  details = "Are you sure you want to proceed?",
+  default_branch = NULL
+) {
   actual <- git_branch()
   default_branch <- default_branch %||% git_default_branch()
   if (actual != default_branch) {
-    if (ui_nah(c(
-      "!" = "Current branch ({.val {actual}}) is not repo's default branch
+    if (
+      ui_nah(c(
+        "!" = "Current branch ({.val {actual}}) is not repo's default branch
              ({.val {default_branch}}).",
-      " " = details
-    ))) {
+        " " = details
+      ))
+    ) {
       ui_abort("Cancelling. Not on desired branch.")
     }
   }
@@ -619,7 +653,11 @@ fishy_bookdown_config <- function(old_name = "master") {
   bookdown_config <- purrr::discard(bookdown_config, ~ grepl("revdep", .x))[[1]]
 
   bookdown_config_lines <- read_utf8(bookdown_config)
-  linky_lines <- grep("^(edit|view|history)", bookdown_config_lines, value = TRUE)
+  linky_lines <- grep(
+    "^(edit|view|history)",
+    bookdown_config_lines,
+    value = TRUE
+  )
 
   if (!any(grepl(old_name, linky_lines))) {
     return(invisible(character()))

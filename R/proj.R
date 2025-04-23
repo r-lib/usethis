@@ -119,11 +119,13 @@ proj_path <- function(..., ext = "") {
 #' @param quiet Whether to suppress user-facing messages, while operating in the
 #'   temporary active project
 #' @export
-with_project <- function(path = ".",
-                         code,
-                         force = FALSE,
-                         setwd = TRUE,
-                         quiet = getOption("usethis.quiet", default = FALSE)) {
+with_project <- function(
+  path = ".",
+  code,
+  force = FALSE,
+  setwd = TRUE,
+  quiet = getOption("usethis.quiet", default = FALSE)
+) {
   local_project(path = path, force = force, setwd = setwd, quiet = quiet)
   force(code)
 }
@@ -135,17 +137,19 @@ with_project <- function(path = ".",
 #' @param .local_envir The environment to use for scoping. Defaults to current
 #'   execution environment.
 #' @export
-local_project <- function(path = ".",
-                          force = FALSE,
-                          setwd = TRUE,
-                          quiet = getOption("usethis.quiet", default = FALSE),
-                          .local_envir = parent.frame()) {
+local_project <- function(
+  path = ".",
+  force = FALSE,
+  setwd = TRUE,
+  quiet = getOption("usethis.quiet", default = FALSE),
+  .local_envir = parent.frame()
+) {
   withr::local_options(usethis.quiet = quiet, .local_envir = .local_envir)
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
   withr::defer(proj_set(path = old_project, force = TRUE), envir = .local_envir)
   proj_set(path = path, force = force)
-  temp_proj <- proj_get_()   # this could be `NULL`
+  temp_proj <- proj_get_() # this could be `NULL`
 
   if (isTRUE(setwd) && !is.null(temp_proj)) {
     withr::local_dir(temp_proj, .local_envir = .local_envir)

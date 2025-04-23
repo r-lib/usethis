@@ -34,12 +34,14 @@
 #'   `create_package()` by immediately applying as many of the tidyverse
 #'   development conventions as possible.
 #' @export
-create_package <- function(path,
-                           fields = list(),
-                           rstudio = rstudioapi::isAvailable(),
-                           roxygen = TRUE,
-                           check_name = TRUE,
-                           open = rlang::is_interactive()) {
+create_package <- function(
+  path,
+  fields = list(),
+  rstudio = rstudioapi::isAvailable(),
+  roxygen = TRUE,
+  check_name = TRUE,
+  open = rlang::is_interactive()
+) {
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
@@ -74,9 +76,11 @@ create_package <- function(path,
 
 #' @export
 #' @rdname create_package
-create_project <- function(path,
-                           rstudio = rstudioapi::isAvailable(),
-                           open = rlang::is_interactive()) {
+create_project <- function(
+  path,
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+) {
   path <- user_path_prep(path)
   name <- path_file(path_abs(path))
   challenge_nested_project(path_dir(path), name)
@@ -182,13 +186,15 @@ create_project <- function(path,
 #' # a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)
 #' create_from_github("https://github.acme.com/OWNER/REPO")
 #' }
-create_from_github <- function(repo_spec,
-                               destdir = NULL,
-                               fork = NA,
-                               rstudio = NULL,
-                               open = rlang::is_interactive(),
-                               protocol = git_protocol(),
-                               host = NULL) {
+create_from_github <- function(
+  repo_spec,
+  destdir = NULL,
+  fork = NA,
+  rstudio = NULL,
+  open = rlang::is_interactive(),
+  protocol = git_protocol(),
+  host = NULL
+) {
   check_protocol(protocol)
 
   parsed_repo_spec <- parse_repo_url(repo_spec)
@@ -230,7 +236,11 @@ create_from_github <- function(repo_spec,
 
   source_owner <- spec_owner(repo_spec)
   repo_name <- spec_repo(repo_spec)
-  gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, api_url = host))
+  gh <- gh_tr(list(
+    repo_owner = source_owner,
+    repo_name = repo_name,
+    api_url = host
+  ))
 
   repo_info <- gh("GET /repos/{owner}/{repo}")
   # 2023-01-28 We're seeing the GitHub bug again around default branch in a
@@ -248,9 +258,11 @@ create_from_github <- function(repo_spec,
   # fork is either TRUE or FALSE
 
   if (fork && identical(user, repo_info$owner$login)) {
-    ui_abort("
+    ui_abort(
+      "
       Can't fork, because the authenticated user {.val {user}} already owns the
-      source repo {.val {repo_info$full_name}}.")
+      source repo {.val {repo_info$full_name}}."
+    )
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
@@ -305,7 +317,11 @@ create_from_github <- function(repo_spec,
     ))
     gert::git_branch_set_upstream(upstream_remref, repo = git_repo())
     config_key <- glue("remote.upstream.created-by")
-    gert::git_config_set(config_key, "usethis::create_from_github", repo = git_repo())
+    gert::git_config_set(
+      config_key,
+      "usethis::create_from_github",
+      repo = git_repo()
+    )
   }
 
   rstudio <- rstudio %||% rstudio_available()

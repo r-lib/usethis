@@ -184,7 +184,10 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
 
   dir <- path_dir(proj_rel_path(path))
   if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
-    cli::cli_abort("Open file must be code, test, or snapshot.", call = error_call)
+    cli::cli_abort(
+      "Open file must be code, test, or snapshot.",
+      call = error_call
+    )
   }
 
   file <- path_file(path)

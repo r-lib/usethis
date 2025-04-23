@@ -13,7 +13,9 @@ test_that("checks uncommitted files", {
 
 test_that("renames R and test and snapshot files", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
+  local_mocked_bindings(
+    challenge_uncommitted_changes = function(...) invisible()
+  )
   git_init()
 
   use_r("foo", open = FALSE)
@@ -32,7 +34,9 @@ test_that("renames R and test and snapshot files", {
 
 test_that("renames src/ files", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
+  local_mocked_bindings(
+    challenge_uncommitted_changes = function(...) invisible()
+  )
   git_init()
 
   use_src()
@@ -50,7 +54,9 @@ test_that("renames src/ files", {
 
 test_that("strips context from test file", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
+  local_mocked_bindings(
+    challenge_uncommitted_changes = function(...) invisible()
+  )
   git_init()
 
   use_testthat()
@@ -70,7 +76,9 @@ test_that("strips context from test file", {
 
 test_that("rename paths in test file", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
+  local_mocked_bindings(
+    challenge_uncommitted_changes = function(...) invisible()
+  )
   git_init()
 
   use_testthat()
@@ -85,7 +93,9 @@ test_that("rename paths in test file", {
 
 test_that("does not remove non-R dots in filename", {
   create_local_package()
-  local_mocked_bindings(challenge_uncommitted_changes = function(...) invisible())
+  local_mocked_bindings(
+    challenge_uncommitted_changes = function(...) invisible()
+  )
   git_init()
 
   file_create(proj_path("R/foo.bar.R"))

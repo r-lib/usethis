@@ -73,7 +73,10 @@ browse_package <- function(package = NULL) {
     grl <- grl[ord, ]
     grl <- set_names(grl$url, nm = grl$remote)
     parsed <- parse_github_remotes(grl)
-    urls <- c(urls, glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}"))
+    urls <- c(
+      urls,
+      glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}")
+    )
     details <- c(
       details,
       map(parsed$name, ~ cli::cli_fmt(cli::cli_text("{.val {.x}} remote")))
@@ -86,7 +89,8 @@ browse_package <- function(package = NULL) {
     details,
     map(
       desc_urls_dat$desc_field,
-      ~ if (is.na(.x)) "CRAN" else cli::cli_fmt(cli::cli_text("{.field {.x}} field in DESCRIPTION"))
+      ~ if (is.na(.x)) "CRAN" else
+        cli::cli_fmt(cli::cli_text("{.field {.x}} field in DESCRIPTION"))
     )
   )
   if (length(urls) == 0) {
@@ -100,7 +104,8 @@ browse_package <- function(package = NULL) {
 
   prompt <- "Which URL do you want to visit? (0 to exit)"
   pretty <- purrr::map2(
-    format(urls, justify = "left"), details,
+    format(urls, justify = "left"),
+    details,
     ~ glue("{.x} ({.y})")
   )
   choice <- utils::menu(title = prompt, choices = pretty)
@@ -193,13 +198,16 @@ github_url <- function(package = NULL) {
   }
 
   if (is.null(package)) {
-    ui_abort("
+    ui_abort(
+      "
       Project {.val {project_name()}} has no GitHub remotes configured
-      and has no GitHub URLs in DESCRIPTION.")
+      and has no GitHub URLs in DESCRIPTION."
+    )
   }
   cli::cli_warn(c(
     "!" = "Package {.val {package}} has no GitHub URLs in DESCRIPTION.",
-    " " = "Trying the GitHub CRAN mirror."))
+    " " = "Trying the GitHub CRAN mirror."
+  ))
   glue_chr("https://github.com/cran/{package}")
 }
 

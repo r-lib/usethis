@@ -19,7 +19,7 @@ withr::deferred_run()
 
 dat <- gert::git_config_global()
 if ("user.name" %in% dat$name) {
-  old_name <- dat[dat$name == "user.name",]$value
+  old_name <- dat[dat$name == "user.name", ]$value
   usethis::use_git_config(user.name = NULL)
   withr::defer(usethis::use_git_config(user.name = old_name))
 }
@@ -30,7 +30,7 @@ withr::deferred_run()
 
 dat <- gert::git_config_global()
 if ("user.email" %in% dat$name) {
-  old_email <- dat[dat$name == "user.email",]$value
+  old_email <- dat[dat$name == "user.email", ]$value
   usethis::use_git_config(user.email = NULL)
   withr::defer(usethis::use_git_config(user.email = old_email))
 }

@@ -46,5 +46,8 @@ test_that("check license gives useful errors", {
 test_that("generate correct abbreviations", {
   expect_equal(license_abbr("GPL", 2, TRUE), "GPL (>= 2)")
   expect_equal(license_abbr("GPL", 2, FALSE), "GPL-2")
-  expect_equal(license_abbr("Apache License", 2, FALSE), "Apache License (== 2)")
+  expect_equal(
+    license_abbr("Apache License", 2, FALSE),
+    "Apache License (== 2)"
+  )
 })

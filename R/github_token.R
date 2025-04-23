@@ -56,9 +56,11 @@ NULL
 #' \dontrun{
 #' create_github_token()
 #' }
-create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
-                                description = "DESCRIBE THE TOKEN'S USE CASE",
-                                host = NULL) {
+create_github_token <- function(
+  scopes = c("repo", "user", "gist", "workflow"),
+  description = "DESCRIBE THE TOKEN'S USE CASE",
+  host = NULL
+) {
   scopes <- glue_collapse(scopes, ",")
   host <- get_hosturl(host %||% default_api_url())
   url <- glue(
@@ -119,9 +121,11 @@ code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
 # workhorse behind gh_token_help() and called, possibly twice, in git_sitrep()
 # hence the need for `scold_for_renviron = TRUE/FALSE`
 # scope determines if "global" or "de_facto" email is checked
-pat_sitrep <- function(host = "https://github.com",
-                       scope = c("user", "project"),
-                       scold_for_renviron = TRUE) {
+pat_sitrep <- function(
+  host = "https://github.com",
+  scope = c("user", "project"),
+  scold_for_renviron = TRUE
+) {
   scope <- rlang::arg_match(scope)
 
   if (scold_for_renviron) {
@@ -276,8 +280,10 @@ scold_for_scopes <- function(scopes) {
 
   suggestions <- c(
     "*" = if (!has_repo) "{.val repo}: needed to fully access user's repos",
-    "*" = if (!has_workflow) "{.val workflow}: needed to manage GitHub Actions workflow files",
-    "*" = if (!has_user_email) "{.val user:email}: needed to read user's email addresses"
+    "*" = if (!has_workflow)
+      "{.val workflow}: needed to manage GitHub Actions workflow files",
+    "*" = if (!has_user_email)
+      "{.val user:email}: needed to read user's email addresses"
   )
   message <- c(
     "!" = "Token lacks recommended scopes:",
