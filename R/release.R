@@ -517,7 +517,8 @@ posit_orgs <- function() {
     "tidyverse",
     "r-lib",
     "tidymodels",
-    "rstudio"
+    "rstudio",
+    "posit-dev"
   )
 }
 
