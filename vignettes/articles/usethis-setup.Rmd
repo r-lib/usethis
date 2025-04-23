@@ -2,7 +2,9 @@
 title: "usethis setup"
 ---
 
-```{r setup, include = FALSE}
+```{r}
+#| label: setup
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -30,7 +32,8 @@ The usethis package was carved out of the [devtools package](https://devtools.r-
 
 Call `usethis::use_devtools()` for prompts to do this:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(devtools) ## or library(usethis)
 
 use_devtools()
@@ -44,7 +47,9 @@ This will:
 
 The suggested snippet looks like this:
 
-```{r, eval = FALSE, echo = 2:4}
+```{r}
+#| eval: false
+#| echo: !expr '2:4'
 # nolint start
 if (interactive()) {
   suppressMessages(require(devtools))
@@ -79,7 +84,8 @@ Certain options are consulted by usethis and allow you to set personal defaults:
 
 Define any of these options in your `.Rprofile`, which can be opened for editing via `usethis::edit_r_profile()`. Here is example code:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 options(
   usethis.description = list(
     "Authors@R" = utils::person(
@@ -121,7 +127,8 @@ usethis itself does not actually need the Git that you install, because it uses 
 
 Once Git is installed, introduce yourself to Git.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
@@ -142,7 +149,8 @@ What email should you give to Git? This must be the email associated with your G
 
 The code chunk above is doing the equivalent of this:
 
-```{sh, eval = FALSE}
+```{sh}
+#| eval: false
 git config --global user.name 'Jane Doe'
 git config --global user.email 'jane@example.com'
 git config --global --list
@@ -152,7 +160,8 @@ git config --global --list
 
 Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(usethis)
 
 use_git_config(core.editor = "nano")
@@ -160,7 +169,8 @@ use_git_config(core.editor = "nano")
 
 To do the same thing with command line Git, execute this in a shell:
 
-```{sh, eval = FALSE}
+```{sh}
+#| eval: false
 git config --global core.editor emacs
 ```
 

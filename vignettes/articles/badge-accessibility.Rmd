@@ -2,14 +2,16 @@
 title: "Exploring badge accessibility"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(usethis)
 ```
 
@@ -89,7 +91,8 @@ Now we inspect the badge SVG.
 I apologize in advance for the amount of data displayed here, but it seems good to show one badge in full gory detail.
 Later, we will display badge information very selectively.
 
-```{r R.options = list(tidyverse.quiet = TRUE)}
+```{r}
+#| R-options: !expr list(tidyverse.quiet = TRUE)
 library(xml2)
 library(purrr)
 
