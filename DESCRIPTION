@@ -20,7 +20,7 @@ License: MIT + file LICENSE
 URL: https://usethis.r-lib.org, https://github.com/r-lib/usethis
 BugReports: https://github.com/r-lib/usethis/issues
 Depends:
-    R (>= 3.6)
+    R (>= 4.1)
 Imports:
     cli (>= 3.0.1),
     clipr (>= 0.3.0),
