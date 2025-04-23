@@ -33,8 +33,8 @@
 #'     path = dir_ls("tests/testthat/", regexp = "/test[^/]+\\.[Rr]$"),
 #'     name = as.character(path_ext_remove(str_remove(path_file(path), "^test[-_]"))),
 #'   )
-#' ) %>%
-#'   pivot_wider(names_from = type, values_from = path) %>%
+#' ) |>
+#'   pivot_wider(names_from = type, values_from = path) |>
 #'   print(n = Inf)
 #' ```
 #'
