@@ -462,7 +462,8 @@ is_posit_person_canonical <- function() {
     "fnd" %in% roles &&
     "cph" %in% roles &&
     attr(roles, "appears_in", exact = TRUE) == "given" &&
-    attr(roles, "appears_as", exact = TRUE) == "Posit Software, PBC"
+    attr(roles, "appears_as", exact = TRUE) == "Posit Software, PBC" &&
+    attr(roles, "ror", exact = TRUE) %in% "03wc8by49"
 }
 
 get_posit_roles <- function() {
@@ -493,6 +494,10 @@ get_posit_roles <- function() {
     attr(out, "appears_as") <- person$family
     attr(out, "appears_in") <- "family"
   }
+
+  comment <- person$comment %||% character()
+  attr(out, "ror") <- comment["ROR"]
+
   out
 }
 

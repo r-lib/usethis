@@ -243,6 +243,34 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
     )
   }
 
+  if (last_upkeep <= 2025) {
+    bullets <- c(
+      bullets,
+      "### 2025",
+      "",
+      todo("`usethis::use_air()` <https://posit-dev.github.io/air/>"),
+      todo('`usethis::use_package("R", "Depends", "4.1")`'),
+      todo("Switch to the base pipe (`|>`)"),
+      todo("Switch to the base anonymous function syntax (`\\(x)`) "),
+      todo(
+        '
+        Add ROR for Posit in `DESCRIPTION`:
+        `person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))`',
+        posit_pkg && !posit_person_ok
+      ),
+      todo(
+        '
+        `knitr::convert_chunk_header(type = "yaml")` to convert in-header \\
+        chunk options to the newer in-body style used by Quarto
+        '
+      ),
+      todo(
+        "Switch to `expect_snapshot(error = TRUE)` instead of calling `expect_error()` without specifying `class =`"
+      ),
+      ""
+    )
+  }
+
   minimum_r_version <- pkg_minimum_r_version()
   bullets <- c(
     bullets,
@@ -256,7 +284,14 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),
-    todo("[Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed"),
+    todo(
+      "
+      Add alt-text to pictures, plots, etc; see \\
+      https://posit.co/blog/knitr-fig-alt/ for examples"
+    ),
+    todo(
+      "[Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed"
+    ),
     ""
   )
 
