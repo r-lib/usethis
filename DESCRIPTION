@@ -59,8 +59,8 @@ Config/Needs/website: r-lib/asciicast, tidyverse/tidytemplate, xml2
 Config/testthat/edition: 3
 Config/testthat/parallel: TRUE
 Config/testthat/start-first: github-actions, release
+Config/usethis/last-upkeep: 2025-04-22
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/usethis/last-upkeep: 2025-04-22
