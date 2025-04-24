@@ -123,8 +123,8 @@ identify missed opportunities for pairing:</p>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>    <span class="at">path =</span> <span class="fu">dir_ls</span>(<span class="st">"tests/testthat/"</span>, <span class="at">regexp =</span> <span class="st">"/test[^/]+</span><span class="sc">\\</span><span class="st">.[Rr]$"</span>),</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">as.character</span>(<span class="fu">path_ext_remove</span>(<span class="fu">str_remove</span>(<span class="fu">path_file</span>(path), <span class="st">"^test[-_]"</span>))),</span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  )</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> path) <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> path) <span class="sc">|&gt;</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span></code></pre><p></p></div>
 <p>The <code><a href="rename_files.html">rename_files()</a></code> function can also be helpful.</p>
     </div>
