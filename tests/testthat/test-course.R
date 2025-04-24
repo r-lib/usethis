@@ -298,7 +298,7 @@ test_that("use_course() errors if MIME type is not 'application/zip'", {
 
   path <- withr::local_tempdir()
   expect_usethis_error(
-    use_course("https://httpbin.org/get", destdir = path),
+    use_course("https://example.com", destdir = path),
     "does not have MIME type"
   )
 })
