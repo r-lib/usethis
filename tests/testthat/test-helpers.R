@@ -121,4 +121,3 @@ test_that("use_dependency() can level up a LinkingTo dependency", {
   expect_setequal(deps$type, c("Imports", "LinkingTo"))
   expect_setequal(deps$package, "rlang")
 })
-

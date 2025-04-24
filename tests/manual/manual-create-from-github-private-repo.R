@@ -9,7 +9,8 @@ gh_account <- gh::gh_whoami()
 # remove any pre-existing repo
 gh::gh(
   "DELETE /repos/:username/:pkg",
-  username = me, pkg = repo_name
+  username = me,
+  pkg = repo_name
 )
 dir_delete(path(usethis:::conspicuous_place(), repo_name))
 expect_false(dir_exists(path(usethis:::conspicuous_place(), repo_name)))
@@ -39,5 +40,6 @@ dir_delete(x)
 
 gh::gh(
   "DELETE /repos/:username/:pkg",
-  username = me, pkg = repo_name
+  username = me,
+  pkg = repo_name
 )

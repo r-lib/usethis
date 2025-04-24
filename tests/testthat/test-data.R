@@ -23,7 +23,10 @@ test_that("use_data() honors `overwrite` for non-internal data", {
   letters2 <- letters
   use_data(letters2)
 
-  expect_usethis_error(use_data(letters2), ".*data/letters2.rda.* already exist")
+  expect_usethis_error(
+    use_data(letters2),
+    ".*data/letters2.rda.* already exist"
+  )
 
   letters2 <- rev(letters)
   use_data(letters2, overwrite = TRUE)
@@ -66,7 +69,7 @@ test_that("use_data() writes version 3 by default", {
   create_local_package()
 
   x <- letters
-  use_data(x, internal = TRUE,  compress = FALSE)
+  use_data(x, internal = TRUE, compress = FALSE)
   expect_identical(
     rawToChar(readBin(proj_path("R", "sysdata.rda"), n = 4, what = "raw")),
     "RDX3"

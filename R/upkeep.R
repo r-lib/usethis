@@ -86,10 +86,12 @@ upkeep_checklist <- function(target_repo = NULL) {
       [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)",
       uses_old_testthat_edition(current = 3)
     ),
-    todo("
+    todo(
+      "
       Align the names of `R/` files and `test/` files for workflow happiness. \\
       The docs for `usethis::use_r()` include a helpful script. \\
-      `usethis::rename_files()` may be be useful."),
+      `usethis::rename_files()` may be be useful."
+    ),
     todo(
       "Consider changing default branch from `master` to `main`",
       git_default_branch() == "master"
@@ -100,15 +102,17 @@ upkeep_checklist <- function(target_repo = NULL) {
       See `usethis::use_cran_comments()`.",
       has_old_cran_comments()
     ),
-    todo("
+    todo(
+      "
       Add alt-text to pictures, plots, etc; see \\
-      <https://posit.co/blog/knitr-fig-alt/> for examples"),
-      "",
-      "Set up or update GitHub Actions. \\
+      <https://posit.co/blog/knitr-fig-alt/> for examples"
+    ),
+    "",
+    "Set up or update GitHub Actions. \\
       Updating workflows to the latest version will often fix troublesome actions:",
-      todo("`usethis::use_github_action('check-standard')`"),
-      todo("`usethis::use_github_action('pkgdown')`", uses_pkgdown()),
-      todo("`usethis::use_github_action('test-coverage')`", uses_testthat())
+    todo("`usethis::use_github_action('check-standard')`"),
+    todo("`usethis::use_github_action('pkgdown')`", uses_pkgdown()),
+    todo("`usethis::use_github_action('test-coverage')`", uses_testthat())
   )
 
   c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
@@ -130,8 +134,10 @@ use_tidy_upkeep_issue <- function(last_upkeep = last_upkeep_year()) {
 # for mocking
 Sys.Date <- NULL
 
-tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
-                                  repo_spec = "OWNER/REPO") {
+tidy_upkeep_checklist <- function(
+  last_upkeep = last_upkeep_year(),
+  repo_spec = "OWNER/REPO"
+) {
   desc <- proj_desc()
 
   posit_pkg <- is_posit_pkg()
@@ -187,8 +193,12 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
       "",
       todo("Handle and close any still-open `master` --> `main` issues"),
       todo('`usethis:::use_codecov_badge("{repo_spec}")`'),
-      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
-      todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
+      todo(
+        "Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"
+      ),
+      todo(
+        "Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"
+      ),
       ""
     )
   }
@@ -215,27 +225,36 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo("`usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`"),
+      todo(
+        "`usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`"
+      ),
       todo("`usethis::use_tidy_coc()`"),
       todo(
         "Modernize citation files; see updated `use_citation()`",
         has_citation_file()
       ),
       todo('Use `pak::pak("{repo_spec}")` in README'),
-      todo("
+      todo(
+        "
         Consider running `usethis::use_tidy_dependencies()` and/or \\
-        replace compat files with `use_standalone()`"),
-      todo("Use cli errors or [file an issue](new) if you don\'t have time to do it now"),
-      todo('
+        replace compat files with `use_standalone()`"
+      ),
+      todo(
+        "Use cli errors or [file an issue](new) if you don\'t have time to do it now"
+      ),
+      todo(
+        '
         `usethis::use_standalone("r-lib/rlang", "types-check")` \\
         instead of home grown argument checkers;
-        or [file an issue](new) if you don\'t have time to do it now'),
+        or [file an issue](new) if you don\'t have time to do it now'
+      ),
       todo(
         "
         Change files ending in `.r` to `.R` in `R/` and/or `tests/testthat/`",
         lowercase_r()
       ),
-      todo("
+      todo(
+        "
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"
       ),
@@ -278,7 +297,10 @@ tidy_upkeep_checklist <- function(last_upkeep = last_upkeep_year(),
     bullets,
     "### To finish",
     "",
-    todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
+    todo(
+      "`usethis::use_mit_license()`",
+      grepl("MIT", desc$get_field("License"))
+    ),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),
@@ -347,10 +369,12 @@ upkeep_extra_bullets <- function(env = NULL) {
 
 checklist_footer <- function(tidy) {
   tidy_fun <- if (tidy) "tidy_" else ""
-  glue('<sup>\\
+  glue(
+    '<sup>\\
     Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
     [usethis v{usethis_version()}](https://usethis.r-lib.org)\\
-    </sup>')
+    </sup>'
+  )
 }
 
 usethis_version <- function() {

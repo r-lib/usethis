@@ -77,7 +77,11 @@ use_pkgdown_github_pages <- function() {
   use_pkgdown_url(url = site_url, tr = tr)
 
   if (is_posit_pkg()) {
-    proj_desc_field_update("Config/Needs/website", "tidyverse/tidytemplate", append = TRUE)
+    proj_desc_field_update(
+      "Config/Needs/website",
+      "tidyverse/tidytemplate",
+      append = TRUE
+    )
   }
 }
 
@@ -119,8 +123,10 @@ use_pkgdown_url <- function(url, tr = NULL) {
 
 tidyverse_url <- function(url, tr = NULL) {
   tr <- tr %||% target_repo(github_get = TRUE)
-  if (!is_interactive() ||
-      !tr$repo_owner %in% c("tidyverse", "r-lib", "tidymodels")) {
+  if (
+    !is_interactive() ||
+      !tr$repo_owner %in% c("tidyverse", "r-lib", "tidymodels")
+  ) {
     return(url)
   }
 
@@ -128,11 +134,13 @@ tidyverse_url <- function(url, tr = NULL) {
   if (grepl(glue("{custom_url}/?"), url)) {
     return(url)
   }
-  if (ui_yep(c(
-    "i" = "{.val {tr$repo_name}} is owned by the {.val {tr$repo_owner}} GitHub
+  if (
+    ui_yep(c(
+      "i" = "{.val {tr$repo_name}} is owned by the {.val {tr$repo_owner}} GitHub
            organization.",
-    " " = "Shall we configure {.val {custom_url}} as the (eventual) pkgdown URL?"
-  ))) {
+      " " = "Shall we configure {.val {custom_url}} as the (eventual) pkgdown URL?"
+    ))
+  ) {
     custom_url
   } else {
     url
@@ -183,5 +191,5 @@ pkgdown_url <- function(pedantic = FALSE) {
              which is optional but recommended."
     ))
   }
-    NULL
+  NULL
 }

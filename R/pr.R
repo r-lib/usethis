@@ -196,7 +196,8 @@ pr_init <- function(branch) {
     }
   }
 
-  default_branch <- if (online) git_default_branch_(cfg) else guess_local_default_branch()
+  default_branch <- if (online) git_default_branch_(cfg) else
+    guess_local_default_branch()
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
     default_branch = default_branch
@@ -308,9 +309,11 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
   }
 
   if (is.na(pr$pr_repo_owner)) {
-    ui_abort("
+    ui_abort(
+      "
       The repo or branch where {.href [PR #{pr$pr_number}]({pr$pr_html_url})} originates seems to have been
-      deleted.")
+      deleted."
+    )
   }
 
   pr_user <- glue("@{pr$pr_user}")
@@ -368,8 +371,10 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
   gert::git_config_set(config_url, pr$pr_html_url, repo = repo)
 
   pr_branch_ours_tracking <- git_branch_tracking(pr$pr_local_branch)
-  if (is.na(pr_branch_ours_tracking) ||
-      pr_branch_ours_tracking != pr_remref) {
+  if (
+    is.na(pr_branch_ours_tracking) ||
+      pr_branch_ours_tracking != pr_remref
+  ) {
     ui_bullets(c("v" = "Setting {.val {pr_remref}} as remote tracking branch."))
     gert::git_branch_set_upstream(pr_remref, repo = repo)
   }
@@ -392,10 +397,14 @@ pr_push <- function() {
     # this is the first push
     if (cfg$type == "fork" && cfg$upstream$can_push && is_interactive()) {
       choices <- c(
-        origin   = ui_pre_glue("
-          <<cfg$origin$repo_spec>> = {.val origin} (external PR)"),
-        upstream = ui_pre_glue("
-          <<cfg$upstream$repo_spec>> = {.val upstream} (internal PR)")
+        origin = ui_pre_glue(
+          "
+          <<cfg$origin$repo_spec>> = {.val origin} (external PR)"
+        ),
+        upstream = ui_pre_glue(
+          "
+          <<cfg$upstream$repo_spec>> = {.val upstream} (internal PR)"
+        )
       )
       choices_formatted <- map_chr(choices, cli::format_inline)
       title <- glue("Which repo do you want to push to?")
@@ -537,9 +546,11 @@ pr_forget <- function() pr_clean(mode = "forget")
 # Removes local evidence of PRs that you're done with or wish you'd never
 # started or fetched
 # Only possible remote action is to delete the remote branch for a merged PR
-pr_clean <- function(number = NULL,
-                     target = c("source", "primary"),
-                     mode = c("finish", "forget")) {
+pr_clean <- function(
+  number = NULL,
+  target = c("source", "primary"),
+  mode = c("finish", "forget")
+) {
   withr::defer(rstudio_git_tickle())
   mode <- match.arg(mode)
   repo <- git_repo()
@@ -569,13 +580,15 @@ pr_clean <- function(number = NULL,
     }
     tracking_branch <- git_branch_tracking(pr_local_branch)
     if (is.na(tracking_branch)) {
-      if (ui_nah(c(
-        "!" = "Local branch {.val {pr_local_branch}} has no associated remote
+      if (
+        ui_nah(c(
+          "!" = "Local branch {.val {pr_local_branch}} has no associated remote
                branch.",
-        "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
+          "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
                on this branch may be hard for you to recover.",
-        " " = "Proceed anyway?"
-      ))) {
+          " " = "Proceed anyway?"
+        ))
+      ) {
         ui_bullets(c("x" = "Cancelling."))
         return(invisible())
       }
@@ -584,13 +597,16 @@ pr_clean <- function(number = NULL,
         branch = pr_local_branch,
         remref = tracking_branch
       )
-      if (cmp$local_only > 0 && ui_nah(c(
-        "!" = "Local branch {.val {pr_local_branch}} has 1 or more commits that
+      if (
+        cmp$local_only > 0 &&
+          ui_nah(c(
+            "!" = "Local branch {.val {pr_local_branch}} has 1 or more commits that
                have not been pushed to {.val {tracking_branch}}.",
-        "i" = "If we delete {.val {pr_local_branch}}, this work may be hard for
+            "i" = "If we delete {.val {pr_local_branch}}, this work may be hard for
                you to recover.",
-        " " = "Proceed anyway?"
-      ))) {
+            " " = "Proceed anyway?"
+          ))
+      ) {
         ui_bullets(c("x" = "Cancelling."))
         return(invisible())
       }
@@ -628,7 +644,9 @@ pr_clean <- function(number = NULL,
 
   branches <- gert::git_branch_list(local = TRUE, repo = repo)
   branches <- branches[!is.na(branches$upstream), ]
-  if (sum(grepl(glue("^refs/remotes/{pr$pr_remote}"), branches$upstream)) == 0) {
+  if (
+    sum(grepl(glue("^refs/remotes/{pr$pr_remote}"), branches$upstream)) == 0
+  ) {
     ui_bullets(c("v" = "Removing remote {.val {pr$pr_remote}}."))
     gert::git_remote_remove(remote = pr$pr_remote, repo = repo)
   }
@@ -644,9 +662,11 @@ pr_pull_source_override <- function(tr, default_branch) {
   # I guess to issue a specific error message?
   current_branch <- git_branch()
   if (current_branch != default_branch) {
-    ui_abort("
+    ui_abort(
+      "
       Internal error: {.fun pr_pull_source_override} should only be used when on
-      default branch.")
+      default branch."
+    )
   }
 
   # guard against mis-configured forks, that have default branch tracking
@@ -676,9 +696,11 @@ pr_create <- function() {
 # retrieves 1 PR, if:
 # * we can establish a tracking relationship between `branch` and a PR branch
 # * we can get the user to choose 1
-pr_find <- function(branch = git_branch(),
-                    tr = NULL,
-                    state = c("open", "closed", "all")) {
+pr_find <- function(
+  branch = git_branch(),
+  tr = NULL,
+  state = c("open", "closed", "all")
+) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url, where = "local")
@@ -705,9 +727,11 @@ pr_find <- function(branch = git_branch(),
     ui_bullets(c("!" = "Multiple PRs are associated with {.val {spec}}."))
     pr_dat <- choose_pr(pr_dat = pr_dat)
     if (min(lengths(pr_dat)) == 0) {
-      ui_abort("
+      ui_abort(
+        "
         One of these PRs must be specified explicitly or interactively: \\
-        {.or {paste0('#', pr_dat$pr_number)}}.")
+        {.or {paste0('#', pr_dat$pr_number)}}."
+      )
     }
   }
 
@@ -715,9 +739,11 @@ pr_find <- function(branch = git_branch(),
   as.list(pr_dat)
 }
 
-pr_url <- function(branch = git_branch(),
-                   tr = NULL,
-                   state = c("open", "closed", "all")) {
+pr_url <- function(
+  branch = git_branch(),
+  tr = NULL,
+  state = c("open", "closed", "all")
+) {
   state <- match.arg(state)
   pr <- pr_find(branch, tr = tr, state = state)
   if (is.null(pr)) {
@@ -729,26 +755,28 @@ pr_url <- function(branch = git_branch(),
 
 pr_data_tidy <- function(pr) {
   out <- list(
-    pr_number     = pluck_int(pr, "number"),
-    pr_title      = pluck_chr(pr, "title"),
-    pr_state      = pluck_chr(pr, "state"),
-    pr_user       = pluck_chr(pr, "user", "login"),
+    pr_number = pluck_int(pr, "number"),
+    pr_title = pluck_chr(pr, "title"),
+    pr_state = pluck_chr(pr, "state"),
+    pr_user = pluck_chr(pr, "user", "login"),
     pr_created_at = pluck_chr(pr, "created_at"),
     pr_updated_at = pluck_chr(pr, "updated_at"),
-    pr_merged_at  = pluck_chr(pr, "merged_at"),
-    pr_label      = pluck_chr(pr, "head", "label"),
+    pr_merged_at = pluck_chr(pr, "merged_at"),
+    pr_label = pluck_chr(pr, "head", "label"),
     # the 'repo' element of 'head' is NULL when fork has been deleted
     pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
-    pr_ref        = pluck_chr(pr, "head", "ref"),
-    pr_repo_spec  = pluck_chr(pr, "head", "repo", "full_name"),
-    pr_from_fork  = pluck_lgl(pr, "head", "repo", "fork"),
+    pr_ref = pluck_chr(pr, "head", "ref"),
+    pr_repo_spec = pluck_chr(pr, "head", "repo", "full_name"),
+    pr_from_fork = pluck_lgl(pr, "head", "repo", "fork"),
     # 'maintainer_can_modify' is only present when we GET one specific PR
     pr_maintainer_can_modify = pluck_lgl(pr, "maintainer_can_modify"),
-    pr_https_url  = pluck_chr(pr, "head", "repo", "clone_url"),
-    pr_ssh_url    = pluck_chr(pr, "head", "repo", "ssh_url"),
-    pr_html_url   = pluck_chr(pr, "html_url"),
-    pr_string     = glue("
-      {pluck_chr(pr, 'base', 'repo', 'full_name')}/#{pluck_int(pr, 'number')}")
+    pr_https_url = pluck_chr(pr, "head", "repo", "clone_url"),
+    pr_ssh_url = pluck_chr(pr, "head", "repo", "ssh_url"),
+    pr_html_url = pluck_chr(pr, "html_url"),
+    pr_string = glue(
+      "
+      {pluck_chr(pr, 'base', 'repo', 'full_name')}/#{pluck_int(pr, 'number')}"
+    )
   )
 
   grl <- github_remote_list(these = NULL)
@@ -777,17 +805,21 @@ pr_data_tidy <- function(pr) {
   out
 }
 
-pr_list <- function(tr = NULL,
-                    github_get = NA,
-                    state = c("open", "closed", "all"),
-                    head = NULL) {
+pr_list <- function(
+  tr = NULL,
+  github_get = NA,
+  state = c("open", "closed", "all"),
+  head = NULL
+) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   state <- match.arg(state)
   gh <- gh_tr(tr)
   safely_gh <- purrr::safely(gh, otherwise = NULL)
   out <- safely_gh(
     "GET /repos/{owner}/{repo}/pulls",
-    state = state, head = head, .limit = Inf
+    state = state,
+    head = head,
+    .limit = Inf
   )
   if (is.null(out$error)) {
     prs <- out$result
@@ -800,7 +832,7 @@ pr_list <- function(tr = NULL,
     prs <- list(list())
   }
   out <- map(prs, pr_data_tidy)
-  out <- map(out, ~ as.data.frame(.x, stringsAsFactors = FALSE))
+  out <- map(out, \(x) as.data.frame(x, stringsAsFactors = FALSE))
   out <- do.call(rbind, out)
   if (no_prs) {
     out[0, ]
@@ -822,13 +854,13 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   repo <- git_repo()
   gb_dat <- gert::git_branch_list(local = TRUE, repo = repo)
   gb_dat <- gb_dat[, c("name", "upstream", "updated")]
-  gb_dat$remref     <- sub("^refs/remotes/", "", gb_dat$upstream)
-  gb_dat$upstream   <- NULL
-  gb_dat$remote     <- remref_remote(gb_dat$remref)
-  gb_dat$ref        <- remref_branch(gb_dat$remref)
+  gb_dat$remref <- sub("^refs/remotes/", "", gb_dat$upstream)
+  gb_dat$upstream <- NULL
+  gb_dat$remote <- remref_remote(gb_dat$remref)
+  gb_dat$ref <- remref_branch(gb_dat$remref)
   gb_dat$cfg_pr_url <- map_chr(
     glue("branch.{gb_dat$name}.pr-url"),
-    ~ git_cfg_get(.x, where = "local") %||% NA_character_
+    \(x) git_cfg_get(x, where = "local") %||% NA_character_
   )
 
   ghr <- github_remote_list(these = NULL)[["remote"]]
@@ -836,17 +868,21 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
 
   pr_dat <- pr_list(tr = tr)
   dat <- merge(
-    x    = gb_dat, y    = pr_dat,
-    by.x = "name", by.y = "pr_local_branch",
+    x = gb_dat,
+    y = pr_dat,
+    by.x = "name",
+    by.y = "pr_local_branch",
     all.x = TRUE
   )
-  dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$updated, decreasing = TRUE), ]
+  dat <- dat[
+    order(dat$pr_number, dat$pr_updated_at, dat$updated, decreasing = TRUE),
+  ]
 
   missing_cfg <- is.na(dat$cfg_pr_url) & !is.na(dat$pr_html_url)
   purrr::walk2(
     glue("branch.{dat$name[missing_cfg]}.pr-url"),
     dat$pr_html_url[missing_cfg],
-    ~ gert::git_config_set(.x, .y, repo = repo)
+    \(x, y) gert::git_config_set(x, y, repo = repo)
   )
 
   dat
@@ -881,7 +917,9 @@ choose_branch <- function(exclude = character()) {
       if (is.na(pr_number)) {
         pretty_name
       } else {
-        href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
+        href_number <- ui_pre_glue(
+          "{.href [PR #<<pr_number>>](<<pr_html_url>>)}"
+        )
         at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
           "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"

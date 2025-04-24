@@ -42,15 +42,16 @@
 #'   save_as = ".github/workflows/R-CMD-check.yaml"
 #' )
 #' }
-use_github_file <- function(repo_spec,
-                            path = NULL,
-                            save_as = NULL,
-                            ref = NULL,
-                            ignore = FALSE,
-                            open = FALSE,
-                            overwrite = FALSE,
-                            host = NULL) {
-
+use_github_file <- function(
+  repo_spec,
+  path = NULL,
+  save_as = NULL,
+  ref = NULL,
+  ignore = FALSE,
+  open = FALSE,
+  overwrite = FALSE,
+  host = NULL
+) {
   check_name(repo_spec)
   maybe_name(path)
   maybe_name(save_as)
@@ -63,9 +64,9 @@ use_github_file <- function(repo_spec,
   dat <- parse_file_url(repo_spec)
   if (dat$parsed) {
     repo_spec <- dat$repo_spec
-    path      <- dat$path
-    ref       <- dat$ref
-    host      <- dat$host
+    path <- dat$path
+    ref <- dat$ref
+    host <- dat$host
   }
 
   save_as <- save_as %||% path_file(path)
@@ -142,9 +143,11 @@ parse_file_url <- function(x) {
     ui_abort("URL doesn't seem to be associated with GitHub.")
   }
 
-  if (!grepl("^(raw[.])?github", dat$host) ||
+  if (
+    !grepl("^(raw[.])?github", dat$host) ||
       !nzchar(dat$fragment) ||
-      (grepl("^github", dat$host) && !grepl("^/blob/", dat$fragment))) {
+      (grepl("^github", dat$host) && !grepl("^/blob/", dat$fragment))
+  ) {
     ui_abort("Can't parse the URL provided via {.arg repo_spec}.")
   }
   out$parsed <- TRUE

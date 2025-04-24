@@ -10,7 +10,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-0299-5825")),
     person("Andy", "Teucher", , "andy.teucher@posit.co", role = "aut",
            comment = c(ORCID = "0000-0002-7840-692X")),
-    person("Posit Software, PBC", role = c("cph", "fnd"))
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "03wc8by49"))
   )
 Description: Automate package and project setup tasks that are otherwise
     performed manually. This includes setting up unit testing, test
@@ -20,7 +21,7 @@ License: MIT + file LICENSE
 URL: https://usethis.r-lib.org, https://github.com/r-lib/usethis
 BugReports: https://github.com/r-lib/usethis/issues
 Depends:
-    R (>= 3.6)
+    R (>= 4.1)
 Imports:
     cli (>= 3.0.1),
     clipr (>= 0.3.0),
@@ -58,6 +59,7 @@ Config/Needs/website: r-lib/asciicast, tidyverse/tidytemplate, xml2
 Config/testthat/edition: 3
 Config/testthat/parallel: TRUE
 Config/testthat/start-first: github-actions, release
+Config/usethis/last-upkeep: 2025-04-22
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)

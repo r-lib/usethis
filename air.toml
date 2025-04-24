@@ -1,0 +1,4 @@
+[format]
+exclude = [
+    "inst/templates/"
+]

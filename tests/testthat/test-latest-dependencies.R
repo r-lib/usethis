@@ -38,4 +38,3 @@ test_that("does nothing for a base package", {
   deps <- proj_deps()
   expect_equal(deps$version[deps$package == "tools"], "*")
 })
-

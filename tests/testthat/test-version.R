@@ -71,10 +71,15 @@ test_that("use_version() updates version.c", {
   ver_path <- path(src_path, "version.c")
   dir_create(src_path)
 
-  write_utf8(ver_path, glue('
+  write_utf8(
+    ver_path,
+    glue(
+      '
     foo;
     const char {name}_version = "1.0.0";
-    bar;'))
+    bar;'
+    )
+  )
 
   use_dev_version()
 

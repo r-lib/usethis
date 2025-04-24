@@ -5,7 +5,7 @@ use_vscode_debug <- function(open = rlang::is_interactive()) {
   deps <- proj_deps()
   lt_pkgs <- deps$package[deps$type == "LinkingTo"]
   possibly_path_package <- purrr::possibly(path_package, otherwise = NA)
-  lt_paths <- map_chr(lt_pkgs, ~ possibly_path_package(.x, "include"))
+  lt_paths <- map_chr(lt_pkgs, \(x) possibly_path_package(x, "include"))
   lt_paths <- purrr::discard(lt_paths, is.na)
   # this is a bit fiddly, but it produces the desired JSON when lt_paths has
   # length 0 or > 0
