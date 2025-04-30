@@ -22,6 +22,8 @@
   `Config/usethis/upkeep` field in DESCRIPTION. If this value exists, it is
   used to filter the checklist when making the issue.
 
+* New `use_r_universe_badge()` to indicate which version of your package is available on [R-universe](https://r-universe.dev) (@olivroy, #1883).
+
 # usethis 3.0.0
 
 ## Transition to cli package for UI

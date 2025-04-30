@@ -7,6 +7,7 @@
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
+\alias{use_r_universe_badge}
 \alias{use_posit_cloud_badge}
 \title{README badges}
 \usage{
@@ -19,6 +20,8 @@ use_bioc_badge()
 use_lifecycle_badge(stage)
 
 use_binder_badge(ref = git_default_branch(), urlpath = NULL)
+
+use_r_universe_badge()
 
 use_posit_cloud_badge(url)
 }
@@ -57,6 +60,8 @@ ensure your badge block starts with a line containing only
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
+\item \code{use_r_universe_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}: badge
+indicates what version of your package is available on \href{https://r-universe.dev/search/}{R-universe }.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
 \item \code{use_posit_cloud_badge()}: badge indicates that your repository can be launched
@@ -69,9 +74,16 @@ in a \href{https://posit.cloud}{Posit Cloud} project
 \dontrun{
 use_cran_badge()
 use_lifecycle_badge("stable")
+# If you don't have a GitHub repo, or needs something extra
+# you can create the r-universe badge
+use_badge(
+  "R-universe",
+  "https://{organization}.r-universe.dev/badges/{package})",
+  "https://{organization}.r-universe.dev/{package}"
+)
 }
 }
 \seealso{
 Functions that configure continuous integration, such as
-\code{\link[=use_github_actions]{use_github_actions()}}, also create badges.
+\link[=use_github_action]{use_github_action("check-standard")}, also create badges.
 }
