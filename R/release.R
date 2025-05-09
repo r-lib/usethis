@@ -79,6 +79,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
   milestone_num <- gh_milestone_number(target_repo, version)
+  has_translation <- dir_exists(proj_path("po"))
 
   c(
     if (!on_cran)
@@ -101,6 +102,18 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
       ),
+    if (has_translation)
+      c(
+        "Update messages translation:",
+        "",
+        todo(
+          "Update `po/R-{project_name()}.pot` file with `potools::po_update()`"
+        ),
+        todo("Contact translators to collect their translation `.po` files"),
+        todo("Compile the translations with `potools::po_compile()`"),
+        ""
+      ),
+
     "Prepare for release:",
     "",
     todo("`git pull`"),
