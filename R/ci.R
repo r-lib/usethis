@@ -47,8 +47,10 @@ use_gitlab_ci <- function() {
 #'   `rocker/r-ver:3.5.3`.
 #' @export
 #' @rdname use_gitlab_ci
-use_circleci <- function(browse = rlang::is_interactive(),
-                         image = "rocker/verse:latest") {
+use_circleci <- function(
+  browse = rlang::is_interactive(),
+  image = "rocker/verse:latest"
+) {
   repo_spec <- target_repo_spec()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(

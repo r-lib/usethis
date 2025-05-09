@@ -32,7 +32,7 @@ test_that("tidy upkeep omits bullets present in last_upkeep", {
   expect_snapshot(writeLines(tidy_upkeep_checklist()))
 })
 
-test_that("upkeep bullets don't change accidentally",{
+test_that("upkeep bullets don't change accidentally", {
   skip_if_no_git_user()
 
   create_local_package()

@@ -8,7 +8,11 @@
 #' @keywords internal
 #' @export
 git_branch_default <- function() {
-  lifecycle::deprecate_warn("2.1.0", "git_branch_default()", "git_default_branch()")
+  lifecycle::deprecate_warn(
+    "2.1.0",
+    "git_branch_default()",
+    "git_default_branch()"
+  )
   git_default_branch()
 }
 
@@ -23,7 +27,8 @@ git_branch_default <- function() {
 #' @export
 use_rscloud_badge <- function(url) {
   lifecycle::deprecate_stop(
-    "2.2.0", "use_rscloud_badge()",
+    "2.2.0",
+    "use_rscloud_badge()",
     "use_posit_cloud_badge()"
   )
 }
@@ -81,11 +86,12 @@ use_github_actions <- function() {
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
-                                            ref = NULL,
-                                            ignore = TRUE,
-                                            open = FALSE) {
-
+use_github_action_check_release <- function(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_check_release()",
@@ -104,10 +110,12 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
-                                             ref = NULL,
-                                             ignore = TRUE,
-                                             open = FALSE) {
+use_github_action_check_standard <- function(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_check_standard()",
@@ -126,10 +134,12 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
-                                          ref = NULL,
-                                          ignore = TRUE,
-                                          open = FALSE) {
+use_github_action_pr_commands <- function(
+  save_as = "pr-commands.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_pr_commands()",
@@ -147,15 +157,19 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
-                                         ignore = TRUE,
-                                         open = FALSE,
-                                         repo_spec = NULL) {
-  details <- glue("
+use_github_action_check_full <- function(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE,
+  repo_spec = NULL
+) {
+  details <- glue(
+    "
     It is overkill for the vast majority of R packages.
     The \"check-full\" workflow is among those configured by \\
     `use_tidy_github_actions()`.
-    If you really want it, request it by name with `use_github_action()`.")
+    If you really want it, request it by name with `use_github_action()`."
+  )
   lifecycle::deprecate_stop(
     "2.1.0",
     "use_github_action_check_full()",

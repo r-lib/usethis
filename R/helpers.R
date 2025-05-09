@@ -27,7 +27,7 @@ use_dependency <- function(package, type, min_version = NULL) {
   deps <- desc$get_deps()
   deps <- deps[deps$package == package, ]
 
-  new_linking_to     <- type == "LinkingTo" && !"LinkingTo" %in% deps$type
+  new_linking_to <- type == "LinkingTo" && !"LinkingTo" %in% deps$type
   new_non_linking_to <- type != "LinkingTo" && identical(deps$type, "LinkingTo")
 
   changed <- FALSE
@@ -62,7 +62,9 @@ use_dependency <- function(package, type, min_version = NULL) {
       "!" = "Package {.pkg {package}} is already listed in
              {.field {existing_type}} in DESCRIPTION; no change made."
     ))
-  } else if (delta == 0 && version_spec(version) != version_spec(existing_version)) {
+  } else if (
+    delta == 0 && version_spec(version) != version_spec(existing_version)
+  ) {
     if (version_spec(version) > version_spec(existing_version)) {
       direction <- "Increasing"
     } else {
@@ -76,7 +78,6 @@ use_dependency <- function(package, type, min_version = NULL) {
     desc$set_dep(package, type, version = version)
     desc$write()
     changed <- TRUE
-
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports
     ui_bullets(c(

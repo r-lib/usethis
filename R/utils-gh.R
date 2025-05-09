@@ -6,20 +6,23 @@ gh_tr <- function(tr) {
     gh::gh(
       endpoint,
       ...,
-      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
+      owner = tr$repo_owner,
+      repo = tr$repo_name,
+      .api_url = tr$api_url
     )
   }
 }
 
 # Functions inlined from gh ----
-get_baseurl <- function(url) {               # https://github.uni.edu/api/v3/
+get_baseurl <- function(url) {
+  # https://github.uni.edu/api/v3/
   if (!any(grepl("^https?://", url))) {
     stop("Only works with HTTP(S) protocols")
   }
   prot <- sub("^(https?://).*$", "\\1", url) # https://
   rest <- sub("^https?://(.*)$", "\\1", url) #         github.uni.edu/api/v3/
-  host <- sub("/.*$", "", rest)              #         github.uni.edu
-  paste0(prot, host)                         # https://github.uni.edu
+  host <- sub("/.*$", "", rest) #         github.uni.edu
+  paste0(prot, host) # https://github.uni.edu
 }
 
 # https://api.github.com --> https://github.com

@@ -61,7 +61,10 @@ test_that("use_vignette() does the promised setup, mix of Rmd and qmd", {
 
   deps <- proj_deps()
   expect_true(
-    all(c("knitr", "quarto", "rmarkdown") %in% deps$package[deps$type == "Suggests"])
+    all(
+      c("knitr", "quarto", "rmarkdown") %in%
+        deps$package[deps$type == "Suggests"]
+    )
   )
 
   vignette_builder <- proj_desc()$get_field("VignetteBuilder")

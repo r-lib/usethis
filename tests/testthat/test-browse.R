@@ -63,7 +63,9 @@ test_that("desc_urls() returns empty data frame if no URLs", {
   expect_equal(
     desc_urls(),
     data.frame(
-      url = character(), desc_field = character(), is_github = logical(),
+      url = character(),
+      desc_field = character(),
+      is_github = logical(),
       stringsAsFactors = FALSE
     )
   )
@@ -107,7 +109,10 @@ test_that("browse_XXX() goes to correct URL", {
 
   expect_match(browse_github_actions("gh"), g("r-lib/gh/actions"))
 
-  expect_equal(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
+  expect_equal(
+    browse_cran("usethis"),
+    "https://cran.r-project.org/package=usethis"
+  )
 })
 
 test_that("browse_package() errors if no project", {
@@ -136,4 +141,3 @@ test_that("browse_package() returns URLs", {
   out <- browse_package()
   expect_setequal(out, c(origin, foofy, pkgdown, issues))
 })
-

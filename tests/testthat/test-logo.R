@@ -15,7 +15,7 @@ test_that("use_logo() shows a clickable path with README", {
   use_readme_md()
   img <- magick::image_write(magick::image_read("logo:"), "logo.png")
   withr::local_options(usethis.quiet = FALSE)
-  expect_snapshot(use_logo("logo.png"),  transform = scrub_testpkg)
+  expect_snapshot(use_logo("logo.png"), transform = scrub_testpkg)
 })
 
 # https://github.com/r-lib/usethis/issues/1999

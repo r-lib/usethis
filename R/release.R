@@ -82,19 +82,26 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   has_translation <- dir_exists(proj_path("po"))
 
   c(
-    if (!on_cran) c(
-      "First release:",
-      "",
-      todo("`usethis::use_news_md()`", !has_news),
-      todo("`usethis::use_cran_comments()`"),
-      todo("Update (aspirational) install instructions in README"),
-      todo("Proofread `Title:` and `Description:`"),
-      todo("Check that all exported functions have `@return` and `@examples`"),
-      todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
-      todo("Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)"),
-      todo("Review <https://github.com/DavisVaughan/extrachecks>"),
-      ""
-    ),
+    if (!on_cran)
+      c(
+        "First release:",
+        "",
+        todo("`usethis::use_news_md()`", !has_news),
+        todo("`usethis::use_cran_comments()`"),
+        todo("Update (aspirational) install instructions in README"),
+        todo("Proofread `Title:` and `Description:`"),
+        todo(
+          "Check that all exported functions have `@return` and `@examples`"
+        ),
+        todo(
+          "Check that `Authors@R:` includes a copyright holder (role 'cph')"
+        ),
+        todo(
+          "Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)"
+        ),
+        todo("Review <https://github.com/DavisVaughan/extrachecks>"),
+        ""
+      ),
     if (has_translation) c(
       "Update messages translation:",
       "",
@@ -103,17 +110,26 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
       todo("Compile the translations with `potools::po_compile()`"),
       ""
     ),
+
     "Prepare for release:",
     "",
     todo("`git pull`"),
-    todo("[Close v{version} milestone](../milestone/{milestone_num})", !is.na(milestone_num)),
+    todo(
+      "[Close v{version} milestone](../milestone/{milestone_num})",
+      !is.na(milestone_num)
+    ),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
-    todo("
+    todo(
+      "
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
-      type != "patch" && has_lifecycle),
+      type != "patch" && has_lifecycle
+    ),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
-    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+    todo(
+      "[Polish NEWS](https://style.tidyverse.org/news.html#news-release)",
+      on_cran
+    ),
     todo("`usethis::use_github_links()`", !has_github_links),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
@@ -123,7 +139,10 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
-    todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_posit_pkg),
+    todo(
+      "Slack link to draft blog in #open-source-comms",
+      type != "patch" && is_posit_pkg
+    ),
     release_extra_bullets(),
     "",
     "Submit to CRAN:",
@@ -162,7 +181,11 @@ get_revdeps <- function() {
   tools::package_dependencies(pkg, which = "all", reverse = TRUE)[[pkg]]
 }
 
-release_revdepcheck <- function(on_cran = TRUE, is_posit_pkg = TRUE, env = NULL) {
+release_revdepcheck <- function(
+  on_cran = TRUE,
+  is_posit_pkg = TRUE,
+  env = NULL
+) {
   if (!on_cran || length(get_revdeps()) == 0) {
     return()
   }
@@ -348,8 +371,10 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
   out
 }
 
-check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
-                                 tr = target_repo(github_get = TRUE)) {
+check_github_has_SHA <- function(
+  SHA = gert::git_info(repo = git_repo())$commit,
+  tr = target_repo(github_get = TRUE)
+) {
   safe_gh <- purrr::safely(gh_tr(tr))
   SHA_GET <- safe_gh(
     "/repos/{owner}/{repo}/git/commits/{commit_sha}",
@@ -367,9 +392,11 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
   ui_abort("Internal error: Unexpected error when checking for SHA on GitHub.")
 }
 
-get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
-                             tr = target_repo(github_get = TRUE),
-                             on_cran = !is.null(cran_version())) {
+get_release_news <- function(
+  SHA = gert::git_info(repo = git_repo())$commit,
+  tr = target_repo(github_get = TRUE),
+  on_cran = !is.null(cran_version())
+) {
   HEAD <- gert::git_info(repo = git_repo())$commit
 
   if (HEAD == SHA) {
@@ -400,7 +427,6 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
 }
 
 cran_version <- function(package = project_name(), available = NULL) {
-
   if (!curl::has_internet()) {
     return(NULL)
   }
@@ -471,7 +497,8 @@ is_posit_person_canonical <- function() {
     "fnd" %in% roles &&
     "cph" %in% roles &&
     attr(roles, "appears_in", exact = TRUE) == "given" &&
-    attr(roles, "appears_as", exact = TRUE) == "Posit Software, PBC"
+    attr(roles, "appears_as", exact = TRUE) == "Posit Software, PBC" &&
+    attr(roles, "ror", exact = TRUE) %in% "03wc8by49"
 }
 
 get_posit_roles <- function() {
@@ -502,6 +529,10 @@ get_posit_roles <- function() {
     attr(out, "appears_as") <- person$family
     attr(out, "appears_in") <- "family"
   }
+
+  comment <- person$comment %||% character()
+  attr(out, "ror") <- comment["ROR"]
+
   out
 }
 
@@ -513,7 +544,7 @@ is_in_posit_org <- function() {
   urls <- desc$get_urls()
   dat <- parse_github_remotes(urls)
   dat <- dat[dat$host == "github.com", ]
-  purrr::some(dat$repo_owner, ~ .x %in% posit_orgs())
+  purrr::some(dat$repo_owner, \(x) x %in% posit_orgs())
 }
 
 posit_orgs <- function() {
@@ -521,7 +552,8 @@ posit_orgs <- function() {
     "tidyverse",
     "r-lib",
     "tidymodels",
-    "rstudio"
+    "rstudio",
+    "posit-dev"
   )
 }
 

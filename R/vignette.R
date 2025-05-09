@@ -54,11 +54,21 @@ use_vignette <- function(name, title = NULL) {
 
   if (tolower(ext) == "rmd") {
     use_dependency("rmarkdown", "Suggests")
-    proj_desc_field_update("VignetteBuilder", "knitr", overwrite = TRUE, append = TRUE)
+    proj_desc_field_update(
+      "VignetteBuilder",
+      "knitr",
+      overwrite = TRUE,
+      append = TRUE
+    )
     use_vignette_template("vignette.Rmd", name, title)
   } else {
     use_dependency("quarto", "Suggests")
-    proj_desc_field_update("VignetteBuilder", "quarto", overwrite = TRUE, append = TRUE)
+    proj_desc_field_update(
+      "VignetteBuilder",
+      "quarto",
+      overwrite = TRUE,
+      append = TRUE
+    )
     use_vignette_template("vignette.qmd", name, title)
   }
 
@@ -82,11 +92,21 @@ use_article <- function(name, title = NULL) {
   title <- title %||% name
 
   if (tolower(ext) == "rmd") {
-    proj_desc_field_update("Config/Needs/website", "rmarkdown", overwrite = TRUE, append = TRUE)
+    proj_desc_field_update(
+      "Config/Needs/website",
+      "rmarkdown",
+      overwrite = TRUE,
+      append = TRUE
+    )
     use_vignette_template("article.Rmd", name, title, subdir = "articles")
   } else {
     use_dependency("quarto", "Suggests")
-    proj_desc_field_update("Config/Needs/website", "quarto", overwrite = TRUE, append = TRUE)
+    proj_desc_field_update(
+      "Config/Needs/website",
+      "quarto",
+      overwrite = TRUE,
+      append = TRUE
+    )
     use_vignette_template("article.qmd", name, title, subdir = "articles")
   }
   use_build_ignore("vignettes/articles")
@@ -126,11 +146,7 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
     braced_vignette_title = glue("{{{title}}}")
   )
 
-  use_template(template,
-    save_as = path,
-    data = data,
-    open = TRUE
-  )
+  use_template(template, save_as = path, data = data, open = TRUE)
 
   path
 }
@@ -155,7 +171,7 @@ valid_vignette_name <- function(x) {
 
 check_vignette_extension <- function(ext) {
   # Quietly accept "rmd" here, tho we'll always write ".Rmd" in such a filepath
-  if (! ext %in% c("Rmd", "rmd", "qmd")) {
+  if (!ext %in% c("Rmd", "rmd", "qmd")) {
     valid_exts_cli <- cli::cli_vec(
       c("Rmd", "qmd"),
       style = list("vec-sep2" = " or ")

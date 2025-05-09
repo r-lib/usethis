@@ -89,11 +89,13 @@ ui_path_impl <- function(x, base = NULL) {
 # ui_bullets("blah blah {.path {pth(some_path)}}")
 pth <- ui_path_impl
 
-ui_code_snippet <- function(x,
-                            copy = rlang::is_interactive(),
-                            language = c("R", ""),
-                            interpolate = TRUE,
-                            .envir = parent.frame()) {
+ui_code_snippet <- function(
+  x,
+  copy = rlang::is_interactive(),
+  language = c("R", ""),
+  interpolate = TRUE,
+  .envir = parent.frame()
+) {
   language <- arg_match(language)
 
   indent <- function(x, first = "  ", indent = first) {
@@ -146,10 +148,13 @@ usethis_map_cli.default <- function(x, ...) {
 usethis_map_cli.NULL <- function(x, ...) NULL
 
 #' @export
-usethis_map_cli.character <- function(x,
-                                      template = "{.val <<x>>}",
-                                      .open = "<<", .close = ">>",
-                                      ...) {
+usethis_map_cli.character <- function(
+  x,
+  template = "{.val <<x>>}",
+  .open = "<<",
+  .close = ">>",
+  ...
+) {
   as.character(glue(template, .open = .open, .close = .close))
 }
 
@@ -223,11 +228,23 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
 }
 
 # questions --------------------------------------------------------------------
-ui_yep <- function(x,
-                   yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                   no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-                   n_yes = 1, n_no = 2, shuffle = TRUE,
-                   .envir = parent.frame()) {
+ui_yep <- function(
+  x,
+  yes = c(
+    "Yes",
+    "Definitely",
+    "For sure",
+    "Yup",
+    "Yeah",
+    "I agree",
+    "Absolutely"
+  ),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+) {
   if (!is_interactive()) {
     ui_abort(c(
       "User input required, but session is not interactive.",
@@ -249,15 +266,30 @@ ui_yep <- function(x,
   out != 0L && qs[[out]] %in% yes
 }
 
-ui_nah <- function(x,
-                   yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                   no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-                   n_yes = 1, n_no = 2, shuffle = TRUE,
-                   .envir = parent.frame()) {
+ui_nah <- function(
+  x,
+  yes = c(
+    "Yes",
+    "Definitely",
+    "For sure",
+    "Yup",
+    "Yeah",
+    "I agree",
+    "Absolutely"
+  ),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+) {
   # TODO(jennybc): is this correct in the case of no selection / cancelling?
   !ui_yep(
-    x = x, yes = yes, no = no,
-    n_yes = n_yes, n_no = n_no,
+    x = x,
+    yes = yes,
+    no = no,
+    n_yes = n_yes,
+    n_no = n_no,
     shuffle = shuffle,
     .envir = .envir
   )

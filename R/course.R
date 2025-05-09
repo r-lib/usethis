@@ -86,9 +86,11 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
 #' More useful in day-to-day work. Downloads in current working directory, by
 #' default, and allows `cleanup` behaviour to be specified.
 #' @export
-use_zip <- function(url,
-                    destdir = getwd(),
-                    cleanup = if (rlang::is_interactive()) NA else FALSE) {
+use_zip <- function(
+  url,
+  destdir = getwd(),
+  cleanup = if (rlang::is_interactive()) NA else FALSE
+) {
   url <- normalize_url(url)
   check_path_is_directory(destdir)
   ui_bullets(c("v" = "Downloading from {.url {url}}."))
@@ -263,8 +265,10 @@ tidy_download <- function(url, destdir = getwd()) {
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
-    ui_abort("
-      Cancelling download, to avoid overwriting {.path {pth(full_path)}}.")
+    ui_abort(
+      "
+      Cancelling download, to avoid overwriting {.path {pth(full_path)}}."
+    )
   }
   attr(full_path, "content-type") <- content_type(h)
   attr(full_path, "content-disposition") <- cd
@@ -273,11 +277,13 @@ tidy_download <- function(url, destdir = getwd()) {
   invisible(full_path)
 }
 
-download_url <- function(url,
-                         destfile,
-                         handle = curl::new_handle(),
-                         n_tries = 3,
-                         retry_connecttimeout = 40L) {
+download_url <- function(
+  url,
+  destfile,
+  handle = curl::new_handle(),
+  n_tries = 3,
+  retry_connecttimeout = 40L
+) {
   handle_options <- list(noprogress = FALSE, progressfunction = progress_fun)
   curl::handle_setopt(handle, .list = handle_options)
 
@@ -306,11 +312,13 @@ download_url <- function(url,
   status <- try_download(url, destfile, handle = handle)
   if (inherits(status, "error") && is_interactive()) {
     ui_bullets(c("x" = status$message))
-    if (ui_nah(c(
-      "!" = "Download failed :(",
-      "i" = "See above for everything we know about why it failed.",
-      " " = "Shall we try a couple more times, with a longer timeout?"
-    ))) {
+    if (
+      ui_nah(c(
+        "!" = "Download failed :(",
+        "i" = "See above for everything we know about why it failed.",
+        " " = "Shall we try a couple more times, with a longer timeout?"
+      ))
+    ) {
       n_tries <- 1
     }
   }
@@ -339,11 +347,11 @@ download_url <- function(url,
 try_download <- function(url, destfile, quiet = FALSE, mode = "wb", handle) {
   tryCatch(
     curl::curl_download(
-      url      = url,
+      url = url,
       destfile = destfile,
-      quiet    = quiet,
-      mode     = mode,
-      handle   = handle
+      quiet = quiet,
+      mode = mode,
+      handle = handle
     ),
     error = function(e) e
   )
@@ -377,7 +385,9 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 
   if (isNA(cleanup)) {
     cleanup <- is_interactive() &&
-      ui_yep("Shall we delete the ZIP file ({.path {pth(zipfile, base_path)}})?")
+      ui_yep(
+        "Shall we delete the ZIP file ({.path {pth(zipfile, base_path)}})?"
+      )
   }
 
   if (isTRUE(cleanup)) {
@@ -420,9 +430,9 @@ create_download_url <- function(url) {
 
   switch(
     classify_url(url),
-    drive   = modify_drive_url(url),
+    drive = modify_drive_url(url),
     dropbox = modify_dropbox_url(url),
-    github  = modify_github_url(url),
+    github = modify_github_url(url),
     hopeless_url(url)
   )
 }
@@ -462,7 +472,10 @@ modify_github_url <- function(url) {
   # but then, in big workshop settings, we might see rate limit problems or
   # get blocked because of too many token-free requests from same IP
   parsed <- parse_github_remotes(url)
-  glue_data_chr(parsed, "{protocol}://{host}/{repo_owner}/{repo_name}/zipball/HEAD")
+  glue_data_chr(
+    parsed,
+    "{protocol}://{host}/{repo_owner}/{repo_name}/zipball/HEAD"
+  )
 }
 
 hopeless_url <- function(url) {
@@ -508,18 +521,33 @@ conspicuous_place <- function() {
     return(path_tidy(destdir_opt))
   }
 
-  Filter(dir_exists, c(
-    path_home("Desktop"),
-    path_home(),
-    path_home_r(),
-    path_tidy(getwd())
-  ))[[1]]
+  Filter(
+    dir_exists,
+    c(
+      path_home("Desktop"),
+      path_home(),
+      path_home_r(),
+      path_tidy(getwd())
+    )
+  )[[1]]
 }
 
-keep_lgl <- function(file,
-                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git", "__MACOSX", ".DS_Store")) {
+keep_lgl <- function(
+  file,
+  ignores = c(
+    ".Rproj.user",
+    ".rproj.user",
+    ".Rhistory",
+    ".RData",
+    ".git",
+    "__MACOSX",
+    ".DS_Store"
+  )
+) {
   ignores <- paste0(
-    "((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))",
+    "((\\/|\\A)",
+    gsub("\\.", "[.]", ignores),
+    "(\\/|\\Z))",
     collapse = "|"
   )
   !grepl(ignores, file, perl = TRUE)
@@ -535,7 +563,6 @@ path_before_slash <- function(filepath) {
     }
   }
   purrr::map_chr(filepath, f)
-
 }
 
 content_type <- function(h) {
@@ -603,8 +630,7 @@ progress_fun <- function(down, up) {
   TRUE
 }
 
-make_filename <- function(cd,
-                          fallback = path_file(file_temp())) {
+make_filename <- function(cd, fallback = path_file(file_temp())) {
   ## TO DO(jennybc): the element named 'filename*' is preferred but I'm not
   ## sure how to parse it yet, so targeting 'filename' for now
   ## https://tools.ietf.org/html/rfc6266
