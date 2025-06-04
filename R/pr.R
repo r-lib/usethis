@@ -625,7 +625,15 @@ pr_clean <- function(
     ui_bullets(c(
       "v" = "Deleting local {.val {pr_local_branch}} branch."
     ))
-    gert::git_branch_delete(pr_local_branch, repo = repo)
+    tryCatch(
+      gert::git_branch_delete(pr_local_branch, repo = repo),
+      error = function(e) {
+        saveRDS(e, "~/rrr/usethis/oops.rds")
+        ui_bullets(c(
+          "!" = "Wrote an error from git_branch_delete() to oops.rds!"
+        ))
+      }
+    )
   }
 
   if (is.null(pr)) {
