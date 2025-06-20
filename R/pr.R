@@ -196,8 +196,11 @@ pr_init <- function(branch) {
     }
   }
 
-  default_branch <- if (online) git_default_branch_(cfg) else
+  default_branch <- if (online) {
+    git_default_branch_(cfg)
+  } else {
     guess_local_default_branch()
+  }
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
     default_branch = default_branch
@@ -318,7 +321,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 
   pr_user <- glue("@{pr$pr_user}")
   ui_bullets(c(
-    "v" = "Checking out PR {.val {pr$pr_string}} ({.field {pr_user}}):
+    "v" = "Checking out PR {.href [{pr$pr_string}]({pr$pr_html_url})} ({.field {pr_user}}):
            {.val {pr$pr_title}}."
   ))
 
@@ -571,6 +574,10 @@ pr_clean <- function(
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
+  ing <- switch(mode, finish = "Finishing", forget = "Forgetting")
+  ui_bullets(c(
+    "i" = "{ing} PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
+  ))
 
   pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
 
@@ -625,7 +632,29 @@ pr_clean <- function(
     ui_bullets(c(
       "v" = "Deleting local {.val {pr_local_branch}} branch."
     ))
-    gert::git_branch_delete(pr_local_branch, repo = repo)
+    tryCatch(
+      gert::git_branch_delete(pr_local_branch, repo = repo),
+      libgit2_error = function(e) {
+        if (identical(Sys.getenv("USER"), "jenny")) {
+          write_to <- glue("~/rrr/usethis/pr-finish-oops-{project_name()}.rds")
+          saveRDS(e, write_to)
+          ui_bullets(c(
+            "!" = "Wrote an error from {.fun git_branch_delete} to {.path {pth(write_to, base = NA)}}!"
+          ))
+        }
+        # The expected error doesn't have a distinctive class, so we have to
+        # detect it based on the message.
+        # If we got an unexpected libgit2 error, rethrow.
+        if (
+          !grepl(
+            "could not find key 'branch[.].+[.]vscode-merge-base' to delete",
+            e$message
+          )
+        ) {
+          stop(e)
+        }
+      }
+    )
   }
 
   if (is.null(pr)) {
