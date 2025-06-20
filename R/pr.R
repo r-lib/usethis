@@ -645,9 +645,10 @@ pr_clean <- function(
         # The expected error doesn't have a distinctive class, so we have to
         # detect it based on the message.
         # If we got an unexpected libgit2 error, rethrow.
+
         if (
           !grepl(
-            "could not find key 'branch[.].+[.]vscode-merge-base' to delete",
+            "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number)' to delete",
             e$message
           )
         ) {
