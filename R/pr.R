@@ -574,6 +574,9 @@ pr_clean <- function(
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
+  ui_bullets(c(
+    "i" = "Finishing PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
+  ))
 
   pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
 
