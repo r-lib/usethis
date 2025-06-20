@@ -196,8 +196,11 @@ pr_init <- function(branch) {
     }
   }
 
-  default_branch <- if (online) git_default_branch_(cfg) else
+  default_branch <- if (online) {
+    git_default_branch_(cfg)
+  } else {
     guess_local_default_branch()
+  }
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
     default_branch = default_branch
@@ -627,11 +630,25 @@ pr_clean <- function(
     ))
     tryCatch(
       gert::git_branch_delete(pr_local_branch, repo = repo),
-      error = function(e) {
-        saveRDS(e, "~/rrr/usethis/oops.rds")
-        ui_bullets(c(
-          "!" = "Wrote an error from git_branch_delete() to oops.rds!"
-        ))
+      libgit2_error = function(e) {
+        if (identical(Sys.getenv("USER"), "jenny")) {
+          write_to <- glue("~/rrr/usethis/pr-finish-oops-{project_name()}.rds")
+          saveRDS(e, write_to)
+          ui_bullets(c(
+            "!" = "Wrote an error from {.fun git_branch_delete} to {.path {pth(write_to, base = NA)}}!"
+          ))
+        }
+        # The expected error doesn't have a distinctive class, so we have to
+        # detect it based on the message.
+        # If we got an unexpected libgit2 error, rethrow.
+        if (
+          !grepl(
+            "could not find key 'branch[.].+[.]vscode-merge-base' to delete",
+            e$message
+          )
+        ) {
+          stop(e)
+        }
       }
     )
   }
