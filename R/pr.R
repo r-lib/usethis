@@ -321,7 +321,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 
   pr_user <- glue("@{pr$pr_user}")
   ui_bullets(c(
-    "v" = "Checking out PR {.val {pr$pr_string}} ({.field {pr_user}}):
+    "v" = "Checking out PR {.href [{pr$pr_string}]({pr$pr_html_url})} ({.field {pr_user}}):
            {.val {pr$pr_title}}."
   ))
 
@@ -574,8 +574,9 @@ pr_clean <- function(
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
+  ing <- switch(mode, finish = "Finishing", forget = "Forgetting")
   ui_bullets(c(
-    "i" = "Finishing PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
+    "i" = "{ing} PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
   ))
 
   pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
