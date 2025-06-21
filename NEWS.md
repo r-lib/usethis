@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* add a translation tasks paragraph in `use_release_issue()` (#2099 @cregouby)
 * `use_air()` is a new function to configure a project to use
   [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
 
