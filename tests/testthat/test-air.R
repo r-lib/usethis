@@ -17,6 +17,11 @@ test_that("creates correct default package files", {
     settings[["[r]"]][["editor.defaultFormatter"]],
     "Posit.air-vscode"
   )
+  expect_true(settings[["[quarto]"]][["editor.formatOnSave"]])
+  expect_identical(
+    settings[["[quarto]"]][["editor.defaultFormatter"]],
+    "quarto.quarto"
+  )
 
   settings <- jsonlite::read_json(proj_path(".vscode", "extensions.json"))
   recommendations <- settings[["recommendations"]]
@@ -48,6 +53,11 @@ test_that("creates correct default project files", {
     settings[["[r]"]][["editor.defaultFormatter"]],
     "Posit.air-vscode"
   )
+  expect_true(settings[["[quarto]"]][["editor.formatOnSave"]])
+  expect_identical(
+    settings[["[quarto]"]][["editor.defaultFormatter"]],
+    "quarto.quarto"
+  )
 
   settings <- jsonlite::read_json(proj_path(".vscode", "extensions.json"))
   recommendations <- settings[["recommendations"]]
@@ -68,6 +78,9 @@ test_that("respects existing `settings.json`, but overwrites settings we own", {
     ),
     "[rust]" = list(
       "editor.formatOnSave" = FALSE
+    ),
+    "[quarto]" = list(
+      "editor.wordWrap" = "wordWrapColumn"
     )
   )
 
@@ -76,11 +89,10 @@ test_that("respects existing `settings.json`, but overwrites settings we own", {
   use_air()
 
   # Here is all that should change
-  settings[["[r]"]] <- list(
-    # Overwrite both of these to Air's recommendations
-    "editor.formatOnSave" = TRUE,
-    "editor.defaultFormatter" = "Posit.air-vscode"
-  )
+  settings[["[r]"]][["editor.formatOnSave"]] <- TRUE
+  settings[["[r]"]][["editor.defaultFormatter"]] <- "Posit.air-vscode"
+  settings[["[quarto]"]][["editor.formatOnSave"]] <- TRUE
+  settings[["[quarto]"]][["editor.defaultFormatter"]] <- "quarto.quarto"
 
   actual_settings <- jsonlite::read_json(path)
 

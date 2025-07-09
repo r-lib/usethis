@@ -13,11 +13,12 @@
 #'   used by the Air extension installed through either VS Code or Positron, see
 #'   the Installation section for more details. Specifically it:
 #'
-#'   - Sets `editor.formatOnSave = true` for R files to enable formatting on
-#'     every save.
+#'   - Sets `editor.formatOnSave = true` for R and Quarto files to enable
+#'     formatting on every save.
 #'
 #'   - Sets `editor.defaultFormatter` to Air for R files to ensure that Air is
-#'     always selected as the formatter for this project.
+#'     always selected as the formatter for this project. Likewise, sets the
+#'     default formatter for Quarto.
 #'
 #'   - Sets the Air extension as a "recommended" extension for this project,
 #'     which triggers a notification for contributors coming to this project
@@ -31,20 +32,21 @@
 #'   may prefer another editor.
 #'
 #' Note that `use_air()` does not actually invoke Air, it just configures your
-#' project with the recommended settings. Consult the [editors
+#' project with the recommended settings. Consult [Air's editors
 #' guide](https://posit-dev.github.io/air/editors.html) to learn how to invoke
 #' Air in your preferred editor.
 #'
 #' ## Installation
 #'
-#' Note that this setup does not install an Air binary, so there is an
+#' Note that this setup does not install an Air binary, so there may be an
 #' additional manual step you must take before using Air for the first time:
 #'
 #' - For RStudio, follow the [installation
 #'   guide](https://posit-dev.github.io/air/editor-rstudio.html).
 #'
-#' - For Positron, install the [OpenVSX
-#'   Extension](https://open-vsx.org/extension/posit/air-vscode).
+#' - For Positron, the [Air extension](https://open-vsx.org/extension/posit/air-vscode)
+#'   is installed by default and that already includes the Air binary. A typical
+#'   Positron user does not need to do anything about installing Air.
 #'
 #' - For VS Code, install the [VS Code
 #'   Extension](https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode).
@@ -118,7 +120,7 @@ create_air_toml <- function(ignore = FALSE) {
 
 air_toml_regex <- function() {
   # Pre-escaped regex allowing both `air.toml` and `.air.toml`
-  "^[\\.]?air\\.toml$"
+  "^[.]?air[.]toml$"
 }
 
 create_vscode_json_file <- function(name) {
@@ -131,7 +133,7 @@ create_vscode_json_file <- function(name) {
     ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
   }
 
-  # Tools like jsonlite fail to read empty json files,
+  # Tools like jsonlite fails to read empty json files,
   # so if we've just created it, write in `{}`. The easiest
   # way to do that is to write an empty named list.
   if (is_file_empty(path)) {
@@ -143,19 +145,23 @@ create_vscode_json_file <- function(name) {
 
 write_air_vscode_settings_json <- function(path) {
   settings <- jsonlite::read_json(path)
-  settings_r <- settings[["[r]"]]
+  language_formatters <- list(
+    `[r]` = "Posit.air-vscode",
+    `[quarto]` = "quarto.quarto"
+  )
 
-  if (is.null(settings_r)) {
-    # Mock it
-    settings_r <- set_names(list())
+  for (id in names(language_formatters)) {
+    language_settings <- settings[[id]] %||% set_names(list())
+
+    # Set these regardless of their previous values. Assume that calling
+    # `use_air()` is an explicit request to opt in to these settings.
+    # Version control should also give folks the ability to see the proposed
+    # changes and tweak to their liking.
+    language_settings[["editor.formatOnSave"]] <- TRUE
+    language_settings[["editor.defaultFormatter"]] <- language_formatters[[id]]
+
+    settings[[id]] <- language_settings
   }
-
-  # Set these regardless of their previous values. Assume that calling
-  # `use_air()` is an explicit request to opt in to these settings.
-  settings_r[["editor.formatOnSave"]] <- TRUE
-  settings_r[["editor.defaultFormatter"]] <- "Posit.air-vscode"
-
-  settings[["[r]"]] <- settings_r
 
   write_vscode_json(x = settings, path = path)
 }
