@@ -133,7 +133,7 @@ create_vscode_json_file <- function(name) {
     ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
   }
 
-  # Tools like jsonlite fails to read empty json files,
+  # Tools like jsonlite fail to read empty json files,
   # so if we've just created it, write in `{}`. The easiest
   # way to do that is to write an empty named list.
   if (is_file_empty(path)) {
@@ -144,7 +144,7 @@ create_vscode_json_file <- function(name) {
 }
 
 write_air_vscode_settings_json <- function(path) {
-  settings <- jsonlite::read_json(path)
+  settings <- jsonlite::read_json(path) %||% set_names(list())
 
   patch <- list(
     `[r]` = list(
