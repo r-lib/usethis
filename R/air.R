@@ -145,23 +145,18 @@ create_vscode_json_file <- function(name) {
 
 write_air_vscode_settings_json <- function(path) {
   settings <- jsonlite::read_json(path)
-  language_formatters <- list(
-    `[r]` = "Posit.air-vscode",
-    `[quarto]` = "quarto.quarto"
+
+  patch <- list(
+    `[r]` = list(
+      "editor.formatOnSave" = TRUE,
+      "editor.defaultFormatter" = "Posit.air-vscode"
+    ),
+    `[quarto]` = list(
+      "editor.formatOnSave" = TRUE,
+      "editor.defaultFormatter" = "quarto.quarto"
+    )
   )
-
-  for (id in names(language_formatters)) {
-    language_settings <- settings[[id]] %||% set_names(list())
-
-    # Set these regardless of their previous values. Assume that calling
-    # `use_air()` is an explicit request to opt in to these settings.
-    # Version control should also give folks the ability to see the proposed
-    # changes and tweak to their liking.
-    language_settings[["editor.formatOnSave"]] <- TRUE
-    language_settings[["editor.defaultFormatter"]] <- language_formatters[[id]]
-
-    settings[[id]] <- language_settings
-  }
+  settings <- utils::modifyList(settings, patch)
 
   write_vscode_json(x = settings, path = path)
 }
