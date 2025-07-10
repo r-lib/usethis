@@ -42,8 +42,17 @@ use_rscloud_badge <- function(url) {
 #'    systematically import and re-export a large number of functions in order
 #'    to use tidy evaluation. Instead, use [use_import_from()] to tactically
 #'    import functions as you need them.
+#' * `use_tidy_style()` is deprecated because tidyverse packages are moving
+#'   towards the use of [Air](https://posit-dev.github.io/air/) for formatting.
+#'   See [use_air()] for how to start using Air. To continue using the styler
+#'   package, see `styler::style_pkg()` and `styler::style_dir()`.
+#'
 #' @keywords internal
+#' @name tidy-deprecated
+NULL
+
 #' @export
+#' @rdname tidy-deprecated
 use_tidy_eval <- function() {
   lifecycle::deprecate_stop(
     "2.2.0",
@@ -52,6 +61,20 @@ use_tidy_eval <- function() {
       "There is no longer a need to systematically import and/or re-export functions",
       "Instead import functions as needed, with e.g.:",
       'usethis::use_import_from("rlang", c(".data", ".env"))'
+    )
+  )
+}
+
+#' @export
+#' @rdname tidy-deprecated
+use_tidy_style <- function(strict = TRUE) {
+  lifecycle::deprecate_warn(
+    when = "3.2.0",
+    what = "use_tidy_style()",
+    with = "use_air()",
+    details = glue(
+      "
+      To continue using the styler package, call `styler::style_pkg()` or `styler::style_dir()` directly."
     )
   )
 }
