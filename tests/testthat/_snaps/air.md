@@ -4,7 +4,7 @@
       use_air()
     Message
       v Creating 'air.toml'.
-      v Adding "^[\\.]?air\\.toml$" to '.Rbuildignore'.
+      v Adding "^[.]?air[.]toml$" to '.Rbuildignore'.
       v Creating '.vscode/'.
       v Adding "^\\.vscode$" to '.Rbuildignore'.
       v Creating '.vscode/settings.json'.
@@ -21,6 +21,10 @@
           "[r]": {
               "editor.formatOnSave": true,
               "editor.defaultFormatter": "Posit.air-vscode"
+          },
+          "[quarto]": {
+              "editor.formatOnSave": true,
+              "editor.defaultFormatter": "quarto.quarto"
           }
       }
 
