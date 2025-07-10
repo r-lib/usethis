@@ -3,8 +3,8 @@
 * `use_air()` is a new function to configure a project to use
   [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
 
-* `use_package(min_version = FALSE)` is now handled as expected and doesn't
-  result in a corrupted `DESCRIPTION` entry (#2118) anymore. (#2117, @salim-b)
+* `use_package(min_version = FALSE)` is treated the same as when `min_version`
+  is not specified (#2117, @salim-b).
 
 # usethis 3.1.0
 
