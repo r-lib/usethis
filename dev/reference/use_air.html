@@ -8,10 +8,11 @@ Creates a .vscode/ directory and adds recommended settings to
 .vscode/settings.json and .vscode/extensions.json. These settings are
 used by the Air extension installed through either VS Code or Positron, see
 the Installation section for more details. Specifically it:
-Sets editor.formatOnSave = true for R files to enable formatting on
-every save.
+Sets editor.formatOnSave = true for R and Quarto files to enable
+formatting on every save.
 Sets editor.defaultFormatter to Air for R files to ensure that Air is
-always selected as the formatter for this project.
+always selected as the formatter for this project. Likewise, sets the
+default formatter for Quarto.
 Sets the Air extension as a &quot;recommended&quot; extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.
@@ -24,15 +25,17 @@ may prefer another editor.
 
 
 Note that use_air() does not actually invoke Air, it just configures your
-project with the recommended settings. Consult the editors guide to learn how to invoke
+project with the recommended settings. Consult Air's editors guide to learn how to invoke
 Air in your preferred editor.
 Installation
 
 
-Note that this setup does not install an Air binary, so there is an
+Note that this setup does not install an Air binary, so there may be an
 additional manual step you must take before using Air for the first time:
 For RStudio, follow the installation guide.
-For Positron, install the OpenVSX Extension.
+For Positron, the Air extension
+is installed by default and that already includes the Air binary. A typical
+Positron user does not need to do anything about installing Air.
 For VS Code, install the VS Code Extension.
 For other editors, check to see if that editor is supported by Air.
 
@@ -47,10 +50,11 @@ Creates a .vscode/ directory and adds recommended settings to
 .vscode/settings.json and .vscode/extensions.json. These settings are
 used by the Air extension installed through either VS Code or Positron, see
 the Installation section for more details. Specifically it:
-Sets editor.formatOnSave = true for R files to enable formatting on
-every save.
+Sets editor.formatOnSave = true for R and Quarto files to enable
+formatting on every save.
 Sets editor.defaultFormatter to Air for R files to ensure that Air is
-always selected as the formatter for this project.
+always selected as the formatter for this project. Likewise, sets the
+default formatter for Quarto.
 Sets the Air extension as a &quot;recommended&quot; extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.
@@ -63,15 +67,17 @@ may prefer another editor.
 
 
 Note that use_air() does not actually invoke Air, it just configures your
-project with the recommended settings. Consult the editors guide to learn how to invoke
+project with the recommended settings. Consult Air's editors guide to learn how to invoke
 Air in your preferred editor.
 Installation
 
 
-Note that this setup does not install an Air binary, so there is an
+Note that this setup does not install an Air binary, so there may be an
 additional manual step you must take before using Air for the first time:
 For RStudio, follow the installation guide.
-For Positron, install the OpenVSX Extension.
+For Positron, the Air extension
+is installed by default and that already includes the Air binary. A typical
+Positron user does not need to do anything about installing Air.
 For VS Code, install the VS Code Extension.
 For other editors, check to see if that editor is supported by Air.
 
@@ -140,10 +146,11 @@ R package, <code>.Rbuildignore</code> is updated to ignore this file.</p></li>
 <li><p>Creates a <code>.vscode/</code> directory and adds recommended settings to
 <code>.vscode/settings.json</code> and <code>.vscode/extensions.json</code>. These settings are
 used by the Air extension installed through either VS Code or Positron, see
-the Installation section for more details. Specifically it:</p><ul><li><p>Sets <code>editor.formatOnSave = true</code> for R files to enable formatting on
-every save.</p></li>
+the Installation section for more details. Specifically it:</p><ul><li><p>Sets <code>editor.formatOnSave = true</code> for R and Quarto files to enable
+formatting on every save.</p></li>
 <li><p>Sets <code>editor.defaultFormatter</code> to Air for R files to ensure that Air is
-always selected as the formatter for this project.</p></li>
+always selected as the formatter for this project. Likewise, sets the
+default formatter for Quarto.</p></li>
 <li><p>Sets the Air extension as a "recommended" extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.</p></li>
@@ -152,14 +159,16 @@ that don't yet have the Air extension installed.</p></li>
 <p>If you'd like to opt out of VS Code / Positron specific setup, set <code>vscode = FALSE</code>, but remember that even if you work in RStudio, other contributors
 may prefer another editor.</p></li>
 </ul><p>Note that <code>use_air()</code> does not actually invoke Air, it just configures your
-project with the recommended settings. Consult the <a href="https://posit-dev.github.io/air/editors.html" class="external-link">editors guide</a> to learn how to invoke
+project with the recommended settings. Consult <a href="https://posit-dev.github.io/air/editors.html" class="external-link">Air's editors guide</a> to learn how to invoke
 Air in your preferred editor.</p><div class="section">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a></h3>
 
 
-<p>Note that this setup does not install an Air binary, so there is an
+<p>Note that this setup does not install an Air binary, so there may be an
 additional manual step you must take before using Air for the first time:</p><ul><li><p>For RStudio, follow the <a href="https://posit-dev.github.io/air/editor-rstudio.html" class="external-link">installation guide</a>.</p></li>
-<li><p>For Positron, install the <a href="https://open-vsx.org/extension/posit/air-vscode" class="external-link">OpenVSX Extension</a>.</p></li>
+<li><p>For Positron, the <a href="https://open-vsx.org/extension/posit/air-vscode" class="external-link">Air extension</a>
+is installed by default and that already includes the Air binary. A typical
+Positron user does not need to do anything about installing Air.</p></li>
 <li><p>For VS Code, install the <a href="https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode" class="external-link">VS Code Extension</a>.</p></li>
 <li><p>For other editors, check to <a href="https://posit-dev.github.io/air/editors.html" class="external-link">see if that editor is supported</a> by Air.</p></li>
 </ul></div>
