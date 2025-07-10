@@ -46,7 +46,7 @@
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
-    refuse_package(package, refuse = c("tidyverse", "tidymodels"))
+    refuse_package(package, verboten = c("tidyverse", "tidymodels"))
   }
 
   changed <- use_dependency(package, type, min_version = min_version)
@@ -60,7 +60,7 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
 #' @export
 #' @rdname use_package
 use_dev_package <- function(package, type = "Imports", remote = NULL) {
-  refuse_package(package, refuse = c("tidyverse", "tidymodels"))
+  refuse_package(package, verboten = c("tidyverse", "tidymodels"))
 
   changed <- use_dependency(package, type = type, min_version = TRUE)
   use_remote(package, remote)
@@ -101,12 +101,16 @@ use_remote <- function(package, package_remote = NULL) {
 package_remote <- function(desc) {
   remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
-  is_recognized_remote <- all(map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
+  is_recognized_remote <- all(map_lgl(remote, \(x) is_string(x) && !is.na(x)))
 
   if (is_recognized_remote) {
     # non-GitHub remotes get a 'RemoteType::' prefix
     if (!identical(remote$RemoteType, "github")) {
-      remote$RemoteUsername <- paste0(remote$RemoteType, "::", remote$RemoteUsername)
+      remote$RemoteUsername <- paste0(
+        remote$RemoteType,
+        "::",
+        remote$RemoteUsername
+      )
     }
     return(paste0(remote$RemoteUsername, "/", remote$RemoteRepo))
   }
@@ -119,19 +123,21 @@ package_remote <- function(desc) {
   }
   parsed <- parse_github_remotes(urls$url[[1]])
   remote <- paste0(parsed$repo_owner, "/", parsed$repo_name)
-  if (ui_yep(c(
-    "!" = "{.pkg {package}} was either installed from CRAN or local source.",
-    "i" = "Based on DESCRIPTION, we propose the remote: {.val {remote}}.",
-    " " = "Is this OK?"
-  ))) {
+  if (
+    ui_yep(c(
+      "!" = "{.pkg {package}} was either installed from CRAN or local source.",
+      "i" = "Based on DESCRIPTION, we propose the remote: {.val {remote}}.",
+      " " = "Is this OK?"
+    ))
+  ) {
     remote
   } else {
     ui_abort("Cannot determine remote for {.pkg {package}}.")
   }
 }
 
-refuse_package <- function(package, refuse) {
-  if (package %in% refuse) {
+refuse_package <- function(package, verboten) {
+  if (package %in% verboten) {
     code <- glue('use_package("{package}", type = "depends")')
     ui_abort(c(
       "x" = "{.pkg {package}} is a meta-package and it is rarely a good idea to
@@ -154,7 +160,8 @@ how_to_use <- function(package, type) {
     return("")
   }
 
-  switch(type,
+  switch(
+    type,
     imports = ui_bullets(c(
       "_" = "Refer to functions with {.code {paste0(package, '::fun()')}}."
     )),
@@ -181,7 +188,9 @@ suggests_usage_hint <- function(package) {
     ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   } else {
     code <- glue('requireNamespace("{package}", quietly = TRUE)')
-    ui_bullets(c("_" = "Use {.code {code}} to test if {.pkg {package}} is installed."))
+    ui_bullets(c(
+      "_" = "Use {.code {code}} to test if {.pkg {package}} is installed."
+    ))
     code <- glue("{package}::fun()")
     ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   }
