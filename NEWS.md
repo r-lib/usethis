@@ -3,6 +3,9 @@
 * `use_air()` is a new function to configure a project to use
   [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
 
+* `use_package(min_version = FALSE)` is treated the same as when `min_version`
+  is not specified (#2117, @salim-b).
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
