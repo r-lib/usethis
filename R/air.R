@@ -46,7 +46,7 @@
 #'
 #' - For Positron, the [Air extension](https://open-vsx.org/extension/posit/air-vscode)
 #'   is installed by default and that already includes the Air binary. A typical
-#'   Positron user does not need to do anything about installing Air.
+#'   Positron user does not need to do anything to install Air.
 #'
 #' - For VS Code, install the [VS Code
 #'   Extension](https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode).
