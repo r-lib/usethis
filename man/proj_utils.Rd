@@ -70,9 +70,10 @@ project root by looking for signs such as:
 \item a Positron or VS Code workspace, i.e. a \verb{.vscode/} directory
 \item a Quarto project, i.e. a \verb{_quarto.yml} file
 \item an renv project, i.e. a \code{renv.lock} file
+}
+
 usethis then stores the active project for use for the remainder of the
 session.
-}
 
 In general, end user scripts should not contain direct calls to
 \verb{usethis::proj_*()} utility functions. They are internal functions that are

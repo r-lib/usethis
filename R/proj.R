@@ -22,6 +22,7 @@ proj_set_ <- function(path) {
 #' * a Positron or VS Code workspace, i.e. a `.vscode/` directory
 #' * a Quarto project, i.e. a `_quarto.yml` file
 #' * an renv project, i.e. a `renv.lock` file
+#'
 #' usethis then stores the active project for use for the remainder of the
 #' session.
 #'
