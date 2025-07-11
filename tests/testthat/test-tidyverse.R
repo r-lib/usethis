@@ -16,7 +16,7 @@ test_that("use_tidy_dependencies() isn't overly informative", {
   skip_if_offline("github.com")
 
   create_local_package()
-  use_package_doc()
+  use_package_doc(open = FALSE)
   withr::local_options(usethis.quiet = FALSE, cli.width = Inf)
 
   expect_snapshot(

@@ -13,29 +13,35 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-create_local_package <- function(dir = file_temp(pattern = "testpkg"),
-                                 env = parent.frame(),
-                                 rstudio = FALSE) {
+create_local_package <- function(
+  dir = file_temp(pattern = "testpkg"),
+  env = parent.frame(),
+  rstudio = FALSE
+) {
   create_local_thing(dir, env, rstudio, "package")
 }
 
-create_local_project <- function(dir = file_temp(pattern = "testproj"),
-                                 env = parent.frame(),
-                                 rstudio = FALSE) {
+create_local_project <- function(
+  dir = file_temp(pattern = "testproj"),
+  env = parent.frame(),
+  rstudio = FALSE
+) {
   create_local_thing(dir, env, rstudio, "project")
 }
 
-create_local_thing <- function(dir = file_temp(pattern = pattern),
-                               env = parent.frame(),
-                               rstudio = FALSE,
-                               thing = c("package", "project")) {
+create_local_thing <- function(
+  dir = file_temp(pattern = pattern),
+  env = parent.frame(),
+  rstudio = FALSE,
+  thing = c("package", "project")
+) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
     ui_abort("Target {.arg dir} {.path {pth(dir)}} already exists.")
   }
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
-  old_wd <- getwd()          # not necessarily same as `old_project`
+  old_wd <- getwd() # not necessarily same as `old_project`
 
   withr::defer(
     {

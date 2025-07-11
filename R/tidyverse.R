@@ -44,7 +44,9 @@
 #'   tidyverse conventions around GitHub issue label names and colours.
 #'
 #' * `use_tidy_upkeep_issue()` creates an issue containing a checklist of
-#'   actions to bring your package up to current tidyverse standards.
+#'   actions to bring your package up to current tidyverse standards. Also
+#'   records the current date in the `Config/usethis/last-upkeep` field in
+#'   `DESCRIPTION`.
 #'
 #' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
 #'   file at <https://github.com/rstudio/hex-stickers>.
@@ -86,14 +88,16 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   use_cran_comments(open = FALSE)
 
   ui_bullets(c("i" = "In the new package, remember to do:"))
-  ui_code_snippet("
+  ui_code_snippet(
+    "
     usethis::use_git()
     usethis::use_github()
     usethis::use_tidy_github()
     usethis::use_tidy_github_actions()
     usethis::use_tidy_github_labels()
     usethis::use_pkgdown_github_pages()
-  ")
+  "
+  )
 
   proj_activate(path)
 }
@@ -119,7 +123,6 @@ use_tidy_dependencies <- function() {
   use_dependency("cli", "Imports")
   use_dependency("glue", "Imports")
   use_dependency("withr", "Imports")
-
 
   # standard imports
   imports <- any(
@@ -217,9 +220,11 @@ use_dot_github <- function(ignore = TRUE) {
 #' @rdname tidyverse
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  challenge_uncommitted_changes(msg = "
+  challenge_uncommitted_changes(
+    msg = "
     There are uncommitted changes and it is highly recommended to get into a \\
-    clean Git state before restyling your project's code")
+    clean Git state before restyling your project's code"
+  )
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),
@@ -284,9 +289,7 @@ use_tidy_style <- function(strict = TRUE) {
 #' # r-lib/usethis, but with copy/paste of a browser URL
 #' use_tidy_thanks("https://github.com/r-lib/usethis")
 #' }
-use_tidy_thanks <- function(repo_spec = NULL,
-                            from = NULL,
-                            to = NULL) {
+use_tidy_thanks <- function(repo_spec = NULL, from = NULL, to = NULL) {
   repo_spec <- repo_spec %||% target_repo_spec()
   parsed_repo_spec <- parse_repo_url(repo_spec)
   repo_spec <- parsed_repo_spec$repo_spec
@@ -308,7 +311,8 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
   res <- gh::gh(
     "/repos/{owner}/{repo}/issues",
-    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -334,7 +338,9 @@ use_tidy_thanks <- function(repo_spec = NULL,
   }
 
   contributors <- sort(unique(map_chr(res, c("user", "login"))))
-  contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
+  contrib_link <- glue(
+    "[&#x0040;{contributors}](https://github.com/{contributors})"
+  )
 
   ui_bullets(c("v" = "Found {length(contributors)} contributors:"))
   ui_code_snippet(
@@ -370,7 +376,8 @@ ref_df <- function(repo_spec, refs = NULL) {
   get_thing <- function(thing) {
     gh::gh(
       "/repos/{owner}/{repo}/commits/{thing}",
-      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+      owner = spec_owner(repo_spec),
+      repo = spec_repo(repo_spec),
       thing = thing
     )
   }
@@ -388,7 +395,8 @@ releases <- function(repo_spec) {
   check_name(repo_spec)
   res <- gh::gh(
     "/repos/{owner}/{repo}/releases",
-    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec)
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec)
   )
   if (length(res) < 1) {
     return(NULL)
@@ -406,11 +414,35 @@ base_and_recommended <- function() {
   # rec_pkgs <- unname(av[keep, "Package", drop = TRUE])
   # dput(sort(unique(c(base_pkgs, rec_pkgs))))
   c(
-    "base", "boot", "class", "cluster", "codetools", "compiler",
-    "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
-    "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
-    "parallel", "rpart", "spatial", "splines", "stats", "stats4",
-    "survival", "tcltk", "tools", "utils"
+    "base",
+    "boot",
+    "class",
+    "cluster",
+    "codetools",
+    "compiler",
+    "datasets",
+    "foreign",
+    "graphics",
+    "grDevices",
+    "grid",
+    "KernSmooth",
+    "lattice",
+    "MASS",
+    "Matrix",
+    "methods",
+    "mgcv",
+    "nlme",
+    "nnet",
+    "parallel",
+    "rpart",
+    "spatial",
+    "splines",
+    "stats",
+    "stats4",
+    "survival",
+    "tcltk",
+    "tools",
+    "utils"
   )
 }
 

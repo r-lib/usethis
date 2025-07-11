@@ -29,7 +29,12 @@ proj_desc_create <- function(name, fields = list(), roxygen = TRUE) {
 
 # Here overwrite means "update the field if there is already a value in it,
 # including appending".
-proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE) {
+proj_desc_field_update <- function(
+  key,
+  value,
+  overwrite = TRUE,
+  append = FALSE
+) {
   check_string(key)
   check_character(value)
   check_bool(overwrite)
@@ -42,9 +47,11 @@ proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE)
   }
 
   if (!overwrite && length(old) > 0 && any(old != "")) {
-    ui_abort("
+    ui_abort(
+      "
       {.field {key}} has a different value in DESCRIPTION.
-      Use {.code overwrite = TRUE} to overwrite.")
+      Use {.code overwrite = TRUE} to overwrite."
+    )
   }
 
   ui_bullets(c("v" = "Adding {.val {value}} to {.field {key}}."))

@@ -1,4 +1,3 @@
-
 # release bullets ---------------------------------------------------------
 
 test_that("release bullets don't change accidentally", {
@@ -117,7 +116,11 @@ test_that("can find milestone numbers", {
 
 test_that("gh_milestone_number() returns NA when gh() errors", {
   local_mocked_bindings(
-    gh_tr = function(tr) { function(endpoint, ...) { ui_abort("nope!") } }
+    gh_tr = function(tr) {
+      function(endpoint, ...) {
+        ui_abort("nope!")
+      }
+    }
   )
   tr <- list(
     repo_owner = "r-lib",
@@ -130,10 +133,9 @@ test_that("gh_milestone_number() returns NA when gh() errors", {
 # news --------------------------------------------------------------------
 
 test_that("must have at least one heading", {
-  expect_error(
+  expect_usethis_error(
     news_latest(""),
-    regexp = "No top-level headings",
-    class = "usethis_error"
+    regexp = "No top-level headings"
   )
 })
 
@@ -194,9 +196,11 @@ test_that("get_release_data() works for old-style CRAN-RELEASE", {
 
   write_utf8(
     proj_path("CRAN-RELEASE"),
-    glue("
+    glue(
+      "
       This package was submitted to CRAN on YYYY-MM-DD.
-      Once it is accepted, delete this file and tag the release (commit {HEAD}).")
+      Once it is accepted, delete this file and tag the release (commit {HEAD})."
+    )
   )
 
   res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))
@@ -217,10 +221,12 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
 
   write_utf8(
     proj_path("CRAN-SUBMISSION"),
-    glue("
+    glue(
+      "
       Version: 1.2.3
       Date: 2021-10-14 23:57:41 UTC
-      SHA: {HEAD}")
+      SHA: {HEAD}"
+    )
   )
 
   res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))

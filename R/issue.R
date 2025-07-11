@@ -62,10 +62,12 @@ issue_close_community <- function(number, reprex = FALSE) {
     ui_abort("Issue {.val {number}} is already closed.")
   }
 
-  reprex_insert <- glue("
+  reprex_insert <- glue(
+    "
     But before you ask there, I'd suggest that you create a \\
     [reprex](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.htm), \\
-    because that greatly increases your chances getting help.")
+    because that greatly increases your chances getting help."
+  )
 
   message <- glue(
     "Hi {issue$author},\n",
@@ -113,13 +115,15 @@ issue_reprex_needed <- function(number) {
            ({.field {issue$author}}): {.val {issue$title}}."
   ))
 
-  message <- glue("
+  message <- glue(
+    "
     Can you please provide a minimal reproducible example using the \\
     [reprex](http://reprex.tidyverse.org) package?
     The goal of a reprex is to make it as easy as possible for me to \\
     recreate your problem so that I can fix it.
     If you've never made a minimal reprex before, there is lots of good advice \\
-    [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html).")
+    [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html)."
+  )
   issue_comment_add(number, message = message, tr = tr)
   issue_edit(number, labels = as.list(union(labels, "reprex")), tr = tr)
 }

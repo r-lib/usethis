@@ -225,7 +225,9 @@ use_rstudio_preferences <- function(...) {
       next
     }
 
-    ui_bullets(c("v" = "Setting RStudio preference {.field {name}} to {.val {val}}."))
+    ui_bullets(c(
+      "v" = "Setting RStudio preference {.field {name}} to {.val {val}}."
+    ))
     json[[name]] <- val
   }
 

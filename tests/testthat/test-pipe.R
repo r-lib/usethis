@@ -18,4 +18,3 @@ test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
 
   expect_snapshot(roxygen_ns_show())
 })
-

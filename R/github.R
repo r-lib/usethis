@@ -52,11 +52,13 @@
 #' ## create github repository and configure as git remote
 #' use_github()
 #' }
-use_github <- function(organisation = NULL,
-                       private = FALSE,
-                       visibility = c("public", "private", "internal"),
-                       protocol = git_protocol(),
-                       host = NULL) {
+use_github <- function(
+  organisation = NULL,
+  private = FALSE,
+  visibility = c("public", "private", "internal"),
+  protocol = git_protocol(),
+  host = NULL
+) {
   visibility_specified <- !missing(visibility)
   visibility <- match.arg(visibility)
   check_protocol(protocol)
@@ -66,18 +68,24 @@ use_github <- function(organisation = NULL,
     is = default_branch,
     # glue-ing happens inside check_current_branch(), where `gb` gives the
     # current branch
-    message = c("x" = "Must be on the default branch {.val {is}}, not {.val {gb}}.")
+    message = c(
+      "x" = "Must be on the default branch {.val {is}}, not {.val {gb}}."
+    )
   )
-  challenge_uncommitted_changes(msg = "
+  challenge_uncommitted_changes(
+    msg = "
     There are uncommitted changes and we're about to create and push to a new \\
-    GitHub repo")
+    GitHub repo"
+  )
   check_no_origin()
 
   if (is.null(organisation)) {
     if (visibility_specified) {
-      ui_abort("
+      ui_abort(
+        "
         The {.arg visibility} setting is only relevant for organisation-owned
-        repos, within the context of certain GitHub Enterprise products.")
+        repos, within the context of certain GitHub Enterprise products."
+      )
     }
     visibility <- if (private) "private" else "public"
   }
@@ -136,7 +144,7 @@ use_github <- function(organisation = NULL,
   origin_url <- switch(
     protocol,
     https = create$clone_url,
-    ssh   = create$ssh_url
+    ssh = create$ssh_url
   )
   withr::defer(view_url(create$html_url))
 
@@ -158,10 +166,13 @@ use_github <- function(organisation = NULL,
   repo <- git_repo()
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   if (nrow(gbl) > 1) {
-    ui_bullets(c("v" = "Setting {.val {default_branch}} as default branch on GitHub."))
+    ui_bullets(c(
+      "v" = "Setting {.val {default_branch}} as default branch on GitHub."
+    ))
     gh::gh(
       "PATCH /repos/{owner}/{repo}",
-      owner = owner, repo = repo_name,
+      owner = owner,
+      repo = repo_name,
       default_branch = default_branch,
       .api_url = host
     )

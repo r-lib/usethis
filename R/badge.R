@@ -95,8 +95,12 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- glue("http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg")
-  href <- glue("https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}")
+  src <- glue(
+    "http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg"
+  )
+  href <- glue(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}"
+  )
   use_badge("BioC status", href, src)
 
   invisible(TRUE)
@@ -186,11 +190,13 @@ use_posit_cloud_badge <- function(url) {
     img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     use_badge("Launch Posit Cloud", url, img)
   } else {
-    ui_abort("
+    ui_abort(
+      "
       {.fun usethis::use_posit_cloud_badge} requires a link to an
       existing Posit Cloud project of the form
       {.val https://posit.cloud/content/<project-id>} or
-      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}.")
+      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}."
+    )
   }
 
   invisible(TRUE)

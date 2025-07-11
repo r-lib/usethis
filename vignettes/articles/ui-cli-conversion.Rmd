@@ -2,7 +2,8 @@
 title: "Converting usethis's UI to use cli"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "",
@@ -29,7 +30,8 @@ asciicast::init_knitr_engine(
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(usethis)
 library(glue)
 ```

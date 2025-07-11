@@ -1,15 +1,29 @@
 # usethis (development version)
 
-## Bug fixes and minor improvements
+* `use_air()` is a new function to configure a project to use
+  [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
 
-* `use_package()` now decreases a package minimum version required when
-  `min_version` is lower than what is currently specified in the DESCRIPTION
-  file (@jplecavalier, #1957).
-  
-* `use_data()` now uses serialization version 3 by default. (@laurabrianna, #2044)
+* `use_package(min_version = FALSE)` is treated the same as when `min_version`
+  is not specified (#2117, @salim-b).
 
-* Reverse dependency checks are only suggested if they exist 
-  (#1817, @seankross).
+# usethis 3.1.0
+
+* `use_vignette()` and `use_article()` support Quarto. The `name` of the new
+  vignette or article can optionally include a file extension to signal whether
+  `.Rmd` or `.qmd` is desired, with `.Rmd` remaining the default for now. Thanks
+  to @olivroy for getting the ball rolling (#1997).
+
+* `use_data()` defaults to serialization version 3 (@laurabrianna, #2044).
+
+* `use_package()` can lower a minimum version requirement
+  (@jplecavalier, #1957).
+
+* `use_release_issue()` only suggests doing reverse dependency checks if there
+  are, in fact, reverse dependencies (#1817, @seankross).
+
+* `use_tidy_upkeep_issue()` records the year it is being run in the
+  `Config/usethis/upkeep` field in DESCRIPTION. If this value exists, it is
+  used to filter the checklist when making the issue.
 
 * New `use_r_universe_badge()` to indicate which version of your package is available on [R-universe](https://r-universe.dev) (@olivroy, #1883).
 

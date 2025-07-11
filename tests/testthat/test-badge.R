@@ -18,7 +18,10 @@ test_that("use_binder_badge() needs a github repository", {
   skip_if_no_git_user()
   create_local_project()
   use_git()
-  expect_error(use_binder_badge(), class = "usethis_error_bad_github_remote_config")
+  expect_error(
+    use_binder_badge(),
+    class = "usethis_error_bad_github_remote_config"
+  )
 })
 
 test_that("use_r_universe_badge() needs a repository", {
@@ -37,7 +40,9 @@ test_that("use_posit_cloud_badge() handles bad and good input", {
   expect_snapshot(use_posit_cloud_badge(123), error = TRUE)
   expect_snapshot(use_posit_cloud_badge("http://posit.cloud/123"), error = TRUE)
   expect_no_error(use_posit_cloud_badge("https://posit.cloud/content/123"))
-  expect_no_error(use_posit_cloud_badge("https://posit.cloud/spaces/123/content/123"))
+  expect_no_error(use_posit_cloud_badge(
+    "https://posit.cloud/spaces/123/content/123"
+  ))
 })
 
 test_that("use_badge() does nothing if badge seems to pre-exist", {

@@ -16,7 +16,11 @@ use_roxygen_md <- function(overwrite = FALSE) {
   if (!uses_roxygen()) {
     roxy_ver <- as.character(utils::packageVersion("roxygen2"))
 
-    proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = FALSE)
+    proj_desc_field_update(
+      "Roxygen",
+      "list(markdown = TRUE)",
+      overwrite = FALSE
+    )
     proj_desc_field_update("RoxygenNote", roxy_ver, overwrite = FALSE)
     ui_bullets(c("_" = "Run {.run devtools::document()}."))
     return(invisible())
@@ -56,7 +60,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
 }
 
 # FALSE: no Roxygen field
-# TRUE: plain old "list(markdown = TRUE)"
+# TRUE: matches regex targetting 'markdown = TRUE', with some whitespace slop
 # NA: everything else
 uses_roxygen_md <- function() {
   desc <- proj_desc()
@@ -66,8 +70,7 @@ uses_roxygen_md <- function() {
   }
 
   roxygen <- desc$get_field("Roxygen", "")
-  if (identical(roxygen, "list(markdown = TRUE)") ||
-      identical(roxygen, "list(markdown = TRUE, r6 = FALSE)")) {
+  if (grepl("markdown\\s*=\\s*TRUE", roxygen)) {
     TRUE
   } else {
     NA

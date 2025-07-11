@@ -37,12 +37,14 @@
 #'     package = "usethis"
 #'   )
 #' }
-use_template <- function(template,
-                         save_as = template,
-                         data = list(),
-                         ignore = FALSE,
-                         open = FALSE,
-                         package = "usethis") {
+use_template <- function(
+  template,
+  save_as = template,
+  data = list(),
+  ignore = FALSE,
+  open = FALSE,
+  package = "usethis"
+) {
   template_contents <- render_template(template, data, package = package)
   new <- write_over(proj_path(save_as), template_contents)
 
@@ -69,9 +71,11 @@ find_template <- function(template_name, package = "usethis") {
     error = function(e) ""
   )
   if (identical(path, "")) {
-    ui_abort("
+    ui_abort(
+      "
       Could not find template {.val {template_name}} in package {.pkg package}
-      package.")
+      package."
+    )
   }
   path
 }

@@ -34,21 +34,27 @@
 #' use_data(x, y) # For external use
 #' use_data(x, y, internal = TRUE) # For internal use
 #' }
-use_data <- function(...,
-                     internal = FALSE,
-                     overwrite = FALSE,
-                     compress = "bzip2",
-                     version = 3,
-                     ascii = FALSE) {
+use_data <- function(
+  ...,
+  internal = FALSE,
+  overwrite = FALSE,
+  compress = "bzip2",
+  version = 3,
+  ascii = FALSE
+) {
   check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
 
-  if (version < 3) {
-    use_dependency("R", "depends", "2.10")
-  } else {
-    use_dependency("R", "depends", "3.5")
+  original_minimum_r_version <- pkg_minimum_r_version()
+  serialization_minimum_r_version <- if (version < 3) "2.10" else "3.5"
+  if (
+    is.na(original_minimum_r_version) ||
+      original_minimum_r_version < serialization_minimum_r_version
+  ) {
+    use_dependency("R", "depends", serialization_minimum_r_version)
   }
+
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")
@@ -60,7 +66,8 @@ use_data <- function(...,
 
     if (!desc$has_fields("LazyData")) {
       ui_bullets(c(
-        "v" = "Setting {.field LazyData} to {.val true} in {.path DESCRIPTION}."))
+        "v" = "Setting {.field LazyData} to {.val true} in {.path DESCRIPTION}."
+      ))
       desc$set(LazyData = "true")
       desc$write()
     }
@@ -68,7 +75,8 @@ use_data <- function(...,
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
   ui_bullets(c(
-    "v" = "Saving {.val {unlist(objs)}} to {.val {paths}}."))
+    "v" = "Saving {.val {unlist(objs)}} to {.val {paths}}."
+  ))
   if (!internal) {
     ui_bullets(c(
       "_" = "Document your data (see {.url https://r-pkgs.org/data.html})."
@@ -80,7 +88,12 @@ use_data <- function(...,
     save,
     list = objs,
     file = proj_path(paths),
-    MoreArgs = list(envir = envir, compress = compress, version = version, ascii = ascii)
+    MoreArgs = list(
+      envir = envir,
+      compress = compress,
+      version = version,
+      ascii = ascii
+    )
   )
 
   invisible()

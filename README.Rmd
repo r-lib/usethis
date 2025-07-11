@@ -4,7 +4,9 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
+```{r}
+#| label: setup
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -28,13 +30,15 @@ usethis is a workflow package: it automates repetitive tasks that arise during p
 
 Install the released version of usethis from CRAN:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 install.packages("usethis")
 ```
 
 Or install the development version from GitHub with:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 # install.packages("pak")
 pak::pak("r-lib/usethis")
 ```
@@ -49,7 +53,8 @@ usethis is quite chatty, explaining what it's doing and assigning you tasks. `âœ
 
 Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 # Reset possible options
 options(usethis.description = list())
 ```
@@ -66,7 +71,7 @@ proj_activate(path)
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
 
-use_package("ggplot2", "Suggests")
+use_package("rmarkdown", "Suggests")
 
 # Set up other files -------------------------------------------------
 use_readme_md()

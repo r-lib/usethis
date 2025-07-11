@@ -5,7 +5,7 @@
     Output
       ### To begin
       
-      * [ ] `pr_init("upkeep-2023-01")`
+      * [ ] `usethis::pr_init("upkeep-2025-01")`
       
       ### Pre-history
       
@@ -49,16 +49,72 @@
       or [file an issue](new) if you don't have time to do it now
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
+      ### 2025
+      
+      * [ ] `usethis::use_air()` <https://posit-dev.github.io/air/>
+      * [ ] `usethis::use_package("R", "Depends", "4.1")`
+      * [ ] Switch to the base pipe (`|>`)
+      * [ ] Switch to the base anonymous function syntax (`\(x)`) 
+      * [ ] Add ROR for Posit in `DESCRIPTION`:
+      `person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))`
+      * [ ] `knitr::convert_chunk_header(type = "yaml")` to convert in-header chunk options to the newer in-body style used by Quarto
+      * [ ] Switch to `expect_snapshot(error = TRUE)` instead of calling `expect_error()` without specifying `class =`
+      
       ### To finish
       
       * [ ] `usethis::use_mit_license()`
-      * [ ] `usethis::use_package("R", "Depends", "4.0")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
       * [ ] `devtools::build_readme()`
+      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       * [ ] [Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed
       
-      <sup>Created on 2023-01-01 with `usethis::use_tidy_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2025-01-01 with `usethis::use_tidy_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
+
+# tidy upkeep omits bullets present in last_upkeep
+
+    Code
+      writeLines(tidy_upkeep_checklist())
+    Output
+      ### To begin
+      
+      * [ ] `usethis::pr_init("upkeep-2025-01")`
+      
+      ### 2023
+      
+      * [ ] Update email addresses *@rstudio.com -> *@posit.co
+      * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
+      * [ ] Run `devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
+      * [ ] `usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`
+      * [ ] `usethis::use_tidy_coc()`
+      * [ ] Use `pak::pak("OWNER/REPO")` in README
+      * [ ] Consider running `usethis::use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
+      * [ ] Use cli errors or [file an issue](new) if you don't have time to do it now
+      * [ ] `usethis::use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers;
+      or [file an issue](new) if you don't have time to do it now
+      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      
+      ### 2025
+      
+      * [ ] `usethis::use_air()` <https://posit-dev.github.io/air/>
+      * [ ] `usethis::use_package("R", "Depends", "4.1")`
+      * [ ] Switch to the base pipe (`|>`)
+      * [ ] Switch to the base anonymous function syntax (`\(x)`) 
+      * [ ] Add ROR for Posit in `DESCRIPTION`:
+      `person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))`
+      * [ ] `knitr::convert_chunk_header(type = "yaml")` to convert in-header chunk options to the newer in-body style used by Quarto
+      * [ ] Switch to `expect_snapshot(error = TRUE)` instead of calling `expect_error()` without specifying `class =`
+      
+      ### To finish
+      
+      * [ ] `usethis::use_mit_license()`
+      * [ ] `usethis::use_tidy_description()`
+      * [ ] `usethis::use_tidy_github_actions()`
+      * [ ] `devtools::build_readme()`
+      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      * [ ] [Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed
+      
+      <sup>Created on 2025-01-01 with `usethis::use_tidy_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
 # upkeep bullets don't change accidentally
 

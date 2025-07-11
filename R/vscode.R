@@ -1,11 +1,11 @@
 # unexported function we are experimenting with
 use_vscode_debug <- function(open = rlang::is_interactive()) {
-  usethis::use_directory(".vscode", ignore = TRUE)
+  create_vscode_directory(ignore = TRUE)
 
   deps <- proj_deps()
   lt_pkgs <- deps$package[deps$type == "LinkingTo"]
   possibly_path_package <- purrr::possibly(path_package, otherwise = NA)
-  lt_paths <- map_chr(lt_pkgs, ~ possibly_path_package(.x, "include"))
+  lt_paths <- map_chr(lt_pkgs, \(x) possibly_path_package(x, "include"))
   lt_paths <- purrr::discard(lt_paths, is.na)
   # this is a bit fiddly, but it produces the desired JSON when lt_paths has
   # length 0 or > 0
@@ -40,4 +40,8 @@ use_vscode_debug <- function(open = rlang::is_interactive()) {
   )
 
   invisible(TRUE)
+}
+
+create_vscode_directory <- function(ignore = FALSE) {
+  use_directory(".vscode", ignore = ignore)
 }

@@ -12,8 +12,7 @@
 #' \dontrun{
 #' use_directory("inst")
 #' }
-use_directory <- function(path,
-                          ignore = FALSE) {
+use_directory <- function(path, ignore = FALSE) {
   create_directory(proj_path(path))
   if (ignore) {
     use_build_ignore(path)

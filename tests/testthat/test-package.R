@@ -55,20 +55,24 @@ test_that("use_dev_package() can override over default remote", {
 })
 
 test_that("package_remote() works for an installed package with github URL", {
-  d <- desc::desc(text = c(
-    "Package: test",
-    "URL: https://github.com/OWNER/test"
-  ))
+  d <- desc::desc(
+    text = c(
+      "Package: test",
+      "URL: https://github.com/OWNER/test"
+    )
+  )
   local_ui_yep()
   expect_equal(package_remote(d), "OWNER/test")
 })
 
 test_that("package_remote() works for package installed from github or gitlab", {
-  d <- desc::desc(text = c(
-    "Package: test",
-    "RemoteUsername: OWNER",
-    "RemoteRepo: test"
-  ))
+  d <- desc::desc(
+    text = c(
+      "Package: test",
+      "RemoteUsername: OWNER",
+      "RemoteRepo: test"
+    )
+  )
 
   d$set(RemoteType = "github")
   expect_equal(package_remote(d), "OWNER/test")

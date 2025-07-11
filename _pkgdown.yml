@@ -82,6 +82,7 @@ reference:
     - use_lifecycle
     - use_standalone
     - use_testthat
+    - use_air
   - title: Package release
     contents:
     - use_cran_comments
