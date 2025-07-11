@@ -54,7 +54,7 @@ additional manual step you must take before using Air for the first time:
 \item For RStudio, follow the \href{https://posit-dev.github.io/air/editor-rstudio.html}{installation guide}.
 \item For Positron, the \href{https://open-vsx.org/extension/posit/air-vscode}{Air extension}
 is installed by default and that already includes the Air binary. A typical
-Positron user does not need to do anything about installing Air.
+Positron user does not need to do anything to install Air.
 \item For VS Code, install the \href{https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode}{VS Code Extension}.
 \item For other editors, check to \href{https://posit-dev.github.io/air/editors.html}{see if that editor is supported} by Air.
 }
