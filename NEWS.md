@@ -6,6 +6,8 @@
 * `use_package(min_version = FALSE)` is treated the same as when `min_version`
   is not specified (#2117, @salim-b).
 
+* New `use_r_universe_badge()` to indicate which version of your package is available on [R-universe](https://r-universe.dev) (@olivroy, #1883).
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
