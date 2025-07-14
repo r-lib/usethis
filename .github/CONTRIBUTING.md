@@ -33,7 +33,7 @@ If you’ve found a bug, please file an issue that illustrates the bug with a mi
 ### Code style
 
 *   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
-    You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.  
+    You can use [Air](https://posit-dev.github.io/air/) to apply this style, but please don't restyle code that has nothing to do with your PR.  
 
 *  We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.  
 
