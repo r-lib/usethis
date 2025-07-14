@@ -35,6 +35,7 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/pull-requests.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/rename_files.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/rprofile-helper.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/tidy-deprecated.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/tidyverse.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/ui-legacy-functions.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/ui-questions.html</loc></url>
@@ -97,7 +98,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_test_helper.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_testthat.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tibble.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_eval.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_thanks.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tutorial.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_upkeep_issue.html</loc></url>

@@ -84,8 +84,6 @@ commonly used packages.</p>
 <span></span>
 <span><span class="fu">use_tidy_github</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">use_tidy_style</span><span class="op">(</span>strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">use_tidy_logo</span><span class="op">(</span>geometry <span class="op">=</span> <span class="st">"240x278"</span>, retina <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">use_tidy_upkeep_issue</span><span class="op">(</span>last_upkeep <span class="op">=</span> <span class="fu">last_upkeep_year</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -112,11 +110,6 @@ created, provided that the parent path exists.</p></dd>
 <dd><p>Name of the copyright holder or holders. This
 defaults to <code>"{package name} authors"</code>; you should only change this if you
 use a CLA to assign copyright to a single entity.</p></dd>
-
-
-<dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
-<dd><p>Boolean indicating whether or not a strict version of styling
-should be applied. See <code><a href="https://styler.r-lib.org/reference/tidyverse_style.html" class="external-link">styler::tidyverse_style()</a></code> for details.</p></dd>
 
 
 <dt id="arg-geometry">geometry<a class="anchor" aria-label="anchor" href="#arg-geometry"></a></dt>
@@ -161,9 +154,9 @@ activates the new package.</p></li>
 tidyverse packages (except packages that are designed to be dependency free).</p></li>
 <li><p><code>use_tidy_description()</code>: puts fields in standard order and alphabetises
 dependencies.</p></li>
-<li><p><code><a href="use_tidy_eval.html">use_tidy_eval()</a></code>: imports a standard set of helpers to facilitate
+<li><p><code><a href="tidy-deprecated.html">use_tidy_eval()</a></code>: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.</p></li>
-<li><p><code>use_tidy_style()</code>: styles source code according to the <a href="https://style.tidyverse.org" class="external-link">tidyverse style guide</a>. This function will overwrite files! See
+<li><p><code><a href="tidy-deprecated.html">use_tidy_style()</a></code>: styles source code according to the <a href="https://style.tidyverse.org" class="external-link">tidyverse style guide</a>. This function will overwrite files! See
 below for usage advice.</p></li>
 <li><p><code>use_tidy_contributing()</code>: adds standard tidyverse contributing guidelines.</p></li>
 <li><p><code>use_tidy_issue_template()</code>: adds a standard tidyverse issue template.</p></li>
@@ -185,18 +178,6 @@ records the current date in the <code>Config/usethis/last-upkeep</code> field in
 <li><p><code>use_tidy_logo()</code> calls <code><a href="use_logo.html">use_logo()</a></code> on the appropriate hex sticker PNG
 file at <a href="https://github.com/rstudio/hex-stickers" class="external-link">https://github.com/rstudio/hex-stickers</a>.</p></li>
 </ul></div>
-    <div class="section level2">
-    <h2 id="use-tidy-style-"><code>use_tidy_style()</code><a class="anchor" aria-label="anchor" href="#use-tidy-style-"></a></h2>
-
-
-<p>Uses the <a href="https://styler.r-lib.org" class="external-link">styler package</a> package to style all code
-in a package, project, or directory, according to the <a href="https://style.tidyverse.org" class="external-link">tidyverse style guide</a>.</p>
-<p><strong>Warning:</strong> This function will overwrite files! It is strongly suggested to
-only style files that are under version control or to first create a backup
-copy.</p>
-<p>Invisibly returns a data frame with one row per file, that indicates whether
-styling caused a change.</p>
-    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
