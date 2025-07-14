@@ -40,7 +40,6 @@ LinkingTo
 METACRAN
 Makefile
 ORCID
-OpenVSX
 PATs
 PBC
 PRs
@@ -133,7 +132,6 @@ labelled
 labelling
 learnr
 libgit
-libyajl
 lifecycle
 ly
 macbook
@@ -164,6 +162,7 @@ readme
 rebase
 reconfigures
 redirections
+renv
 repo
 repo's
 repos
@@ -207,6 +206,7 @@ useR
 usethis's
 ver
 vm
+wc
 withr
 xyz
 xz

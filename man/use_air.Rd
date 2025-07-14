@@ -26,10 +26,11 @@ R package, \code{.Rbuildignore} is updated to ignore this file.
 used by the Air extension installed through either VS Code or Positron, see
 the Installation section for more details. Specifically it:
 \itemize{
-\item Sets \code{editor.formatOnSave = true} for R files to enable formatting on
-every save.
+\item Sets \code{editor.formatOnSave = true} for R and Quarto files to enable
+formatting on every save.
 \item Sets \code{editor.defaultFormatter} to Air for R files to ensure that Air is
-always selected as the formatter for this project.
+always selected as the formatter for this project. Likewise, sets the
+default formatter for Quarto.
 \item Sets the Air extension as a "recommended" extension for this project,
 which triggers a notification for contributors coming to this project
 that don't yet have the Air extension installed.
@@ -43,15 +44,17 @@ may prefer another editor.
 }
 
 Note that \code{use_air()} does not actually invoke Air, it just configures your
-project with the recommended settings. Consult the \href{https://posit-dev.github.io/air/editors.html}{editors guide} to learn how to invoke
+project with the recommended settings. Consult \href{https://posit-dev.github.io/air/editors.html}{Air's editors guide} to learn how to invoke
 Air in your preferred editor.
 \subsection{Installation}{
 
-Note that this setup does not install an Air binary, so there is an
+Note that this setup does not install an Air binary, so there may be an
 additional manual step you must take before using Air for the first time:
 \itemize{
 \item For RStudio, follow the \href{https://posit-dev.github.io/air/editor-rstudio.html}{installation guide}.
-\item For Positron, install the \href{https://open-vsx.org/extension/posit/air-vscode}{OpenVSX Extension}.
+\item For Positron, the \href{https://open-vsx.org/extension/posit/air-vscode}{Air extension}
+is installed by default and that already includes the Air binary. A typical
+Positron user does not need to do anything to install Air.
 \item For VS Code, install the \href{https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode}{VS Code Extension}.
 \item For other editors, check to \href{https://posit-dev.github.io/air/editors.html}{see if that editor is supported} by Air.
 }

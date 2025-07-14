@@ -17,7 +17,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (isTRUE(min_version)) {
     min_version <- utils::packageVersion(package)
   }
-  version <- if (is.null(min_version)) "*" else glue(">= {min_version}")
+  version <- if (is.null(min_version) || isFALSE(min_version)) {
+    "*"
+  } else {
+    glue(">= {min_version}")
+  }
 
   types <- c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")
   names(types) <- tolower(types)
@@ -99,7 +103,9 @@ r_version <- function() {
 }
 
 version_spec <- function(x) {
-  if (x == "*") x <- "0"
+  if (x == "*") {
+    x <- "0"
+  }
   x <- gsub("(<=|<|>=|>|==)\\s*", "", x)
   numeric_version(x)
 }

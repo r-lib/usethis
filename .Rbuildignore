@@ -24,5 +24,5 @@
 ^internal$
 ^revdep-cloud$
 ^CRAN-SUBMISSION$
-^[\.]?air\.toml$
 ^\.vscode$
+^[.]?air[.]toml$
