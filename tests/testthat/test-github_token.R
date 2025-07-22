@@ -1,5 +1,4 @@
 test_that("code_hint_with_host() works", {
-
   expect_identical(code_hint_with_host("foo"), "foo()")
   expect_identical(code_hint_with_host("foo", arg_name = "arg"), "foo()")
 

@@ -28,7 +28,11 @@ test_that("git_default_branch() consults the default branch candidates, in order
   expect_equal(git_default_branch(), "main")
 
   # finally, prefer something that matches what upstream says is default
-  gert::git_branch_create("default-branch-of-upstream", checkout = TRUE, repo = repo)
+  gert::git_branch_create(
+    "default-branch-of-upstream",
+    checkout = TRUE,
+    repo = repo
+  )
   local_git_default_branch_remote()
   expect_equal(git_default_branch(), "default-branch-of-upstream")
 })

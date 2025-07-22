@@ -144,16 +144,17 @@ test_that("with_project() runs code in temp proj, restores (lack of) proj", {
 
   temp_proj <- create_project(
     file_temp(pattern = "TEMPPROJ"),
-    rstudio = FALSE, open = FALSE
+    rstudio = FALSE,
+    open = FALSE
   )
 
   proj_set_(NULL)
-  expect_identical(proj_get_(), NULL)
+  expect_null(proj_get_())
 
   res <- with_project(path = temp_proj, proj_get_())
 
   expect_identical(res, temp_proj)
-  expect_identical(proj_get_(), NULL)
+  expect_null(proj_get_())
 })
 
 test_that("with_project() runs code in temp proj, restores original proj", {
@@ -162,11 +163,13 @@ test_that("with_project() runs code in temp proj, restores original proj", {
 
   host <- create_project(
     file_temp(pattern = "host"),
-    rstudio = FALSE, open = FALSE
+    rstudio = FALSE,
+    open = FALSE
   )
   guest <- create_project(
     file_temp(pattern = "guest"),
-    rstudio = FALSE, open = FALSE
+    rstudio = FALSE,
+    open = FALSE
   )
 
   proj_set(host)
@@ -184,7 +187,8 @@ test_that("with_project() works when temp proj == original proj", {
 
   host <- create_project(
     file_temp(pattern = "host"),
-    rstudio = FALSE, open = FALSE
+    rstudio = FALSE,
+    open = FALSE
   )
 
   proj_set(host)
@@ -240,7 +244,8 @@ test_that("proj_activate() works with relative path when RStudio is not detected
 test_that("local_project()'s `quiet` argument works", {
   temp_proj <- create_project(
     file_temp(pattern = "TEMPPROJ"),
-    rstudio = FALSE, open = FALSE
+    rstudio = FALSE,
+    open = FALSE
   )
   withr::defer(dir_delete(temp_proj))
   local_project(path = temp_proj, quiet = TRUE, force = TRUE, setwd = FALSE)

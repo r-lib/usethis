@@ -22,8 +22,7 @@
 #' DESCRIPTION file and the user hasn't given any author information via the
 #' `fields` argument or the global option `"usethis.description"`. The
 #' placeholder looks something like `First Last <first.last@example.com> [aut,
-#' cre] (YOUR-ORCID-ID)` and `use_author()` offers to remove it in interactive
-#' sessions.
+#' cre]` and `use_author()` offers to remove it in interactive sessions.
 #'
 #' @inheritParams utils::person
 #' @inheritDotParams utils::person
@@ -77,7 +76,6 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
   d$write()
 
   invisible(TRUE)
-
 }
 
 challenge_legacy_author_fields <- function(d = proj_desc()) {
@@ -101,7 +99,11 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
   invisible()
 }
 
-check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) {
+check_author_is_novel <- function(
+  given = NULL,
+  family = NULL,
+  d = proj_desc()
+) {
   authors <- d$get_authors()
   authors_given <- purrr::map(authors, "given")
   authors_family <- purrr::map(authors, "family")
@@ -135,7 +137,7 @@ challenge_default_author <- function(d = proj_desc()) {
       "i" = "{.field Authors@R} appears to include a placeholder author:",
       " " = "{format(default_author, style = 'text')}"
     ))
-    if(is_interactive() && ui_yep("Would you like to remove it?")) {
+    if (is_interactive() && ui_yep("Would you like to remove it?")) {
       # TODO: Do I want to suppress this output?
       # Authors removed: First Last, NULL NULL.
       do.call(d$del_author, unclass(default_author)[[1]])

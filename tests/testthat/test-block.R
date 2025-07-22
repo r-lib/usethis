@@ -1,5 +1,4 @@
 test_that("block_append() only writes unique lines", {
-
   path <- withr::local_tempfile()
   writeLines(block_create(), path)
 

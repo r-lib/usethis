@@ -4,7 +4,8 @@ test_that("Can add an author and then another", {
 
   local_interactive(FALSE)
   use_author(
-    "Jennifer", "Bryan",
+    "Jennifer",
+    "Bryan",
     email = "jenny@posit.co",
     comment = c(ORCID = "0000-0002-6983-2759")
   )
@@ -17,7 +18,8 @@ test_that("Can add an author and then another", {
   expect_equal(ctb$comment, c(ORCID = "0000-0002-6983-2759"))
 
   use_author(
-    "Hadley", "Wickham",
+    "Hadley",
+    "Wickham",
     email = "hadley@posit.co",
     role = c("rev", "fnd")
   )
@@ -55,7 +57,8 @@ test_that("Decline to tweak an existing author", {
   withr::local_options(
     usethis.description = list(
       "Authors@R" = utils::person(
-        "Jennifer", "Bryan",
+        "Jennifer",
+        "Bryan",
         email = "jenny@posit.co",
         role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-6983-2759")
@@ -72,9 +75,6 @@ test_that("Decline to tweak an existing author", {
 })
 
 test_that("Placeholder author is challenged", {
-  # apparently the format method for `person` used to handle ORCIDs differently
-  skip_if(getRversion() < "4.0")
-
   withr::local_options(usethis.description = NULL)
   create_local_package()
 

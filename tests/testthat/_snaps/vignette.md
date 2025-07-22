@@ -13,3 +13,12 @@
       i Start with a letter.
       i Contain only letters, numbers, '_', and '-'.
 
+# we error informatively for bad vignette extension
+
+    Code
+      check_vignette_extension("Rnw")
+    Condition
+      Error in `check_vignette_extension()`:
+      x Unsupported file extension: "Rnw"
+      i usethis can only create a vignette or article with one of these extensions: "Rmd" or "qmd".
+

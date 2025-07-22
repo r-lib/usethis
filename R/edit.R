@@ -142,18 +142,30 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 #' @param type Snippet type (case insensitive text).
-edit_rstudio_snippets <- function(type = c(
-                                    "r", "markdown", "c_cpp", "css",
-                                    "html", "java", "javascript", "python", "sql", "stan", "tex", "yaml"
-                                    )) {
-
+edit_rstudio_snippets <- function(
+  type = c(
+    "r",
+    "markdown",
+    "c_cpp",
+    "css",
+    "html",
+    "java",
+    "javascript",
+    "python",
+    "sql",
+    "stan",
+    "tex",
+    "yaml"
+  )
+) {
   type <- tolower(type)
   type <- match.arg(type)
   file <- path_ext_set(type, "snippets")
 
   # Snippet location changed in 1.3:
   # https://blog.rstudio.com/2020/02/18/rstudio-1-3-preview-configuration/
-  new_rstudio <- !rstudioapi::isAvailable() || rstudioapi::getVersion() >= "1.3.0"
+  new_rstudio <- !rstudioapi::isAvailable() ||
+    rstudioapi::getVersion() >= "1.3.0"
   old_path <- path_home_r(".R", "snippets", file)
   new_path <- rstudio_config_path("snippets", file)
 
@@ -198,10 +210,7 @@ scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {
     }
   }
 
-  root <- switch(scope,
-    user = path_home_r(),
-    project = proj_get()
-  )
+  root <- switch(scope, user = path_home_r(), project = proj_get())
   path(root, ...)
 }
 

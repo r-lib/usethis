@@ -1,9 +1,13 @@
-block_append <- function(desc, value, path,
-                         block_start = "# <<<",
-                         block_end = "# >>>",
-                         block_prefix = NULL,
-                         block_suffix = NULL,
-                         sort = FALSE) {
+block_append <- function(
+  desc,
+  value,
+  path,
+  block_start = "# <<<",
+  block_end = "# >>>",
+  block_prefix = NULL,
+  block_suffix = NULL,
+  sort = FALSE
+) {
   if (!is.null(path) && file_exists(path)) {
     lines <- read_utf8(path)
     if (all(value %in% lines)) {
@@ -19,7 +23,13 @@ block_append <- function(desc, value, path,
     ui_bullets(c(
       "_" = "Copy and paste the following lines into {.path {pth(path)}}:"
     ))
-    ui_code_snippet(c(block_prefix, block_start, value, block_end, block_suffix))
+    ui_code_snippet(c(
+      block_prefix,
+      block_start,
+      value,
+      block_end,
+      block_suffix
+    ))
     return(FALSE)
   }
 
@@ -44,9 +54,13 @@ block_append <- function(desc, value, path,
   TRUE
 }
 
-block_replace <- function(desc, value, path,
-                          block_start = "# <<<",
-                          block_end = "# >>>") {
+block_replace <- function(
+  desc,
+  value,
+  path,
+  block_start = "# <<<",
+  block_end = "# >>>"
+) {
   if (!is.null(path) && file_exists(path)) {
     lines <- read_utf8(path)
     block_lines <- block_find(lines, block_start, block_end)
@@ -112,6 +126,10 @@ block_find <- function(lines, block_start = "# <<<", block_end = "# >>>") {
   c(start + 1L, end - 1L)
 }
 
-block_create <- function(lines = character(), block_start = "# <<<", block_end = "# >>>") {
+block_create <- function(
+  lines = character(),
+  block_start = "# <<<",
+  block_end = "# >>>"
+) {
   c(block_start, unique(lines), block_end)
 }

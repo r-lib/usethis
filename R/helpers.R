@@ -17,7 +17,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (isTRUE(min_version)) {
     min_version <- utils::packageVersion(package)
   }
-  version <- if (is.null(min_version)) "*" else glue(">= {min_version}")
+  version <- if (is.null(min_version) || isFALSE(min_version)) {
+    "*"
+  } else {
+    glue(">= {min_version}")
+  }
 
   types <- c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")
   names(types) <- tolower(types)
@@ -27,7 +31,7 @@ use_dependency <- function(package, type, min_version = NULL) {
   deps <- desc$get_deps()
   deps <- deps[deps$package == package, ]
 
-  new_linking_to     <- type == "LinkingTo" && !"LinkingTo" %in% deps$type
+  new_linking_to <- type == "LinkingTo" && !"LinkingTo" %in% deps$type
   new_non_linking_to <- type != "LinkingTo" && identical(deps$type, "LinkingTo")
 
   changed <- FALSE
@@ -62,19 +66,22 @@ use_dependency <- function(package, type, min_version = NULL) {
       "!" = "Package {.pkg {package}} is already listed in
              {.field {existing_type}} in DESCRIPTION; no change made."
     ))
-  } else if (delta == 0 && !is.null(min_version)) {
-    # change version
-    upgrade <- existing_version == "*" ||
-      numeric_version(min_version) > version_spec(existing_version)
-    if (upgrade) {
-      ui_bullets(c(
-        "v" = "Increasing {.pkg {package}} version to {.val {version}} in
-               DESCRIPTION."
-      ))
-      desc$set_dep(package, type, version = version)
-      desc$write()
-      changed <- TRUE
+  } else if (
+    delta == 0 && version_spec(version) != version_spec(existing_version)
+  ) {
+    if (version_spec(version) > version_spec(existing_version)) {
+      direction <- "Increasing"
+    } else {
+      direction <- "Decreasing"
     }
+
+    ui_bullets(c(
+      "v" = "{direction} {.pkg {package}} version to {.val {version}} in
+             DESCRIPTION."
+    ))
+    desc$set_dep(package, type, version = version)
+    desc$write()
+    changed <- TRUE
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports
     ui_bullets(c(
@@ -96,6 +103,9 @@ r_version <- function() {
 }
 
 version_spec <- function(x) {
+  if (x == "*") {
+    x <- "0"
+  }
   x <- gsub("(<=|<|>=|>|==)\\s*", "", x)
   numeric_version(x)
 }

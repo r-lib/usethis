@@ -61,9 +61,11 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = list(),
-                            check_name = TRUE,
-                            roxygen = TRUE) {
+use_description <- function(
+  fields = list(),
+  check_name = TRUE,
+  roxygen = TRUE
+) {
   name <- project_name()
   if (check_name) {
     check_package_name(name)
@@ -75,9 +77,11 @@ use_description <- function(fields = list(),
 #' @rdname use_description
 #' @param package Package name
 #' @export
-use_description_defaults <- function(package = NULL,
-                                     roxygen = TRUE,
-                                     fields = list()) {
+use_description_defaults <- function(
+  package = NULL,
+  roxygen = TRUE,
+  fields = list()
+) {
   fields <- fields %||% list()
   check_is_named_list(fields)
 
@@ -99,7 +103,7 @@ use_description_defaults <- function(package = NULL,
   modify_this <- function(orig, patch) {
     out <- utils::modifyList(orig, patch)
     if (inherits(patch$`Authors@R`, "person")) {
-    #if (has_name(patch, "Authors@R")) {
+      #if (has_name(patch, "Authors@R")) {
       out$`Authors@R` <- patch$`Authors@R`
     }
     out
@@ -124,7 +128,7 @@ usethis_description_defaults <- function(package = NULL) {
     Version = "0.0.0.9000",
     Title = "What the Package Does (One Line, Title Case)",
     Description = "What the package does (one paragraph).",
-    "Authors@R" = 'person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
+    "Authors@R" = 'person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
     Encoding = "UTF-8"
   )

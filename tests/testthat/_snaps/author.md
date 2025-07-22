@@ -31,5 +31,5 @@
       v Adding to 'Authors@R' in DESCRIPTION:
         Charlie Brown [ctb]
       i 'Authors@R' appears to include a placeholder author:
-        First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
+        First Last <first.last@example.com> [aut, cre]
 

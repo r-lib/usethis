@@ -1,6 +1,6 @@
 test_that("check_edition() validates inputs", {
-  expect_error(check_edition(20), "not available")
-  expect_error(check_edition("x"), "single number")
+  expect_snapshot(check_edition(20), error = TRUE)
+  expect_snapshot(check_edition("x"), error = TRUE)
   expect_equal(check_edition(1.5), 1)
 
   if (packageVersion("testthat") >= "2.99") {

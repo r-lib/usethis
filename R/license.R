@@ -175,7 +175,8 @@ use_apl2_license <- function() {
 use_license_template <- function(license, data = list()) {
   license_template <- glue("license-{license}.md")
 
-  use_template(license_template,
+  use_template(
+    license_template,
     save_as = "LICENSE.md",
     data = data,
     ignore = TRUE

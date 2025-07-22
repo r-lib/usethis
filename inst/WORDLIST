@@ -82,6 +82,7 @@ behaviour
 bzip
 ci
 cli
+cli's
 clipr
 clisymbols
 codecov
@@ -101,6 +102,8 @@ eval
 favour
 fiascos
 filenaming
+foofy
+formatter
 formidabel
 frontmatter
 fs
@@ -112,6 +115,7 @@ gh's
 gitcreds
 github
 gitignore
+googledrive
 grey
 gzip
 href
@@ -121,6 +125,7 @@ ing
 initialisation
 initialises
 initialising
+inlined
 io
 jsonlite
 labelled
@@ -128,7 +133,7 @@ labelling
 learnr
 libgit
 lifecycle
-macOS
+ly
 macbook
 magrittr
 magrittr's
@@ -136,6 +141,7 @@ md
 mergeable
 minimise
 msg
+namespacing
 nano
 noninteractive
 oldrel
@@ -145,6 +151,7 @@ ort
 pak
 pandoc
 pkgdown
+pos
 pre
 programmatically
 purrr
@@ -155,6 +162,7 @@ readme
 rebase
 reconfigures
 redirections
+renv
 repo
 repo's
 repos
@@ -169,10 +177,13 @@ rmarkdown
 ropensci
 roxygen
 rprojroot
+rstd
+shortcode
 shortlink
 shortlinks
 signalling
 sitrep
+solarized
 src
 styler
 symlink
@@ -184,16 +195,21 @@ tibble
 tidymodels
 tidyverse
 todo
+todo's
 travis
 triaged
 uation
+ui
 un
 unpushed
 useR
 usethis's
 ver
 vm
+wc
 withr
 xyz
 xz
 yaml
+yyy
+zzz

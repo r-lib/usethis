@@ -90,5 +90,8 @@ test_that("use_makevars() creates Makevars files with appropriate configuration"
   makevars_content <- paste0(names(makevars_settings), " = ", makevars_settings)
 
   expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars")))
-  expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars.win")))
+  expect_identical(
+    makevars_content,
+    read_utf8(proj_path("src", "Makevars.win"))
+  )
 })

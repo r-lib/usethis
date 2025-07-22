@@ -13,8 +13,8 @@
 #'
 #'   usethis itself now uses cli internally for its UI, but these new functions
 #'   are not exported and presumably never will be. There is a developer-focused
-#'   article on the process of transitioning usethis's own UI to use cli (LINK
-#'   TO COME).
+#'   article on the process of transitioning usethis's own UI to use cli:
+#'   [Converting usethis's UI to use cli](https://usethis.r-lib.org/articles/ui-cli-conversion.html).
 
 #' @details
 #'
@@ -105,9 +105,11 @@ ui_info <- function(x, .envir = parent.frame()) {
 #'   is installed, will copy the code block to the clipboard.
 #' @rdname ui-legacy-functions
 #' @export
-ui_code_block <- function(x,
-                          copy = rlang::is_interactive(),
-                          .envir = parent.frame()) {
+ui_code_block <- function(
+  x,
+  copy = rlang::is_interactive(),
+  .envir = parent.frame()
+) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -148,7 +150,6 @@ ui_warn <- function(x, .envir = parent.frame()) {
 }
 
 
-
 # Questions ---------------------------------------------------------------
 #' User interface - Questions
 #'
@@ -187,11 +188,23 @@ NULL
 
 #' @rdname ui-questions
 #' @export
-ui_yeah <- function(x,
-                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-                    n_yes = 1, n_no = 2, shuffle = TRUE,
-                    .envir = parent.frame()) {
+ui_yeah <- function(
+  x,
+  yes = c(
+    "Yes",
+    "Definitely",
+    "For sure",
+    "Yup",
+    "Yeah",
+    "I agree",
+    "Absolutely"
+  ),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -222,15 +235,30 @@ ui_yeah <- function(x,
 
 #' @rdname ui-questions
 #' @export
-ui_nope <- function(x,
-                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-                    n_yes = 1, n_no = 2, shuffle = TRUE,
-                    .envir = parent.frame()) {
+ui_nope <- function(
+  x,
+  yes = c(
+    "Yes",
+    "Definitely",
+    "For sure",
+    "Yup",
+    "Yeah",
+    "I agree",
+    "Absolutely"
+  ),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+) {
   # TODO(jennybc): is this correct in the case of no selection / cancelling?
   !ui_yeah(
-    x = x, yes = yes, no = no,
-    n_yes = n_yes, n_no = n_no,
+    x = x,
+    yes = yes,
+    no = no,
+    n_yes = n_yes,
+    n_no = n_no,
     shuffle = shuffle,
     .envir = .envir
   )

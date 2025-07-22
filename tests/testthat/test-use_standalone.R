@@ -7,24 +7,32 @@ test_that("standalone_header() works with various inputs", {
   )
   expect_snapshot(
     standalone_header(
-      "OWNER/REPO", "R/standalone-foo.R", host = "https://github.com"
+      "OWNER/REPO",
+      "R/standalone-foo.R",
+      host = "https://github.com"
     )
   )
   expect_snapshot(
     standalone_header(
-      "OWNER/REPO", "R/standalone-foo.R", host = "https://github.acme.com"
+      "OWNER/REPO",
+      "R/standalone-foo.R",
+      host = "https://github.acme.com"
     )
   )
   expect_snapshot(
     standalone_header(
-      "OWNER/REPO", "R/standalone-foo.R",
-      ref = "blah", host = "https://github.com"
+      "OWNER/REPO",
+      "R/standalone-foo.R",
+      ref = "blah",
+      host = "https://github.com"
     )
   )
   expect_snapshot(
     standalone_header(
-      "OWNER/REPO", "R/standalone-foo.R",
-      ref = "blah", host = "https://github.acme.com"
+      "OWNER/REPO",
+      "R/standalone-foo.R",
+      ref = "blah",
+      host = "https://github.acme.com"
     )
   )
 })
@@ -131,10 +139,19 @@ test_that("standalone file is normalised", {
   expect_equal(as_standalone_file("standalone-foo"), "standalone-foo.R")
   expect_equal(as_standalone_file("standalone-foo.R"), "standalone-foo.R")
   expect_equal(as_standalone_file("aaa-standalone-foo"), "aaa-standalone-foo.R")
-  expect_equal(as_standalone_file("aaa-standalone-foo.R"), "aaa-standalone-foo.R")
+  expect_equal(
+    as_standalone_file("aaa-standalone-foo.R"),
+    "aaa-standalone-foo.R"
+  )
 })
 
 test_that("standalone destination file is normalised", {
-  expect_equal(as_standalone_dest_file("standalone-foo.R"), "import-standalone-foo.R")
-  expect_equal(as_standalone_dest_file("aaa-standalone-foo.R"), "aaa-import-standalone-foo.R")
+  expect_equal(
+    as_standalone_dest_file("standalone-foo.R"),
+    "import-standalone-foo.R"
+  )
+  expect_equal(
+    as_standalone_dest_file("aaa-standalone-foo.R"),
+    "aaa-import-standalone-foo.R"
+  )
 })

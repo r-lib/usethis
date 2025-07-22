@@ -4,7 +4,7 @@ gert_shush <- function(expr, regexp) {
   check_character(regexp)
   withCallingHandlers(
     gertMessage = function(cnd) {
-      m <- map_lgl(regexp, ~ grepl(.x, cnd_message(cnd), perl = TRUE))
+      m <- map_lgl(regexp, \(x) grepl(x, cnd_message(cnd), perl = TRUE))
       if (any(m)) {
         cnd_muffle(cnd)
       }
@@ -83,7 +83,7 @@ git_user_get <- function(where = c("de_facto", "local", "global")) {
 
 # translate from "usethis" terminology to "git" terminology
 where_from_scope <- function(scope = c("user", "project")) {
-  scope = match.arg(scope)
+  scope <- match.arg(scope)
 
   where_scope <- c(user = "global", project = "de_facto")
 
@@ -165,9 +165,11 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
   # Only push if no remote & a single change
   push <- push && git_can_push(max_local = 1)
 
-  if (ui_yep(c(
-    "!" = "Is it ok to commit {if (push) 'and push '} {cli::qty(n)} {?it/them}?"
-  ))) {
+  if (
+    ui_yep(c(
+      "!" = "Is it ok to commit {if (push) 'and push '} {cli::qty(n)} {?it/them}?"
+    ))
+  ) {
     git_commit(paths, message)
     if (push) {
       git_push()
@@ -195,10 +197,12 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     we push, pull, switch, or compare branches"
   msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
-    if (ui_yep(c(
-      "!" = msg,
-      " " = "Do you want to proceed anyway?"
-    ))) {
+    if (
+      ui_yep(c(
+        "!" = msg,
+        " " = "Do you want to proceed anyway?"
+      ))
+    ) {
       return(invisible())
     } else {
       ui_abort("Uncommitted changes. Please commit before continuing.")
@@ -329,11 +333,19 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
     repo = git_repo(),
     verbose = FALSE
   )
-  out <- gert::git_ahead_behind(upstream = remref, ref = branch, repo = git_repo())
+  out <- gert::git_ahead_behind(
+    upstream = remref,
+    ref = branch,
+    repo = git_repo()
+  )
   list(local_only = out$ahead, remote_only = out$behind)
 }
 
-git_can_push <- function(max_local = Inf, branch = git_branch(), remref = NULL) {
+git_can_push <- function(
+  max_local = Inf,
+  branch = git_branch(),
+  remref = NULL
+) {
   remref <- remref %||% git_branch_tracking(branch)
   if (is.null(remref)) {
     return(FALSE)
@@ -358,7 +370,11 @@ git_push <- function(branch = git_branch(), remref = NULL, verbose = TRUE) {
   )
 }
 
-git_push_first <- function(branch = git_branch(), remote = "origin", verbose = TRUE) {
+git_push_first <- function(
+  branch = git_branch(),
+  remote = "origin",
+  verbose = TRUE
+) {
   if (verbose) {
     remref <- glue("{remote}/{branch}")
     ui_bullets(c(
@@ -376,9 +392,7 @@ git_push_first <- function(branch = git_branch(), remote = "origin", verbose = T
 
 # Checks ------------------------------------------------------------------
 
-check_current_branch <- function(is = NULL,
-                                 is_not = NULL,
-                                 message = NULL) {
+check_current_branch <- function(is = NULL, is_not = NULL, message = NULL) {
   gb <- git_branch()
 
   if (!is.null(is)) {
@@ -409,9 +423,11 @@ check_current_branch <- function(is = NULL,
 }
 
 # examples of remref: upstream/main, origin/foofy
-check_branch_up_to_date <- function(direction = c("pull", "push"),
-                                    remref = NULL,
-                                    use = NULL) {
+check_branch_up_to_date <- function(
+  direction = c("pull", "push"),
+  remref = NULL,
+  use = NULL
+) {
   direction <- match.arg(direction)
   branch <- git_branch()
   remref <- remref %||% git_branch_tracking(branch)

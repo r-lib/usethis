@@ -30,7 +30,9 @@ use_git <- function(message = "Initial commit") {
   }
 
   if (needs_init && !is_positron()) {
-    restart_rstudio("A restart of RStudio is required to activate the Git pane.")
+    restart_rstudio(
+      "A restart of RStudio is required to activate the Git pane."
+    )
   }
 
   invisible(TRUE)
@@ -183,8 +185,10 @@ use_git_protocol <- function(protocol) {
 }
 
 check_protocol <- function(protocol) {
-  if (!is_string(protocol) ||
-      !(tolower(protocol) %in% c("https", "ssh"))) {
+  if (
+    !is_string(protocol) ||
+      !(tolower(protocol) %in% c("https", "ssh"))
+  ) {
     options(usethis.protocol = NULL)
     ui_abort("{.arg protocol} must be either {.val https} or {.val ssh}.")
   }
@@ -306,9 +310,14 @@ git_clean <- function() {
     bulletize(usethis_map_cli(ui_paths, template = "{.file <<x>>}"))
   ))
 
-  if (ui_yep(
-    "{cli::qty(n)}Do you want to remove {?it/them}?",
-    yes = "yes", no = "no", shuffle = FALSE)) {
+  if (
+    ui_yep(
+      "{cli::qty(n)}Do you want to remove {?it/them}?",
+      yes = "yes",
+      no = "no",
+      shuffle = FALSE
+    )
+  ) {
     file_delete(paths)
     ui_bullets(c("v" = "{n} file{?s} deleted."))
   }
@@ -335,9 +344,10 @@ git_clean <- function() {
 #' # report git for current user
 #' git_sitrep("git", "user")
 #' }
-git_sitrep <- function(tool = c("git", "github"),
-                       scope = c("user", "project")) {
-
+git_sitrep <- function(
+  tool = c("git", "github"),
+  scope = c("user", "project")
+) {
   tool <- rlang::arg_match(tool, multiple = TRUE)
   scope <- rlang::arg_match(scope, multiple = TRUE)
 
@@ -357,7 +367,7 @@ git_sitrep <- function(tool = c("git", "github"),
     if (!vaccinated) {
       ui_bullets(c("i" = "See {.fun usethis::git_vaccinate} to learn more."))
     }
-    kv_line("Default Git protocol", git_protocol())
+    kv_line("Default Git protocol", ui_silence(git_protocol()))
     kv_line("Default initial branch name", init_default_branch)
   }
 
@@ -387,7 +397,8 @@ git_sitrep <- function(tool = c("git", "github"),
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
-  tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
+  tracking_branch <- if (is.null(branch)) NA_character_ else
+    git_branch_tracking()
   if (is.null(branch)) {
     branch <- cli::format_inline(ui_special())
   } else {
