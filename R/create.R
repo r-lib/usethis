@@ -112,8 +112,6 @@ create_project <- function(path,
   invisible(proj_get())
 }
 
-
-
 #' @rdname create_package
 #' @export
 create_quarto_project <- function(path,
