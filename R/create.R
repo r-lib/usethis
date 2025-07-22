@@ -120,14 +120,12 @@ create_quarto_project <- function(path,
                                   type = "default",
                                   rstudio = rstudioapi::isAvailable(),
                                   open = rlang::is_interactive()) {
-  browser()
   check_installed("quarto")
 
   path <- user_path_prep(path)
   parent_dir <- path_dir(path)
   check_path_is_directory(parent_dir)
 
-  # why do I call path_abs() here?
   name <- path_file(path_abs(path))
   challenge_nested_project(parent_dir, name)
   challenge_home_directory(path)
