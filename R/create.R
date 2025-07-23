@@ -5,12 +5,14 @@
 #'   * `create_package()` creates an R package.
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'     project.
-#'   * `create_quarto_project()` creates a Quarto project. It is a simplified
-#'     convenience wrapper around `quarto::quarto_create_project()`, which you
-#'     should call directly for more advanced usage.
+#'   * `r lifecycle::badge("experimental")` `create_quarto_project()` creates a
+#'     Quarto project. It is a simplified convenience wrapper around
+#'     `quarto::quarto_create_project()`, which you should call directly for
+#'     more advanced usage.
 #'
-#' These functions can be called on an existing project; you will be asked
-#' before any existing files are changed.
+#' These functions work best when creating a project *de novo*, but
+#' `create_package()` and `create_project()` can be called in an existing
+#' project; you will be asked before any existing files are changed.
 #'
 #' @inheritParams use_description
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
@@ -35,7 +37,7 @@
 #'   * Otherwise, the working directory and active project is changed in the
 #'     current R session.
 #' @param type The type of Quarto project to create. See
-#'   `?quarto::quarto_create_project()` for the most up-to-date list, but
+#'   `?quarto::quarto_create_project` for the most up-to-date list, but
 #'   `"website"`, `"blog"`, `"book"`, and `"manuscript"` are common choices.
 #'
 #' @returns Path to the newly created project or package, invisibly.
