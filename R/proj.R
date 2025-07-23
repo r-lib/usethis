@@ -19,7 +19,7 @@ proj_set_ <- function(path) {
 #' * an RStudio Project, i.e. a `.Rproj` file
 #' * an R package, i.e. a `DESCRIPTION` file
 #' * a Git repository
-#' * a Positron or VS Code workspace, i.e. a `.vscode/` directory
+#' * a Positron or VS Code workspace, i.e. a `.vscode/settings.json` file
 #' * a Quarto project, i.e. a `_quarto.yml` file
 #' * an renv project, i.e. a `renv.lock` file
 #'
@@ -198,8 +198,7 @@ proj_crit <- function() {
     rprojroot::is_r_package |
     rprojroot::is_git_root |
     # use rprojroot::is_vscode_project at some point in the future
-    # https://github.com/r-lib/rprojroot/pull/157
-    rprojroot::has_dir(".vscode") |
+    rprojroot::has_file(".vscode/settings.json") |
     rprojroot::is_quarto_project |
     rprojroot::is_renv_project |
     rprojroot::is_remake_project |

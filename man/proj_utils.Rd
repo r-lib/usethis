@@ -67,7 +67,7 @@ project root by looking for signs such as:
 \item an RStudio Project, i.e. a \code{.Rproj} file
 \item an R package, i.e. a \code{DESCRIPTION} file
 \item a Git repository
-\item a Positron or VS Code workspace, i.e. a \verb{.vscode/} directory
+\item a Positron or VS Code workspace, i.e. a \code{.vscode/settings.json} file
 \item a Quarto project, i.e. a \verb{_quarto.yml} file
 \item an renv project, i.e. a \code{renv.lock} file
 }
