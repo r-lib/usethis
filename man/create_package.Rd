@@ -38,10 +38,11 @@ personalized defaults using package options.}
 
 \item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
 project into an \href{https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects}{RStudio Project}.
-If \code{FALSE} and a non-package project, a sentinel \code{.here} file is placed so
-that the directory can be recognized as a project by the
-\href{https://here.r-lib.org}{here} or
-\href{https://rprojroot.r-lib.org}{rprojroot} packages.}
+
+If \code{FALSE}, the goal is to ensure that the directory can be recognized as
+a project by, for example, the \href{https://here.r-lib.org}{here} package. If
+the project is neither an R package nor a Quarto project, a sentinel
+\code{.here} file is placed to mark the project root.}
 
 \item{roxygen}{Do you plan to use roxygen2 to document your package?}
 
@@ -62,8 +63,7 @@ current R session.
 \code{"website"}, \code{"blog"}, \code{"book"}, and \code{"manuscript"} are common choices.}
 }
 \value{
-Path to the newly created project or package,
-invisibly.
+Path to the newly created project or package, invisibly.
 }
 \description{
 These functions create an R project:

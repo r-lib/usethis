@@ -148,3 +148,11 @@ test_that("we discourage project creation in home directory", {
     expect_usethis_error(create_project(path_home_r()), "create anyway")
   }
 })
+
+test_that("create_quarto_project() works for basic usage", {
+  skip_if_not_installed("quarto")
+
+  dir <- create_local_quarto_project()
+  expect_proj_file("_quarto.yml")
+  expect_true(possibly_in_proj(dir))
+})

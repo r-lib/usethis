@@ -22,10 +22,11 @@
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects).
-#'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
-#'   that the directory can be recognized as a project by the
-#'   [here](https://here.r-lib.org) or
-#'   [rprojroot](https://rprojroot.r-lib.org) packages.
+#'
+#'   If `FALSE`, the goal is to ensure that the directory can be recognized as
+#'   a project by, for example, the [here](https://here.r-lib.org) package. If
+#'   the project is neither an R package nor a Quarto project, a sentinel
+#'   `.here` file is placed to mark the project root.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
 #'   * If using RStudio desktop, the project is opened in a new session.
@@ -123,10 +124,12 @@ create_project <- function(
 
 #' @rdname create_package
 #' @export
-create_quarto_project <- function(path,
-                                  type = "default",
-                                  rstudio = rstudioapi::isAvailable(),
-                                  open = rlang::is_interactive()) {
+create_quarto_project <- function(
+  path,
+  type = "default",
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+) {
   check_installed("quarto")
 
   path <- user_path_prep(path)
