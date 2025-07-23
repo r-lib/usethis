@@ -291,8 +291,10 @@ proj_activate <- function(path) {
   path <- user_path_prep(path)
 
   if (rstudio_available() && rstudioapi::hasFun("openProject")) {
+    # TODO: Perhaps in future this message can be specialized for RStudio vs.
+    # Positron. For now, I've just made it more generic to work better for both.
     ui_bullets(c(
-      "v" = "Opening {.path {pth(path, base = NA)}} in new RStudio session."
+      "v" = "Opening {.path {pth(path, base = NA)}} in a new session."
     ))
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)

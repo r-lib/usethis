@@ -25,11 +25,12 @@
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
-#'   * If using RStudio desktop, the package is opened in a new session.
+#'   * If using RStudio desktop, the project is opened in a new session.
+#'   * If using Positron, the project is opened in a new window.
 #'   * If on RStudio server, the current RStudio project is activated.
-#'   * Otherwise, the working directory and active project is changed.
-#'
-#' @return Path to the newly created project or package, invisibly.
+#'   * Otherwise, the working directory and active project is changed in the
+#'     current R session.
+#' @returns Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
 #'   development conventions as possible.
