@@ -352,7 +352,8 @@ find_rstudio_root <- function(path) {
 }
 
 challenge_nested_project <- function(path, name) {
-  if (!possibly_in_proj(path)) {
+  enclosing_project <- proj_find(path)
+  if (is.null(enclosing_project)) {
     return(invisible())
   }
 
@@ -363,11 +364,14 @@ challenge_nested_project <- function(path, name) {
   }
 
   ui_bullets(c(
-    "!" = "New project {.val {name}} is nested inside an existing project
-           {.path {pth(path)}}, which is rarely a good idea.",
+    "!" = "New project {.path {path(path, name)}} would be nested inside an
+           existing project {.path {pth(enclosing_project)}}, which is rarely a
+           good idea.",
     "i" = "If this is unexpected, the {.pkg here} package has a function,
-           {.fun here::dr_here} that reveals why {.path {pth(path)}} is regarded
-           as a project."
+           {.fun here::dr_here} that reveals why a particular path is regarded
+           as a project. To learn more, run {.fun here::dr_here} in a fresh R
+           session that has {.path {pth(enclosing_project)}} as working
+           directory."
   ))
   if (ui_nah("Do you want to create anyway?")) {
     ui_abort("Cancelling project creation.")
