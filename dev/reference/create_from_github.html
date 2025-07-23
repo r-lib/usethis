@@ -132,9 +132,11 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 
 <dt id="arg-open">open<a class="anchor" aria-label="anchor" href="#arg-open"></a></dt>
-<dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If using RStudio desktop, the package is opened in a new session.</p></li>
+<dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If using RStudio desktop, the project is opened in a new session.</p></li>
+<li><p>If using Positron, the project is opened in a new window.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
-<li><p>Otherwise, the working directory and active project is changed.</p></li>
+<li><p>Otherwise, the working directory and active project is changed in the
+current R session.</p></li>
 </ul></dd>
 
 
