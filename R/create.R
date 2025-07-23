@@ -28,11 +28,12 @@
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
-#'   * If using RStudio desktop, the package is opened in a new session.
+#'   * If using RStudio desktop, the project is opened in a new session.
+#'   * If using Positron, the project is opened in a new window.
 #'   * If on RStudio server, the current RStudio project is activated.
-#'   * Otherwise, the working directory and active project is changed.
-#' @returns Path to the newly created project or package,
-#'   invisibly.
+#'   * Otherwise, the working directory and active project is changed in the
+#'     current R session.
+#' @returns Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
 #'   development conventions as possible.
@@ -393,7 +394,8 @@ find_rstudio_root <- function(path) {
 }
 
 challenge_nested_project <- function(path, name) {
-  if (!possibly_in_proj(path)) {
+  enclosing_project <- proj_find(path)
+  if (is.null(enclosing_project)) {
     return(invisible())
   }
 
@@ -404,11 +406,14 @@ challenge_nested_project <- function(path, name) {
   }
 
   ui_bullets(c(
-    "!" = "New project {.val {name}} is nested inside an existing project
-           {.path {pth(path)}}, which is rarely a good idea.",
+    "!" = "New project {.path {path(path, name)}} would be nested inside an
+           existing project {.path {pth(enclosing_project)}}, which is rarely a
+           good idea.",
     "i" = "If this is unexpected, the {.pkg here} package has a function,
-           {.fun here::dr_here} that reveals why {.path {pth(path)}} is regarded
-           as a project."
+           {.fun here::dr_here} that reveals why a particular path is regarded
+           as a project. To learn more, run {.fun here::dr_here} in a fresh R
+           session that has {.path {pth(enclosing_project)}} as working
+           directory."
   ))
   if (ui_nah("Do you want to create anyway?")) {
     ui_abort("Cancelling project creation.")
