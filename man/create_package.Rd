@@ -56,6 +56,10 @@ error if not.}
 \item Otherwise, the working directory and active project is changed in the
 current R session.
 }}
+
+\item{type}{The type of Quarto project to create. See
+\code{?quarto::quarto_create_project()} for the most up-to-date list, but
+\code{"website"}, \code{"blog"}, \code{"book"}, and \code{"manuscript"} are common choices.}
 }
 \value{
 Path to the newly created project or package,
@@ -68,7 +72,7 @@ These functions create an R project:
 \item \code{create_project()} creates a non-package project, i.e. a data analysis
 project.
 \item \code{create_quarto_project()} creates a Quarto project. It is a simplified
-convenience wrapper around \code{\link[quarto:quarto_create_project]{quarto::quarto_create_project()}}, which you
+convenience wrapper around \code{quarto::quarto_create_project()}, which you
 should call directly for more advanced usage.
 }
 

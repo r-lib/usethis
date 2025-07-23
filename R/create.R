@@ -6,7 +6,7 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'     project.
 #'   * `create_quarto_project()` creates a Quarto project. It is a simplified
-#'     convenience wrapper around [quarto::quarto_create_project()], which you
+#'     convenience wrapper around `quarto::quarto_create_project()`, which you
 #'     should call directly for more advanced usage.
 #'
 #' These functions can be called on an existing project; you will be asked
@@ -33,6 +33,10 @@
 #'   * If on RStudio server, the current RStudio project is activated.
 #'   * Otherwise, the working directory and active project is changed in the
 #'     current R session.
+#' @param type The type of Quarto project to create. See
+#'   `?quarto::quarto_create_project()` for the most up-to-date list, but
+#'   `"website"`, `"blog"`, `"book"`, and `"manuscript"` are common choices.
+#'
 #' @returns Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
