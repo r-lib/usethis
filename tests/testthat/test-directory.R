@@ -26,3 +26,13 @@ test_that("symlink to directory is directory", {
 
   expect_no_error(check_path_is_directory(base_b))
 })
+
+# https://github.com/r-lib/usethis/issues/2069
+test_that("relative symlink to directory is directory", {
+  base_dir <- withr::local_tempdir()
+  sub_dir <- dir_create(path(base_dir, "sub_dir"))
+  withr::with_dir(base_dir, link_create("sub_dir", "relative_link_to_sub_dir"))
+
+  relative_linky_path <- path(base_dir, "relative_link_to_sub_dir")
+  expect_no_error(check_path_is_directory(relative_linky_path))
+})
