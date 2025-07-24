@@ -39,7 +39,7 @@ check_path_is_directory <- function(path) {
   }
 
   if (is_link(path)) {
-    path <- link_path(path)
+    path <- path_real(path)
   }
 
   if (!is_dir(path)) {
