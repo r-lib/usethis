@@ -143,9 +143,9 @@ and Windows).</p></li>
 <code><a href="https://roxygen2.r-lib.org/reference/roxygenize.html" class="external-link">roxygen2::roxygenise()</a></code> and update the PR, and <code>/style</code> to run
 <code>styler::style_pkg()</code> and update the PR.</p>
 <p>This is how the tidyverse team checks its packages, but it is overkill
-for less widely used packages. Consider using the more streamlined
-workflows set up by <code><a href="use_github_actions.html">use_github_actions()</a></code> or
-<code><a href="use_github_actions.html">use_github_action_check_standard()</a></code>.</p></li>
+for less widely used packages. For <code>R CMD check</code>, consider using the more
+streamlined workflow set up by
+<code><a href="use_github_action.html">use_github_action("check-standard")</a></code>.</p></li>
 </ul></li>
 </ul><ul><li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
