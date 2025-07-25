@@ -24,6 +24,17 @@ test_that("use_binder_badge() needs a github repository", {
   )
 })
 
+test_that("use_r_universe_badge() needs a repository", {
+  skip_if_no_git_user()
+  create_local_package()
+  use_git()
+  expect_snapshot(
+    error = TRUE,
+    use_r_universe_badge(),
+    transform = scrub_testpkg
+  )
+})
+
 test_that("use_posit_cloud_badge() handles bad and good input", {
   create_local_project()
   expect_snapshot(use_posit_cloud_badge(), error = TRUE)
