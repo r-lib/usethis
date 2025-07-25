@@ -171,7 +171,7 @@ use_r_universe_badge <- function() {
     ))
   }
   src <- glue("https://{gh_org}.r-universe.dev/badges/{pkg}")
-  href <-  glue("https://{gh_org}.r-universe.dev/{pkg}")
+  href <- glue("https://{gh_org}.r-universe.dev/{pkg}")
   use_badge("R-universe", href, src)
 }
 #' @rdname badges
