@@ -2,12 +2,17 @@
 #'
 #' @description
 #' These functions create an R project:
-#'   * `create_package()` creates an R package
+#'   * `create_package()` creates an R package.
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
-#'   project
+#'     project.
+#'   * `r lifecycle::badge("experimental")` `create_quarto_project()` creates a
+#'     Quarto project. It is a simplified convenience wrapper around
+#'     `quarto::quarto_create_project()`, which you should call directly for
+#'     more advanced usage.
 #'
-#' Both functions can be called on an existing project; you will be asked before
-#' any existing files are changed.
+#' These functions work best when creating a project *de novo*, but
+#' `create_package()` and `create_project()` can be called in an existing
+#' project; you will be asked before any existing files are changed.
 #'
 #' @inheritParams use_description
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
@@ -19,10 +24,11 @@
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects).
-#'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
-#'   that the directory can be recognized as a project by the
-#'   [here](https://here.r-lib.org) or
-#'   [rprojroot](https://rprojroot.r-lib.org) packages.
+#'
+#'   If `FALSE`, the goal is to ensure that the directory can be recognized as
+#'   a project by, for example, the [here](https://here.r-lib.org) package. If
+#'   the project is neither an R package nor a Quarto project, a sentinel
+#'   `.here` file is placed to mark the project root.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
 #'   * If using RStudio desktop, the project is opened in a new session.
@@ -30,6 +36,10 @@
 #'   * If on RStudio server, the current RStudio project is activated.
 #'   * Otherwise, the working directory and active project is changed in the
 #'     current R session.
+#' @param type The type of Quarto project to create. See
+#'   `?quarto::quarto_create_project` for the most up-to-date list, but
+#'   `"website"`, `"blog"`, `"book"`, and `"manuscript"` are common choices.
+#'
 #' @returns Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
@@ -102,6 +112,46 @@ create_project <- function(
     ))
     file_create(proj_path(".here"))
   }
+
+  if (open) {
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
+    }
+  }
+
+  invisible(proj_get())
+}
+
+#' @rdname create_package
+#' @export
+create_quarto_project <- function(
+  path,
+  type = "default",
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+) {
+  check_installed("quarto")
+
+  path <- user_path_prep(path)
+  parent_dir <- path_dir(path)
+  check_path_is_directory(parent_dir)
+
+  name <- path_file(path_abs(path))
+  challenge_nested_project(parent_dir, name)
+  challenge_home_directory(path)
+
+  create_directory(path)
+  local_project(path, force = TRUE)
+
+  res <- quarto::quarto_create_project(
+    name = name,
+    dir = parent_dir,
+    type = type,
+    no_prompt = TRUE,
+    quiet = getOption("usethis.quiet", default = FALSE)
+  )
 
   if (open) {
     if (proj_activate(proj_get())) {

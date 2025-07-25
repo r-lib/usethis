@@ -10,9 +10,14 @@
   is not specified (#2117, @salim-b).
 
 * usethis's criteria for recognizing a project have expanded to include (#2133):
-  - a `.vscode/` directory, which Positron or VS Code might create
+  - a `.vscode/settings.json` file, which Positron or VS Code might create
   - a `_quarto.yml` file, typical of a Quarto project
   - an `renv.lock` file, which renv creates
+
+* `create_quarto_project()` is a new experimental function that combines basic
+  usage of `quarto::quarto_create_project()` with some of the niceties of
+  usethis's `create_*()` functions, such as opening the newly created project in
+  your IDE (#1891, @focardozom).
 
 # usethis 3.1.0
 
