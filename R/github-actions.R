@@ -56,7 +56,7 @@
 #' \dontrun{
 #' use_github_action()
 #'
-#' use_github_action_check_standard()
+#' use_github_action("check-standard")
 #'
 #' use_github_action("pkgdown")
 #' }
@@ -216,9 +216,9 @@ use_github_actions_badge <- function(
 #'     `styler::style_pkg()` and update the PR.
 #'
 #'     This is how the tidyverse team checks its packages, but it is overkill
-#'     for less widely used packages. Consider using the more streamlined
-#'     workflows set up by [use_github_actions()] or
-#'     [use_github_action_check_standard()].
+#'     for less widely used packages. For `R CMD check`, consider using the more
+#'     streamlined workflow set up by
+#'     [`use_github_action("check-standard")`][use_github_action].
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_github_action
