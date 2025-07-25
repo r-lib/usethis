@@ -28,7 +28,8 @@ test_that("use_r_universe_badge() needs a repository", {
   skip_if_no_git_user()
   create_local_package()
   use_git()
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     use_r_universe_badge(),
     transform = scrub_testpkg
   )
