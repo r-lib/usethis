@@ -2,10 +2,11 @@
 #'
 #' These helpers produce the markdown text you need in your README to include
 #' badges that report information, such as the CRAN version or test coverage,
-#' and link out to relevant external resources. To add badges automatically
-#' ensure your badge block starts with a line containing only
+#' and link out to relevant external resources. To allow badges to be added
+#' automatically, ensure your badge block starts with a line containing only
 #' `<!-- badges: start -->` and ends with a line containing only
-#' `<!-- badges: end -->`.
+#' `<!-- badges: end -->`. The templates used by [use_readme_md()] and
+#' [use_readme_rmd()] include this block.
 #'
 #' @details
 #'
@@ -30,8 +31,9 @@
 #' @param href,src Badge link and image src
 #' @param stage Stage of the package lifecycle. One of "experimental",
 #'   "stable", "superseded", or "deprecated".
-#' @seealso Functions that configure continuous integration, such as
-#'   [use_github_action("check-standard")][use_github_action()], also create badges.
+#' @seealso [use_github_action()] helps with the setup of various continuous
+#'   integration workflows, some of which will call these specialized badge
+#'   helpers.
 #'
 #' @name badges
 #' @examples
