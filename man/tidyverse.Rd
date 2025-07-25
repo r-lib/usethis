@@ -11,7 +11,6 @@
 \alias{use_tidy_issue_template}
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
-\alias{use_tidy_style}
 \alias{use_tidy_logo}
 \alias{use_tidy_upkeep_issue}
 \title{Helpers for tidyverse development}
@@ -34,8 +33,6 @@ use_tidy_coc()
 
 use_tidy_github()
 
-use_tidy_style(strict = TRUE)
-
 use_tidy_logo(geometry = "240x278", retina = TRUE)
 
 use_tidy_upkeep_issue(last_upkeep = last_upkeep_year())
@@ -53,9 +50,6 @@ created, provided that the parent path exists.}
 \item{copyright_holder}{Name of the copyright holder or holders. This
 defaults to \code{"{package name} authors"}; you should only change this if you
 use a CLA to assign copyright to a single entity.}
-
-\item{strict}{Boolean indicating whether or not a strict version of styling
-should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
 
 \item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size. The default
 assumes that you have a hex logo using spec from
@@ -128,16 +122,3 @@ records the current date in the \code{Config/usethis/last-upkeep} field in
 file at \url{https://github.com/rstudio/hex-stickers}.
 }
 }
-\section{\code{use_tidy_style()}}{
-
-Uses the \href{https://styler.r-lib.org}{styler package} package to style all code
-in a package, project, or directory, according to the \href{https://style.tidyverse.org}{tidyverse style guide}.
-
-\strong{Warning:} This function will overwrite files! It is strongly suggested to
-only style files that are under version control or to first create a backup
-copy.
-
-Invisibly returns a data frame with one row per file, that indicates whether
-styling caused a change.
-}
-

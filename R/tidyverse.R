@@ -51,21 +51,6 @@
 #' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
 #'   file at <https://github.com/rstudio/hex-stickers>.
 #'
-#' @section `use_tidy_style()`:
-#' Uses the [styler package](https://styler.r-lib.org) package to style all code
-#' in a package, project, or directory, according to the [tidyverse style
-#' guide](https://style.tidyverse.org).
-#'
-#' **Warning:** This function will overwrite files! It is strongly suggested to
-#' only style files that are under version control or to first create a backup
-#' copy.
-#'
-#' Invisibly returns a data frame with one row per file, that indicates whether
-#' styling caused a change.
-#'
-#' @param strict Boolean indicating whether or not a strict version of styling
-#'   should be applied. See [styler::tidyverse_style()] for details.
-#'
 #' @name tidyverse
 NULL
 
@@ -214,35 +199,6 @@ use_tidy_github <- function() {
 use_dot_github <- function(ignore = TRUE) {
   use_directory(".github", ignore = ignore)
   use_git_ignore("*.html", directory = ".github")
-}
-
-#' @export
-#' @rdname tidyverse
-use_tidy_style <- function(strict = TRUE) {
-  check_installed("styler")
-  challenge_uncommitted_changes(
-    msg = "
-    There are uncommitted changes and it is highly recommended to get into a \\
-    clean Git state before restyling your project's code"
-  )
-  if (is_package()) {
-    styled <- styler::style_pkg(
-      proj_get(),
-      style = styler::tidyverse_style,
-      strict = strict
-    )
-  } else {
-    styled <- styler::style_dir(
-      proj_get(),
-      style = styler::tidyverse_style,
-      strict = strict
-    )
-  }
-  ui_bullets(c(
-    " " = "",
-    "v" = "Styled project according to the tidyverse style guide."
-  ))
-  invisible(styled)
 }
 
 #' Identify contributors via GitHub activity

@@ -174,6 +174,8 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
     if (push) {
       git_push()
     }
+  } else {
+    ui_bullets(c("x" = "Cancelling."))
   }
 
   invisible()
