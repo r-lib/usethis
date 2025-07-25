@@ -166,6 +166,14 @@ uses_pkgdown <- function() {
   !is.null(pkgdown_config_path())
 }
 
+uses_pkgdown_bootstrap_version <- function(version = 5) {
+  config <- pkgdown_config_meta()
+  identical(
+    purrr::pluck(config, "template", "bootstrap"),
+    as.integer(version)
+  )
+}
+
 pkgdown_config_meta <- function() {
   if (!uses_pkgdown()) {
     return(list())

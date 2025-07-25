@@ -66,6 +66,12 @@ upkeep_checklist <- function(target_repo = NULL) {
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
+    todo(
+      "
+      Consider using Bootstrap 5 in your pkgdown site. \\
+      Read more in the [pkgdown customisation article](https://pkgdown.r-lib.org/articles/customise.html).",
+      uses_pkgdown() && !uses_pkgdown_bootstrap_version(5)
+    ),
     todo("`usethis::use_tidy_description()`"),
     todo(
       "
