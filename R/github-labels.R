@@ -133,12 +133,13 @@ use_github_labels <- function(
     new_labels <- split(df$labels, df$number)
     purrr::iwalk(
       new_labels,
-      \(x, y)
+      \(x, y) {
         gh(
           "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
           issue_number = y,
           labels = I(x)
         )
+      }
     )
 
     # issues have correct labels now; safe to edit labels themselves

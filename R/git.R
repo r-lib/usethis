@@ -397,8 +397,11 @@ git_sitrep <- function(
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
-  tracking_branch <- if (is.null(branch)) NA_character_ else
+  tracking_branch <- if (is.null(branch)) {
+    NA_character_
+  } else {
     git_branch_tracking()
+  }
   if (is.null(branch)) {
     branch <- cli::format_inline(ui_special())
   } else {

@@ -169,8 +169,11 @@ standalone_header <- function(repo_spec, path, ref = NULL, host = NULL) {
 
   path_string <- path_ext_remove(sub("^standalone-", "", path_file(path)))
   ref_string <- if (is.null(ref)) "" else glue(', ref = "{ref}"')
-  host_string <- if (is.null(host) || host == "https://github.com") "" else
+  host_string <- if (is.null(host) || host == "https://github.com") {
+    ""
+  } else {
     glue(', host = "{host}"')
+  }
   code_hint <- glue(
     'usethis::use_standalone("{repo_spec}", "{path_string}"{ref_string}{host_string})'
   )

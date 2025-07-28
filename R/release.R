@@ -81,7 +81,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
-    if (!on_cran)
+    if (!on_cran) {
       c(
         "First release:",
         "",
@@ -100,7 +100,8 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         ),
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
-      ),
+      )
+    },
     "Prepare for release:",
     "",
     todo("`git pull`"),
