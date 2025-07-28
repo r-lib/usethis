@@ -81,7 +81,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
-    if (!on_cran)
+    if (!on_cran) {
       c(
         "First release:",
         "",
@@ -100,7 +100,8 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         ),
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
-      ),
+      )
+    },
     "Prepare for release:",
     "",
     todo("`git pull`"),
@@ -110,9 +111,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     ),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo(
-      "
-      Check if any deprecation processes should be advanced, as described in \\
-      [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
+      "[Advance deprecations](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation), if needed",
       type != "patch" && has_lifecycle
     ),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
