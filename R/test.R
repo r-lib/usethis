@@ -28,13 +28,7 @@ use_testthat <- function(edition = NULL, parallel = FALSE) {
 }
 
 use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
-  check_installed("testthat")
-  if (utils::packageVersion("testthat") < "2.1.0") {
-    ui_abort(
-      "
-      {.pkg testthat} 2.1.0 or greater needed. Please install before re-trying"
-    )
-  }
+  check_installed("testthat", version = "2.1.0")
 
   if (is_package()) {
     edition <- check_edition(edition)
@@ -70,7 +64,7 @@ use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
 }
 
 check_edition <- function(edition = NULL) {
-  version <- utils::packageVersion("testthat")[[1, c(1, 2)]]
+  version <- testthat_version()[[1, c(1, 2)]]
   if (version[[2]] == "99") {
     version <- version[[1]] + 1L
   } else {
@@ -84,7 +78,7 @@ check_edition <- function(edition = NULL) {
       ui_abort("{.arg edition} must be a single number.")
     }
     if (edition > version) {
-      vers <- utils::packageVersion("testthat")
+      vers <- testthat_version()
       ui_abort(
         "
         {.var edition} ({edition}) not available in installed verion of
@@ -95,6 +89,9 @@ check_edition <- function(edition = NULL) {
   }
 }
 
+testthat_version <- function() {
+  utils::packageVersion("testthat")
+}
 
 uses_testthat <- function() {
   paths <- proj_path(c(path("inst", "tests"), path("tests", "testthat")))
