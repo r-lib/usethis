@@ -146,7 +146,6 @@
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
       * [ ] Draft blog post
-      * [ ] Slack link to draft blog in #open-source-comms
       
       Submit to CRAN:
       
@@ -163,6 +162,7 @@
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
       * [ ] Share on social media
+      * [ ] Slack link to blog post, bluesky, and linkedin in #open-source-comms
 
 # no revdep release bullets when there are no revdeps
 

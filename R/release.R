@@ -81,7 +81,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
-    if (!on_cran)
+    if (!on_cran) {
       c(
         "First release:",
         "",
@@ -100,7 +100,8 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         ),
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
-      ),
+      )
+    },
     "Prepare for release:",
     "",
     todo("`git pull`"),
@@ -129,10 +130,6 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
-    todo(
-      "Slack link to draft blog in #open-source-comms",
-      type != "patch" && is_posit_pkg
-    ),
     release_extra_bullets(),
     "",
     "Submit to CRAN:",
@@ -149,7 +146,11 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
-    todo("Share on social media", type != "patch")
+    todo("Share on social media", type != "patch"),
+    todo(
+      "Slack link to blog post, bluesky, and linkedin in #open-source-comms",
+      type != "patch" && is_posit_pkg
+    )
   )
 }
 
