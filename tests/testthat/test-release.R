@@ -32,9 +32,14 @@ test_that("non-patch + lifecycle = advanced deprecation process", {
   create_local_package()
   use_package("lifecycle")
 
-  local_mocked_bindings(tidy_minimum_r_version = function() "3.6")
+  local_mocked_bindings(
+    tidy_minimum_r_version = function() "3.6",
+    get_revdeps = function() character(),
+    has_github_links = function(...) FALSE,
+    gh_milestone_number = function(...) NA
+  )
 
-  has_deprecation <- function(x) any(grepl("deprecation processes", x))
+  has_deprecation <- function(x) any(grepl("Advance deprecations", x))
   expect_true(has_deprecation(release_checklist("1.0.0", on_cran = TRUE)))
   expect_true(has_deprecation(release_checklist("1.1.0", on_cran = TRUE)))
   expect_false(has_deprecation(release_checklist("1.1.1", on_cran = TRUE)))
