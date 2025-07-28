@@ -280,10 +280,12 @@ scold_for_scopes <- function(scopes) {
 
   suggestions <- c(
     "*" = if (!has_repo) "{.val repo}: needed to fully access user's repos",
-    "*" = if (!has_workflow)
-      "{.val workflow}: needed to manage GitHub Actions workflow files",
-    "*" = if (!has_user_email)
+    "*" = if (!has_workflow) {
+      "{.val workflow}: needed to manage GitHub Actions workflow files"
+    },
+    "*" = if (!has_user_email) {
       "{.val user:email}: needed to read user's email addresses"
+    }
   )
   message <- c(
     "!" = "Token lacks recommended scopes:",
@@ -293,4 +295,49 @@ scold_for_scopes <- function(scopes) {
            recommended scopes."
   )
   ui_bullets(message)
+}
+
+#' Lock and unlock a branch on GitHub
+#'
+#' These functions lock and unlock a branch on GitHub so that it's not possible
+#' for anyone to make any changes. This is used as part of the release process
+#' to ensure that you don't accidentally merge any pull requests or push any
+#' commits while you are waiting for CRAN to get back to you.
+#'
+#' @export
+#' @param branch The branch to lock/unlock. If not supplied, uses the
+#'   default branch with is usually "main" or "master".
+gh_lock_branch <- function(branch = NULL) {
+  cfg <- github_remote_config(github_get = TRUE)
+  repo <- target_repo(cfg)
+  branch <- branch %||% git_default_branch_(cfg)
+
+  invisible(gh::gh(
+    "PUT /repos/{owner}/{repo}/branches/{branch}/protection",
+    owner = repo$repo_owner,
+    repo = repo$repo_name,
+    branch = branch,
+    # required parameters
+    required_status_checks = NA,
+    enforce_admins = TRUE,
+    required_pull_request_reviews = NA,
+    restrictions = NA,
+    # paramter that actually does what we want
+    lock_branch = TRUE
+  ))
+}
+
+#' @export
+#' @rdname gh_lock_branch
+gh_unlock_branch <- function(branch = NULL) {
+  cfg <- github_remote_config(github_get = TRUE)
+  repo <- target_repo(cfg)
+  branch <- branch %||% git_default_branch_(cfg)
+
+  invisible(gh::gh(
+    "DELETE /repos/{owner}/{repo}/branches/{branch}/protection",
+    owner = repo$repo_owner,
+    repo = repo$repo_name,
+    branch = branch
+  ))
 }

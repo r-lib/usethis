@@ -81,7 +81,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   milestone_num <- gh_milestone_number(target_repo, version)
 
   c(
-    if (!on_cran)
+    if (!on_cran) {
       c(
         "First release:",
         "",
@@ -100,7 +100,8 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         ),
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
-      ),
+      )
+    },
     "Prepare for release:",
     "",
     todo("`git pull`"),
@@ -137,6 +138,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     "",
     "Submit to CRAN:",
     "",
+    todo("`usethis::gh_lock_branch()"),
     todo("`usethis::use_version('{type}')`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
@@ -144,6 +146,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
+    todo("`usethis::gh_unlock_branch()"),
     todo("Finish & publish blog post", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch"),
     todo("`usethis::use_github_release()`"),
