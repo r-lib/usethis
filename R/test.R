@@ -89,6 +89,7 @@ check_edition <- function(edition = NULL) {
   }
 }
 
+# wrapping so we can mock this in tests
 testthat_version <- function() {
   utils::packageVersion("testthat")
 }
