@@ -89,9 +89,13 @@ browse_package <- function(package = NULL) {
     details,
     map(
       desc_urls_dat$desc_field,
-      \(x)
-        if (is.na(x)) "CRAN" else
+      \(x) {
+        if (is.na(x)) {
+          "CRAN"
+        } else {
           cli::cli_fmt(cli::cli_text("{.field {x}} field in DESCRIPTION"))
+        }
+      }
     )
   )
   if (length(urls) == 0) {

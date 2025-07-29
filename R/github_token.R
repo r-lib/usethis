@@ -280,10 +280,12 @@ scold_for_scopes <- function(scopes) {
 
   suggestions <- c(
     "*" = if (!has_repo) "{.val repo}: needed to fully access user's repos",
-    "*" = if (!has_workflow)
-      "{.val workflow}: needed to manage GitHub Actions workflow files",
-    "*" = if (!has_user_email)
+    "*" = if (!has_workflow) {
+      "{.val workflow}: needed to manage GitHub Actions workflow files"
+    },
+    "*" = if (!has_user_email) {
       "{.val user:email}: needed to read user's email addresses"
+    }
   )
   message <- c(
     "!" = "Token lacks recommended scopes:",
