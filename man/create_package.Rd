@@ -73,7 +73,7 @@ These functions create an R project:
 project.
 \item \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{create_quarto_project()} creates a
 Quarto project. It is a simplified convenience wrapper around
-\code{quarto::quarto_create_project()}, which you should call directly for
+\code{\link[quarto:quarto_create_project]{quarto::quarto_create_project()}}, which you should call directly for
 more advanced usage.
 }
 

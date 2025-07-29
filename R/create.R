@@ -7,7 +7,7 @@
 #'     project.
 #'   * `r lifecycle::badge("experimental")` `create_quarto_project()` creates a
 #'     Quarto project. It is a simplified convenience wrapper around
-#'     `quarto::quarto_create_project()`, which you should call directly for
+#'     [quarto::quarto_create_project()], which you should call directly for
 #'     more advanced usage.
 #'
 #' These functions work best when creating a project *de novo*, but
