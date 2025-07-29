@@ -58,7 +58,7 @@
       * [ ] Add ROR for Posit in `DESCRIPTION`:
       `person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))`
       * [ ] Convert in-header chunk options to the newer in-body style used by Quarto:
-      `fs::dir_ls("vignettes", glob = "*.Rmd") |> purrr::walk(~ knitr::convert_chunk_header(.x, output = identity, type = "yaml"))`
+      `fs::dir_ls("vignettes", regexp = "[.][Rq]md$") |> purrr::walk(\(x) knitr::convert_chunk_header(x, output = identity, type = "yaml"))`
       * [ ] Switch to `expect_snapshot(error = TRUE)` instead of calling `expect_error()` without specifying `class =`
       
       ### To finish
@@ -104,7 +104,7 @@
       * [ ] Add ROR for Posit in `DESCRIPTION`:
       `person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))`
       * [ ] Convert in-header chunk options to the newer in-body style used by Quarto:
-      `fs::dir_ls("vignettes", glob = "*.Rmd") |> purrr::walk(~ knitr::convert_chunk_header(.x, output = identity, type = "yaml"))`
+      `fs::dir_ls("vignettes", regexp = "[.][Rq]md$") |> purrr::walk(\(x) knitr::convert_chunk_header(x, output = identity, type = "yaml"))`
       * [ ] Switch to `expect_snapshot(error = TRUE)` instead of calling `expect_error()` without specifying `class =`
       
       ### To finish
