@@ -66,6 +66,12 @@ upkeep_checklist <- function(target_repo = NULL) {
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
+    todo(
+      "
+      Consider using Bootstrap 5 in your pkgdown site. \\
+      Read more in the [pkgdown customisation article](https://pkgdown.r-lib.org/articles/customise.html).",
+      uses_pkgdown() && !uses_pkgdown_bootstrap_version(5)
+    ),
     todo("`usethis::use_tidy_description()`"),
     todo(
       "
@@ -279,8 +285,8 @@ tidy_upkeep_checklist <- function(
       ),
       todo(
         '
-        `knitr::convert_chunk_header(type = "yaml")` to convert in-header \\
-        chunk options to the newer in-body style used by Quarto
+        Convert in-header chunk options to the newer in-body style used by Quarto:
+        `fs::dir_ls("vignettes", regexp = "[.][Rq]md$") |> purrr::walk(\\(x) knitr::convert_chunk_header(x, output = identity, type = "yaml"))`
         '
       ),
       todo(

@@ -83,9 +83,9 @@ and Windows).
 \code{styler::style_pkg()} and update the PR.
 
 This is how the tidyverse team checks its packages, but it is overkill
-for less widely used packages. Consider using the more streamlined
-workflows set up by \code{\link[=use_github_actions]{use_github_actions()}} or
-\code{\link[=use_github_action_check_standard]{use_github_action_check_standard()}}.
+for less widely used packages. For \verb{R CMD check}, consider using the more
+streamlined workflow set up by
+\code{\link[=use_github_action]{use_github_action("check-standard")}}.
 }
 }
 
