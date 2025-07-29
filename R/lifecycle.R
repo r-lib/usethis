@@ -18,9 +18,11 @@ use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
   check_uses_roxygen("use_lifecycle()")
   if (!uses_roxygen_md()) {
-    ui_abort("
+    ui_abort(
+      "
       Turn on roxygen2 markdown support with {.run usethis::use_roxygen_md()},
-      then try again.")
+      then try again."
+    )
   }
 
   use_package("lifecycle")

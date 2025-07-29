@@ -19,11 +19,12 @@
 #' \dontrun{
 #' use_rmarkdown_template()
 #' }
-use_rmarkdown_template <- function(template_name = "Template Name",
-                                   template_dir = NULL,
-                                   template_description = "A description of the template",
-                                   template_create_dir = FALSE) {
-
+use_rmarkdown_template <- function(
+  template_name = "Template Name",
+  template_dir = NULL,
+  template_description = "A description of the template",
+  template_create_dir = FALSE
+) {
   # Process some of the inputs
   template_dir <- template_dir %||% tolower(asciify(template_name))
   template_create_dir <- as.character(template_create_dir)

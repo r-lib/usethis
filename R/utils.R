@@ -6,11 +6,14 @@ can_overwrite <- function(path) {
   if (getOption("usethis.overwrite", FALSE)) {
     # don't activate a project
     # don't assume `path` is in the active project
-    if (is_in_proj(path) && uses_git()) {      # path is in active project
+    if (is_in_proj(path) && uses_git()) {
+      # path is in active project
       return(TRUE)
     }
-    if (possibly_in_proj(path) &&              # path is some other project
-        with_project(proj_find(path), uses_git(), quiet = TRUE)) {
+    if (
+      possibly_in_proj(path) && # path is some other project
+        with_project(proj_find(path), uses_git(), quiet = TRUE)
+    ) {
       return(TRUE)
     }
   }
@@ -28,7 +31,8 @@ check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   }
   if (!is_dictionaryish(x)) {
     ui_abort(
-      "Names of {.code {nm}} must be non-missing, non-empty, and non-duplicated.")
+      "Names of {.code {nm}} must be non-missing, non-empty, and non-duplicated."
+    )
   }
   x
 }
@@ -106,8 +110,6 @@ data.frame <- function(..., stringsAsFactors = FALSE) {
 
 # wrapper around check_name() from import-standalone-types-check.R
 # for the common case when NULL is allowed (often default)
-maybe_name <- function(x, ..., arg = caller_arg(x),
-                       call = caller_env()) {
-  check_name(x, ..., allow_null = TRUE,
-             arg = arg, call = call)
+maybe_name <- function(x, ..., arg = caller_arg(x), call = caller_env()) {
+  check_name(x, ..., allow_null = TRUE, arg = arg, call = call)
 }

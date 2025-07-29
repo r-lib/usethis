@@ -2,10 +2,11 @@
 #'
 #' These helpers produce the markdown text you need in your README to include
 #' badges that report information, such as the CRAN version or test coverage,
-#' and link out to relevant external resources. To add badges automatically
-#' ensure your badge block starts with a line containing only
+#' and link out to relevant external resources. To allow badges to be added
+#' automatically, ensure your badge block starts with a line containing only
 #' `<!-- badges: start -->` and ends with a line containing only
-#' `<!-- badges: end -->`.
+#' `<!-- badges: end -->`. The templates used by [use_readme_md()] and
+#' [use_readme_rmd()] include this block.
 #'
 #' @details
 #'
@@ -16,19 +17,26 @@
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
+#' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")` badge
+#' indicates what version of your package is available on [R-universe
+#' ](https://r-universe.dev/search/). It is assumed that you have already
+#' completed the
+#' [necessary R-universe setup](https://docs.r-universe.dev/publish/set-up.html).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
 #' in a [Posit Cloud](https://posit.cloud) project
-#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")`: Use
+#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")` Use
 #' [use_posit_cloud_badge()] instead.
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
 #' @param stage Stage of the package lifecycle. One of "experimental",
 #'   "stable", "superseded", or "deprecated".
-#' @seealso Functions that configure continuous integration, such as
-#'   [use_github_actions()], also create badges.
+#' @eval param_repo_spec()
+#' @seealso [use_github_action()] helps with the setup of various continuous
+#'   integration workflows, some of which will call these specialized badge
+#'   helpers.
 #'
 #' @name badges
 #' @examples
@@ -85,8 +93,12 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- glue("http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg")
-  href <- glue("https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}")
+  src <- glue(
+    "http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg"
+  )
+  href <- glue(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}"
+  )
   use_badge("BioC status", href, src)
 
   invisible(TRUE)
@@ -138,6 +150,35 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 
   invisible(TRUE)
 }
+#' @rdname badges
+#' @export
+use_r_universe_badge <- function(repo_spec = NULL) {
+  check_is_package("use_r_universe_badge()")
+  pkg <- project_name()
+
+  if (is.null(repo_spec)) {
+    this_env <- current_call()
+    tryCatch(
+      github_url <- github_url(),
+      error = function(e) {
+        ui_abort(
+          c(
+            "x" = "Can't determine the R-universe owner of the {.pkg {pkg}} package.",
+            "!" = "No GitHub URL found in DESCRIPTION or the Git remotes.",
+            "i" = "Update the project configuration or provide an explicit {.arg repo_spec}."
+          ),
+          call = this_env
+        )
+      }
+    )
+    repo_spec <- parse_repo_url(github_url)[["repo_spec"]]
+  }
+
+  owner <- parse_repo_spec(repo_spec)[["owner"]]
+  src <- glue("https://{owner}.r-universe.dev/{pkg}/badges/version")
+  href <- glue("https://{owner}.r-universe.dev/{pkg}")
+  use_badge("R-universe version", href, src)
+}
 
 #' @rdname badges
 #' @param url A link to an existing [Posit Cloud](https://posit.cloud)
@@ -155,11 +196,13 @@ use_posit_cloud_badge <- function(url) {
     img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     use_badge("Launch Posit Cloud", url, img)
   } else {
-    ui_abort("
+    ui_abort(
+      "
       {.fun usethis::use_posit_cloud_badge} requires a link to an
       existing Posit Cloud project of the form
       {.val https://posit.cloud/content/<project-id>} or
-      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}.")
+      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}."
+    )
   }
 
   invisible(TRUE)

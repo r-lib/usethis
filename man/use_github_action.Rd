@@ -82,7 +82,7 @@ your own \code{url} to use any other workflow.
 \dontrun{
 use_github_action()
 
-use_github_action_check_standard()
+use_github_action("check-standard")
 
 use_github_action("pkgdown")
 }

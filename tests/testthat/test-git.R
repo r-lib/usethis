@@ -3,7 +3,7 @@ test_that("uses_git() works", {
 
   create_local_package()
   expect_false(uses_git())
-  expect_error(check_uses_git())
+  expect_usethis_error(check_uses_git())
 
   git_init()
 

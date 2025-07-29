@@ -14,18 +14,25 @@ proj_set_ <- function(path) {
 #' Most `use_*()` functions act on the **active project**. If it is
 #' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
 #' find the project root of the current working directory. It establishes the
-#' project root by looking for a `.here` file, an RStudio Project, a package
-#' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
-#' file. It then stores the active project for use for the remainder of the
+#' project root by looking for signs such as:
+#' * a `.here` file
+#' * an RStudio Project, i.e. a `.Rproj` file
+#' * an R package, i.e. a `DESCRIPTION` file
+#' * a Git repository
+#' * a Positron or VS Code workspace, i.e. a `.vscode/settings.json` file
+#' * a Quarto project, i.e. a `_quarto.yml` file
+#' * an renv project, i.e. a `renv.lock` file
+#'
+#' usethis then stores the active project for use for the remainder of the
 #' session.
 #'
 #' In general, end user scripts should not contain direct calls to
 #' `usethis::proj_*()` utility functions. They are internal functions that are
 #' exported for occasional interactive use or use in packages that extend
-#' usethis. End user code should call functions in
-#' [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
-#' [here](https://here.r-lib.org), to programmatically detect a project and
-#' build paths within it.
+#' usethis. End user code should call `here::here()` or other functions from
+#' the [here](https://here.r-lib.org) or
+#' [rprojroot](https://rprojroot.r-lib.org) packages to programmatically
+#' detect a project and build paths within it.
 #'
 #' If you are puzzled why a path (usually the current working directory) does
 #' *not* appear to be inside project, it can be helpful to call
@@ -119,11 +126,13 @@ proj_path <- function(..., ext = "") {
 #' @param quiet Whether to suppress user-facing messages, while operating in the
 #'   temporary active project
 #' @export
-with_project <- function(path = ".",
-                         code,
-                         force = FALSE,
-                         setwd = TRUE,
-                         quiet = getOption("usethis.quiet", default = FALSE)) {
+with_project <- function(
+  path = ".",
+  code,
+  force = FALSE,
+  setwd = TRUE,
+  quiet = getOption("usethis.quiet", default = FALSE)
+) {
   local_project(path = path, force = force, setwd = setwd, quiet = quiet)
   force(code)
 }
@@ -135,17 +144,19 @@ with_project <- function(path = ".",
 #' @param .local_envir The environment to use for scoping. Defaults to current
 #'   execution environment.
 #' @export
-local_project <- function(path = ".",
-                          force = FALSE,
-                          setwd = TRUE,
-                          quiet = getOption("usethis.quiet", default = FALSE),
-                          .local_envir = parent.frame()) {
+local_project <- function(
+  path = ".",
+  force = FALSE,
+  setwd = TRUE,
+  quiet = getOption("usethis.quiet", default = FALSE),
+  .local_envir = parent.frame()
+) {
   withr::local_options(usethis.quiet = quiet, .local_envir = .local_envir)
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
   withr::defer(proj_set(path = old_project, force = TRUE), envir = .local_envir)
   proj_set(path = path, force = force)
-  temp_proj <- proj_get_()   # this could be `NULL`
+  temp_proj <- proj_get_() # this could be `NULL`
 
   if (isTRUE(setwd) && !is.null(temp_proj)) {
     withr::local_dir(temp_proj, .local_envir = .local_envir)
@@ -186,6 +197,10 @@ proj_crit <- function() {
     rprojroot::is_rstudio_project |
     rprojroot::is_r_package |
     rprojroot::is_git_root |
+    # use rprojroot::is_vscode_project at some point in the future
+    rprojroot::has_file(".vscode/settings.json") |
+    rprojroot::is_quarto_project |
+    rprojroot::is_renv_project |
     rprojroot::is_remake_project |
     rprojroot::is_projectile_project
 }
@@ -275,8 +290,10 @@ proj_activate <- function(path) {
   path <- user_path_prep(path)
 
   if (rstudio_available() && rstudioapi::hasFun("openProject")) {
+    # TODO: Perhaps in future this message can be specialized for RStudio vs.
+    # Positron. For now, I've just made it more generic to work better for both.
     ui_bullets(c(
-      "v" = "Opening {.path {pth(path, base = NA)}} in new RStudio session."
+      "v" = "Opening {.path {pth(path, base = NA)}} in a new session."
     ))
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)

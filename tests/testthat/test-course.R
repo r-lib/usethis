@@ -44,7 +44,9 @@ test_that("download_url() retry logic works as advertised", {
   local_mocked_bindings(
     try_download = faux_download(3)
   )
-  expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
+  expect_snapshot(
+    out <- download_url(url = "URL", destfile = "destfile", n_tries = 10)
+  )
   expect_s3_class(out, "curl_handle")
 })
 
@@ -62,6 +64,7 @@ test_that("tidy_download() errors early if destdir is not a directory", {
 
 test_that("tidy_download() works", {
   skip_if_offline("github.com")
+  local_interactive(FALSE)
 
   tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
 
@@ -76,9 +79,11 @@ test_that("tidy_download() works", {
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
-  expect_error(capture.output(
-    tidy_download(gh_url, destdir = tmp)
-  ))
+  # snapshot impractical due to
+  # (1) output beyond usethis's control re: download progress
+  # (2) a temp file path that would need to be scrubbed (possible but won't
+  #     bother due to (1))
+  expect_usethis_error(tidy_download(gh_url, destdir = tmp))
 })
 
 ## tidy_unzip ----
@@ -260,7 +265,10 @@ test_that("shortlinks pass through", {
   url2 <- "rstd.io/usethis-shortlink-example"
   expect_equal(normalize_url(url1), paste0("https://", url1))
   expect_equal(normalize_url(url2), paste0("https://", url2))
-  expect_equal(normalize_url(paste0("https://", url1)), paste0("https://", url1))
+  expect_equal(
+    normalize_url(paste0("https://", url1)),
+    paste0("https://", url1)
+  )
   expect_equal(normalize_url(paste0("http://", url1)), paste0("http://", url1))
 })
 
@@ -290,7 +298,7 @@ test_that("use_course() errors if MIME type is not 'application/zip'", {
 
   path <- withr::local_tempdir()
   expect_usethis_error(
-    use_course("https://httpbin.org/get", destdir = path),
+    use_course("https://example.com", destdir = path),
     "does not have MIME type"
   )
 })
@@ -347,10 +355,17 @@ test_that("keep_lgl() keeps and drops correct files", {
   expect_true(all(keep_lgl(keepers)))
 
   droppers <- c(
-    ".git", "/.git", "/.git/", ".git/", "foo/.git",
-    ".git/config", ".git/objects/06/3d3gysle",
-    ".Rproj.user", ".Rproj.user/123jkl/persistent-state",
-    ".Rhistory", ".RData"
+    ".git",
+    "/.git",
+    "/.git/",
+    ".git/",
+    "foo/.git",
+    ".git/config",
+    ".git/objects/06/3d3gysle",
+    ".Rproj.user",
+    ".Rproj.user/123jkl/persistent-state",
+    ".Rhistory",
+    ".RData"
   )
   expect_false(any(keep_lgl(droppers)))
 })

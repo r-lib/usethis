@@ -8,7 +8,11 @@
 #' @keywords internal
 #' @export
 git_branch_default <- function() {
-  lifecycle::deprecate_warn("2.1.0", "git_branch_default()", "git_default_branch()")
+  lifecycle::deprecate_warn(
+    "2.1.0",
+    "git_branch_default()",
+    "git_default_branch()"
+  )
   git_default_branch()
 }
 
@@ -23,7 +27,8 @@ git_branch_default <- function() {
 #' @export
 use_rscloud_badge <- function(url) {
   lifecycle::deprecate_stop(
-    "2.2.0", "use_rscloud_badge()",
+    "2.2.0",
+    "use_rscloud_badge()",
     "use_posit_cloud_badge()"
   )
 }
@@ -37,8 +42,17 @@ use_rscloud_badge <- function(url) {
 #'    systematically import and re-export a large number of functions in order
 #'    to use tidy evaluation. Instead, use [use_import_from()] to tactically
 #'    import functions as you need them.
+#' * `use_tidy_style()` is deprecated because tidyverse packages are moving
+#'   towards the use of [Air](https://posit-dev.github.io/air/) for formatting.
+#'   See [use_air()] for how to start using Air. To continue using the styler
+#'   package, see `styler::style_pkg()` and `styler::style_dir()`.
+#'
 #' @keywords internal
+#' @name tidy-deprecated
+NULL
+
 #' @export
+#' @rdname tidy-deprecated
 use_tidy_eval <- function() {
   lifecycle::deprecate_stop(
     "2.2.0",
@@ -47,6 +61,20 @@ use_tidy_eval <- function() {
       "There is no longer a need to systematically import and/or re-export functions",
       "Instead import functions as needed, with e.g.:",
       'usethis::use_import_from("rlang", c(".data", ".env"))'
+    )
+  )
+}
+
+#' @export
+#' @rdname tidy-deprecated
+use_tidy_style <- function(strict = TRUE) {
+  lifecycle::deprecate_warn(
+    when = "3.2.0",
+    what = "use_tidy_style()",
+    with = "use_air()",
+    details = glue(
+      "
+      To continue using the styler package, call `styler::style_pkg()` or `styler::style_dir()` directly."
     )
   )
 }
@@ -81,11 +109,12 @@ use_github_actions <- function() {
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
-                                            ref = NULL,
-                                            ignore = TRUE,
-                                            open = FALSE) {
-
+use_github_action_check_release <- function(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_check_release()",
@@ -104,10 +133,12 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
-                                             ref = NULL,
-                                             ignore = TRUE,
-                                             open = FALSE) {
+use_github_action_check_standard <- function(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_check_standard()",
@@ -126,10 +157,12 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
-                                          ref = NULL,
-                                          ignore = TRUE,
-                                          open = FALSE) {
+use_github_action_pr_commands <- function(
+  save_as = "pr-commands.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+) {
   lifecycle::deprecate_warn(
     when = "2.2.0",
     what = "use_github_action_pr_commands()",
@@ -147,15 +180,19 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 
 #' @rdname use_github_actions
 #' @export
-use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
-                                         ignore = TRUE,
-                                         open = FALSE,
-                                         repo_spec = NULL) {
-  details <- glue("
+use_github_action_check_full <- function(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE,
+  repo_spec = NULL
+) {
+  details <- glue(
+    "
     It is overkill for the vast majority of R packages.
     The \"check-full\" workflow is among those configured by \\
     `use_tidy_github_actions()`.
-    If you really want it, request it by name with `use_github_action()`.")
+    If you really want it, request it by name with `use_github_action()`."
+  )
   lifecycle::deprecate_stop(
     "2.1.0",
     "use_github_action_check_full()",

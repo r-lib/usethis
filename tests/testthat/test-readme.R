@@ -47,7 +47,10 @@ test_that("use_readme_rmd() has expected form for a non-GitHub package", {
 
   create_local_package()
   use_readme_rmd()
-  expect_snapshot(writeLines(read_utf8("README.Rmd")), transform = scrub_testpkg)
+  expect_snapshot(
+    writeLines(read_utf8("README.Rmd")),
+    transform = scrub_testpkg
+  )
 })
 
 test_that("use_readme_rmd() has expected form for a GitHub package", {
@@ -57,5 +60,8 @@ test_that("use_readme_rmd() has expected form for a GitHub package", {
 
   create_local_package()
   use_readme_rmd()
-  expect_snapshot(writeLines(read_utf8("README.Rmd")), transform = scrub_testpkg)
+  expect_snapshot(
+    writeLines(read_utf8("README.Rmd")),
+    transform = scrub_testpkg
+  )
 })

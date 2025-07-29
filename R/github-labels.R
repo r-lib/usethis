@@ -73,12 +73,13 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(labels = character(),
-                              rename = character(),
-                              colours = character(),
-                              descriptions = character(),
-                              delete_default = FALSE) {
-
+use_github_labels <- function(
+  labels = character(),
+  rename = character(),
+  colours = character(),
+  descriptions = character(),
+  delete_default = FALSE
+) {
   # Want to ensure we always have the latest label info
   withr::local_options(gh_cache = FALSE)
 
@@ -100,7 +101,8 @@ use_github_labels <- function(labels = character(),
     delta <- glue_data(
       dat,
       "{.val <<from>>} {cli::symbol$arrow_right} {.val <<to>>}",
-      .open = "<<", .close = ">>"
+      .open = "<<",
+      .close = ">>"
     )
     ui_bullets(c(
       "v" = "Renaming labels:",
@@ -113,7 +115,7 @@ use_github_labels <- function(labels = character(),
     # Must first PATCH issues, then sort out labels
     issues <- map(
       to_rename,
-      ~ gh("GET /repos/{owner}/{repo}/issues", labels = .x)
+      \(x) gh("GET /repos/{owner}/{repo}/issues", labels = x)
     )
     issues <- purrr::flatten(issues)
     number <- map_int(issues, "number")
@@ -131,17 +133,19 @@ use_github_labels <- function(labels = character(),
     new_labels <- split(df$labels, df$number)
     purrr::iwalk(
       new_labels,
-      ~ gh(
-        "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
-        issue_number = .y,
-        labels = I(.x)
-      )
+      \(x, y) {
+        gh(
+          "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
+          issue_number = y,
+          labels = I(x)
+        )
+      }
     )
 
     # issues have correct labels now; safe to edit labels themselves
     purrr::walk(
       to_rename,
-      ~ gh("DELETE /repos/{owner}/{repo}/labels/{name}", name = .x)
+      \(x) gh("DELETE /repos/{owner}/{repo}/labels/{name}", name = x)
     )
     labels <- union(labels, setdiff(rename, cur_label_names))
   } else {
@@ -176,7 +180,8 @@ use_github_labels <- function(labels = character(),
 
   # Update colours
   cur_label_colours <- set_names(
-    label_attr("color", cur_labels), cur_label_names
+    label_attr("color", cur_labels),
+    cur_label_names
   )
   if (identical(cur_label_colours[names(colours)], colours)) {
     ui_bullets(c("i" = "Label colours are up-to-date."))
@@ -198,7 +203,8 @@ use_github_labels <- function(labels = character(),
 
   # Update descriptions
   cur_label_descriptions <- set_names(
-    label_attr("description", cur_labels), cur_label_names
+    label_attr("description", cur_labels),
+    cur_label_names
   )
   if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
     ui_bullets(c("i" = "Label descriptions are up-to-date."))
@@ -266,11 +272,11 @@ tidy_labels <- function() {
 tidy_labels_rename <- function() {
   c(
     # before           = after
-    "enhancement"      = "feature",
-    "question"         = "reprex",
+    "enhancement" = "feature",
+    "question" = "reprex",
     "good first issue" = "good first issue :heart:",
-    "help wanted"      = "help wanted :heart:",
-    "docs"             = "documentation"
+    "help wanted" = "help wanted :heart:",
+    "docs" = "documentation"
   )
 }
 

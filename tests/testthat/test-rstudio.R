@@ -44,7 +44,7 @@ test_that("we error if there isn't exactly one Rproj files", {
 test_that("a non-RStudio project is not recognized", {
   create_local_package(rstudio = FALSE)
   expect_false(is_rstudio_project())
-  expect_error(rproj_path(), NA_character_)
+  expect_snapshot(rproj_path(), error = TRUE, transform = scrub_testpkg)
 })
 
 

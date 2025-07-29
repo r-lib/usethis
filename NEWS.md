@@ -1,5 +1,21 @@
 # usethis (development version)
 
+* `use_air()` is a new function to configure a project to use
+  [Air](https://posit-dev.github.io/air), an extremely fast R code formatter.
+
+* `use_tidy_style()` is deprecated, in favor of using Air for any new, explicit
+  formatting efforts (#2110).
+
+* `use_package(min_version = FALSE)` is treated the same as when `min_version`
+  is not specified (#2117, @salim-b).
+
+* `use_r_universe_badge()` is a new function that creates a README badge indicating your package is available on [R-universe](https://r-universe.dev) and reporting the latest version (@olivroy, #1883).
+
+* usethis's criteria for recognizing a project have expanded to include (#2133):
+  - a `.vscode/` directory, which Positron or VS Code might create
+  - a `_quarto.yml` file, typical of a Quarto project
+  - an `renv.lock` file, which renv creates
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new

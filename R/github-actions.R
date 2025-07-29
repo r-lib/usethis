@@ -56,20 +56,21 @@
 #' \dontrun{
 #' use_github_action()
 #'
-#' use_github_action_check_standard()
+#' use_github_action("check-standard")
 #'
 #' use_github_action("pkgdown")
 #' }
 #' @export
-use_github_action <- function(name = NULL,
-                              ref = NULL,
-                              url = NULL,
-                              save_as = NULL,
-                              readme = NULL,
-                              ignore = TRUE,
-                              open = FALSE,
-                              badge = NULL) {
-
+use_github_action <- function(
+  name = NULL,
+  ref = NULL,
+  url = NULL,
+  save_as = NULL,
+  readme = NULL,
+  ignore = TRUE,
+  open = FALSE,
+  badge = NULL
+) {
   maybe_name(name)
   maybe_name(ref)
   maybe_name(url)
@@ -80,7 +81,6 @@ use_github_action <- function(name = NULL,
   check_bool(badge, allow_null = TRUE)
 
   if (is.null(url)) {
-
     name <- name %||% choose_gha_workflow()
 
     if (path_ext(name) == "") {
@@ -183,14 +183,18 @@ is_coverage_action <- function(url) {
 #'   extension), e.g. `"R-CMD-check"`, `"R-CMD-check.yaml"`.
 #' @inheritParams use_github_action
 #' @export
-use_github_actions_badge <- function(name = "R-CMD-check.yaml",
-                                     repo_spec = NULL) {
+use_github_actions_badge <- function(
+  name = "R-CMD-check.yaml",
+  repo_spec = NULL
+) {
   if (path_ext(name) == "") {
     name <- path_ext_set(name, "yaml")
   }
   repo_spec <- repo_spec %||% target_repo_spec()
   enc_name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
+  img <- glue(
+    "https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg"
+  )
   url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
 
   use_badge(path_ext_remove(name), url, img)
@@ -212,9 +216,9 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 #'     `styler::style_pkg()` and update the PR.
 #'
 #'     This is how the tidyverse team checks its packages, but it is overkill
-#'     for less widely used packages. Consider using the more streamlined
-#'     workflows set up by [use_github_actions()] or
-#'     [use_github_action_check_standard()].
+#'     for less widely used packages. For `R CMD check`, consider using the more
+#'     streamlined workflow set up by
+#'     [`use_github_action("check-standard")`][use_github_action].
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_github_action
@@ -233,7 +237,9 @@ use_tidy_github_actions <- function(ref = NULL) {
   has_appveyor_travis <- file_exists(old_configs)
 
   if (any(has_appveyor_travis)) {
-    if (ui_yep("Remove existing {.path .travis.yml} and {.path appveyor.yml}?")) {
+    if (
+      ui_yep("Remove existing {.path .travis.yml} and {.path appveyor.yml}?")
+    ) {
       file_delete(old_configs[has_appveyor_travis])
       ui_bullets(c("_" = "Remove old badges from README."))
     }
@@ -265,9 +271,9 @@ latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {
   # https://docs.github.com/en/rest/reference/releases#list-releases
   raw_releases <- gh::gh(
     "/repos/{owner}/{repo}/releases",
-    owner       = spec_owner(parsed$repo_spec),
-    repo        = spec_repo(parsed$repo_spec),
-    .api_url    = parsed$host,
+    owner = spec_owner(parsed$repo_spec),
+    repo = spec_repo(parsed$repo_spec),
+    .api_url = parsed$host,
     .limit = Inf
   )
   tag_names <- purrr::discard(
