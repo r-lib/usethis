@@ -48,12 +48,6 @@ get_apiurl <- function(url) {
   }
 }
 
-is_github_enterprise <- function(url) {
-  url <- get_baseurl(url)
-  url <- normalize_host(url)
-  grepl("ghe.com$", url)
-}
-
 is_github_dot_com <- function(url) {
   url <- get_baseurl(url)
   url <- normalize_host(url)
@@ -62,4 +56,13 @@ is_github_dot_com <- function(url) {
 
 default_api_url <- function() {
   Sys.getenv("GITHUB_API_URL", unset = "https://api.github.com")
+}
+
+# handles GitHub Enterprise Cloud, but not GitHub Enterprise Server (which
+# would, I think, require the ability to fully configure this)
+# https://github.com/r-lib/usethis/issues/1897
+is_github_enterprise <- function(url) {
+  url <- get_baseurl(url)
+  url <- normalize_host(url)
+  grepl("^https?://.+ghe.com", url)
 }
