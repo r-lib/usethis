@@ -79,13 +79,6 @@ in a \href{https://posit.cloud}{Posit Cloud} project
 \dontrun{
 use_cran_badge()
 use_lifecycle_badge("stable")
-# If you don't have a GitHub repo, or needs something extra
-# you can create the r-universe badge
-use_badge(
-  "R-universe",
-  "https://{organization}.r-universe.dev/badges/{package})",
-  "https://{organization}.r-universe.dev/{package}"
-)
 }
 }
 \seealso{
