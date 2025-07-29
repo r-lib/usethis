@@ -35,6 +35,11 @@
   `Config/usethis/upkeep` field in DESCRIPTION. If this value exists, it is
   used to filter the checklist when making the issue.
 
+* Some GitHub functionality should now work for GitHub Enterprise Cloud (as
+  opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as
+  `"https://my-cool-org.ghe.com"` should now be recognized as "looks like
+  GitHub" (#2098, @jameslairdsmith).
+
 # usethis 3.0.0
 
 ## Transition to cli package for UI
