@@ -18,10 +18,10 @@
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")` badge
-#' indicates what version of your package is available on [R-Universe
+#' indicates what version of your package is available on [R-universe
 #' ](https://r-universe.dev/search/). It is assumed that you have already
 #' completed the
-#' [necessary R-Universe setup](https://docs.r-universe.dev/publish/set-up.html).
+#' [necessary R-universe setup](https://docs.r-universe.dev/publish/set-up.html).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
@@ -170,7 +170,7 @@ use_r_universe_badge <- function(repo_spec = NULL) {
       error = function(e) {
         ui_abort(
           c(
-            "x" = "Can't determine the R-Universe owner of the {.pkg {pkg}} package.",
+            "x" = "Can't determine the R-universe owner of the {.pkg {pkg}} package.",
             "!" = "No GitHub URL found in DESCRIPTION or the Git remotes.",
             "i" = "Update the project configuration or provide an explicit {.arg repo_spec}."
           ),
@@ -184,7 +184,7 @@ use_r_universe_badge <- function(repo_spec = NULL) {
   owner <- parse_repo_spec(repo_spec)[["owner"]]
   src <- glue("https://{owner}.r-universe.dev/{pkg}/badges/version")
   href <- glue("https://{owner}.r-universe.dev/{pkg}")
-  use_badge("R-Universe version", href, src)
+  use_badge("R-universe version", href, src)
 }
 
 #' @rdname badges
