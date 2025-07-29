@@ -285,8 +285,8 @@ tidy_upkeep_checklist <- function(
       ),
       todo(
         '
-        `knitr::convert_chunk_header(type = "yaml")` to convert in-header \\
-        chunk options to the newer in-body style used by Quarto
+        Convert in-header chunk options to the newer in-body style used by Quarto:
+        `fs::dir_ls("vignettes", regexp = "[.][Rq]md$") |> purrr::walk(\\(x) knitr::convert_chunk_header(x, output = identity, type = "yaml"))`
         '
       ),
       todo(
