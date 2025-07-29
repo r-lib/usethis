@@ -6,7 +6,9 @@ gh_tr <- function(tr) {
     gh::gh(
       endpoint,
       ...,
-      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
+      owner = tr$repo_owner,
+      repo = tr$repo_name,
+      .api_url = tr$api_url
     )
   }
 }
@@ -36,12 +38,13 @@ get_hosturl <- function(url) {
 # (almost) the inverse of get_hosturl()
 # https://github.com     --> https://api.github.com
 # https://github.uni.edu --> https://github.uni.edu/api/v3
+# fmt: skip
 get_apiurl <- function(url) {
   host_url <- get_hosturl(url)
   prot_host <- strsplit(host_url, "://", fixed = TRUE)[[1]]
   if (is_github_dot_com(host_url)) {
     paste0(prot_host[[1]], "://api.github.com")
-  } else if(is_github_enterprise(host_url)) {
+  } else if (is_github_enterprise(host_url)) {
     paste0(prot_host[[1]], "://api.", prot_host[[2]])
   } else {
     paste0(host_url, "/api/v3")
