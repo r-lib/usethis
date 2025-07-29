@@ -88,6 +88,8 @@ automatically, ensure your badge block starts with a line containing only
 <span></span>
 <span><span class="fu">use_binder_badge</span><span class="op">(</span>ref <span class="op">=</span> <span class="fu"><a href="git-default-branch.html">git_default_branch</a></span><span class="op">(</span><span class="op">)</span>, urlpath <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">use_r_universe_badge</span><span class="op">(</span>repo_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">use_posit_cloud_badge</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -119,6 +121,10 @@ automatically, ensure your badge block starts with a line containing only
 for additional examples.</p></dd>
 
 
+<dt id="arg-repo-spec">repo_spec<a class="anchor" aria-label="anchor" href="#arg-repo-spec"></a></dt>
+<dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
+
+
 <dt id="arg-url">url<a class="anchor" aria-label="anchor" href="#arg-url"></a></dt>
 <dd><p>A link to an existing <a href="https://posit.cloud" class="external-link">Posit Cloud</a>
 project. See the <a href="https://posit.cloud/learn/guide#project-settings-access" class="external-link">Posit Cloud documentation</a>
@@ -134,11 +140,15 @@ for details on how to set project access and obtain a project link.</p></dd>
 available on CRAN, powered by <a href="https://www.r-pkg.org" class="external-link">https://www.r-pkg.org</a></p></li>
 <li><p><code>use_lifecycle_badge()</code>: badge declares the developmental stage of a
 package according to <a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link">https://lifecycle.r-lib.org/articles/stages.html</a>.</p></li>
+<li><p><code>use_r_universe_badge()</code>: <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a> badge
+indicates what version of your package is available on <a href="https://r-universe.dev/search/" class="external-link">R-universe </a>. It is assumed that you have already
+completed the
+<a href="https://docs.r-universe.dev/publish/set-up.html" class="external-link">necessary R-universe setup</a>.</p></li>
 <li><p><code>use_binder_badge()</code>: badge indicates that your repository can be launched
 in an executable environment on <a href="https://mybinder.org/" class="external-link">https://mybinder.org/</a></p></li>
 <li><p><code>use_posit_cloud_badge()</code>: badge indicates that your repository can be launched
 in a <a href="https://posit.cloud" class="external-link">Posit Cloud</a> project</p></li>
-<li><p><code><a href="use_rscloud_badge.html">use_rscloud_badge()</a></code>: <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: Use
+<li><p><code><a href="use_rscloud_badge.html">use_rscloud_badge()</a></code>: <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use
 <code>use_posit_cloud_badge()</code> instead.</p></li>
 </ul></div>
     <div class="section level2">
