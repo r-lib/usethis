@@ -111,9 +111,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     ),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo(
-      "
-      Check if any deprecation processes should be advanced, as described in \\
-      [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
+      "[Advance deprecations](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation), if needed",
       type != "patch" && has_lifecycle
     ),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
