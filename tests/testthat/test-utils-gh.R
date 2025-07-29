@@ -4,5 +4,7 @@ test_that("is_github_enterprise() identifies GitHub Enterprise URLs (or not)", {
 
   # not handled yet: self-hosted GHE server
   # https://github.com/r-lib/usethis/pull/2098
-  expect_false(is_github_enterprise("https://ghe-gsk-prod.metworx.com/account/reponame"))
+  expect_false(is_github_enterprise(
+    "https://ghe-gsk-prod.metworx.com/account/reponame"
+  ))
 })
