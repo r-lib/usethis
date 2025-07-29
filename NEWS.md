@@ -9,6 +9,8 @@
 * `use_package(min_version = FALSE)` is treated the same as when `min_version`
   is not specified (#2117, @salim-b).
 
+* `use_r_universe_badge()` is a new function that creates a README badge indicating your package is available on [R-universe](https://r-universe.dev) and reporting the latest version (@olivroy, #1883).
+
 * usethis's criteria for recognizing a project have expanded to include (#2133):
   - a `.vscode/` directory, which Positron or VS Code might create
   - a `_quarto.yml` file, typical of a Quarto project

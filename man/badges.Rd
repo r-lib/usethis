@@ -7,6 +7,7 @@
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
+\alias{use_r_universe_badge}
 \alias{use_posit_cloud_badge}
 \title{README badges}
 \usage{
@@ -19,6 +20,8 @@ use_bioc_badge()
 use_lifecycle_badge(stage)
 
 use_binder_badge(ref = git_default_branch(), urlpath = NULL)
+
+use_r_universe_badge(repo_spec = NULL)
 
 use_posit_cloud_badge(url)
 }
@@ -36,6 +39,8 @@ use_posit_cloud_badge(url)
 \code{"rstudio"} to open an RStudio IDE instead of a Jupyter notebook. See the
 \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
+
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{url}{A link to an existing \href{https://posit.cloud}{Posit Cloud}
 project. See the \href{https://posit.cloud/learn/guide#project-settings-access}{Posit Cloud documentation}
@@ -58,11 +63,15 @@ automatically, ensure your badge block starts with a line containing only
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
+\item \code{use_r_universe_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} badge
+indicates what version of your package is available on \href{https://r-universe.dev/search/}{R-universe }. It is assumed that you have already
+completed the
+\href{https://docs.r-universe.dev/publish/set-up.html}{necessary R-universe setup}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
 \item \code{use_posit_cloud_badge()}: badge indicates that your repository can be launched
 in a \href{https://posit.cloud}{Posit Cloud} project
-\item \code{use_rscloud_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Use
+\item \code{use_rscloud_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use
 \code{\link[=use_posit_cloud_badge]{use_posit_cloud_badge()}} instead.
 }
 }

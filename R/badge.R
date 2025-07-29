@@ -17,17 +17,23 @@
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
+#' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")` badge
+#' indicates what version of your package is available on [R-universe
+#' ](https://r-universe.dev/search/). It is assumed that you have already
+#' completed the
+#' [necessary R-universe setup](https://docs.r-universe.dev/publish/set-up.html).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
 #' in a [Posit Cloud](https://posit.cloud) project
-#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")`: Use
+#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")` Use
 #' [use_posit_cloud_badge()] instead.
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
 #' @param stage Stage of the package lifecycle. One of "experimental",
 #'   "stable", "superseded", or "deprecated".
+#' @eval param_repo_spec()
 #' @seealso [use_github_action()] helps with the setup of various continuous
 #'   integration workflows, some of which will call these specialized badge
 #'   helpers.
@@ -143,6 +149,35 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
   use_badge("Launch binder", url, img)
 
   invisible(TRUE)
+}
+#' @rdname badges
+#' @export
+use_r_universe_badge <- function(repo_spec = NULL) {
+  check_is_package("use_r_universe_badge()")
+  pkg <- project_name()
+
+  if (is.null(repo_spec)) {
+    this_env <- current_call()
+    tryCatch(
+      github_url <- github_url(),
+      error = function(e) {
+        ui_abort(
+          c(
+            "x" = "Can't determine the R-universe owner of the {.pkg {pkg}} package.",
+            "!" = "No GitHub URL found in DESCRIPTION or the Git remotes.",
+            "i" = "Update the project configuration or provide an explicit {.arg repo_spec}."
+          ),
+          call = this_env
+        )
+      }
+    )
+    repo_spec <- parse_repo_url(github_url)[["repo_spec"]]
+  }
+
+  owner <- parse_repo_spec(repo_spec)[["owner"]]
+  src <- glue("https://{owner}.r-universe.dev/{pkg}/badges/version")
+  href <- glue("https://{owner}.r-universe.dev/{pkg}")
+  use_badge("R-universe version", href, src)
 }
 
 #' @rdname badges
