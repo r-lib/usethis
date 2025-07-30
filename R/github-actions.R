@@ -28,18 +28,10 @@
 #'
 #' ## Other workflows
 #' Other specific workflows are worth mentioning:
-#' * `pr-commands`: `r lifecycle::badge("superseded")` Enables the use of two
-#'    R-specific commands in pull request issue comments: `/document` to run
-#'    `roxygen2::roxygenise()` and `/style` to run `styler::style_pkg()`. Both
-#'    will update the PR with any changes once they're done.
-#'
-#'    We don't recommend new adoption of the `pr-commands` workflow. Better
-#'    alternatives exist for code formatting (see below) and we plan to
-#'    re-implement documentation updates using a similar approach.
 #' * `format-suggest` or `format-check` from
 #'   [Air](https://posit-dev.github.io/air):
-#'   `r lifecycle::badge("experimental")` These workflows are a great way to
-#'   keep your code well-formatted once you adopt Air in a project
+#'   `r lifecycle::badge("experimental")` Either of these workflows is a great
+#'   way to keep your code well-formatted once you adopt Air in a project
 #'   (possibly via [use_air()]). Here's how to set them up:
 #'
 #'   ```
@@ -49,12 +41,20 @@
 #'
 #'   Learn more from
 #'   [Air's documentation of its GHA integrations](https://posit-dev.github.io/air/integration-github-actions.html).
+#' * `pr-commands`: `r lifecycle::badge("superseded")` Enables the use of two
+#'    R-specific commands in pull request issue comments: `/document` to run
+#'    `roxygen2::roxygenise()` and `/style` to run `styler::style_pkg()`. Both
+#'    will update the PR with any changes once they're done.
+#'
+#'    We don't recommend new adoption of the `pr-commands` workflow. For
+#'    code formatting, the Air workflows described above are preferred. We
+#'    plan to re-implement documentation updates using a similar approach.
 #'
 #' @param name Name of one of the example workflows from
 #'   <https://github.com/r-lib/actions/tree/v2/examples> (with or without
 #'   extension), e.g. `"pkgdown"`, `"check-standard.yaml"`.
 #'
-#'   If the `name` starts with `check-`, `save_as` will default to
+#'   If the `name` starts with `check-`, `save_as` defaults to
 #'   `R-CMD-check.yaml` and `badge` defaults to `TRUE`.
 #' @param ref Desired Git reference, usually the name of a tag (`"v2"`) or
 #'   branch (`"main"`). Other possibilities include a commit SHA (`"d1c516d"`)

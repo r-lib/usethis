@@ -20,7 +20,7 @@ use_github_action(
 \url{https://github.com/r-lib/actions/tree/v2/examples} (with or without
 extension), e.g. \code{"pkgdown"}, \code{"check-standard.yaml"}.
 
-If the \code{name} starts with \verb{check-}, \code{save_as} will default to
+If the \code{name} starts with \verb{check-}, \code{save_as} defaults to
 \code{R-CMD-check.yaml} and \code{badge} defaults to \code{TRUE}.}
 
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
@@ -77,18 +77,10 @@ the full \code{url} to any workflow on GitHub.
 
 Other specific workflows are worth mentioning:
 \itemize{
-\item \code{pr-commands}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Enables the use of two
-R-specific commands in pull request issue comments: \verb{/document} to run
-\code{roxygen2::roxygenise()} and \verb{/style} to run \code{styler::style_pkg()}. Both
-will update the PR with any changes once they're done.
-
-We don't recommend new adoption of the \code{pr-commands} workflow. Better
-alternatives exist for code formatting (see below) and we plan to
-re-implement documentation updates using a similar approach.
-\item \code{format-suggest} and \code{format-check} from
+\item \code{format-suggest} or \code{format-check} from
 \href{https://posit-dev.github.io/air}{Air}:
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} These workflows are a great way to
-keep your code well-formatted, once you adopt Air in a project
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Either of these workflows is a great
+way to keep your code well-formatted once you adopt Air in a project
 (possibly via \code{\link[=use_air]{use_air()}}). Here's how to set them up:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml")
@@ -97,6 +89,14 @@ use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/exampl
 
 Learn more from
 \href{https://posit-dev.github.io/air/integration-github-actions.html}{Air's documentation of its GHA integrations}.
+\item \code{pr-commands}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Enables the use of two
+R-specific commands in pull request issue comments: \verb{/document} to run
+\code{roxygen2::roxygenise()} and \verb{/style} to run \code{styler::style_pkg()}. Both
+will update the PR with any changes once they're done.
+
+We don't recommend new adoption of the \code{pr-commands} workflow. For
+code formatting, the Air workflows described above are preferred. We
+plan to re-implement documentation updates using a similar approach.
 }
 }
 }
