@@ -86,7 +86,7 @@ use_air <- function(vscode = TRUE) {
   }
 
   ui_bullets(c(
-    "_" = "Read the {.href [Air editors guide](https://posit-dev.github.io/air/editors.html)}
+    "_" = "Read {.href [Air's editors guide](https://posit-dev.github.io/air/editors.html)}
            to learn how to invoke Air in your preferred editor.",
     "_" = "Read {.href [Air's GitHub Actions guide](https://posit-dev.github.io/air/integration-github-actions.html)}
            to learn about GHA workflows that continuously run formatting checks."
