@@ -47,8 +47,8 @@ Note that "using Air" breaks down into a few steps, and \code{use_air()} does
 \emph{one} of them. Here's an overview:
 \itemize{
 \item Installation: Air might already be included in your IDE (e.g. Positron) or
-can be added as an extension (e.g. VS Code) or external formatter
-(e.g. RStudio). Read the guide that applies to your situation:
+can be added as an external formatter (e.g. RStudio) or as an extension
+(e.g. VS Code). Read the guide that applies to your situation:
 \itemize{
 \item \href{https://posit-dev.github.io/air/editors.html}{Air in an editor}
 \item \href{https://posit-dev.github.io/air/cli.html}{Air at the command line}
