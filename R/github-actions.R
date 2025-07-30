@@ -170,9 +170,7 @@ choose_gha_workflow <- function(error_call = caller_env()) {
   # Any changes here also need to be reflected in documentation
   workflows <- c(
     "check-standard" = "Run `R CMD check` on Linux, macOS, and Windows",
-    "test-coverage" = "Compute test coverage and report to https://about.codecov.io",
-    "posit-dev/setup-air/format-suggest" = "Suggest fixes to code formatting in pull requests",
-    "posit-dev/setup-air/format-check" = "Checks code formatting with a pass/fail mentality"
+    "test-coverage" = "Compute test coverage and report to https://about.codecov.io"
   )
   options <- paste0(cli::style_bold(names(workflows)), ": ", workflows)
 
