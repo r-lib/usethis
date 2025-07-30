@@ -16,12 +16,12 @@ use_github_action(
 )
 }
 \arguments{
-\item{name}{For \code{use_github_action()}: Name of one of the example workflow
-from \url{https://github.com/r-lib/actions/tree/v2/examples} (with or
-without extension), e.g. \code{"pkgdown"}, \code{"check-standard.yaml"}.
+\item{name}{Name of one of the example workflows from
+\url{https://github.com/r-lib/actions/tree/v2/examples} (with or without
+extension), e.g. \code{"pkgdown"}, \code{"check-standard.yaml"}.
 
 If the \code{name} starts with \verb{check-}, \code{save_as} will default to
-\code{R-CMD-check.yaml} and \code{badge} default to \code{TRUE}.}
+\code{R-CMD-check.yaml} and \code{badge} defaults to \code{TRUE}.}
 
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
 branch (\code{"main"}). Other possibilities include a commit SHA (\code{"d1c516d"})
@@ -33,9 +33,8 @@ defaults to the latest published release of \code{r-lib/actions}
 \code{\link[=use_github_file]{use_github_file()}}.}
 
 \item{save_as}{Name of the local workflow file. Defaults to \code{name} or
-\code{fs::path_file(url)} for \code{use_github_action()}. Do not specify any other
-part of the path; the parent directory will always be \code{.github/workflows},
-within the active project.}
+\code{fs::path_file(url)}. Do not specify any other part of the path; the parent
+directory will always be \code{.github/workflows}, within the active project.}
 
 \item{readme}{The full URL to a \code{README} file that provides more details
 about the workflow. Ignored when \code{url} is \code{NULL}.}
@@ -49,12 +48,12 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
-GitHub using \href{https://github.com/features/actions}{GitHub Actions}. CI can be
-used to trigger various operations for each push or pull request, e.g.
+GitHub using \href{https://github.com/features/actions}{GitHub Actions} (GHA). CI
+can be used to trigger various operations for each push or pull request, e.g.
 running \verb{R CMD check} or building and deploying a pkgdown site.
-\subsection{Workflows}{
+\subsection{Core workflows}{
 
-There are four particularly important workflows that are used by many
+There are three particularly important workflows that are used by many
 packages:
 \itemize{
 \item \code{check-standard}: Run \verb{R CMD check} using R-latest on Linux, Mac, and
@@ -63,19 +62,42 @@ if you plan on submitting your package to CRAN.
 \item \code{test-coverage}: Compute test coverage and report to
 \url{https://about.codecov.io} by calling \code{\link[covr:codecov]{covr::codecov()}}.
 \item \code{pkgdown}: Automatically build and publish a pkgdown website.
-But we recommend instead calling \code{\link[=use_pkgdown_github_pages]{use_pkgdown_github_pages()}} which
-performs other important set up.
-\item \code{pr-commands}: Enables the use of two R-specific commands in pull request
-issue comments: \verb{/document} to run \code{roxygen2::roxygenise()} and
-\verb{/style} to run \code{styler::style_pkg()}. Both will update the PR with any
-changes once they're done.
+But we recommend instead calling \code{\link[=use_pkgdown_github_pages]{use_pkgdown_github_pages()}}, which
+sets up the \code{pkgdown} workflow AND performs other important set up.
 }
 
-If you call \code{use_github_action()} without arguments, you'll be prompted to
-pick from one of these. Otherwise you can see a complete list of
-possibilities provided by r-lib at
-\url{https://github.com/r-lib/actions/tree/v2/examples}, or you can supply
-your own \code{url} to use any other workflow.
+If you call \code{use_github_action()} without arguments, you'll get a choice of
+some recommended workflows. Otherwise you can specify the name of any
+workflow provided by \code{r-lib/actions}, which are listed at
+\url{https://github.com/r-lib/actions/tree/v2/examples}. Finally you can supply
+the full \code{url} to any workflow on GitHub.
+}
+
+\subsection{Other workflows}{
+
+Other specific workflows are worth mentioning:
+\itemize{
+\item \code{pr-commands}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Enables the use of two
+R-specific commands in pull request issue comments: \verb{/document} to run
+\code{roxygen2::roxygenise()} and \verb{/style} to run \code{styler::style_pkg()}. Both
+will update the PR with any changes once they're done.
+
+We don't recommend new adoption of the \code{pr-commands} workflow. Better
+alternatives exist for code formatting (see below) and we plan to
+re-implement documentation updates using a similar approach.
+\item \code{format-suggest} and \code{format-check} from
+\href{https://posit-dev.github.io/air}{Air}:
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} These workflows are a great way to
+keep your code well-formatted, once you adopt Air in a project
+(possibly via \code{\link[=use_air]{use_air()}}). Here's how to set them up:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml")
+use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-check.yaml")
+}\if{html}{\out{</div>}}
+
+Learn more from
+\href{https://posit-dev.github.io/air/integration-github-actions.html}{Air's documentation of its GHA integrations}.
+}
 }
 }
 \examples{
@@ -85,5 +107,7 @@ use_github_action()
 use_github_action("check-standard")
 
 use_github_action("pkgdown")
+
+use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml")
 }
 }
