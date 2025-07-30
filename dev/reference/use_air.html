@@ -24,21 +24,24 @@ If you'd like to opt out of VS Code / Positron specific setup, set vscode = FALS
 may prefer another editor.
 
 
-Note that use_air() does not actually invoke Air, it just configures your
-project with the recommended settings. Consult Air's editors guide to learn how to invoke
-Air in your preferred editor.
-Installation
+Note that &quot;using Air&quot; breaks down into a few steps, and use_air() does
+one of them. Here's an overview:
+Installation: Air might already be included in your IDE (e.g. Positron) or
+can be added as an external formatter (e.g. RStudio) or as an extension
+(e.g. VS Code). Read the guide that applies to your situation:
+Air in an editor
+Air at the command line
 
-
-Note that this setup does not install an Air binary, so there may be an
-additional manual step you must take before using Air for the first time:
-For RStudio, follow the installation guide.
-For Positron, the Air extension
-is installed by default and that already includes the Air binary. A typical
-Positron user does not need to do anything to install Air.
-For VS Code, install the VS Code Extension.
-For other editors, check to see if that editor is supported by Air.
-
+Configuration: use_air() does this!
+Invocation: There are many ways to run Air. In an IDE, you can expect
+support for moves like &quot;format on save&quot;, &quot;format selection&quot;, and so on.
+At the command line, you can format individual files or entire directories.
+Continuous integration: Two workflows are available for running Air via
+GitHub Actions: format-suggest or format-check. Learn more in
+Air's documentation of its GHA integrations.
+You can set up either workflow in your project like so:
+use_github_action(url = &quot;https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml&quot;)
+use_github_action(url = &quot;https://github.com/posit-dev/setup-air/blob/main/examples/format-check.yaml&quot;)
 
 
 "><meta property="og:description" content="Air is an extremely fast R code
@@ -66,21 +69,24 @@ If you'd like to opt out of VS Code / Positron specific setup, set vscode = FALS
 may prefer another editor.
 
 
-Note that use_air() does not actually invoke Air, it just configures your
-project with the recommended settings. Consult Air's editors guide to learn how to invoke
-Air in your preferred editor.
-Installation
+Note that &quot;using Air&quot; breaks down into a few steps, and use_air() does
+one of them. Here's an overview:
+Installation: Air might already be included in your IDE (e.g. Positron) or
+can be added as an external formatter (e.g. RStudio) or as an extension
+(e.g. VS Code). Read the guide that applies to your situation:
+Air in an editor
+Air at the command line
 
-
-Note that this setup does not install an Air binary, so there may be an
-additional manual step you must take before using Air for the first time:
-For RStudio, follow the installation guide.
-For Positron, the Air extension
-is installed by default and that already includes the Air binary. A typical
-Positron user does not need to do anything to install Air.
-For VS Code, install the VS Code Extension.
-For other editors, check to see if that editor is supported by Air.
-
+Configuration: use_air() does this!
+Invocation: There are many ways to run Air. In an IDE, you can expect
+support for moves like &quot;format on save&quot;, &quot;format selection&quot;, and so on.
+At the command line, you can format individual files or entire directories.
+Continuous integration: Two workflows are available for running Air via
+GitHub Actions: format-suggest or format-check. Learn more in
+Air's documentation of its GHA integrations.
+You can set up either workflow in your project like so:
+use_github_action(url = &quot;https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml&quot;)
+use_github_action(url = &quot;https://github.com/posit-dev/setup-air/blob/main/examples/format-check.yaml&quot;)
 
 
 "><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><meta name="robots" content="noindex"><script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script></head><body>
@@ -158,22 +164,23 @@ that don't yet have the Air extension installed.</p></li>
 <code>.vscode/</code> directory.</p>
 <p>If you'd like to opt out of VS Code / Positron specific setup, set <code>vscode = FALSE</code>, but remember that even if you work in RStudio, other contributors
 may prefer another editor.</p></li>
-</ul><p>Note that <code>use_air()</code> does not actually invoke Air, it just configures your
-project with the recommended settings. Consult <a href="https://posit-dev.github.io/air/editors.html" class="external-link">Air's editors guide</a> to learn how to invoke
-Air in your preferred editor.</p><div class="section">
-<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a></h3>
-
-
-<p>Note that this setup does not install an Air binary, so there may be an
-additional manual step you must take before using Air for the first time:</p><ul><li><p>For RStudio, follow the <a href="https://posit-dev.github.io/air/editor-rstudio.html" class="external-link">installation guide</a>.</p></li>
-<li><p>For Positron, the <a href="https://open-vsx.org/extension/posit/air-vscode" class="external-link">Air extension</a>
-is installed by default and that already includes the Air binary. A typical
-Positron user does not need to do anything to install Air.</p></li>
-<li><p>For VS Code, install the <a href="https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode" class="external-link">VS Code Extension</a>.</p></li>
-<li><p>For other editors, check to <a href="https://posit-dev.github.io/air/editors.html" class="external-link">see if that editor is supported</a> by Air.</p></li>
+</ul><p>Note that "using Air" breaks down into a few steps, and <code>use_air()</code> does
+<em>one</em> of them. Here's an overview:</p><ul><li><p>Installation: Air might already be included in your IDE (e.g. Positron) or
+can be added as an external formatter (e.g. RStudio) or as an extension
+(e.g. VS Code). Read the guide that applies to your situation:</p><ul><li><p><a href="https://posit-dev.github.io/air/editors.html" class="external-link">Air in an editor</a></p></li>
+<li><p><a href="https://posit-dev.github.io/air/cli.html" class="external-link">Air at the command line</a></p></li>
+</ul></li>
+<li><p>Configuration: <code>use_air()</code> does this!</p></li>
+<li><p>Invocation: There are many ways to run Air. In an IDE, you can expect
+support for moves like "format on save", "format selection", and so on.
+At the command line, you can format individual files or entire directories.</p></li>
+<li><p>Continuous integration: Two workflows are available for running Air via
+GitHub Actions: <code>format-suggest</code> or <code>format-check</code>. Learn more in
+<a href="https://posit-dev.github.io/air/integration-github-actions.html" class="external-link">Air's documentation of its GHA integrations</a>.
+You can set up either workflow in your project like so:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">use_github_action</span>(<span class="at">url =</span> <span class="st">"https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">use_github_action</span>(<span class="at">url =</span> <span class="st">"https://github.com/posit-dev/setup-air/blob/main/examples/format-check.yaml"</span>)</span></code></pre><p></p></div></li>
 </ul></div>
-
-    </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>

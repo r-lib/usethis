@@ -139,9 +139,8 @@ least once on each of the three major operating systems (Linux, macOS,
 and Windows).</p></li>
 <li><p>Report test coverage.</p></li>
 <li><p>Build and deploy a pkgdown site.</p></li>
-<li><p>Provide two commands to be used in pull requests: <code>/document</code> to run
-<code><a href="https://roxygen2.r-lib.org/reference/roxygenize.html" class="external-link">roxygen2::roxygenise()</a></code> and update the PR, and <code>/style</code> to run
-<code>styler::style_pkg()</code> and update the PR.</p>
+<li><p>Check the formatting of incoming pull requests with Air and suggest
+fixes as necessary.</p>
 <p>This is how the tidyverse team checks its packages, but it is overkill
 for less widely used packages. For <code>R CMD check</code>, consider using the more
 streamlined workflow set up by
