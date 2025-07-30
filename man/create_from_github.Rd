@@ -50,11 +50,11 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
-\item If using RStudio desktop, the project is opened in a new session.
-\item If using Positron, the project is opened in a new window.
-\item If on RStudio server, the current RStudio project is activated.
-\item Otherwise, the working directory and active project is changed in the
-current R session.
+\item If using RStudio or Positron, the new project is opened in a new session,
+window, or browser tab, depending on the product (RStudio or Positron)
+and context (desktop or server).
+\item Otherwise, the working directory and active project of the current R
+session are changed to the new project.
 }}
 
 \item{protocol}{One of "https" or "ssh"}

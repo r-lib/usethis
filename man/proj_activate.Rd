@@ -13,7 +13,19 @@ proj_activate(path)
 Single logical value indicating if current session is modified.
 }
 \description{
-Activates a project in usethis, R session, and (if relevant) RStudio senses.
-If you are in RStudio, this will open a new RStudio session. If not, it will
+Activates a project in the usethis, R session, and (if relevant) RStudio
+senses. If you are in RStudio, this will open a new RStudio session. If not, it will
 change the working directory and \link[=proj_set]{active project}.
+}
+\details{
+\itemize{
+\item If using RStudio desktop, the project is opened in a new session.
+\itemize{
+\item If using Positron, the project is opened in a new window.
+\item If using RStudio or Positron on a server, the project is opened in a new
+browser tab.
+\item Otherwise, the working directory and active project is changed in the
+current R session.
+}
+}
 }

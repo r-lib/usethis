@@ -6,8 +6,9 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can be called on an existing project; you will be asked before
-#' any existing files are changed.
+#' These functions work best when creating a project *de novo*, but
+#' `create_package()` and `create_project()` can be called on an existing
+#' project; you will be asked before any existing files are changed.
 #'
 #' @inheritParams use_description
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
@@ -25,11 +26,11 @@
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
-#'   * If using RStudio desktop, the project is opened in a new session.
-#'   * If using Positron, the project is opened in a new window.
-#'   * If on RStudio server, the current RStudio project is activated.
-#'   * Otherwise, the working directory and active project is changed in the
-#'     current R session.
+#'   * If using RStudio or Positron, the new project is opened in a new session,
+#'     window, or browser tab, depending on the product (RStudio or Positron)
+#'     and context (desktop or server).
+#'   * Otherwise, the working directory and active project of the current R
+#'     session are changed to the new project.
 #' @returns Path to the newly created project or package, invisibly.
 #' @seealso [create_tidy_package()] is a convenience function that extends
 #'   `create_package()` by immediately applying as many of the tidyverse
