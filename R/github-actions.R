@@ -36,7 +36,7 @@
 #'    We don't recommend new adoption of the `pr-commands` workflow. Better
 #'    alternatives exist for code formatting (see below) and we plan to
 #'    re-implement documentation updates using a similar approach.
-#' * `format-suggest` and `format-check` from
+#' * `format-suggest` or `format-check` from
 #'   [Air](https://posit-dev.github.io/air):
 #'   `r lifecycle::badge("experimental")` These workflows are a great way to
 #'   keep your code well-formatted, once you adopt Air in a project
