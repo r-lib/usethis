@@ -134,7 +134,6 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
   expect_proj_file(".github/workflows/pkgdown.yaml")
   expect_proj_file(".github/workflows/test-coverage.yaml")
-  expect_proj_file(".github/workflows/pr-commands.yaml")
 
   readme_lines <- read_utf8(proj_path("README.md"))
   expect_match(readme_lines, "R-CMD-check", all = FALSE)

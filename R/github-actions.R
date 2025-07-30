@@ -249,7 +249,6 @@ use_tidy_github_actions <- function(ref = NULL) {
 
   use_github_action("check-full.yaml", ref = ref, badge = TRUE)
 
-  use_github_action("pr-commands", ref = ref)
   use_github_action("pkgdown", ref = ref)
 
   use_coverage(repo_spec = repo_spec)
