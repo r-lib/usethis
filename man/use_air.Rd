@@ -43,21 +43,28 @@ If you'd like to opt out of VS Code / Positron specific setup, set \code{vscode 
 may prefer another editor.
 }
 
-Note that \code{use_air()} does not actually invoke Air, it just configures your
-project with the recommended settings. Consult \href{https://posit-dev.github.io/air/editors.html}{Air's editors guide} to learn how to invoke
-Air in your preferred editor.
-\subsection{Installation}{
-
-Note that this setup does not install an Air binary, so there may be an
-additional manual step you must take before using Air for the first time:
+Note that "using Air" breaks down into a few steps, and \code{use_air()} does
+with \emph{one} of them. Here's an overview:
 \itemize{
-\item For RStudio, follow the \href{https://posit-dev.github.io/air/editor-rstudio.html}{installation guide}.
-\item For Positron, the \href{https://open-vsx.org/extension/posit/air-vscode}{Air extension}
-is installed by default and that already includes the Air binary. A typical
-Positron user does not need to do anything to install Air.
-\item For VS Code, install the \href{https://marketplace.visualstudio.com/items?itemName=Posit.air-vscode}{VS Code Extension}.
-\item For other editors, check to \href{https://posit-dev.github.io/air/editors.html}{see if that editor is supported} by Air.
+\item Installation: Air might already be included in your IDE (e.g. Positron) or
+can be added as an extension (e.g. VS Code) or external formatter
+(e.g. RStudio). Read the guide that applies to your situation:
+\itemize{
+\item \href{https://posit-dev.github.io/air/editors.html}{Air in an editor}
+\item \href{https://posit-dev.github.io/air/cli.html}{Air at the command line}
 }
+\item Configuration: \code{use_air()} does this!
+\item Invocation: There are many ways to run Air. In an IDE, you can expect
+support for moves like "format on save", "format selection", and so on.
+At the command line, you can format individual files or entire directories.
+\item Continuous integration: Two workflows are available for running Air via
+GitHub Actions: \code{format-suggest} or \code{format-check}. Learn more in
+\href{https://posit-dev.github.io/air/integration-github-actions.html}{Air's documentation of its GHA integrations}.
+You can set up either workflow in your project like so:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml")
+use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-check.yaml")
+}\if{html}{\out{</div>}}
 }
 }
 \examples{
