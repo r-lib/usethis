@@ -93,6 +93,8 @@ create_project <- function(
   open = rlang::is_interactive()
 ) {
   path <- user_path_prep(path)
+  check_path_is_directory(path_dir(path))
+
   name <- path_file(path_abs(path))
   challenge_nested_project(path_dir(path), name)
   challenge_home_directory(path)
@@ -106,7 +108,7 @@ create_project <- function(
     use_rstudio()
   } else {
     ui_bullets(c(
-      "v" = "Writing a sentinel file {.path {pth('.here')}}.",
+      "v" = "Writing a sentinel file {.path .here'}.",
       "_" = "Build robust paths within your project via {.fun here::here}.",
       "i" = "Learn more at {.url https://here.r-lib.org}."
     ))
@@ -144,6 +146,10 @@ create_quarto_project <- function(
 
   create_directory(path)
   local_project(path, force = TRUE)
+
+  if (rstudio) {
+    use_rstudio()
+  }
 
   res <- quarto::quarto_create_project(
     name = name,
