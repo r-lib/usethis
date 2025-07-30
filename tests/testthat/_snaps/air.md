@@ -11,6 +11,9 @@
       v Creating '.vscode/extensions.json'.
       [ ] Read the Air editors guide (<https://posit-dev.github.io/air/editors.html>)
         to learn how to invoke Air in your preferred editor.
+      [ ] Read Air's GitHub Actions guide
+        (<https://posit-dev.github.io/air/integration-github-actions.html>) to learn
+        about GHA workflows that continuously run formatting checks.
 
 ---
 
