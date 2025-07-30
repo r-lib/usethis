@@ -233,9 +233,8 @@ use_github_actions_badge <- function(
 #'     and Windows).
 #'   - Report test coverage.
 #'   - Build and deploy a pkgdown site.
-#'   - Provide two commands to be used in pull requests: `/document` to run
-#'     `roxygen2::roxygenise()` and update the PR, and `/style` to run
-#'     `styler::style_pkg()` and update the PR.
+#'   - Check the formatting of incoming pull requests with Air and suggest
+#'     fixes as necessary.
 #'
 #'     This is how the tidyverse team checks its packages, but it is overkill
 #'     for less widely used packages. For `R CMD check`, consider using the more
@@ -254,6 +253,12 @@ use_tidy_github_actions <- function(ref = NULL) {
   use_coverage(repo_spec = repo_spec)
   use_github_action("test-coverage", ref = ref)
 
+  use_github_action(
+    url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml"
+  )
+
+  # TODO: give `pr-commands` similar treatment once we have a full replacement,
+  # i.e. the aspirational `document-suggest`
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
 
