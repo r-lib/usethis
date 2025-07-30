@@ -32,7 +32,7 @@
 #'   may prefer another editor.
 #'
 #' Note that "using Air" breaks down into a few steps, and `use_air()` does
-#' with *one* of them. Here's an overview:
+#' *one* of them. Here's an overview:
 #'
 #' * Installation: Air might already be included in your IDE (e.g. Positron) or
 #'   can be added as an extension (e.g. VS Code) or external formatter

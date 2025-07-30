@@ -44,7 +44,7 @@ may prefer another editor.
 }
 
 Note that "using Air" breaks down into a few steps, and \code{use_air()} does
-with \emph{one} of them. Here's an overview:
+\emph{one} of them. Here's an overview:
 \itemize{
 \item Installation: Air might already be included in your IDE (e.g. Positron) or
 can be added as an extension (e.g. VS Code) or external formatter
