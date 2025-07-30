@@ -118,6 +118,11 @@ create_air_toml <- function(ignore = FALSE) {
   invisible(path)
 }
 
+uses_air <- function() {
+  path <- path_first_existing(proj_path(c("air.toml", ".air.toml")))
+  !is.null(path)
+}
+
 air_toml_regex <- function() {
   # Pre-escaped regex allowing both `air.toml` and `.air.toml`
   "^[.]?air[.]toml$"

@@ -251,6 +251,12 @@ use_tidy_github_actions <- function(ref = NULL) {
   use_coverage(repo_spec = repo_spec)
   use_github_action("test-coverage", ref = ref)
 
+  if (!uses_air()) {
+    ui_bullets(c(
+      "!" = "Can't find an {.file air.toml} file. Do you need to run
+             {.run [use_air()](usethis::use_air())}?"
+    ))
+  }
   use_github_action(
     url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml"
   )
