@@ -11,7 +11,7 @@
 #'     more advanced usage.
 #'
 #' These functions work best when creating a project *de novo*, but
-#' `create_package()` and `create_project()` can be called in an existing
+#' `create_package()` and `create_project()` can be called on an existing
 #' project; you will be asked before any existing files are changed.
 #'
 #' @inheritParams use_description
@@ -31,11 +31,11 @@
 #'   `.here` file is placed to mark the project root.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
-#'   * If using RStudio desktop, the project is opened in a new session.
-#'   * If using Positron, the project is opened in a new window.
-#'   * If on RStudio server, the current RStudio project is activated.
-#'   * Otherwise, the working directory and active project is changed in the
-#'     current R session.
+#'   * If using RStudio or Positron, the new project is opened in a new session,
+#'     window, or browser tab, depending on the product (RStudio or Positron)
+#'     and context (desktop or server).
+#'   * Otherwise, the working directory and active project of the current R
+#'     session are changed to the new project.
 #' @param type The type of Quarto project to create. See
 #'   `?quarto::quarto_create_project` for the most up-to-date list, but
 #'   `"website"`, `"blog"`, `"book"`, and `"manuscript"` are common choices.
