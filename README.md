@@ -125,7 +125,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo.
-#> ✔ Adding ".Rproj.user", ".Rhistory", ".Rdata", ".httr-oauth", ".DS_Store", and
+#> ✔ Adding ".Rproj.user", ".Rhistory", ".RData", ".httr-oauth", ".DS_Store", and
 #>   ".quarto" to '.gitignore'.
 ```
 
