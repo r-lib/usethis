@@ -55,18 +55,26 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+<div class="section level3">
+<h3 id="formatting-development-version">Formatting<a class="anchor" aria-label="anchor" href="#formatting-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/use_air.html">use_air()</a></code> is a new function to configure a project to use <a href="https://posit-dev.github.io/air" class="external-link">Air</a>, an extremely fast R code formatter.</p></li>
 <li><p><code><a href="../reference/tidy-deprecated.html">use_tidy_style()</a></code> is deprecated, in favor of using Air for any new, explicit formatting efforts (<a href="https://github.com/r-lib/usethis/issues/2110" class="external-link">#2110</a>).</p></li>
-<li><p><code>use_package(min_version = FALSE)</code> is treated the same as when <code>min_version</code> is not specified (<a href="https://github.com/r-lib/usethis/issues/2117" class="external-link">#2117</a>, <a href="https://github.com/salim-b" class="external-link">@salim-b</a>).</p></li>
-<li><p><code><a href="../reference/badges.html">use_r_universe_badge()</a></code> is a new function that creates a README badge indicating your package is available on <a href="https://r-universe.dev" class="external-link">R-universe</a> and reporting the latest version (<a href="https://github.com/olivroy" class="external-link">@olivroy</a>, <a href="https://github.com/r-lib/usethis/issues/1883" class="external-link">#1883</a>).</p></li>
-<li>
-<p>usethis’s criteria for recognizing a project (listed in <code>proj_utils</code>) have expanded to include (<a href="https://github.com/r-lib/usethis/issues/2133" class="external-link">#2133</a>):</p>
+</ul></div>
+<div class="section level3">
+<h3 id="project-hood-development-version">Project-hood<a class="anchor" aria-label="anchor" href="#project-hood-development-version"></a></h3>
+<ul><li>
+<p>usethis’s criteria for recognizing a project (listed in <code><a href="../reference/proj_utils.html">?proj_utils</a></code>) have expanded to include (<a href="https://github.com/r-lib/usethis/issues/2133" class="external-link">#2133</a>):</p>
 <ul><li>a <code>.vscode/settings.json</code> file, which Positron or VS Code might create</li>
 <li>a <code>_quarto.yml</code> file, typical of a Quarto project</li>
 <li>an <code>renv.lock</code> file, which renv creates</li>
 </ul></li>
 <li><p><code><a href="../reference/zip-utils.html">use_course()</a></code> and <code><a href="../reference/zip-utils.html">use_zip()</a></code> open the new folder in a new session of the current IDE (RStudio or Positron) in more situations and add a <code>.here</code> file if the folder doesn’t already fulfill any of usethis’s criteria for a project root folder (<a href="https://github.com/r-lib/usethis/issues/2127" class="external-link">#2127</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_quarto_project()</a></code> is a new experimental function that combines basic usage of <code><a href="https://quarto-dev.github.io/quarto-r/reference/quarto_create_project.html" class="external-link">quarto::quarto_create_project()</a></code> with some of the niceties of usethis’s <code>create_*()</code> functions, such as opening the newly created project in your IDE (<a href="https://github.com/r-lib/usethis/issues/1891" class="external-link">#1891</a>, <a href="https://github.com/focardozom" class="external-link">@focardozom</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
+<ul><li><p><code>use_package(min_version = FALSE)</code> is treated the same as when <code>min_version</code> is not specified (<a href="https://github.com/r-lib/usethis/issues/2117" class="external-link">#2117</a>, <a href="https://github.com/salim-b" class="external-link">@salim-b</a>).</p></li>
+<li><p><code><a href="../reference/badges.html">use_r_universe_badge()</a></code> is a new function that creates a README badge indicating your package is available on <a href="https://r-universe.dev" class="external-link">R-universe</a> and reporting the latest version (<a href="https://github.com/olivroy" class="external-link">@olivroy</a>, <a href="https://github.com/r-lib/usethis/issues/1883" class="external-link">#1883</a>).</p></li>
 <li>
 <p>Several deprecated functions have been removed:</p>
 <ul><li>
@@ -85,6 +93,7 @@
 <code>use_github_action_check_full()</code>, deprecated in v2.1.0</li>
 </ul></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.1.0" id="usethis-310">usethis 3.1.0<a class="anchor" aria-label="anchor" href="#usethis-310"></a></h2><p class="text-muted">CRAN release: 2024-11-26</p>
 <ul><li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> and <code><a href="../reference/use_vignette.html">use_article()</a></code> support Quarto. The <code>name</code> of the new vignette or article can optionally include a file extension to signal whether <code>.Rmd</code> or <code>.qmd</code> is desired, with <code>.Rmd</code> remaining the default for now. Thanks to <a href="https://github.com/olivroy" class="external-link">@olivroy</a> for getting the ball rolling (<a href="https://github.com/r-lib/usethis/issues/1997" class="external-link">#1997</a>).</p></li>
