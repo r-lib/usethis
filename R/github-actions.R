@@ -29,7 +29,7 @@
 #' ## Other workflows
 #' Other specific workflows are worth mentioning:
 #' * `format-suggest` or `format-check` from
-#'   [Air](https://posit-dev.github.io/air):
+#'   [Air](https://posit-dev.github.io/air/):
 #'   `r lifecycle::badge("experimental")` Either of these workflows is a great
 #'   way to keep your code well-formatted once you adopt Air in a project
 #'   (possibly via [use_air()]). Here's how to set them up:

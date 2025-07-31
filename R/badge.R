@@ -19,7 +19,7 @@
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")` badge
 #' indicates what version of your package is available on [R-universe
-#' ](https://r-universe.dev/search/). It is assumed that you have already
+#' ](https://r-universe.dev/search). It is assumed that you have already
 #' completed the
 #' [necessary R-universe setup](https://docs.r-universe.dev/publish/set-up.html).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched

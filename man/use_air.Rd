@@ -15,7 +15,7 @@ default.
 }}
 }
 \description{
-\href{https://posit-dev.github.io/air}{Air} is an extremely fast R code
+\href{https://posit-dev.github.io/air/}{Air} is an extremely fast R code
 formatter. This function sets up a project to use Air. Specifically, it:
 \itemize{
 \item Creates an empty \code{air.toml} configuration file. If either an \code{air.toml} or

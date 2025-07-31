@@ -64,7 +64,7 @@ available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
 \item \code{use_r_universe_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} badge
-indicates what version of your package is available on \href{https://r-universe.dev/search/}{R-universe }. It is assumed that you have already
+indicates what version of your package is available on \href{https://r-universe.dev/search}{R-universe }. It is assumed that you have already
 completed the
 \href{https://docs.r-universe.dev/publish/set-up.html}{necessary R-universe setup}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched

@@ -78,7 +78,7 @@ the full \code{url} to any workflow on GitHub.
 Other specific workflows are worth mentioning:
 \itemize{
 \item \code{format-suggest} or \code{format-check} from
-\href{https://posit-dev.github.io/air}{Air}:
+\href{https://posit-dev.github.io/air/}{Air}:
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Either of these workflows is a great
 way to keep your code well-formatted once you adopt Air in a project
 (possibly via \code{\link[=use_air]{use_air()}}). Here's how to set them up:
