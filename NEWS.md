@@ -35,6 +35,11 @@
   indicating your package is available on [R-universe](https://r-universe.dev)
   and reporting the latest version (@olivroy, #1883).
 
+* Some GitHub functionality should now work for GitHub Enterprise Cloud (as
+  opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as
+  `"https://my-cool-org.ghe.com"` should now be recognized as "looks like
+  GitHub" (#2098, @jameslairdsmith).
+
 * Several deprecated functions have been removed:
   - `use_rscloud_badge()`, deprecated in v2.2.0; use `use_posit_cloud_badge()`
     instead
@@ -66,11 +71,6 @@
 * `use_tidy_upkeep_issue()` records the year it is being run in the
   `Config/usethis/upkeep` field in DESCRIPTION. If this value exists, it is
   used to filter the checklist when making the issue.
-
-* Some GitHub functionality should now work for GitHub Enterprise Cloud (as
-  opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as
-  `"https://my-cool-org.ghe.com"` should now be recognized as "looks like
-  GitHub" (#2098, @jameslairdsmith).
 
 # usethis 3.0.0
 
