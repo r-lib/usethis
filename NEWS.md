@@ -11,10 +11,16 @@
 
 * `use_r_universe_badge()` is a new function that creates a README badge indicating your package is available on [R-universe](https://r-universe.dev) and reporting the latest version (@olivroy, #1883).
 
-* usethis's criteria for recognizing a project have expanded to include (#2133):
+* usethis's criteria for recognizing a project (listed in `proj_utils`) have
+  expanded to include (#2133):
   - a `.vscode/settings.json` file, which Positron or VS Code might create
   - a `_quarto.yml` file, typical of a Quarto project
   - an `renv.lock` file, which renv creates
+
+* `use_course()` and `use_zip()` open the new folder in a new session of the
+  current IDE (RStudio or Positron) in more situations and add a `.here` file if
+  the folder doesn't already fulfill any of usethis's criteria for a project
+  root folder (#2127).
 
 * `create_quarto_project()` is a new experimental function that combines basic
   usage of `quarto::quarto_create_project()` with some of the niceties of

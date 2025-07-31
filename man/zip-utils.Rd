@@ -20,11 +20,11 @@ of typos in live settings, these shorter forms are accepted:
 \itemize{
 \item GitHub repo spec: "OWNER/REPO". Equivalent to
 \verb{https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip}.
-\item bit.ly, pos.it, or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz", "pos.it/foofy" or "rstd.io/foofy".
-The instructor must then arrange for the shortlink to point to a valid
-download URL for the target ZIP file. The helper
-\code{\link[=create_download_url]{create_download_url()}} helps to create such URLs for GitHub, DropBox,
-and Google Drive.
+\item bit.ly, pos.it, or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz",
+"pos.it/foofy" or "rstd.io/foofy". The instructor must then arrange for
+the shortlink to point to a valid download URL for the target ZIP file.
+The helper \code{\link[=create_download_url]{create_download_url()}} helps to create such URLs for GitHub,
+DropBox, and Google Drive.
 }}
 
 \item{destdir}{Destination for the new folder. Defaults to the location
@@ -42,7 +42,9 @@ Path to the new directory holding the unpacked ZIP file, invisibly.
 Functions to download and unpack a ZIP file into a local folder of files,
 with very intentional default behaviour. Useful in pedagogical settings or
 anytime you need a large audience to download a set of files quickly and
-actually be able to find them. The underlying helpers are documented in
+actually be able to find them. After download, the new folder is opened in
+a new session of the user's IDE, if possible, or in the default file manager
+provided by the operating system. The underlying helpers are documented in
 \link{use_course_details}.
 }
 \section{Functions}{
@@ -70,7 +72,7 @@ use_course("bit.ly/usethis-shortlink-example")
 use_course("http://bit.ly/usethis-shortlink-example")
 
 # download the source of rematch2 package from CRAN
-use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
+use_course("https://cran.r-project.org/bin/windows/contrib/4.5/rematch2_2.1.2.zip")
 
 # download the source of rematch2 package from GitHub, 4 ways
 use_course("r-lib/rematch2")

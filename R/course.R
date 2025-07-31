@@ -5,7 +5,9 @@
 #' Functions to download and unpack a ZIP file into a local folder of files,
 #' with very intentional default behaviour. Useful in pedagogical settings or
 #' anytime you need a large audience to download a set of files quickly and
-#' actually be able to find them. The underlying helpers are documented in
+#' actually be able to find them. After download, the new folder is opened in
+#' a new session of the user's IDE, if possible, or in the default file manager
+#' provided by the operating system. The underlying helpers are documented in
 #' [use_course_details].
 #'
 #' @param url Link to a ZIP file containing the materials. To reduce the chance
@@ -13,11 +15,11 @@
 #'
 #'   * GitHub repo spec: "OWNER/REPO". Equivalent to
 #'     `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
-#'   * bit.ly, pos.it, or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz", "pos.it/foofy" or "rstd.io/foofy".
-#'     The instructor must then arrange for the shortlink to point to a valid
-#'     download URL for the target ZIP file. The helper
-#'     [create_download_url()] helps to create such URLs for GitHub, DropBox,
-#'     and Google Drive.
+#'   * bit.ly, pos.it, or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz",
+#'     "pos.it/foofy" or "rstd.io/foofy". The instructor must then arrange for
+#'     the shortlink to point to a valid download URL for the target ZIP file.
+#'     The helper [create_download_url()] helps to create such URLs for GitHub,
+#'     DropBox, and Google Drive.
 #' @param destdir Destination for the new folder. Defaults to the location
 #'   stored in the global option `usethis.destdir`, if defined, or to the user's
 #'   Desktop or similarly conspicuous place otherwise.
@@ -34,7 +36,7 @@
 #' use_course("http://bit.ly/usethis-shortlink-example")
 #'
 #' # download the source of rematch2 package from CRAN
-#' use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
+#' use_course("https://cran.r-project.org/bin/windows/contrib/4.5/rematch2_2.1.2.zip")
 #'
 #' # download the source of rematch2 package from GitHub, 4 ways
 #' use_course("r-lib/rematch2")
@@ -52,9 +54,9 @@ NULL
 #' * User is asked to notice and confirm the location of the new folder. Specify
 #'   `destdir` or configure the `"usethis.destdir"` option to prevent this.
 #' * User is asked if they'd like to delete the ZIP file.
-#' * If new folder contains an `.Rproj` file, a new instance of RStudio is
-#'   launched. Otherwise, the folder is opened in the file manager, e.g. Finder
-#'   or File Explorer.
+#' * If possible, the new folder is launched in a new session of the user's IDE.
+#'   Otherwise, the folder is opened in the file manager, e.g. Finder on macOS
+#'   or File Explorer on Windows.
 #' @export
 use_course <- function(url, destdir = getOption("usethis.destdir")) {
   url <- normalize_url(url)
@@ -396,9 +398,14 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   }
 
   if (is_interactive()) {
-    rproj_path <- rproj_paths(target)
-    if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
-      ui_bullets(c("v" = "Opening project in RStudio."))
+    proj_root <- proj_find(target)
+    if (rstudio_available() && rstudioapi::hasFun("openProject")) {
+      if (is.null(proj_root)) {
+        file_create(path(target, ".here"))
+      }
+      ui_bullets(c(
+        "v" = "Opening {.path {pth(target, base = NA)}} in a new session."
+      ))
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
       ui_bullets(c(
