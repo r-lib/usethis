@@ -157,9 +157,7 @@ reference:
     - use_rstudio_preferences
   - title: Deprecated functions
     contents:
-    - git_branch_default
-    - use_github_actions
-    - use_tidy_eval
+    - use_tidy_style
 
 articles:
 - title: Basics

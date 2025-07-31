@@ -27,6 +27,19 @@
   usethis's `create_*()` functions, such as opening the newly created project in
   your IDE (#1891, @focardozom).
 
+* Several deprecated functions have been removed:
+  - `use_rscloud_badge()`, deprecated in v2.2.0; use `use_posit_cloud_badge()`
+    instead
+  - `git_branch_default()`, deprecated in v2.1.0; use `git_default_branch()`
+    instead
+  - `use_tidy_eval()`, deprecated in v2.2.0; no longer necessary
+  - `use_github_actions()` and `use_github_action_check_release()`, deprecated
+    in v.2.2.0; use `use_github_action('check-release')` instead
+  - `use_github_action_check_standard()`, deprecated in v2.2.0; use
+    `use_github_action('check-standard')` instead
+  - `use_github_action_pr_commands()`, deprecated in v2.2.0
+  - `use_github_action_check_full()`, deprecated in v2.1.0
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new
