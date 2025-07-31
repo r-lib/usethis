@@ -21,7 +21,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/edit.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/edit_file.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git-default-branch.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/git_branch_default.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_protocol.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_sitrep.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/git_vaccinate.html</loc></url>
@@ -62,7 +61,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_git_remote.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_github.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_github_action.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_github_actions.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_github_actions_badge.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_github_file.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_github_labels.html</loc></url>
@@ -89,7 +87,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_revdep.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_rmarkdown_template.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_roxygen_md.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_rscloud_badge.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_rstudio.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_rstudio_preferences.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_spell_check.html</loc></url>

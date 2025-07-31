@@ -127,9 +127,9 @@ highlight the download destination. Workflow:</p><ul><li><p>User executes, e.g.,
 <li><p>User is asked to notice and confirm the location of the new folder. Specify
 <code>destdir</code> or configure the <code>"usethis.destdir"</code> option to prevent this.</p></li>
 <li><p>User is asked if they'd like to delete the ZIP file.</p></li>
-<li><p>If new folder contains an <code>.Rproj</code> file, a new instance of RStudio is
-launched. Otherwise, the folder is opened in the file manager, e.g. Finder
-or File Explorer.</p></li>
+<li><p>If possible, the new folder is launched in a new session of the user's IDE.
+Otherwise, the folder is opened in the file manager, e.g. Finder on macOS
+or File Explorer on Windows.</p></li>
 </ul></li>
 <li><p><code>use_zip()</code>: More useful in day-to-day work. Downloads in current working directory, by
 default, and allows <code>cleanup</code> behaviour to be specified.</p></li>
