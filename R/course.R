@@ -396,9 +396,14 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   }
 
   if (is_interactive()) {
-    rproj_path <- rproj_paths(target)
-    if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
-      ui_bullets(c("v" = "Opening project in RStudio."))
+    proj_root <- proj_find(target)
+    if (rstudio_available() && rstudioapi::hasFun("openProject")) {
+      if (is.null(proj_root)) {
+        file_create(path(target, ".here"))
+      }
+      ui_bullets(c(
+        "v" = "Opening {.path {pth(target, base = NA)}} in a new session."
+      ))
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
       ui_bullets(c(
