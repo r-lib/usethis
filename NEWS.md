@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 3.2.0
 
 ## Formatting
 
