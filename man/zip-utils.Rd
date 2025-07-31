@@ -56,9 +56,9 @@ highlight the download destination. Workflow:
 \item User is asked to notice and confirm the location of the new folder. Specify
 \code{destdir} or configure the \code{"usethis.destdir"} option to prevent this.
 \item User is asked if they'd like to delete the ZIP file.
-\item If new folder contains an \code{.Rproj} file, a new instance of RStudio is
-launched. Otherwise, the folder is opened in the file manager, e.g. Finder
-or File Explorer.
+\item If possible, the new folder is launched in a new session of the user's IDE.
+Otherwise, the folder is opened in the file manager, e.g. Finder on macOS
+or File Explorer on Windows.
 }
 
 \item \code{use_zip()}: More useful in day-to-day work. Downloads in current working directory, by
