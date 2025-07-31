@@ -75,6 +75,7 @@
 <h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
 <ul><li><p><code>use_package(min_version = FALSE)</code> is treated the same as when <code>min_version</code> is not specified (<a href="https://github.com/r-lib/usethis/issues/2117" class="external-link">#2117</a>, <a href="https://github.com/salim-b" class="external-link">@salim-b</a>).</p></li>
 <li><p><code><a href="../reference/badges.html">use_r_universe_badge()</a></code> is a new function that creates a README badge indicating your package is available on <a href="https://r-universe.dev" class="external-link">R-universe</a> and reporting the latest version (<a href="https://github.com/olivroy" class="external-link">@olivroy</a>, <a href="https://github.com/r-lib/usethis/issues/1883" class="external-link">#1883</a>).</p></li>
+<li><p>Some GitHub functionality should now work for GitHub Enterprise Cloud (as opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as <code>"https://my-cool-org.ghe.com"</code> should now be recognized as “looks like GitHub” (<a href="https://github.com/r-lib/usethis/issues/2098" class="external-link">#2098</a>, <a href="https://github.com/jameslairdsmith" class="external-link">@jameslairdsmith</a>).</p></li>
 <li>
 <p>Several deprecated functions have been removed:</p>
 <ul><li>
@@ -101,7 +102,6 @@
 <li><p><code><a href="../reference/use_package.html">use_package()</a></code> can lower a minimum version requirement (<a href="https://github.com/jplecavalier" class="external-link">@jplecavalier</a>, <a href="https://github.com/r-lib/usethis/issues/1957" class="external-link">#1957</a>).</p></li>
 <li><p><code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> only suggests doing reverse dependency checks if there are, in fact, reverse dependencies (<a href="https://github.com/r-lib/usethis/issues/1817" class="external-link">#1817</a>, <a href="https://github.com/seankross" class="external-link">@seankross</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_upkeep_issue()</a></code> records the year it is being run in the <code>Config/usethis/upkeep</code> field in DESCRIPTION. If this value exists, it is used to filter the checklist when making the issue.</p></li>
-<li><p>Some GitHub functionality should now work for GitHub Enterprise Cloud (as opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as <code>"https://my-cool-org.ghe.com"</code> should now be recognized as “looks like GitHub” (<a href="https://github.com/r-lib/usethis/issues/2098" class="external-link">#2098</a>, <a href="https://github.com/jameslairdsmith" class="external-link">@jameslairdsmith</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.0.0" id="usethis-300">usethis 3.0.0<a class="anchor" aria-label="anchor" href="#usethis-300"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
