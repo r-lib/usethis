@@ -108,6 +108,8 @@ use_github_action("check-standard")
 
 use_github_action("pkgdown")
 
-use_github_action(url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml")
+use_github_action(
+  url = "https://github.com/posit-dev/setup-air/blob/main/examples/format-suggest.yaml"
+)
 }
 }
