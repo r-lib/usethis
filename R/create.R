@@ -108,7 +108,7 @@ create_project <- function(
     use_rstudio()
   } else {
     ui_bullets(c(
-      "v" = "Writing a sentinel file {.path .here'}.",
+      "v" = "Writing a sentinel file {.path .here}.",
       "_" = "Build robust paths within your project via {.fun here::here}.",
       "i" = "Learn more at {.url https://here.r-lib.org}."
     ))
