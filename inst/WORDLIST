@@ -30,7 +30,6 @@ Gábor
 HTTPS
 Homebrew
 Initialise
-JSON
 Jenkinsfile
 Jupyter
 Keychain
@@ -45,15 +44,14 @@ PATs
 PBC
 PRs
 README
-REPO
 RMarkdown
+ROR
 RProfile
 RStudio
 RStudio's
 Rcpp
 RcppArmadillo
 RcppEigen
-Repo
 Rmd
 Rmds
 Roxygen
@@ -67,7 +65,6 @@ Tidyverse
 UI
 Ushey's
 Xcode
-YAML
 addin
 addins
 alphabetises
@@ -89,7 +86,6 @@ clisymbols
 codecov
 colour
 colours
-config
 convergently
 covr
 cpp
@@ -100,7 +96,6 @@ devtools
 discoverable
 else's
 emacs
-eval
 favour
 fiascos
 filenaming
@@ -157,7 +152,6 @@ pandoc
 pkgdown
 pos
 pre
-programmatically
 purrr
 r's
 rOpenSci
@@ -167,11 +161,8 @@ rebase
 reconfigures
 redirections
 renv
-repo
 repo's
-repos
 reprex
-reproducibility
 revdep
 revdepcheck
 revdepchecks
@@ -188,7 +179,6 @@ shortlinks
 signalling
 sitrep
 solarized
-src
 styler
 symlink
 symlinks
@@ -210,7 +200,6 @@ useR
 usethis's
 ver
 vm
-wc
 withr
 xyz
 xz
