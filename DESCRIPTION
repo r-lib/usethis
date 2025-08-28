@@ -37,7 +37,7 @@ Imports:
     purrr,
     rappdirs,
     rlang (>= 1.1.0),
-    rprojroot (>= 1.2),
+    rprojroot (>= 2.1.1),
     rstudioapi,
     stats,
     tools,

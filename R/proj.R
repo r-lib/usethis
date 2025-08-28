@@ -197,8 +197,7 @@ proj_crit <- function() {
     rprojroot::is_rstudio_project |
     rprojroot::is_r_package |
     rprojroot::is_git_root |
-    # use rprojroot::is_vscode_project at some point in the future
-    rprojroot::has_file(".vscode/settings.json") |
+    rprojroot::is_vscode_project |
     rprojroot::is_quarto_project |
     rprojroot::is_renv_project |
     rprojroot::is_remake_project |
