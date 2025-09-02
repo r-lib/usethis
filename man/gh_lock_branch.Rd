@@ -18,4 +18,7 @@ These functions lock and unlock a branch on GitHub so that it's not possible
 for anyone to make any changes. This is used as part of the release process
 to ensure that you don't accidentally merge any pull requests or push any
 commits while you are waiting for CRAN to get back to you.
+
+You must be an admin or an owner of the repo in order to lock/unlock
+a branch.
 }
