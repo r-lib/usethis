@@ -11,7 +11,7 @@ gh_unlock_branch(branch = NULL)
 }
 \arguments{
 \item{branch}{The branch to lock/unlock. If not supplied, uses the
-default branch with is usually "main" or "master".}
+default branch which is usually "main" or "master".}
 }
 \description{
 These functions lock and unlock a branch on GitHub so that it's not possible

@@ -26,7 +26,7 @@
       
       Submit to CRAN:
       
-      * [ ] `usethis::gh_lock_branch()
+      * [ ] `usethis::gh_lock_branch()`
       * [ ] `usethis::use_version('minor')`
       * [ ] `devtools::submit_cran()`
       * [ ] Approve email
@@ -34,7 +34,7 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::gh_unlock_branch()
+      * [ ] `usethis::gh_unlock_branch()`
       * [ ] Finish & publish blog post
       * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
@@ -63,7 +63,7 @@
       
       Submit to CRAN:
       
-      * [ ] `usethis::gh_lock_branch()
+      * [ ] `usethis::gh_lock_branch()`
       * [ ] `usethis::use_version('patch')`
       * [ ] `devtools::submit_cran()`
       * [ ] Approve email
@@ -71,7 +71,7 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::gh_unlock_branch()
+      * [ ] `usethis::gh_unlock_branch()`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
@@ -98,7 +98,7 @@
       
       Submit to CRAN:
       
-      * [ ] `usethis::gh_lock_branch()
+      * [ ] `usethis::gh_lock_branch()`
       * [ ] `usethis::use_version('major')`
       * [ ] `devtools::submit_cran()`
       * [ ] Approve email
@@ -106,7 +106,7 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::gh_unlock_branch()
+      * [ ] `usethis::gh_unlock_branch()`
       * [ ] Finish & publish blog post
       * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
@@ -155,7 +155,7 @@
       
       Submit to CRAN:
       
-      * [ ] `usethis::gh_lock_branch()
+      * [ ] `usethis::gh_lock_branch()`
       * [ ] `usethis::use_version('major')`
       * [ ] `devtools::submit_cran()`
       * [ ] Approve email
@@ -163,7 +163,7 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::gh_unlock_branch()
+      * [ ] `usethis::gh_unlock_branch()`
       * [ ] Finish & publish blog post
       * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
@@ -193,7 +193,7 @@
       
       Submit to CRAN:
       
-      * [ ] `usethis::gh_lock_branch()
+      * [ ] `usethis::gh_lock_branch()`
       * [ ] `usethis::use_version('major')`
       * [ ] `devtools::submit_cran()`
       * [ ] Approve email
@@ -201,7 +201,7 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::gh_unlock_branch()
+      * [ ] `usethis::gh_unlock_branch()`
       * [ ] Finish & publish blog post
       * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
