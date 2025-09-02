@@ -3,6 +3,7 @@
 \name{create_package}
 \alias{create_package}
 \alias{create_project}
+\alias{create_quarto_project}
 \title{Create a package or project}
 \usage{
 create_package(
@@ -19,6 +20,13 @@ create_project(
   rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive()
 )
+
+create_quarto_project(
+  path,
+  type = "default",
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+)
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
@@ -30,10 +38,11 @@ personalized defaults using package options.}
 
 \item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
 project into an \href{https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects}{RStudio Project}.
-If \code{FALSE} and a non-package project, a sentinel \code{.here} file is placed so
-that the directory can be recognized as a project by the
-\href{https://here.r-lib.org}{here} or
-\href{https://rprojroot.r-lib.org}{rprojroot} packages.}
+
+If \code{FALSE}, the goal is to ensure that the directory can be recognized as
+a project by, for example, the \href{https://here.r-lib.org}{here} package. If
+the project is neither an R package nor a Quarto project, a sentinel
+\code{.here} file is placed to mark the project root.}
 
 \item{roxygen}{Do you plan to use roxygen2 to document your package?}
 
@@ -42,12 +51,16 @@ error if not.}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
-\item If using RStudio desktop, the project is opened in a new session.
-\item If using Positron, the project is opened in a new window.
-\item If on RStudio server, the current RStudio project is activated.
-\item Otherwise, the working directory and active project is changed in the
-current R session.
+\item If using RStudio or Positron, the new project is opened in a new session,
+window, or browser tab, depending on the product (RStudio or Positron)
+and context (desktop or server).
+\item Otherwise, the working directory and active project of the current R
+session are changed to the new project.
 }}
+
+\item{type}{The type of Quarto project to create. See
+\code{?quarto::quarto_create_project} for the most up-to-date list, but
+\code{"website"}, \code{"blog"}, \code{"book"}, and \code{"manuscript"} are common choices.}
 }
 \value{
 Path to the newly created project or package, invisibly.
@@ -55,13 +68,18 @@ Path to the newly created project or package, invisibly.
 \description{
 These functions create an R project:
 \itemize{
-\item \code{create_package()} creates an R package
+\item \code{create_package()} creates an R package.
 \item \code{create_project()} creates a non-package project, i.e. a data analysis
-project
+project.
+\item \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{create_quarto_project()} creates a
+Quarto project. It is a simplified convenience wrapper around
+\code{\link[quarto:quarto_create_project]{quarto::quarto_create_project()}}, which you should call directly for
+more advanced usage.
 }
 
-Both functions can be called on an existing project; you will be asked before
-any existing files are changed.
+These functions work best when creating a project \emph{de novo}, but
+\code{create_package()} and \code{create_project()} can be called on an existing
+project; you will be asked before any existing files are changed.
 }
 \seealso{
 \code{\link[=create_tidy_package]{create_tidy_package()}} is a convenience function that extends

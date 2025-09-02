@@ -1,6 +1,6 @@
 Package: usethis
 Title: Automate Package and Project Setup
-Version: 3.1.0.9000
+Version: 3.2.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@posit.co", role = "aut",
            comment = c(ORCID = "0000-0003-4757-117X")),
@@ -37,7 +37,7 @@ Imports:
     purrr,
     rappdirs,
     rlang (>= 1.1.0),
-    rprojroot (>= 1.2),
+    rprojroot (>= 2.1.1),
     rstudioapi,
     stats,
     tools,
@@ -50,6 +50,7 @@ Suggests:
     knitr,
     magick,
     pkgload (>= 1.3.2.1),
+    quarto,
     rmarkdown,
     roxygen2 (>= 7.1.2),
     spelling (>= 1.2),
@@ -62,4 +63,4 @@ Config/usethis/last-upkeep: 2025-04-22
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.2.9000

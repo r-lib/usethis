@@ -78,9 +78,8 @@ least once on each of the three major operating systems (Linux, macOS,
 and Windows).
 \item Report test coverage.
 \item Build and deploy a pkgdown site.
-\item Provide two commands to be used in pull requests: \verb{/document} to run
-\code{roxygen2::roxygenise()} and update the PR, and \verb{/style} to run
-\code{styler::style_pkg()} and update the PR.
+\item Check the formatting of incoming pull requests with Air and suggest
+fixes as necessary.
 
 This is how the tidyverse team checks its packages, but it is overkill
 for less widely used packages. For \verb{R CMD check}, consider using the more

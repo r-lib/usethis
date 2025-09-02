@@ -197,8 +197,7 @@ proj_crit <- function() {
     rprojroot::is_rstudio_project |
     rprojroot::is_r_package |
     rprojroot::is_git_root |
-    # use rprojroot::is_vscode_project at some point in the future
-    rprojroot::has_file(".vscode/settings.json") |
+    rprojroot::is_vscode_project |
     rprojroot::is_quarto_project |
     rprojroot::is_renv_project |
     rprojroot::is_remake_project |
@@ -278,9 +277,16 @@ project_name <- function(base_path = proj_get()) {
 
 #' Activate a project
 #'
-#' Activates a project in usethis, R session, and (if relevant) RStudio senses.
-#' If you are in RStudio, this will open a new RStudio session. If not, it will
+#' Activates a project in the usethis, R session, and (if relevant) RStudio
+#' senses. If you are in RStudio, this will open a new RStudio session. If not, it will
 #' change the working directory and [active project][proj_set()].
+#'
+#' * If using RStudio desktop, the project is opened in a new session.
+#'   * If using Positron, the project is opened in a new window.
+#'   * If using RStudio or Positron on a server, the project is opened in a new
+#'     browser tab.
+#'   * Otherwise, the working directory and active project is changed in the
+#'     current R session.
 #'
 #' @param path Project directory
 #' @return Single logical value indicating if current session is modified.

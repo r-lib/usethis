@@ -24,6 +24,37 @@ test_that("use_binder_badge() needs a github repository", {
   )
 })
 
+test_that("use_r_universe_badge() needs to know the owner", {
+  skip_if_no_git_user()
+  local_interactive(FALSE)
+  withr::local_options(usethis.quiet = FALSE)
+  create_local_package()
+
+  expect_snapshot(
+    error = TRUE,
+    use_r_universe_badge(),
+    transform = scrub_testpkg
+  )
+
+  expect_snapshot(
+    use_r_universe_badge("OWNER_DIRECT/SCRUBBED"),
+    transform = scrub_testpkg
+  )
+
+  desc::desc_set_urls("https://github.com/OWNER_DESCRIPTION/SCRUBBED")
+  expect_snapshot(
+    use_r_universe_badge(),
+    transform = scrub_testpkg
+  )
+
+  use_git()
+  use_git_remote("origin", "https://github.com/OWNER_ORIGIN/SCRUBBED.git")
+  expect_snapshot(
+    use_r_universe_badge(),
+    transform = scrub_testpkg
+  )
+})
+
 test_that("use_posit_cloud_badge() handles bad and good input", {
   create_local_project()
   expect_snapshot(use_posit_cloud_badge(), error = TRUE)

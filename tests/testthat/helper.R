@@ -22,6 +22,8 @@ create_local_package <- function(
 }
 
 create_local_project <- function(
+  # it is convenient if `dir` produces a project name that would be allowed for
+  # a CRAN package, even for a generic project test fixture
   dir = file_temp(pattern = "testproj"),
   env = parent.frame(),
   rstudio = FALSE
@@ -29,11 +31,19 @@ create_local_project <- function(
   create_local_thing(dir, env, rstudio, "project")
 }
 
+create_local_quarto_project <- function(
+  dir = file_temp(pattern = "test-quarto-proj"),
+  env = parent.frame(),
+  rstudio = FALSE
+) {
+  create_local_thing(dir, env, rstudio, "quarto_project")
+}
+
 create_local_thing <- function(
   dir = file_temp(pattern = pattern),
   env = parent.frame(),
   rstudio = FALSE,
-  thing = c("package", "project")
+  thing = c("package", "project", "quarto_project")
 ) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
@@ -45,7 +55,7 @@ create_local_thing <- function(
 
   withr::defer(
     {
-      ui_bullets(c("Deleting temporary project: {.path {dir}}"))
+      ui_bullets(c("v" = "Deleting temporary project: {.path {dir}}"))
       fs::dir_delete(dir)
     },
     envir = env
@@ -65,7 +75,12 @@ create_local_thing <- function(
         open = FALSE,
         check_name = FALSE
       ),
-      project = create_project(dir, rstudio = rstudio, open = FALSE)
+      project = create_project(dir, rstudio = rstudio, open = FALSE),
+      quarto_project = create_quarto_project(
+        dir,
+        rstudio = rstudio,
+        open = FALSE
+      )
     )
   )
 
@@ -74,7 +89,9 @@ create_local_thing <- function(
 
   withr::defer(
     {
-      ui_bullets(c("Restoring original working directory: {.path {old_wd}}"))
+      ui_bullets(c(
+        "v" = "Restoring original working directory: {.path {old_wd}}"
+      ))
       setwd(old_wd)
     },
     envir = env

@@ -12,6 +12,8 @@ status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.or
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Codecov test
 coverage](https://codecov.io/gh/r-lib/usethis/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis)
+[![R-universe
+version](https://r-lib.r-universe.dev/usethis/badges/version)](https://r-lib.r-universe.dev/usethis)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise
@@ -123,7 +125,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo.
-#> ✔ Adding ".Rproj.user", ".Rhistory", ".Rdata", ".httr-oauth", ".DS_Store", and
+#> ✔ Adding ".Rproj.user", ".Rhistory", ".RData", ".httr-oauth", ".DS_Store", and
 #>   ".quarto" to '.gitignore'.
 ```
 

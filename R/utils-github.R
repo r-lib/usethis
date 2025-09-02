@@ -111,8 +111,8 @@ github_url_from_git_remotes <- function(url = NULL) {
 #' filtered for specific remote names. The remote URLs are parsed into parts,
 #' like `host` and `repo_owner`. This is filtered again for rows where the
 #' `host` appears to be a GitHub deployment (currently a crude search for
-#' "github"). Some of these parts are recombined or embellished to get new
-#' columns (`host_url`, `api_url`, `repo_spec`). All operations are entirely
+#' "github" or "ghe"). Some of these parts are recombined or embellished to get
+#' new columns (`host_url`, `api_url`, `repo_spec`). All operations are entirely
 #' mechanical and local.
 #'
 #' @param these Intersect the list of remotes with `these` remote names. To keep
@@ -136,8 +136,8 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   }
 
   parsed <- parse_github_remotes(set_names(x$url, x$name))
-  # TODO: generalize here for GHE hosts that don't include 'github'
-  is_github <- grepl("github", parsed$host)
+  # TODO: presumably more generalization is necessary to truly handle self-hosted GHE
+  is_github <- grepl("github|ghe", parsed$host)
   parsed <- parsed[is_github, ]
 
   parsed$remote <- parsed$name
