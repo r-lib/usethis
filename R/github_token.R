@@ -306,7 +306,7 @@ scold_for_scopes <- function(scopes) {
 #'
 #' @export
 #' @param branch The branch to lock/unlock. If not supplied, uses the
-#'   default branch with is usually "main" or "master".
+#'   default branch which is usually "main" or "master".
 gh_lock_branch <- function(branch = NULL) {
   cfg <- github_remote_config(github_get = TRUE)
   repo <- target_repo(cfg)
