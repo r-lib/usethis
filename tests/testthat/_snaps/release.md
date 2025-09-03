@@ -55,7 +55,6 @@
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
       
