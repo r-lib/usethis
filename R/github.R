@@ -302,7 +302,7 @@ github_unlock_branch <- function(branch = NULL) {
     branch = branch,
     # required parameters
     required_status_checks = NA,
-    enforce_admins = TRUE,
+    enforce_admins = FALSE,
     required_pull_request_reviews = NA,
     restrictions = NA,
     # paramater that actually does what we want
