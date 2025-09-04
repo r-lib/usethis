@@ -136,13 +136,6 @@ create_quarto_project <- function(
 ) {
   check_installed("quarto")
 
-  if (!quarto::quarto_available(error = FALSE)) {
-    ui_abort(c(
-      "x" = "The Quarto CLI must be available to create a Quarto project.",
-      "i" = "See {.url https://quarto.org/docs/get-started/}."
-    ))
-  }
-
   path <- user_path_prep(path)
   parent_dir <- path_dir(path)
   check_path_is_directory(parent_dir)

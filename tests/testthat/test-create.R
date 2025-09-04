@@ -151,7 +151,6 @@ test_that("we discourage project creation in home directory", {
 
 test_that("create_quarto_project() works for basic usage", {
   skip_if_not_installed("quarto")
-  skip_if_not(quarto::quarto_available(error = FALSE))
 
   dir <- create_local_quarto_project()
   expect_proj_file("_quarto.yml")
