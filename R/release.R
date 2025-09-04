@@ -124,7 +124,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
-    release_revdepcheck(on_cran, is_posit_pkg),
+    if (type != "patch") release_revdepcheck(on_cran, is_posit_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
