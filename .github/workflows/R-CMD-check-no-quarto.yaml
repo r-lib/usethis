@@ -1,0 +1,76 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+#
+# NOTE: This workflow is overkill for most R packages and
+# check-standard.yaml is likely a better choice.
+# usethis::use_github_action("check-standard") will install it.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: R-CMD-check-no-quarto
+
+permissions: read-all
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) [${{ format('{0}', matrix.config.quarto) == 'false' && 'No ' || ''}}Quarto ${{ matrix.config.quarto || 'release' }}]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: macos-latest,   r: 'release', quarto: false}
+
+          - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'release', quarto: false}
+
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'release', quarto: false}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        if: format('{0}', matrix.config.quarto) != 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          version: ${{ matrix.config.quarto || 'release' }}
+          tinytex: true
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          # install the package itself as we register vignette engine
+          extra-packages: any::rcmdcheck, local::.
+          needs: check
+          install-quarto: false
+          install-pandoc: false
+
+      - name: Configure Git User
+        if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
+        run: |
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          args: ${{ format('c("--no-manual", "--as-cran"{0})', format('{0}', matrix.config.quarto) == 'false' && ',"--ignore-vignettes"' || '') }}
+          build_args: ${{ format('c("--no-manual","--compact-vignettes=gs+qpdf"{0})', format('{0}', matrix.config.quarto) == 'false' && ',"--no-build-vignettes"' || '') }}
