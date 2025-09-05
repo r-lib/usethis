@@ -50,7 +50,7 @@ Suggests:
     knitr,
     magick,
     pkgload (>= 1.3.2.1),
-    quarto (>= 1.5.0),
+    quarto (>= 1.5.1),
     rmarkdown,
     roxygen2 (>= 7.1.2),
     spelling (>= 1.2),
