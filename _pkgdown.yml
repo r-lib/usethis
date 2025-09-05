@@ -121,7 +121,6 @@ reference:
     - starts_with("use_github")
     - git_sitrep
     - create_github_token
-    - github_lock_branch
     - gh_token_help
     - git_vaccinate
     - use_git_config
