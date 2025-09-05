@@ -1,3 +1,13 @@
+## Preface for usethis v3.2.1
+
+This is a patch release following quickly on the heels of v3.2.0.
+
+It is meant to harden usethis against the absence of the Quart CLI.
+This is currently preventing CRAN's macOS builders from creating binaries for usethis.
+
+I did not do revdep checks for v3.2.1.
+The notes below pertain to v3.2.0.
+
 ## revdepcheck results
 
 We checked 260 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
