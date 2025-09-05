@@ -26,3 +26,4 @@
 ^CRAN-SUBMISSION$
 ^\.vscode$
 ^[.]?air[.]toml$
+^scratch\.R$
