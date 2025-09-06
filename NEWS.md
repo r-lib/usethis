@@ -1,3 +1,5 @@
+# usethis (development version)
+
 # usethis 3.2.1
 
 * `create_quarto_project()` exits early if the Quarto CLI does not appear to be
