@@ -677,7 +677,6 @@ fishy_bookdown_config <- function(old_name = "master") {
 }
 
 fishy_codecov_config <- function(new_name = "main") {
-
   path <- proj_path("codecov.yml")
 
   if (!file_exists(path)) {
