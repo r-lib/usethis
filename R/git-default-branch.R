@@ -565,6 +565,7 @@ report_fishy_files <- function(old_name = "master", new_name = "main") {
   try(fishy_github_actions(new_name = new_name), silent = TRUE)
   try(fishy_badges(old_name = old_name), silent = TRUE)
   try(fishy_bookdown_config(old_name = old_name), silent = TRUE)
+  try(fishy_codecov_config(new_name = new_name), silent = TRUE)
 }
 
 # good test cases: downlit, purrr, pkgbuild, zealot, glue, bench,
@@ -670,6 +671,26 @@ fishy_bookdown_config <- function(old_name = "master") {
            {.val {old_name}}.",
     "_" = "Check and correct, if needed, in this file:
            {.path {pth(bookdown_config)}}"
+  ))
+
+  invisible(path)
+}
+
+fishy_codecov_config <- function(new_name = "main") {
+
+  path <- proj_path("codecov.yml")
+
+  if (!file_exists(path)) {
+    return(invisible(character()))
+  }
+
+  repo_spec <- target_repo_spec()
+  url <- glue("https://app.codecov.io/gh/{repo_spec}")
+
+  ui_bullets(c(
+    "-" = "Check and correct, if needed, your
+           {.href [codecov configuration]({url})}
+           to refer to the new default branch {.val {new_name}}."
   ))
 
   invisible(path)
