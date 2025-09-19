@@ -322,7 +322,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
   pr_user <- glue("@{pr$pr_user}")
   ui_bullets(c(
     "v" = "Checking out PR {.href [{pr$pr_string}]({pr$pr_html_url})} ({.field {pr_user}}):
-           {.val {pr$pr_title}}."
+           {.val {ui_escape_glue(pr$pr_title)}}."
   ))
 
   if (pr$pr_from_fork && isFALSE(pr$maintainer_can_modify)) {
@@ -944,7 +944,7 @@ choose_branch <- function(exclude = character()) {
         )
         at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
-          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<ui_escape_glue(pr_title)>>}"
         )
         cli::format_inline(template)
       }
@@ -990,12 +990,12 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
       at_user <- glue("@{pr_user}")
       if (some_closed) {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<ui_escape_glue(pr_title)>>}"
         )
         cli::format_inline(template)
       } else {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}): {.val <<ui_escape_glue(pr_title)>>}"
         )
         cli::format_inline(template)
       }
