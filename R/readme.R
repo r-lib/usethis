@@ -104,3 +104,47 @@ use_readme_md <- function(open = rlang::is_interactive()) {
 
   invisible(new)
 }
+
+#' @export
+#' @rdname use_readme_rmd
+use_readme_qmd <- function(open = rlang::is_interactive()) {
+  check_is_project()
+  check_installed("quarto")
+  # TODO: fail if README.RMD exists
+
+  is_pkg <- is_package()
+  repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
+  nm <- if (is_pkg) "Package" else "Project"
+  data <- list2(
+    !!nm := project_name(),
+    quarto = TRUE,
+    on_github = !is.null(repo_spec),
+    github_spec = repo_spec
+  )
+
+  new <- use_template(
+    if (is_pkg) "package-README" else "project-README",
+    "README.qmd",
+    data = data,
+    ignore = is_pkg,
+    open = open
+  )
+  if (!new) {
+    return(invisible(FALSE))
+  }
+
+  if (is_pkg && !data$on_github) {
+    ui_bullets(c(
+      "_" = "Update {.path {pth('README.qmd')}} to include installation instructions."
+    ))
+  }
+
+  if (uses_git()) {
+    use_git_hook(
+      "pre-commit",
+      render_template("readme-rmd-pre-commit.sh")
+    )
+  }
+
+  invisible(TRUE)
+}

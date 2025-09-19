@@ -14,8 +14,23 @@ knitr::opts_chunk$set(
 )
 ```
 {{/Rmd}}
+{{#quarto}}
+---
+title: {{{ Package }}}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+    fig.path: "man/figures/README-"
+    out.width: "100%"
+format: gfm
+---
 
+<!-- README.md is generated from README.qmd. Please edit that file -->
+{{/quarto}}
+{{^quarto}}
 # {{{ Package }}}
+{{/quarto}}
 
 <!-- badges: start -->
 <!-- badges: end -->
