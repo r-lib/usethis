@@ -393,14 +393,15 @@ get_release_news <- function(
     news <- if (file_exists(news_path)) read_utf8(news_path) else NULL
   } else {
     news <- tryCatch(
-      read_github_file(
+      get_github_file(
         tr$repo_spec,
         path = "NEWS.md",
         ref = SHA,
         host = tr$api_url
       ),
       github_error = NULL
-    )
+    ) |>
+      read_utf8()
   }
 
   if (is.null(news)) {
