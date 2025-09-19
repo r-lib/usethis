@@ -59,3 +59,13 @@ test_that("parse_file_url() errors when it should", {
     "https://gitlab.com/OWNER/REPO/path/to/file"
   ))
 })
+
+test_that("use_github_file works with non-text files", {
+  create_local_project()
+  use_github_file(
+    "https://github.com/r-lib/usethis/blob/main/man/figures/logo.png",
+    save_as = "logo.png"
+  )
+
+  expect_proj_file("logo.png")
+})
