@@ -35,13 +35,13 @@ format: gfm
 The goal of {{{ Project }}} is to ...
 
 {{#needs_render}}
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+What is special about using `{{{ filename }}}` instead of just `README.md`? You can include R chunks like so:
 
 ```{r cars}
 summary(cars)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+You'll still need to render `{{{ filename }}}` regularly, to keep `README.md` up-to-date.
 
 You can also embed plots, for example:
 

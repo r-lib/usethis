@@ -72,9 +72,9 @@ use_readme <- function(
 
   args <- switch(
     fmt,
-    Rmd = list(Rmd = TRUE, needs_render = TRUE),
+    Rmd = list(Rmd = TRUE, filename = "README.Rmd", needs_render = TRUE),
     md = list(needs_render = FALSE),
-    qmd = list(quarto = TRUE, needs_render = TRUE)
+    qmd = list(quarto = TRUE, filename = "README.qmd", needs_render = TRUE)
   )
   data <- list2(
     !!nm := project_name(),
@@ -87,7 +87,7 @@ use_readme <- function(
     if (is_pkg) "package-README" else "project-README",
     glue::glue("README.", fmt),
     data = data,
-    ignore = if (fmt %in% c("rmd", "qmd")) is_pkg else FALSE,
+    ignore = if (fmt %in% c("Rmd", "qmd")) is_pkg else FALSE,
     open = open
   )
 
@@ -101,7 +101,7 @@ use_readme <- function(
     ui_bullets(c("_" = msg))
   }
 
-  if (fmt %in% c("rmd", "qmd") && uses_git()) {
+  if (fmt %in% c("Rmd", "qmd") && uses_git()) {
     if (!new) {
       return(invisible(FALSE))
     }
@@ -110,6 +110,7 @@ use_readme <- function(
       "pre-commit",
       render_template("readme-rmd-pre-commit.sh")
     )
+
     invisible(TRUE)
   } else {
     invisible(new)

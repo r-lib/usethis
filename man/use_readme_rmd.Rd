@@ -3,11 +3,14 @@
 \name{use_readme_rmd}
 \alias{use_readme_rmd}
 \alias{use_readme_md}
+\alias{use_readme_qmd}
 \title{Create README files}
 \usage{
 use_readme_rmd(open = rlang::is_interactive())
 
 use_readme_md(open = rlang::is_interactive())
+
+use_readme_qmd(open = rlang::is_interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
@@ -21,7 +24,7 @@ Creates skeleton README files with possible stubs for
 \item a basic example
 }
 
-Use \code{Rmd} if you want a rich intermingling of code and output. Use \code{md} for a
+Use \code{Quarto} or \code{Rmd} (hereafter just \code{Rmd}) if you want a rich intermingling of code and output. Use \code{md} for a
 basic README. \code{README.Rmd} will be automatically added to \code{.Rbuildignore}.
 The resulting README is populated with default YAML frontmatter and R fenced
 code blocks (\code{md}) or chunks (\code{Rmd}).
