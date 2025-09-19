@@ -8,7 +8,9 @@
 # use_pipe() should produce a lifecycle deprecated warning
 
     Code
-      use_pipe()
+      create_local_package()
+      use_package_doc()
+      use_pipe(export = FALSE)
     Condition
       Warning:
       `use_pipe()` was deprecated in usethis 3.2.2.

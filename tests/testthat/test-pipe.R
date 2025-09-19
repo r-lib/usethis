@@ -23,7 +23,11 @@ test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
 })
 
 test_that("use_pipe() should produce a lifecycle deprecated warning", {
-  expect_snapshot(use_pipe())
+  expect_snapshot({
+    create_local_package()
+    use_package_doc()
+    use_pipe(export = FALSE)
+  })
 })
 
 
