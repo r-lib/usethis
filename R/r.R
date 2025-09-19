@@ -88,6 +88,39 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
   invisible(TRUE)
 }
 
+#' Edit the snapshot file associated with an R or test file
+#'
+#' This function opens the snapshot file associated with an R or test file, if
+#' one exists.
+#'
+#' @inheritParams use_r
+#' @param variant An optional subdirectory within the `_snaps/` directory.
+#' @export
+use_snapshot <- function(
+  name = NULL,
+  variant = NULL,
+  open = rlang::is_interactive()
+) {
+  if (!uses_testthat()) {
+    use_testthat_impl()
+  }
+
+  path_root <- path("tests", "testthat", "_snaps")
+  if (!is.null(variant)) {
+    path_root <- path(path_root, variant)
+  }
+  # I can't pass "md" to `compute_name()` because we're fine with them giving us
+  # "R" as the extension here.
+  path <- path(path_root, basename(compute_name(name)), ext = "md")
+
+  if (!file_exists(path)) {
+    cli::cli_abort("No snapshot file exists for {.arg {name}}.")
+  }
+  edit_file(proj_path(path), open = open)
+
+  invisible(TRUE)
+}
+
 #' Create or edit a test helper file
 #'
 #' This function creates (or opens) a test helper file, typically
@@ -183,7 +216,10 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
+  if (
+    !dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps") &&
+      !grepl("tests/testthat/_snaps", dir)
+  ) {
     cli::cli_abort(
       "Open file must be code, test, or snapshot.",
       call = error_call
