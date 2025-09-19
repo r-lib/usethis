@@ -22,6 +22,8 @@
 #' @param ref The name of a branch, tag, or commit. By default, the file at
 #'   `path` will be copied from its current state in the repo's default branch.
 #'   This is extracted from `repo_spec` when user provides a URL.
+#' @param open Open the newly created file for editing, if it is a text file? Happens in RStudio, if
+#'   applicable, or via [utils::file.edit()] otherwise. Binary files will not be opened.
 #' @inheritParams use_template
 #' @inheritParams use_github
 #' @inheritParams write_over
