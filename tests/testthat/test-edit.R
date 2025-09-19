@@ -150,6 +150,7 @@ test_that("edit_r_environ() ensures .Renviron exists in project", {
   expect_proj_file(".Renviron")
 })
 
+
 test_that("edit_r_makevars() ensures .R/Makevars exists in package", {
   create_local_package()
   edit_r_makevars("project")
@@ -174,4 +175,49 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   create_local_project()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
+})
+
+library(testthat)
+library(cli)
+
+test_that("challenge_renviron_precedence aborts when project-level .Renviron exists and user rejects editing", {
+  expect_error(
+    with_mocked_bindings(
+      challenge_renviron_precedence(tempdir()),
+      proj_find = function() "/fake/project",
+      file_exists = function(path) TRUE, # pretend .Renviron exists
+      ui_nah = function(msg) TRUE # user rejects editing -> triggers abort
+    ),
+    regexp = "Use `edit_r_environ"
+  )
+})
+
+test_that("challenge_renviron_precedence does nothing when no project", {
+  expect_no_error(
+    with_mocked_bindings(
+      challenge_renviron_precedence(tempdir()),
+      proj_find = function() NULL
+    )
+  )
+})
+
+test_that("challenge_renviron_precedence does nothing when no .Renviron file", {
+  expect_no_error(
+    with_mocked_bindings(
+      challenge_renviron_precedence(tempdir()),
+      proj_find = function() "/fake/project",
+      file_exists = function(path) FALSE
+    )
+  )
+})
+
+test_that("challenge_renviron_precedence prints bullet but does not abort when user accepts editing user-level", {
+  expect_no_error(
+    with_mocked_bindings(
+      challenge_renviron_precedence(tempdir()),
+      proj_find = function() "/fake/project",
+      file_exists = function(path) TRUE, # pretend .Renviron exists
+      ui_nah = function(msg) FALSE # user agrees -> no abort
+    )
+  )
 })
