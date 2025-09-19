@@ -77,37 +77,57 @@ use_github_file <- function(
     "v" = "Saving {.val {github_string}} to {.path {pth(save_as)}}."
   ))
 
-  lines <- read_github_file(
+  tf <- get_github_file(
     repo_spec = repo_spec,
     path = path,
     ref = ref,
     host = host
   )
-  new <- write_over(
-    proj_path(save_as),
-    lines,
-    quiet = TRUE,
-    overwrite = overwrite
-  )
+
+  # If it's a text file, we read and write to make sure it is utf-8,
+  # otherwise, copy to its final destination
+  is_text <- grepl("^text/", mime::guess_type(tf))
+
+  if (is_text) {
+    new <- write_over(
+      proj_path(save_as),
+      read_utf8(tf),
+      quiet = TRUE,
+      overwrite = overwrite
+    )
+  } else {
+    file_copy(tf, proj_path(save_as), overwrite = overwrite)
+    new <- file_exists(proj_path(save_as))
+  }
 
   if (ignore) {
     use_build_ignore(save_as)
   }
 
-  if (open && new) {
+  if (is_text && open && new) {
     edit_file(proj_path(save_as))
   }
 
   invisible(new)
 }
 
-read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
+get_github_file <- function(
+  repo_spec,
+  path,
+  ref = NULL,
+  host = NULL,
+  envir = parent.frame()
+) {
   # https://docs.github.com/en/rest/reference/repos#contents
   # https://docs.github.com/en/rest/reference/repos#if-the-content-is-a-symlink
   # If the requested {path} points to a symlink, and the symlink's target is a
   # normal file in the repository, then the API responds with the content of the
   # file....
-  tf <- withr::local_tempfile()
+  tf <- withr::local_tempfile(
+    fileext = paste0(".", path_ext(path)),
+    .local_envir = envir
+  )
+
   gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
@@ -117,7 +137,7 @@ read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
     .destfile = tf,
     .accept = "application/vnd.github.v3.raw"
   )
-  read_utf8(tf)
+  tf
 }
 
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
