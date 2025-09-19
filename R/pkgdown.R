@@ -31,6 +31,17 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
   check_installed("pkgdown")
 
+  default_branch <- if (online) {
+    git_default_branch_(cfg)
+  } else {
+    guess_local_default_branch()
+  }
+  challenge_non_default_branch(
+    "Your site will not build until this branch is merged with
+    {.val {default_branch}}. Do you want to continue on this branch?",
+    default_branch = default_branch
+  )
+
   use_build_ignore(c(config_file, destdir, "pkgdown"))
   use_git_ignore(destdir)
 
