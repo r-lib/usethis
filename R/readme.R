@@ -6,7 +6,7 @@
 #' * R code to install from GitHub, if GitHub usage detected
 #' * a basic example
 #'
-#' Use `Rmd` if you want a rich intermingling of code and output. Use `md` for a
+#' Use `Quarto` or `Rmd` if you want a rich intermingling of code and output. Use `md` for a
 #' basic README. `README.Rmd` will be automatically added to `.Rbuildignore`.
 #' The resulting README is populated with default YAML frontmatter and R fenced
 #' code blocks (`md`) or chunks (`Rmd`).
@@ -35,116 +35,83 @@
 #' use_readme_md()
 #' }
 use_readme_rmd <- function(open = rlang::is_interactive()) {
-  check_is_project()
-  check_installed("rmarkdown")
-
-  is_pkg <- is_package()
-  repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
-  nm <- if (is_pkg) "Package" else "Project"
-  data <- list2(
-    !!nm := project_name(),
-    Rmd = TRUE,
-    on_github = !is.null(repo_spec),
-    github_spec = repo_spec
-  )
-
-  new <- use_template(
-    if (is_pkg) "package-README" else "project-README",
-    "README.Rmd",
-    data = data,
-    ignore = is_pkg,
-    open = open
-  )
-  if (!new) {
-    return(invisible(FALSE))
-  }
-
-  if (is_pkg && !data$on_github) {
-    ui_bullets(c(
-      "_" = "Update {.path {pth('README.Rmd')}} to include installation instructions."
-    ))
-  }
-
-  if (uses_git()) {
-    use_git_hook(
-      "pre-commit",
-      render_template("readme-rmd-pre-commit.sh")
-    )
-  }
-
-  invisible(TRUE)
+  use_readme("Rmd", open = open)
 }
 
 #' @export
 #' @rdname use_readme_rmd
 use_readme_md <- function(open = rlang::is_interactive()) {
-  check_is_project()
-  is_pkg <- is_package()
-  repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
-  nm <- if (is_pkg) "Package" else "Project"
-  data <- list2(
-    !!nm := project_name(),
-    Rmd = FALSE,
-    on_github = !is.null(repo_spec),
-    github_spec = repo_spec
-  )
-
-  new <- use_template(
-    if (is_pkg) "package-README" else "project-README",
-    "README.md",
-    data = data,
-    open = open
-  )
-
-  if (is_pkg && !data$on_github) {
-    ui_bullets(c(
-      "_" = "Update {.path {pth('README.md')}} to include installation instructions."
-    ))
-  }
-
-  invisible(new)
+  use_readme("md", open = open)
 }
 
 #' @export
 #' @rdname use_readme_rmd
 use_readme_qmd <- function(open = rlang::is_interactive()) {
-  check_is_project()
-  check_installed("quarto")
   # TODO: fail if README.RMD exists
+  # cli::cli_abort("Can't have both {.file README.Rmd} and {.file README.qmd}.")
+  use_readme("qmd", open = open)
+}
+
+#' @noRd
+use_readme <- function(
+  fmt = c("Rmd", "md", "qmd"),
+  open = rlang::is_interactive()
+) {
+  check_is_project()
+  fmt <- rlang::arg_match(fmt)
+  if (fmt == "Rmd") {
+    check_installed("rmarkdown")
+  }
+  if (fmt == "qmd") {
+    check_installed("quarto")
+  }
 
   is_pkg <- is_package()
   repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
   nm <- if (is_pkg) "Package" else "Project"
+
+  args <- switch(
+    fmt,
+    Rmd = list(Rmd = TRUE, needs_render = TRUE),
+    md = list(needs_render = FALSE),
+    qmd = list(quarto = TRUE, needs_render = TRUE)
+  )
   data <- list2(
     !!nm := project_name(),
-    quarto = TRUE,
     on_github = !is.null(repo_spec),
-    github_spec = repo_spec
+    github_spec = repo_spec,
+    !!!args
   )
 
   new <- use_template(
     if (is_pkg) "package-README" else "project-README",
-    "README.qmd",
+    glue::glue("README.", fmt),
     data = data,
-    ignore = is_pkg,
+    ignore = if (fmt %in% c("rmd", "qmd")) is_pkg else FALSE,
     open = open
   )
-  if (!new) {
-    return(invisible(FALSE))
-  }
 
   if (is_pkg && !data$on_github) {
-    ui_bullets(c(
-      "_" = "Update {.path {pth('README.qmd')}} to include installation instructions."
-    ))
+    msg <- switch(
+      fmt,
+      rmd = "Update {.path {pth('README.Rmd')}} to include installation instructions.",
+      md = "Update {.path {pth('README.md')}} to include installation instructions.",
+      qmd = "Update {.path {pth('README.qmd')}} to include installation instructions."
+    )
+    ui_bullets(c("_" = msg))
   }
 
-  if (uses_git()) {
+  if (fmt %in% c("rmd", "qmd") && uses_git()) {
+    if (!new) {
+      return(invisible(FALSE))
+    }
+
     use_git_hook(
       "pre-commit",
       render_template("readme-rmd-pre-commit.sh")
     )
+    invisible(TRUE)
+  } else {
+    invisible(new)
   }
-
-  invisible(TRUE)
 }

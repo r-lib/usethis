@@ -34,7 +34,7 @@ format: gfm
 
 The goal of {{{ Project }}} is to ...
 
-{{#Rmd}}
+{{#needs_render}}
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
 ```{r cars}
@@ -50,4 +50,4 @@ plot(pressure)
 ```
 
 In that case, don't forget to commit and push the resulting figure files, so they display on GitHub.
-{{/Rmd}}
+{{/needs_render}}
