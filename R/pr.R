@@ -944,7 +944,7 @@ choose_branch <- function(exclude = character()) {
         )
         at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
-          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<ui_escape_glue(pr_title)>>}"
         )
         cli::format_inline(template)
       }
@@ -988,14 +988,15 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
     function(pr_number, pr_html_url, pr_user, pr_state, pr_title) {
       href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
       at_user <- glue("@{pr_user}")
+      pr_title_escaped <- ui_escape_glue(pr_title)
       if (some_closed) {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title_escaped>>}"
         )
         cli::format_inline(template)
       } else {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title_escaped>>}"
         )
         cli::format_inline(template)
       }
