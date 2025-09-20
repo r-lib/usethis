@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_standalone()` now again works outside packages (#2087).
+
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 
 # usethis 3.2.1
