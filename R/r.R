@@ -218,6 +218,7 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   dir <- path_dir(proj_rel_path(path))
   if (
     !dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps") &&
+      # This makes sure variants are also supported.
       !grepl("tests/testthat/_snaps", dir)
   ) {
     cli::cli_abort(
