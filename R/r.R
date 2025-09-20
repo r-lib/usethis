@@ -111,7 +111,7 @@ use_snapshot <- function(
   }
   # I can't pass "md" to `compute_name()` because we're fine with them giving us
   # "R" as the extension here.
-  path <- path(path_root, basename(compute_name(name)), ext = "md")
+  path <- path(path_root, fs::path_ext_set(compute_name(NULL), "md"))
 
   if (!file_exists(path)) {
     cli::cli_abort("No snapshot file exists for {.arg {name}}.")
