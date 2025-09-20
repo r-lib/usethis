@@ -105,18 +105,18 @@ use_snapshot <- function(
     use_testthat_impl()
   }
 
-  path_root <- path("tests", "testthat", "_snaps")
+  path_root <- proj_path("tests", "testthat", "_snaps")
   if (!is.null(variant)) {
     path_root <- path(path_root, variant)
   }
   # I can't pass "md" to `compute_name()` because we're fine with them giving us
   # "R" as the extension here.
-  path <- path(path_root, fs::path_ext_set(compute_name(NULL), "md"))
+  path <- path(path_root, fs::path_ext_set(compute_name(name), "md"))
 
   if (!file_exists(path)) {
     cli::cli_abort("No snapshot file exists for {.arg {name}}.")
   }
-  edit_file(proj_path(path), open = open)
+  edit_file(path, open = open)
 
   invisible(TRUE)
 }
