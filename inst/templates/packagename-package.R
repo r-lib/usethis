@@ -4,6 +4,6 @@
 ## usethis namespace: start
 ## usethis namespace: end
 
-## usethis mockable bindings: start
-## usethis mockable bindings: end
+## mockable bindings: start
+## mockable bindings: end
 NULL
