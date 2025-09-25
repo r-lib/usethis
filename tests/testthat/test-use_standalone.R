@@ -54,6 +54,17 @@ test_that("can import standalone file with dependencies", {
   expect_match(imports, "rlang")
 })
 
+test_that("from a non-package project throws an informative message", {
+  skip_if_offline("github.com")
+  create_local_project()
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  # NOTE: Check ref after r-lib/rlang@standalone-dep has been merged
+  expect_snapshot(
+    use_standalone("r-lib/rlang", "types-check", ref = "73182fe94")
+  )
+})
+
 test_that("can use full github url", {
   skip_if_offline("github.com")
   create_local_package()
