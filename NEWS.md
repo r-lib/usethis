@@ -1,6 +1,7 @@
 # usethis (development version)
 
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+* `use_snapshot()` is a new function to open a [testthat snapshot file]() corresponding to a given test file or R file (#2156, @jonthegeek).
 
 # usethis 3.2.1
 
