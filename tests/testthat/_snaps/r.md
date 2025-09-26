@@ -4,7 +4,7 @@
       use_snapshot("foo", open = FALSE)
     Condition
       Error in `use_snapshot()`:
-      ! No snapshot file exists for `foo`.
+      ! No snapshot file exists for `foo.md`.
 
 # use_test_helper() creates a helper file
 

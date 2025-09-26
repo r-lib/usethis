@@ -4,13 +4,11 @@
 \alias{use_snapshot}
 \title{Edit the snapshot file associated with an R or test file}
 \usage{
-use_snapshot(name = NULL, variant = NULL, open = rlang::is_interactive())
+use_snapshot(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
 \code{NULL} to take the name from the currently open file in RStudio.}
-
-\item{variant}{An optional subdirectory within the \verb{_snaps/} directory.}
 
 \item{open}{Whether to open the file for interactive editing.}
 }

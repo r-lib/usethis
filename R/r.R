@@ -94,27 +94,20 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 #' one exists.
 #'
 #' @inheritParams use_r
-#' @param variant An optional subdirectory within the `_snaps/` directory.
 #' @export
 use_snapshot <- function(
   name = NULL,
-  variant = NULL,
   open = rlang::is_interactive()
 ) {
   if (!uses_testthat()) {
     use_testthat_impl()
   }
 
-  path_root <- proj_path("tests", "testthat", "_snaps")
-  if (!is.null(variant)) {
-    path_root <- path(path_root, variant)
-  }
-  # I can't pass "md" to `compute_name()` because we're fine with them giving us
-  # "R" as the extension here.
-  path <- path(path_root, fs::path_ext_set(compute_name(name), "md"))
+  snap_name <- compute_name(name, ext = "md")
+  path <- proj_path("tests", "testthat", "_snaps", snap_name)
 
   if (!file_exists(path)) {
-    cli::cli_abort("No snapshot file exists for {.arg {name}}.")
+    cli::cli_abort("No snapshot file exists for {.var {snap_name}}.")
   }
   edit_file(path, open = open)
 
