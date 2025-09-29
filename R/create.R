@@ -394,7 +394,7 @@ create_from_github <- function(
 
   if (install_dependencies) {
     ui_bullets(c("v" = "Installing missing dependencies."))
-    pak::local_install_dev_deps(upgrade = FALSE)
+    pak::local_install_dev_deps(repo_path, upgrade = FALSE)
   }
 
   rstudio <- rstudio %||% (rstudio_available() && !is_positron())
