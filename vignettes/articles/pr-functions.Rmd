@@ -42,15 +42,15 @@ A pull request (PR) involves two players, a contributor and a reviewer. To make 
 #| label: sample_contributor
 #| eval: false
 # contributor code
-``
-`
+```
+
 <div class = "reviewer">
 ```{r}
 #| label: sample_reviewer
 #| eval: false
 # reviewer code
-`
-``
+```
+
 </div>
 
 ## Set up advice
@@ -253,16 +253,14 @@ Run `pr_push()` again to update the branch in our fork, which is automatically r
 #| label: pr_push_again
 #| eval: false
 pr_push()
-``
-`
+```
 <div class = "output">
 ```{r}
 #| eval: false
 #> ✔ Checking that local branch "exhilarating" has the changes in "origin/exhilarating".
 #> ✔ Pushing local "exhilarating" branch to "origin/exhilarating".
 #> ☐ View PR at <https://github.com/rladies/praise/pull/108> or call usethis::pr_view().
-`
-``
+```
 </div>
 
 Note: On the first push of a new branch, usethis points you to GitHub’s “compare” page to create a pull request. On subsequent pushes to an existing PR branch, the message instead points you directly to the pull request (“View PR …”).
@@ -294,8 +292,7 @@ Since some of the code changes happened on GitHub, we can get that code back to 
 ```{r}
 #| eval: false
 #| #> ✔ Pulling from "origin/exhilarating".
-``
-`
+```
 </div>
 
 Once the reviewer is satisfied with the changes, they finalize the process by merging the pull request on GitHub.
@@ -309,8 +306,7 @@ Finally, we can also conclude the PR process on our end with `pr_finish()`.
 #> ✔ Pulling changes from "upstream/main".
 #> ✔ Deleting local "exhilarating" branch. 
 #> ✔ PR rladies/praise/#108 has been merged, deleting remote branch "origin/exhilarating". 
-`
-``
+```
 </div>
 
 After this, our local copy of the package is up-to-date with the source repo and the branch we used for the PR is deleted.
@@ -329,7 +325,11 @@ to sharing changes, and eventually finishing or pausing a PR.
 #|     like pr_init(), pr_push(), pr_pull(), pr_finish(), and how
 #|     they connect when starting, updating, and completing a PR.
 #| out.width: "90%"
-knitr::include_graphics("img/pr-functions-usethis-pr-flow-medium-light.jpeg", dpi = 300)
+knitr::include_graphics(
+  "img/pr-functions-usethis-pr-flow-medium-light.jpg",
+  dpi = 300
+)
+```
 
 ## Other helpful functions
 
@@ -340,14 +340,3 @@ There are a few other functions in the `pr_*()` family that we didn't encounter 
 - `pr_pause()` makes sure you're synced with the PR, switches back to the default branch, and calls `pr_merge_main()` to keep you up-to-date with the source repo. This is likely something a package maintainer reviewing numerous PRs will need to use, as they switch back and forth between reviewing/extending PRs and the main line of development on the default branch.
 
 - `pr_resume()` helps you resume work on a PR after you've spent some time with another branch checked out. If you give it no arguments, it will present an interactive choice of local branches and indicates which, if any, are associated with a PR.
-
-```{r}
-#| echo: false
-#| fig-alt: >
-#|     A screenshot of the GitHub pull request under review, showing the
-#|     suggestion to add the trailing comma. This suggestion is about
-#|     to be committed with the default commit message "Update R/adjective.R"
-#|     pre-filled.
-#| out.width: "90%"
-knitr::include_graphics("img/pr-usethis-pr-flow-medium-light.png", dpi = 300)
-```
