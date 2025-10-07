@@ -186,7 +186,8 @@ create_quarto_project <- function(
 #' In the fork-and-clone case, `create_from_github()` also does additional
 #' remote and branch setup, leaving you in the perfect position to make a pull
 #' request with [pr_init()], one of several [functions for working with pull
-#' requests][pull-requests].
+#' requests][pull-requests]. Finally, it installs the dependencies of the
+#' package, so you're set up to immediately start working on it.
 #'
 #' `create_from_github()` works best when your GitHub credentials are
 #' discoverable. See below for more about authentication.
@@ -237,6 +238,8 @@ create_quarto_project <- function(
 #'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise (but note that
 #'   the cloned repo may already be an RStudio Project, i.e. may already have a
 #'   `.Rproj` file).
+#' @param install_dependencies Install package dependencies? Defaults to `TRUE`,
+#'   so that you can immediately work with the package.
 #' @inheritParams use_github
 #'
 #' @export
@@ -255,6 +258,7 @@ create_from_github <- function(
   destdir = NULL,
   fork = NA,
   rstudio = NULL,
+  install_dependencies = TRUE,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
   host = NULL
@@ -388,7 +392,12 @@ create_from_github <- function(
     )
   }
 
-  rstudio <- rstudio %||% rstudio_available()
+  if (install_dependencies) {
+    ui_bullets(c("v" = "Installing missing dependencies."))
+    pak::local_install_dev_deps(repo_path, upgrade = FALSE)
+  }
+
+  rstudio <- rstudio %||% (rstudio_available() && !is_positron())
   rstudio <- rstudio && !is_rstudio_project()
   if (rstudio) {
     use_rstudio(reformat = FALSE)
