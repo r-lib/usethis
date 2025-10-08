@@ -98,9 +98,9 @@ test_that("can edit snippets", {
   path <- edit_rstudio_snippets(type = "R")
   expect_true(file_exists(path))
 
-  expect_error(
+  expect_snapshot(
     edit_rstudio_snippets("not-existing-type"),
-    regexp = "should be one of"
+    error = TRUE
   )
 })
 

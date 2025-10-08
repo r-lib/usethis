@@ -23,8 +23,10 @@
 #' @export
 use_code_of_conduct <- function(contact, path = NULL) {
   if (missing(contact)) {
-    ui_abort("
-      {.fun use_code_of_conduct} requires contact details in first argument.")
+    ui_abort(
+      "
+      {.fun use_code_of_conduct} requires contact details in first argument."
+    )
   }
 
   new <- use_coc(contact = contact, path = path)
@@ -37,7 +39,8 @@ use_code_of_conduct <- function(contact, path = NULL) {
   ui_bullets(c(
     "_" = "You may also want to describe the code of conduct in your README:"
   ))
-  ui_code_snippet("
+  ui_code_snippet(
+    "
     ## Code of Conduct
 
     Please note that the {project_name()} project is released with a \\

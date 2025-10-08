@@ -117,7 +117,10 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
   create_local_package()
   use_git()
   gert::git_add(".gitignore", repo = git_repo())
-  gert::git_commit("a commit, so we are not on an unborn branch", repo = git_repo())
+  gert::git_commit(
+    "a commit, so we are not on an unborn branch",
+    repo = git_repo()
+  )
   use_git_remote(name = "origin", url = "https://github.com/OWNER/REPO")
   use_readme_md()
   use_tidy_github_actions()
@@ -131,7 +134,7 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
   expect_proj_file(".github/workflows/pkgdown.yaml")
   expect_proj_file(".github/workflows/test-coverage.yaml")
-  expect_proj_file(".github/workflows/pr-commands.yaml")
+  expect_proj_file(".github/workflows/format-suggest.yaml")
 
   readme_lines <- read_utf8(proj_path("README.md"))
   expect_match(readme_lines, "R-CMD-check", all = FALSE)

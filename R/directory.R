@@ -12,8 +12,7 @@
 #' \dontrun{
 #' use_directory("inst")
 #' }
-use_directory <- function(path,
-                          ignore = FALSE) {
+use_directory <- function(path, ignore = FALSE) {
   create_directory(proj_path(path))
   if (ignore) {
     use_build_ignore(path)
@@ -37,10 +36,6 @@ create_directory <- function(path) {
 check_path_is_directory <- function(path) {
   if (!file_exists(path)) {
     ui_abort("Directory {.path {pth(path)}} does not exist.")
-  }
-
-  if (is_link(path)) {
-    path <- link_path(path)
   }
 
   if (!is_dir(path)) {

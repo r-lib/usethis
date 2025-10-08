@@ -2,14 +2,16 @@
 title: "Exploring badge accessibility"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(usethis)
 ```
 
@@ -41,7 +43,7 @@ There are at least two ways that usethis can influence this:
   into their badge SVGs. If the "native" badge is not accessible, usethis can
   substitute an accessible badge from a 3rd party, such as
   [shields.io](https://shields.io/).
-  
+
 This article is meant to gather badge facts in one place and facilitate a dialogue with those using assistive technology.
 
 ## Markdown image link
@@ -89,14 +91,15 @@ Now we inspect the badge SVG.
 I apologize in advance for the amount of data displayed here, but it seems good to show one badge in full gory detail.
 Later, we will display badge information very selectively.
 
-```{r R.options = list(tidyverse.quiet = TRUE)}
+```{r}
+#| R-options: !expr list(tidyverse.quiet = TRUE)
 library(xml2)
 library(purrr)
 
 inspect_badge <- function(badge) {
-  badge %>%
-    read_xml() %>%
-    as_list() %>%
+  badge |>
+    read_xml() |>
+    as_list() |>
     pluck("svg")
 }
 
@@ -108,9 +111,9 @@ Here I reveal just those two items from the badge:
 
 ```{r}
 inspect_badge <- function(badge) {
-  x <- badge %>%
-    read_xml() %>%
-    as_list() %>%
+  x <- badge |>
+    read_xml() |>
+    as_list() |>
     pluck("svg")
   list(
     title = pluck(x, "title", 1),

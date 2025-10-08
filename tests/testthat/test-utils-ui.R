@@ -9,7 +9,7 @@ cli::test_that_cli("ui_bullets() look as expected", {
       "v" = "done", # ui_done()
       "x" = "oops", # ui_oops()
       "i" = "info", # ui_info()
-            "noindent", # ui_line()
+      "noindent", # ui_line()
 
       # other cli bullets that have no special connection to usethis history
       " " = "indent",
@@ -30,7 +30,7 @@ test_that("ui_bullets() respect usethis.quiet = TRUE", {
       "v" = "done", # ui_done()
       "x" = "oops", # ui_oops()
       "i" = "info", # ui_info()
-            "noindent", # ui_line()
+      "noindent", # ui_line()
 
       # other cli bullets that have no special connection to usethis history
       " " = "indent",
@@ -100,65 +100,87 @@ test_that("ui_abort() defaults to 'i' for non-first bullet", {
   )
 })
 
-cli::test_that_cli("ui_code_snippet() with scalar input", {
-  withr::local_options(list(usethis.quiet = FALSE))
+cli::test_that_cli(
+  "ui_code_snippet() with scalar input",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
 
-  expect_snapshot(
-    ui_code_snippet("
+    expect_snapshot(
+      ui_code_snippet(
+        "
       options(
         warnPartialMatchArgs = TRUE,
         warnPartialMatchDollar = TRUE,
         warnPartialMatchAttr = TRUE
-      )")
-  )
-}, configs = c("plain", "ansi"))
-
-cli::test_that_cli("ui_code_snippet() with vector input", {
-  withr::local_options(list(usethis.quiet = FALSE))
-
-  expect_snapshot(
-    ui_code_snippet(c(
-      "options(",
-      "  warnPartialMatchArgs = TRUE,",
-      "  warnPartialMatchDollar = TRUE,",
-      "  warnPartialMatchAttr = TRUE",
-      ")"
-    ))
-  )
-}, configs = c("plain", "ansi"))
-
-cli::test_that_cli("ui_code_snippet() when language is not R", {
-  withr::local_options(list(usethis.quiet = FALSE))
-  h <- "blah.h"
-  expect_snapshot(
-    ui_code_snippet("#include <{h}>", language = "")
-  )
-}, configs = c("plain", "ansi"))
-
-cli::test_that_cli("ui_code_snippet() can interpolate", {
-  withr::local_options(list(usethis.quiet = FALSE))
-
-  true_val <- "TRUE"
-  false_val <- "'FALSE'"
-
-  expect_snapshot(
-    ui_code_snippet("if (1) {true_val} else {false_val}")
-  )
-}, configs = c("plain", "ansi"))
-
-cli::test_that_cli("ui_code_snippet() can NOT interpolate", {
-  withr::local_options(list(usethis.quiet = FALSE))
-  expect_snapshot({
-    ui_code_snippet(
-      "foo <- function(x){x}",
-      interpolate = FALSE
+      )"
+      )
     )
-    ui_code_snippet(
-      "foo <- function(x){{x}}",
-      interpolate = TRUE
+  },
+  configs = c("plain", "ansi")
+)
+
+cli::test_that_cli(
+  "ui_code_snippet() with vector input",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
+
+    expect_snapshot(
+      ui_code_snippet(c(
+        "options(",
+        "  warnPartialMatchArgs = TRUE,",
+        "  warnPartialMatchDollar = TRUE,",
+        "  warnPartialMatchAttr = TRUE",
+        ")"
+      ))
     )
-  })
-}, configs = c("plain", "ansi"))
+  },
+  configs = c("plain", "ansi")
+)
+
+cli::test_that_cli(
+  "ui_code_snippet() when language is not R",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
+    h <- "blah.h"
+    expect_snapshot(
+      ui_code_snippet("#include <{h}>", language = "")
+    )
+  },
+  configs = c("plain", "ansi")
+)
+
+cli::test_that_cli(
+  "ui_code_snippet() can interpolate",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
+
+    true_val <- "TRUE"
+    false_val <- "'FALSE'"
+
+    expect_snapshot(
+      ui_code_snippet("if (1) {true_val} else {false_val}")
+    )
+  },
+  configs = c("plain", "ansi")
+)
+
+cli::test_that_cli(
+  "ui_code_snippet() can NOT interpolate",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
+    expect_snapshot({
+      ui_code_snippet(
+        "foo <- function(x){x}",
+        interpolate = FALSE
+      )
+      ui_code_snippet(
+        "foo <- function(x){{x}}",
+        interpolate = TRUE
+      )
+    })
+  },
+  configs = c("plain", "ansi")
+)
 
 test_that("bulletize() works", {
   withr::local_options(list(usethis.quiet = FALSE))
@@ -180,52 +202,82 @@ test_that("usethis_map_cli() works", {
   )
 })
 
-cli::test_that_cli("ui_special() works", {
-  expect_snapshot(cli::cli_text(ui_special()))
-  expect_snapshot(cli::cli_text(ui_special("whatever")))
-}, configs = c("plain", "ansi"))
+cli::test_that_cli(
+  "ui_special() works",
+  {
+    expect_snapshot(cli::cli_text(ui_special()))
+    expect_snapshot(cli::cli_text(ui_special("whatever")))
+  },
+  configs = c("plain", "ansi")
+)
 
-cli::test_that_cli("kv_line() looks as expected in basic use", {
-  withr::local_options(list(usethis.quiet = FALSE))
+cli::test_that_cli(
+  "kv_line() looks as expected in basic use",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
 
-  expect_snapshot({
-    kv_line("CHARACTER", "VALUE")
-    kv_line("NUMBER", 1)
-    kv_line("LOGICAL", TRUE)
-  })
-}, configs = c("plain", "fancy"))
+    expect_snapshot({
+      kv_line("CHARACTER", "VALUE")
+      kv_line("NUMBER", 1)
+      kv_line("LOGICAL", TRUE)
+    })
+  },
+  configs = c("plain", "fancy")
+)
 
-cli::test_that_cli("kv_line() can interpolate and style inline in key", {
-  withr::local_options(list(usethis.quiet = FALSE))
+cli::test_that_cli(
+  "kv_line() can interpolate and style inline in key",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
 
-  field <- "SOME_FIELD"
-  expect_snapshot(
-    kv_line("Let's reveal {.field {field}}", "whatever")
+    field <- "SOME_FIELD"
+    expect_snapshot(
+      kv_line("Let's reveal {.field {field}}", "whatever")
+    )
+  },
+  configs = c("plain", "fancy")
+)
+
+cli::test_that_cli(
+  "kv_line() can treat value in different ways",
+  {
+    withr::local_options(list(usethis.quiet = FALSE))
+
+    value <- "some value"
+    adjective <- "great"
+    url <- "https://usethis.r-lib.org/"
+
+    expect_snapshot({
+      # evaluation in .envir
+      kv_line("Key", value)
+
+      # NULL is special
+      kv_line("Something we don't have", NULL)
+      # explicit special
+      kv_line("Key", ui_special("discovered"))
+
+      # value taken at face value
+      kv_line("Key", "something {.emph important}")
+
+      # I() indicates value has markup
+      kv_line("Key", I("something {.emph important}"))
+      kv_line("Key", I("something {.emph {adjective}}"))
+      kv_line("Interesting file", I("{.url {url}}"))
+    })
+  },
+  configs = c("plain", "fancy")
+)
+
+test_that("ui_escape_glue() doubles curly braces", {
+  expect_equal(ui_escape_glue("no braces"), "no braces")
+  expect_equal(ui_escape_glue("one { brace"), "one {{ brace")
+  expect_equal(ui_escape_glue("one } brace"), "one }} brace")
+  expect_equal(
+    ui_escape_glue("A {brace_set} in text"),
+    "A {{brace_set}} in text"
   )
-}, configs = c("plain", "fancy"))
-
-cli::test_that_cli("kv_line() can treat value in different ways", {
-  withr::local_options(list(usethis.quiet = FALSE))
-
-  value <- "some value"
-  adjective <- "great"
-  url <- "https://usethis.r-lib.org/"
-
-  expect_snapshot({
-    # evaluation in .envir
-    kv_line("Key", value)
-
-    # NULL is special
-    kv_line("Something we don't have", NULL)
-    # explicit special
-    kv_line("Key", ui_special("discovered"))
-
-    # value taken at face value
-    kv_line("Key", "something {.emph important}")
-
-    # I() indicates value has markup
-    kv_line("Key", I("something {.emph important}"))
-    kv_line("Key", I("something {.emph {adjective}}"))
-    kv_line("Interesting file", I("{.url {url}}"))
-  })
-}, configs = c("plain", "fancy"))
+  expect_equal(
+    ui_escape_glue("{multiple} {brace} {sets}"),
+    "{{multiple}} {{brace}} {{sets}}"
+  )
+})

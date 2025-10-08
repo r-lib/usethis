@@ -7,6 +7,55 @@
       ! `stage` must be one of "experimental", "stable", "superseded", or "deprecated", not "eperimental".
       i Did you mean "experimental"?
 
+# use_r_universe_badge() needs to know the owner
+
+    Code
+      use_r_universe_badge()
+    Condition
+      Error in `use_r_universe_badge()`:
+      x Can't determine the R-universe owner of the {TESTPKG} package.
+      ! No GitHub URL found in DESCRIPTION or the Git remotes.
+      i Update the project configuration or provide an explicit `repo_spec`.
+
+---
+
+    Code
+      use_r_universe_badge("OWNER_DIRECT/SCRUBBED")
+    Message
+      ! Can't find a README for the current project.
+      i See `usethis::use_readme_rmd()` for help creating this file.
+      i Badge link will only be printed to screen.
+      [ ] Copy and paste the following lines into 'README':
+        <!-- badges: start -->
+        [![R-universe version](https://OWNER_DIRECT.r-universe.dev/{TESTPKG}/badges/version)](https://OWNER_DIRECT.r-universe.dev/{TESTPKG})
+        <!-- badges: end -->
+
+---
+
+    Code
+      use_r_universe_badge()
+    Message
+      ! Can't find a README for the current project.
+      i See `usethis::use_readme_rmd()` for help creating this file.
+      i Badge link will only be printed to screen.
+      [ ] Copy and paste the following lines into 'README':
+        <!-- badges: start -->
+        [![R-universe version](https://OWNER_DESCRIPTION.r-universe.dev/{TESTPKG}/badges/version)](https://OWNER_DESCRIPTION.r-universe.dev/{TESTPKG})
+        <!-- badges: end -->
+
+---
+
+    Code
+      use_r_universe_badge()
+    Message
+      ! Can't find a README for the current project.
+      i See `usethis::use_readme_rmd()` for help creating this file.
+      i Badge link will only be printed to screen.
+      [ ] Copy and paste the following lines into 'README':
+        <!-- badges: start -->
+        [![R-universe version](https://OWNER_ORIGIN.r-universe.dev/{TESTPKG}/badges/version)](https://OWNER_ORIGIN.r-universe.dev/{TESTPKG})
+        <!-- badges: end -->
+
 # use_posit_cloud_badge() handles bad and good input
 
     Code

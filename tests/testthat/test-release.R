@@ -1,4 +1,3 @@
-
 # release bullets ---------------------------------------------------------
 
 test_that("release bullets don't change accidentally", {
@@ -33,9 +32,14 @@ test_that("non-patch + lifecycle = advanced deprecation process", {
   create_local_package()
   use_package("lifecycle")
 
-  local_mocked_bindings(tidy_minimum_r_version = function() "3.6")
+  local_mocked_bindings(
+    tidy_minimum_r_version = function() "3.6",
+    get_revdeps = function() character(),
+    has_github_links = function(...) FALSE,
+    gh_milestone_number = function(...) NA
+  )
 
-  has_deprecation <- function(x) any(grepl("deprecation processes", x))
+  has_deprecation <- function(x) any(grepl("Advance deprecations", x))
   expect_true(has_deprecation(release_checklist("1.0.0", on_cran = TRUE)))
   expect_true(has_deprecation(release_checklist("1.1.0", on_cran = TRUE)))
   expect_false(has_deprecation(release_checklist("1.1.1", on_cran = TRUE)))
@@ -117,7 +121,11 @@ test_that("can find milestone numbers", {
 
 test_that("gh_milestone_number() returns NA when gh() errors", {
   local_mocked_bindings(
-    gh_tr = function(tr) { function(endpoint, ...) { ui_abort("nope!") } }
+    gh_tr = function(tr) {
+      function(endpoint, ...) {
+        ui_abort("nope!")
+      }
+    }
   )
   tr <- list(
     repo_owner = "r-lib",
@@ -130,10 +138,9 @@ test_that("gh_milestone_number() returns NA when gh() errors", {
 # news --------------------------------------------------------------------
 
 test_that("must have at least one heading", {
-  expect_error(
+  expect_usethis_error(
     news_latest(""),
-    regexp = "No top-level headings",
-    class = "usethis_error"
+    regexp = "No top-level headings"
   )
 })
 
@@ -194,9 +201,11 @@ test_that("get_release_data() works for old-style CRAN-RELEASE", {
 
   write_utf8(
     proj_path("CRAN-RELEASE"),
-    glue("
+    glue(
+      "
       This package was submitted to CRAN on YYYY-MM-DD.
-      Once it is accepted, delete this file and tag the release (commit {HEAD}).")
+      Once it is accepted, delete this file and tag the release (commit {HEAD})."
+    )
   )
 
   res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))
@@ -217,10 +226,12 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
 
   write_utf8(
     proj_path("CRAN-SUBMISSION"),
-    glue("
+    glue(
+      "
       Version: 1.2.3
       Date: 2021-10-14 23:57:41 UTC
-      SHA: {HEAD}")
+      SHA: {HEAD}"
+    )
   )
 
   res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))

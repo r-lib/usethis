@@ -28,7 +28,7 @@ test_that("use_github_links populates empty URL field", {
   expect_equal(
     proj_desc()$get_field("BugReports"),
     "https://github.com/OWNER/REPO/issues"
-    )
+  )
 })
 
 test_that("use_github_links() aborts or appends URLs when it should", {
@@ -50,7 +50,10 @@ test_that("use_github_links() aborts or appends URLs when it should", {
   use_github_links(overwrite = TRUE)
   expect_equal(
     proj_desc()$get_urls(),
-    c("https://existing.url", "https://existing.url1",
-      "https://github.com/OWNER/REPO")
+    c(
+      "https://existing.url",
+      "https://existing.url1",
+      "https://github.com/OWNER/REPO"
+    )
   )
 })

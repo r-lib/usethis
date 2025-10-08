@@ -1,12 +1,12 @@
 test_that("parse_github_remotes() works, on named list or named character", {
   urls <- list(
-    https      = "https://github.com/OWNER/REPO.git",
-    ghe        = "https://github.acme.com/OWNER/REPO.git",
-    browser    = "https://github.com/OWNER/REPO",
-    ssh1       = "git@github.com:OWNER/REPO.git",
-    ssh2       = "ssh://git@github.com/OWNER/REPO.git",
-    gitlab1    = "https://gitlab.com/OWNER/REPO.git",
-    gitlab2    = "git@gitlab.com:OWNER/REPO.git",
+    https = "https://github.com/OWNER/REPO.git",
+    ghe = "https://github.acme.com/OWNER/REPO.git",
+    browser = "https://github.com/OWNER/REPO",
+    ssh1 = "git@github.com:OWNER/REPO.git",
+    ssh2 = "ssh://git@github.com/OWNER/REPO.git",
+    gitlab1 = "https://gitlab.com/OWNER/REPO.git",
+    gitlab2 = "git@gitlab.com:OWNER/REPO.git",
     bitbucket1 = "https://bitbucket.org/OWNER/REPO.git",
     bitbucket2 = "git@bitbucket.org:OWNER/REPO.git"
   )
@@ -15,8 +15,17 @@ test_that("parse_github_remotes() works, on named list or named character", {
   expect_equal(unique(parsed$repo_owner), "OWNER")
   expect_equal(
     parsed$host,
-    c("github.com", "github.acme.com", "github.com", "github.com", "github.com",
-      "gitlab.com", "gitlab.com", "bitbucket.org", "bitbucket.org")
+    c(
+      "github.com",
+      "github.acme.com",
+      "github.com",
+      "github.com",
+      "github.com",
+      "gitlab.com",
+      "gitlab.com",
+      "bitbucket.org",
+      "bitbucket.org"
+    )
   )
   expect_equal(unique(parsed$repo_name), "REPO")
   expect_equal(
@@ -55,10 +64,10 @@ test_that("parse_repo_url() passes a naked repo spec through", {
 
 test_that("parse_repo_url() handles GitHub remote URLs", {
   urls <- list(
-    https      = "https://github.com/OWNER/REPO.git",
-    ghe        = "https://github.acme.com/OWNER/REPO.git",
-    browser    = "https://github.com/OWNER/REPO",
-    ssh        = "git@github.com:OWNER/REPO.git"
+    https = "https://github.com/OWNER/REPO.git",
+    ghe = "https://github.acme.com/OWNER/REPO.git",
+    browser = "https://github.com/OWNER/REPO",
+    ssh = "git@github.com:OWNER/REPO.git"
   )
   out <- map(urls, parse_repo_url)
   expect_match(map_chr(out, "repo_spec"), "OWNER/REPO", fixed = TRUE)
@@ -73,8 +82,8 @@ test_that("parse_repo_url() handles GitHub remote URLs", {
 
 test_that("parse_repo_url() errors for non-GitHub remote URLs", {
   urls <- list(
-    gitlab1    = "https://gitlab.com/OWNER/REPO.git",
-    gitlab2    = "git@gitlab.com:OWNER/REPO.git",
+    gitlab1 = "https://gitlab.com/OWNER/REPO.git",
+    gitlab2 = "git@gitlab.com:OWNER/REPO.git",
     bitbucket1 = "https://bitbucket.org/OWNER/REPO.git",
     bitbucket2 = "git@bitbucket.org:OWNER/REPO.git"
   )
@@ -108,7 +117,11 @@ test_that("github_remote_list() works", {
 })
 
 test_that("github_remotes(), github_remote_list() accept explicit 0-row input", {
-  x <- data.frame(name = character(), url = character(), stringsAsFactors = FALSE)
+  x <- data.frame(
+    name = character(),
+    url = character(),
+    stringsAsFactors = FALSE
+  )
   grl <- github_remote_list(x = x)
   expect_equal(nrow(grl), 0)
   expect_true(all(map_lgl(grl, is.character)))
@@ -143,7 +156,11 @@ test_that("github_remotes() works", {
   )
 
   # gh::gh() call should fail, so we should get no info from github
-  use_git_remote("origin", "https://github.com/r-lib/DOESNOTEXIST.git", overwrite = TRUE)
+  use_git_remote(
+    "origin",
+    "https://github.com/r-lib/DOESNOTEXIST.git",
+    overwrite = TRUE
+  )
   expect_no_error(
     grl <- github_remotes()
   )
@@ -163,39 +180,39 @@ test_that("we understand the list of all possible configs", {
 })
 
 test_that("'no_github' is reported correctly", {
- expect_snapshot(new_no_github())
+  expect_snapshot(new_no_github())
 })
 
 test_that("'ours' is reported correctly", {
- expect_snapshot(new_ours())
+  expect_snapshot(new_ours())
 })
 
 test_that("'theirs' is reported correctly", {
- expect_snapshot(new_theirs())
+  expect_snapshot(new_theirs())
 })
 
 test_that("'fork' is reported correctly", {
- expect_snapshot(new_fork())
+  expect_snapshot(new_fork())
 })
 
 test_that("'maybe_ours_or_theirs' is reported correctly", {
- expect_snapshot(new_maybe_ours_or_theirs())
+  expect_snapshot(new_maybe_ours_or_theirs())
 })
 
 test_that("'maybe_fork' is reported correctly", {
- expect_snapshot(new_maybe_fork())
+  expect_snapshot(new_maybe_fork())
 })
 
 test_that("'fork_cannot_push_origin' is reported correctly", {
- expect_snapshot(new_fork_cannot_push_origin())
+  expect_snapshot(new_fork_cannot_push_origin())
 })
 
 test_that("'fork_upstream_is_not_origin_parent' is reported correctly", {
- expect_snapshot(new_fork_upstream_is_not_origin_parent())
+  expect_snapshot(new_fork_upstream_is_not_origin_parent())
 })
 
 test_that("'upstream_but_origin_is_not_fork' is reported correctly", {
- expect_snapshot(new_upstream_but_origin_is_not_fork())
+  expect_snapshot(new_upstream_but_origin_is_not_fork())
 })
 
 test_that("'fork_upstream_is_not_origin_parent' is detected correctly", {

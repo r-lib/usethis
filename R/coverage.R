@@ -12,7 +12,14 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
   type <- match.arg(type)
   if (type == "codecov") {
     new <- use_template("codecov.yml", ignore = TRUE)
-    if (!new) {
+    if (new) {
+      ui_bullets(c(
+        "!" = "If test coverage uploads do not succeed, you probably need to
+               configure {.env CODECOV_TOKEN} as a repository or organization
+               secret:
+               {.url https://docs.codecov.com/docs/adding-the-codecov-token}."
+      ))
+    } else {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
@@ -28,8 +35,8 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
   )
 
   ui_bullets(c(
-    "_" = "Call {.code use_github_action(\"test-coverage\")} to continuously
-           monitor test coverage."
+    "_" = "Call {.run [use_github_action(\"test-coverage\")](usethis::use_github_action(\"test-coverage\"))}
+           to continuously monitor test coverage."
   ))
 
   invisible(TRUE)

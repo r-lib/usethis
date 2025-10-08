@@ -1,3 +1,67 @@
+# usethis (development version)
+
+* `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+
+# usethis 3.2.1
+
+* `create_quarto_project()` exits early if the Quarto CLI does not appear to be
+  installed and related tests are skipped (#2162).
+
+# usethis 3.2.0
+
+## Formatting
+
+* `use_air()` is a new function to configure a project to use
+  [Air](https://posit-dev.github.io/air/), an extremely fast R code formatter.
+
+* `use_tidy_style()` is deprecated, in favor of using Air for any new, explicit
+  formatting efforts (#2110).
+
+## Project-hood
+
+* usethis's criteria for recognizing a project (listed in `?proj_utils`) have
+  expanded to include (#2133):
+  - a `.vscode/settings.json` file, which Positron or VS Code might create
+  - a `_quarto.yml` file, typical of a Quarto project
+  - an `renv.lock` file, which renv creates
+
+* `use_course()` and `use_zip()` open the new folder in a new session of the
+  current IDE (RStudio or Positron) in more situations and add a `.here` file if
+  the folder doesn't already fulfill any of usethis's criteria for a project
+  root folder (#2127).
+
+* `create_quarto_project()` is a new experimental function that combines basic
+  usage of `quarto::quarto_create_project()` with some of the niceties of
+  usethis's `create_*()` functions, such as opening the newly created project in
+  your IDE (#1891, @focardozom).
+
+## Other
+
+* `use_package(min_version = FALSE)` is treated the same as when `min_version`
+  is not specified (#2117, @salim-b).
+
+* `use_r_universe_badge()` is a new function that creates a README badge
+  indicating your package is available on [R-universe](https://r-universe.dev)
+  and reporting the latest version (@olivroy, #1883).
+
+* Some GitHub functionality should now work for GitHub Enterprise Cloud (as
+  opposed to GitHub Enterprise Server). Specifically an HTTPS URL such as
+  `"https://my-cool-org.ghe.com"` should now be recognized as "looks like
+  GitHub" (#2098, @jameslairdsmith).
+
+* Several deprecated functions have been removed:
+  - `use_rscloud_badge()`, deprecated in v2.2.0; use `use_posit_cloud_badge()`
+    instead
+  - `git_branch_default()`, deprecated in v2.1.0; use `git_default_branch()`
+    instead
+  - `use_tidy_eval()`, deprecated in v2.2.0; no longer necessary
+  - `use_github_actions()` and `use_github_action_check_release()`, deprecated
+    in v.2.2.0; use `use_github_action('check-release')` instead
+  - `use_github_action_check_standard()`, deprecated in v2.2.0; use
+    `use_github_action('check-standard')` instead
+  - `use_github_action_pr_commands()`, deprecated in v2.2.0
+  - `use_github_action_check_full()`, deprecated in v2.1.0
+
 # usethis 3.1.0
 
 * `use_vignette()` and `use_article()` support Quarto. The `name` of the new

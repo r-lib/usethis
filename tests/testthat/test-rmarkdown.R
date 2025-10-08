@@ -6,9 +6,12 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   expect_true(
     all(
       c(
-        "name: Template Name", "description: >",
-        "   A description of the template", "create_dir: FALSE"
-      ) %in% yml
+        "name: Template Name",
+        "description: >",
+        "   A description of the template",
+        "create_dir: FALSE"
+      ) %in%
+        yml
     )
   )
   expect_proj_file(path, "skeleton", "skeleton.Rmd")

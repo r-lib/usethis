@@ -18,7 +18,9 @@ use_github(host = ghe_host)
 # delete the GitHub repo
 gh::gh(
   "DELETE /repos/{username}/{pkg}",
-  username = user, pkg = pkgname, .api_url = ghe_host
+  username = user,
+  pkg = pkgname,
+  .api_url = ghe_host
 )
 
 # restore initial project, working directory, delete local repo
@@ -39,7 +41,9 @@ use_github()
 # delete the GitHub repo
 gh::gh(
   "DELETE /repos/{username}/{pkg}",
-  username = user, pkg = pkgname, .api_url = ghe_host
+  username = user,
+  pkg = pkgname,
+  .api_url = ghe_host
 )
 
 # restore initial project, working directory, delete local repo

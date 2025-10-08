@@ -33,8 +33,8 @@
 #'     path = dir_ls("tests/testthat/", regexp = "/test[^/]+\\.[Rr]$"),
 #'     name = as.character(path_ext_remove(str_remove(path_file(path), "^test[-_]"))),
 #'   )
-#' ) %>%
-#'   pivot_wider(names_from = type, values_from = path) %>%
+#' ) |>
+#'   pivot_wider(names_from = type, values_from = path) |>
 #'   print(n = Inf)
 #' ```
 #'
@@ -184,7 +184,10 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
 
   dir <- path_dir(proj_rel_path(path))
   if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
-    cli::cli_abort("Open file must be code, test, or snapshot.", call = error_call)
+    cli::cli_abort(
+      "Open file must be code, test, or snapshot.",
+      call = error_call
+    )
   }
 
   file <- path_file(path)

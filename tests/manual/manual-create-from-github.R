@@ -24,13 +24,23 @@ gh::gh(
 
 # create from repo I do not have push access to
 # fork = FALSE
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = FALSE,
+  open = FALSE
+)
 with_project(x, git_sitrep())
 dir_delete(x)
 
 # create from repo I do not have push access to
 # fork = TRUE
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = TRUE,
+  open = FALSE
+)
 # fork and clone --> should see origin and upstream remotes
 gert::git_branch_list(x, repo = x)
 expect_setequal(
@@ -50,7 +60,12 @@ gh::gh(
 
 # create from repo I do not have push access to
 # fork = NA
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = NA,
+  open = FALSE
+)
 # fork and clone --> should see origin and upstream remotes
 expect_setequal(
   gert::git_remote_list(repo = x)$name,
@@ -75,14 +90,24 @@ dir_delete(x)
 
 # create from repo I do have push access to
 # fork = TRUE
-x <- create_from_github("jennybc/ethel", destdir = "~/tmp", fork = TRUE, open = FALSE)
+x <- create_from_github(
+  "jennybc/ethel",
+  destdir = "~/tmp",
+  fork = TRUE,
+  open = FALSE
+)
 # expect error because I own it and can't fork it
 # make sure we didn't leave an empty directory behind
 expect_false(dir_exists("~/tmp/ethel"))
 
 # create from repo I do have push access to
 # fork = NA
-x <- create_from_github("jennybc/ethel", destdir = "~/tmp", fork = NA, open = FALSE)
+x <- create_from_github(
+  "jennybc/ethel",
+  destdir = "~/tmp",
+  fork = NA,
+  open = FALSE
+)
 # gets created, as clone but no fork
 dir_delete(x)
 
@@ -94,7 +119,12 @@ dir_delete("~/tmp/TailRank")
 
 # create from repo I do not have push access to
 # fork = FALSE
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = FALSE,
+  open = FALSE
+)
 # created, clone, origin remote is cran/TailRank
 dat <- gert::git_remote_list(repo = x)
 expect_equal(dat$name, "origin")
@@ -105,10 +135,20 @@ dir_delete(x)
 
 # create from repo I do not have push access to
 # fork = TRUE
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = TRUE,
+  open = FALSE
+)
 # expect error because PAT not available
 
 # create from repo I do not have push access to
 # fork = NA
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
+x <- create_from_github(
+  "cran/TailRank",
+  destdir = "~/tmp",
+  fork = NA,
+  open = FALSE
+)
 # expect error because PAT not available AND fork = NA

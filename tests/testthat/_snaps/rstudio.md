@@ -15,3 +15,11 @@
       ! "test" must contain a single .Rproj file.
       i Found 'a.Rproj' and 'b.Rproj'.
 
+# a non-RStudio project is not recognized
+
+    Code
+      rproj_path()
+    Condition
+      Error:
+      ! "{TESTPKG}" is not an RStudio Project.
+

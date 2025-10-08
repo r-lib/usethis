@@ -16,7 +16,11 @@ use_roxygen_md <- function(overwrite = FALSE) {
   if (!uses_roxygen()) {
     roxy_ver <- as.character(utils::packageVersion("roxygen2"))
 
-    proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = FALSE)
+    proj_desc_field_update(
+      "Roxygen",
+      "list(markdown = TRUE)",
+      overwrite = FALSE
+    )
     proj_desc_field_update("RoxygenNote", roxy_ver, overwrite = FALSE)
     ui_bullets(c("_" = "Run {.run devtools::document()}."))
     return(invisible())

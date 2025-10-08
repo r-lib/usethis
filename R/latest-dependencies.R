@@ -10,7 +10,10 @@
 #'   Set to `FALSE` to only modify dependencies without version
 #'   specifications.
 #' @param source Use "CRAN" or "local" package versions.
-use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN", "local")) {
+use_latest_dependencies <- function(
+  overwrite = TRUE,
+  source = c("CRAN", "local")
+) {
   source <- arg_match(source)
 
   desc <- proj_desc()
@@ -26,7 +29,11 @@ use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN", "local"
   invisible(TRUE)
 }
 
-update_versions <- function(deps, overwrite = TRUE, source = c("CRAN", "local")) {
+update_versions <- function(
+  deps,
+  overwrite = TRUE,
+  source = c("CRAN", "local")
+) {
   baserec <- base_and_recommended()
   to_change <- !deps$package %in% c("R", baserec) & deps$type != "Suggests"
   if (!overwrite) {
@@ -34,8 +41,9 @@ update_versions <- function(deps, overwrite = TRUE, source = c("CRAN", "local"))
   }
 
   packages <- deps$package[to_change]
-  versions <- switch(match.arg(source),
-    local = map_chr(packages, ~ as.character(utils::packageVersion(.x))),
+  versions <- switch(
+    match.arg(source),
+    local = map_chr(packages, \(x) as.character(utils::packageVersion(x))),
     CRAN = utils::available.packages()[packages, "Version"]
   )
   deps$version[to_change] <- paste0(">= ", versions)
