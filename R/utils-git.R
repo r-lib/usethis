@@ -218,7 +218,6 @@ challenge_uncommitted_changes <- function(
         return(invisible())
       }
     }
-    
     ui_abort(
       "Uncommitted changes. Please commit before continuing.",
       call = caller_env()
