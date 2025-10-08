@@ -269,7 +269,9 @@ pr_resume <- function(branch = NULL) {
     ))
   }
 
-  challenge_uncommitted_changes(action = c("pull", "switch", "compare branches"))
+  challenge_uncommitted_changes(
+    action = c("pull", "switch", "compare branches")
+  )
 
   ui_bullets(c("v" = "Switching to branch {.val {branch}}."))
   gert::git_branch_checkout(branch, repo = repo)
