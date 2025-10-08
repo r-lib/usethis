@@ -186,9 +186,9 @@ git_uncommitted <- function(untracked = FALSE) {
 }
 
 challenge_uncommitted_changes <- function(
-    untracked = FALSE,
-    msg = NULL,
-    action = c("push", "pull", "switch", "compare branches")
+  untracked = FALSE,
+  msg = NULL,
+  action = c("push", "pull", "switch", "compare branches")
 ) {
   if (!uses_git()) {
     return(invisible())
