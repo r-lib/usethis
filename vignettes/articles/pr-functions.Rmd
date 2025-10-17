@@ -86,8 +86,7 @@ The first step is to fork the source repository, to get your own copy on GitHub,
 #| label: create_from_github
 #| eval: false
 create_from_github("rladies/praise", destdir = "~/Documents")
-``
-`
+```
 <div class = "output">
 ```{r}
 #| eval: false
@@ -105,8 +104,7 @@ fork = TRUE
 #> ✔ Setting remote tracking branch for local "main" branch to "upstream/main".
 #> ✔ Opening /Users/rebeccabutler/Documents/praise/ in new RStudio session.
 #> ✔ Setting active project to "<no active project>".
-`
-``
+```
 </div>
 
 What this does:
@@ -138,8 +136,7 @@ We start the process of contributing to the package with `pr_init()`, which crea
 #| label: pr_init
 #| eval: false
 pr_init(branch = "exhilarating")
-``
-`
+```
 <div class = "output">
 ```{r}
 #| eval: false
@@ -147,8 +144,7 @@ pr_init(branch = "exhilarating")
 #> ✔ Pulling changes from "upstream/main".
 #> ✔ Creating and switching to local branch "exhilarating".
 #> ☐ Use usethis::pr_push() to create a PR.
-`
-``
+```
 </div>
 This creates a local branch called `exhilarating` and we switch to it (or "check it out"). Now you can work locally, making changes to files and committing them to Git.
 
@@ -182,8 +178,7 @@ the package, which would have revealed the missing comma. We all make mistakes.
 #| label: pr_push
 #| eval: false
 pr_push()
-``
-`
+```
 <div class = "output">
 ```{r}
 #| eval: false
@@ -191,8 +186,7 @@ pr_push()
 #> ✓ Pushing local 'exhilarating' branch to 'origin/exhilarating'
 #> ✓ Create PR at link given below
 #> ✓ Opening URL 'https://github.com/rkb965/praise/compare/exhilarating'
-`
-``
+```
 </div>
 
 This launches a browser window at the URL specified in the last message, which
@@ -216,14 +210,13 @@ GitHub will ping the package maintainer and they will review our pull request. W
 #| label: pr_view
 #| eval: false
 pr_view(108)
-``
-`
+```
 <div class = "output">
 ```{r}
 #| eval: false
 #> ✔ Opening URL <https://github.com/rladies/praise/pull/108>.
-`
-``
+```
+
 </div>
 
 ## Review of the pull request
