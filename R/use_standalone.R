@@ -79,6 +79,15 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
 
   dependencies <- standalone_dependencies(lines, path)
 
+  if (!is_package()) {
+    imports <- dependencies$imports
+    n <- cli::qty(length(imports$pkg))
+    ui_bullets(c(
+      "!" = "You'll need the following {n} package{?s}: {.pkg {imports$pkg}}."
+    ))
+    return(invisible())
+  }
+
   for (dependency in dependencies$deps) {
     use_standalone(repo_spec, dependency, ref = ref, host = host)
   }
