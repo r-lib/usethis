@@ -8,6 +8,7 @@ template:
   package: tidytemplate
   includes:
     in_header: |
+      <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
       <script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 navbar:
@@ -35,133 +36,133 @@ news:
     href: https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/
 
 reference:
-  - title: Create
-    desc: >
-      Create a project *de novo* or from an existing source, either local or remote
-    contents:
-    - create_package
-    - create_from_github
-    - use_course
-  - title: Active project
-    desc: >
-      Query or set the project targeted by usethis functions that don't take a path
-    contents:
-    - starts_with("proj_", internal = TRUE)
-  - title: Package development
-    desc: >
-      Add or modify files typically found in R packages
-    contents:
-    - use_data
-    - use_package
-    - use_import_from
-    - use_r
-    - use_rmarkdown_template
-    - use_spell_check
-    - use_test
-    - use_test_helper
-    - use_vignette
-    - use_addin
-    - use_citation
-    - use_tutorial
-    - use_author
-  - title: Package setup
-    desc: >
-      Package setup tasks, typically performed once.
-    contents:
-    - create_package
-    - use_data_table
-    - use_description
-    - matches("license")
-    - use_namespace
-    - use_coverage
-    - matches("build_ignore|pipe|cpp|tibble|make")
-    - matches("roxygen_md|news_md|package_doc|logo")
-    - matches("readme")
-    - matches("pkgdown|badge")
-    - use_github_links
-    - use_lifecycle
-    - use_standalone
-    - use_testthat
-    - use_air
-  - title: Package release
-    contents:
-    - use_cran_comments
-    - use_github_release
-    - use_release_issue
-    - use_revdep
-    - use_version
-  - title: Continuous integration
-    contents:
-    - use_github_action
-    - use_circleci
-    - use_gitlab_ci
-    - use_jenkins
-  - title: Tidyverse development
-    desc: >
-      Conventions used in the tidyverse and r-lib organisations
-    contents:
-    - matches("tidy")
-  - title: Configuration
-    desc: >
-      Configure the behaviour of R or RStudio or usethis, globally as a user or
-      for a specific project
-    contents:
-    - usethis_options
-    - ui_silence
-    - use_blank_slate
-    - use_devtools
-    - use_usethis
-    - use_reprex
-    - use_conflicted
-    - matches("edit_r")
-  - title: Git and GitHub
-    contents:
-    - create_from_github
-    - use_git
-    - starts_with("use_github")
-    - git_sitrep
-    - create_github_token
-    - gh_token_help
-    - git_vaccinate
-    - use_git_config
-    - use_git_ignore
-    - use_git_protocol
-    - use_git_remote
-    - use_git_hook
-    - use_code_of_conduct
-    - use_readme_rmd
-    - starts_with("git_default_branch")
-    - matches("browse")
-    - matches("edit_git_")
-    - matches("issue")
-  - title: Pull requests
-    contents:
-    - starts_with("pr_")
-  - title: Edit
-    contents:
-    - starts_with("edit_")
-    - rename_files
-  - title: Browse
-    contents:
-    - starts_with("browse_")
-  - title: Helpers
-    desc: >
-      These functions are mostly for internal use. But they are useful for
-      those who wish to offer usethis-like support for, e.g., workflows specific
-      to an organisation.
-    contents:
-    - use_template
-    - use_directory
-    - use_rmarkdown_template
-    - use_rstudio
-    - use_rstudio_preferences
-  - title: Deprecated functions
-    contents:
-    - use_tidy_style
+- title: Create
+  desc: >
+    Create a project *de novo* or from an existing source, either local or remote
+  contents:
+  - create_package
+  - create_from_github
+  - use_course
+- title: Active project
+  desc: >
+    Query or set the project targeted by usethis functions that don't take a path
+  contents:
+  - starts_with("proj_", internal = TRUE)
+- title: Package development
+  desc: >
+    Add or modify files typically found in R packages
+  contents:
+  - use_data
+  - use_package
+  - use_import_from
+  - use_r
+  - use_rmarkdown_template
+  - use_spell_check
+  - use_test
+  - use_test_helper
+  - use_vignette
+  - use_addin
+  - use_citation
+  - use_tutorial
+  - use_author
+- title: Package setup
+  desc: >
+    Package setup tasks, typically performed once.
+  contents:
+  - create_package
+  - use_data_table
+  - use_description
+  - matches("license")
+  - use_namespace
+  - use_coverage
+  - matches("build_ignore|pipe|cpp|tibble|make")
+  - matches("roxygen_md|news_md|package_doc|logo")
+  - matches("readme")
+  - matches("pkgdown|badge")
+  - use_github_links
+  - use_lifecycle
+  - use_standalone
+  - use_testthat
+  - use_air
+- title: Package release
+  contents:
+  - use_cran_comments
+  - use_github_release
+  - use_release_issue
+  - use_revdep
+  - use_version
+- title: Continuous integration
+  contents:
+  - use_github_action
+  - use_circleci
+  - use_gitlab_ci
+  - use_jenkins
+- title: Tidyverse development
+  desc: >
+    Conventions used in the tidyverse and r-lib organisations
+  contents:
+  - matches("tidy")
+- title: Configuration
+  desc: >
+    Configure the behaviour of R or RStudio or usethis, globally as a user or
+    for a specific project
+  contents:
+  - usethis_options
+  - ui_silence
+  - use_blank_slate
+  - use_devtools
+  - use_usethis
+  - use_reprex
+  - use_conflicted
+  - matches("edit_r")
+- title: Git and GitHub
+  contents:
+  - create_from_github
+  - use_git
+  - starts_with("use_github")
+  - git_sitrep
+  - create_github_token
+  - gh_token_help
+  - git_vaccinate
+  - use_git_config
+  - use_git_ignore
+  - use_git_protocol
+  - use_git_remote
+  - use_git_hook
+  - use_code_of_conduct
+  - use_readme_rmd
+  - starts_with("git_default_branch")
+  - matches("browse")
+  - matches("edit_git_")
+  - matches("issue")
+- title: Pull requests
+  contents:
+  - starts_with("pr_")
+- title: Edit
+  contents:
+  - starts_with("edit_")
+  - rename_files
+- title: Browse
+  contents:
+  - starts_with("browse_")
+- title: Helpers
+  desc: >
+    These functions are mostly for internal use. But they are useful for
+    those who wish to offer usethis-like support for, e.g., workflows specific
+    to an organisation.
+  contents:
+  - use_template
+  - use_directory
+  - use_rmarkdown_template
+  - use_rstudio
+  - use_rstudio_preferences
+- title: Deprecated functions
+  contents:
+  - use_tidy_style
 
 articles:
 - title: Basics
-  navbar: ~
+  navbar:
   contents:
   - articles/usethis-setup
 
