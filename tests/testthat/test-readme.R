@@ -12,6 +12,14 @@ test_that("use_readme_rmd() creates README.Rmd", {
   expect_proj_file("README.Rmd")
 })
 
+test_that("use_readme_qmd() creates README.qmd", {
+  skip_if_not_installed("quarto")
+
+  create_local_package()
+  use_readme_qmd()
+  expect_proj_file("README.qmd")
+})
+
 test_that("use_readme_rmd() sets up git pre-commit hook if pkg uses git", {
   skip_if_no_git_user()
   skip_if_not_installed("rmarkdown")
@@ -64,4 +72,20 @@ test_that("use_readme_rmd() has expected form for a GitHub package", {
     writeLines(read_utf8("README.Rmd")),
     transform = scrub_testpkg
   )
+})
+
+test_that("Disallow creation of README.Rmd if README.qmd exists", {
+  skip_if_not_installed("quarto")
+  create_local_package()
+  use_readme_qmd()
+  expect_proj_file("README.qmd")
+  expect_error(use_readme_rmd())
+})
+
+test_that("Disallow creation of README.qmd if README.Rmd exists", {
+  skip_if_not_installed("rmarkdown")
+  create_local_package()
+  use_readme_rmd()
+  expect_proj_file("README.Rmd")
+  expect_error(use_readme_qmd())
 })
