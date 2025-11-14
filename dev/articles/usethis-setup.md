@@ -1,0 +1,304 @@
+# usethis setup
+
+You will get the most out of usethis if you do some setup. These setup
+tasks do not need to be done all at once or even done at all. But
+usethis can offer the most support for package development and
+Git/GitHub workflows with some advance configuration. usethis can even
+help you with this!
+
+Key steps that accelerate your R development workflow (details on *how*
+to do all this follow):
+
+- Make usethis available in interactive R sessions.
+- Provide usethis with info to use in all new R packages you create.
+- Use the “sitrep” functions to get a health check or gather info when
+  you’re going to ask for help.
+- Sign up for a free GitHub.com account, if you plan to use GitHub.
+- Install Git.
+- Configure your Git `user.name` and `user.email`.
+- If you use RStudio, make sure RStudio can find your Git executable. If
+  you use GitHub, make sure you can pull/push from your local computer
+  to GitHub.com, in general and from RStudio.
+- Get a personal access token from GitHub.com and make it available in R
+  sessions.
+- Prepare your system to build R packages from source.
+
+## Use usethis or devtools in interactive work
+
+The usethis package was carved out of the [devtools
+package](https://devtools.r-lib.org) as part of its “conscious
+uncoupling” in [the v2.0.0
+release](https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/). But
+note that devtools makes all of usethis’s functions available and they
+should feel like they are part of devtools itself. In addition, devtools
+offers some functions of its own and exposes selected functionality from
+a few other packages. You might enjoy making devtools (and therefore
+usethis) available in all your interactive R work.
+
+Call
+[`usethis::use_devtools()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+for prompts to do this:
+
+``` r
+library(devtools) ## or library(usethis)
+
+use_devtools()
+```
+
+This will:
+
+- Open your `.Rprofile` startup file for editing.
+- Show the necessary code snippet in the console and put it on your
+  clipboard.
+- Prompt you to paste, save, close, restart R. Done!
+
+The suggested snippet looks like this:
+
+``` r
+if (interactive()) {
+  suppressMessages(require(devtools))
+}
+```
+
+More resources on `.Rprofile`:
+
+- The official [Startup
+  documentation](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html)
+- The [Startup chapter](https://rstats.wtf/r-startup.html#rprofile) of
+  the What They Forgot to Teach You About R workshop materials
+- Kevin Ushey’s blog post [RProfile
+  Essentials](http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/)
+
+## Store default values for DESCRIPTION fields and other preferences
+
+Certain options are consulted by usethis and allow you to set personal
+defaults:
+
+- `usethis.full_name`: consulted for making, e.g., supplemental license
+  files.
+- `usethis.protocol`: specifies your preferred transport protocol for
+  Git. Either “https” (the usethis default) or “ssh”. See the help for
+  [`git_protocol()`](https://usethis.r-lib.org/dev/reference/git_protocol.md)
+  for more.
+- `usethis.description`: named list of default DESCRIPTION fields for
+  new packages made with
+  [`usethis::create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md).
+- `usethis.quiet`: if `TRUE`, prevents usethis from printing messages to
+  the console.
+- `usethis.destdir`: a default directory to use in
+  [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  and
+  [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md).
+- `usethis.overwrite`: if `TRUE`, usethis overwrites an existing file
+  without asking for user confirmation if the file is inside a Git repo.
+  The rationale is that the normal Git workflow makes it easy to see and
+  selectively accept/discard any proposed changes.
+
+Define any of these options in your `.Rprofile`, which can be opened for
+editing via
+[`usethis::edit_r_profile()`](https://usethis.r-lib.org/dev/reference/edit.md).
+Here is example code:
+
+``` r
+options(
+  usethis.description = list(
+    "Authors@R" = utils::person(
+        "Jane", "Doe",
+        email = "jane@example.com",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "JANE'S-ORCID-ID")
+    )
+  ),
+  usethis.destdir = "~/the/place/where/I/keep/my/R/projects",
+  usethis.overwrite = TRUE
+)
+```
+
+Save similar code in your `.Rprofile` and restart R for it to take
+effect.
+
+## The “sitrep” functions
+
+These functions gather information that help you or others troubleshoot
+things:
+
+- [`proj_sitrep()`](https://usethis.r-lib.org/dev/reference/proj_sitrep.md):
+  prints info about the active usethis project, working directory, and
+  the active RStudio Project. Points out when things are peculiar and
+  how to fix.
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md):
+  prints info about your current Git, gert, and GitHub setup.
+
+“Sitrep” is short for “**sit**uation **rep**ort”.
+
+## Get a GitHub.com account
+
+Sign up for a free account with [GitHub.com](https://github.com/).
+[Happy Git and GitHub for the
+useR](https://happygitwithr.com/github-acct.html) provides more advice
+about picking your username.
+
+## Install Git
+
+Please see [Happy Git and GitHub for the
+useR](https://happygitwithr.com/install-git.html) for instructions on
+how to install Git. It is beyond the scope of this article.
+
+usethis itself does not actually need the Git that you install, because
+it uses the [gert](https://docs.ropensci.org/gert/) package which wraps
+[libgit2](https://libgit2.github.com). But, chances are, you want to do
+normal Git things, like diff and commit and push, from RStudio or in the
+shell and for that you must install Git. Gert’s credential management
+also works best when official Git tooling is available.
+
+## Configure `user.name` and `user.email`
+
+Once Git is installed, introduce yourself to Git.
+
+``` r
+library(usethis) ## or library(devtools)
+use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
+
+# check by running a git situation-report: 
+#   - your user.name and user.email should appear in global Git config 
+git_sitrep()
+```
+
+[`usethis::use_git_config()`](https://usethis.r-lib.org/dev/reference/use_git_config.md)
+helps you configure your `user.name` and `user.email`. Substitute **your
+name** and **your email address**.
+
+What user name should you give to Git? This does not have to be your
+GitHub username, although it can be. Another good option is your actual
+first name and last name. Your commits will be labelled with this name,
+so this should be informative to potential collaborators.
+
+What email should you give to Git? This must be the email associated
+with your GitHub account.
+
+[`usethis::git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+generates a git situation-report. It can help you confirm things will
+work as expected; it can also help you diagnose problems.
+
+### Equivalent Git commands
+
+The code chunk above is doing the equivalent of this:
+
+``` sh
+git config --global user.name 'Jane Doe'
+git config --global user.email 'jane@example.com'
+git config --global --list
+```
+
+### Optional: configure Git’s editor
+
+Another Git option that many people eventually configure is the editor.
+This will come up if you use Git from a shell. At some point, you will
+fail to give Git what it wants in terms of a commit message and it will
+kick you into an editor. This can be distressing, if it’s not your
+editor of choice and you don’t even know how to save and quit. You can
+enforce your will by executing this in R:
+
+``` r
+library(usethis)
+
+use_git_config(core.editor = "nano")
+```
+
+To do the same thing with command line Git, execute this in a shell:
+
+``` sh
+git config --global core.editor emacs
+```
+
+Substitute your preferred editor for emacs here. A popular choice is
+[nano](https://www.nano-editor.org/). The default, if you don’t
+configure `core.editor`, is usually vim.
+
+## Connections: Git, GitHub, RStudio
+
+As stated above, usethis doesn’t actually use the Git you install and
+has no absolute requirement that you use GitHub or use RStudio. But use
+of usethis is highly correlated with the desire to do all of these
+things, in a pleasant way.
+
+If you plan to use GitHub, you need to make sure your local Git can pull
+from and push to GitHub.com. That is beyond the scope of this article,
+but see the [Connect to
+GitHub](https://happygitwithr.com/push-pull-github.html) section in
+Happy Git. You probably don’t want to enter your username and password
+all the time, so either [cache credentials for
+HTTPS](https://happygitwithr.com/https-pat.html) or [set up SSH
+keys](https://happygitwithr.com/ssh-keys.html). If you are an SSH
+person, set the `usethis.protocol` option to “ssh” (as of v2.0.0,
+“https” is the usethis default).
+
+If you want to use RStudio to work with Git (and therefore GitHub, see
+previous paragraph), you need to make sure RStudio can find your Git
+executable. This usually “just works”. The [Connect RStudio to Git and
+GitHub](https://happygitwithr.com/rstudio-git-github.html) section of
+Happy Git helps you confirm that all is well. If all is not well, there
+are also [troubleshooting
+tips](https://happygitwithr.com/rstudio-see-git.html).
+
+## Get and store a GitHub personal access token
+
+A GitHub personal access token (PAT) is required if you want to use
+[`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md),
+`create_from_github(..., fork = TRUE)`, and many other usethis functions
+that create something on GitHub, such as a repo, an issue, or a pull
+request. Unlike pulling and pushing, these are **not** regular Git
+operations and your usual GitHub credentials do not necessarily work for
+this (although they *can*, if you play your cards right; see the linked
+article).
+
+Git/GitHub credential management is detailed in a separate article:
+
+[Managing Git(Hub)
+Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+
+## Prepare your system to build packages from source
+
+As you participate more in R development, you will inevitably want to
+run development versions of other people’s packages, i.e. not the
+version available from CRAN. A typical way to do this is to install a
+package from GitHub with `pak::pak("OWNER/REPO")`.
+
+But, unlike using
+[`install.packages()`](https://rdrr.io/r/utils/install.packages.html)
+and CRAN, you will be downloading and installing a *source* package, not
+a *binary* package. This means your system needs to be set up for
+building R packages. And, before long, you will need to build an R
+package with compiled code in it.
+
+A full description of setting up an R development environment is beyond
+the scope of this article, but we give some pointers and diagnostics to
+get you started.
+
+Update R and all of your packages. And expect to keep doing so
+frequently.
+
+If you work in RStudio, it will often assist you with setting up a dev
+environment upon first need.
+
+Call `devtools::has_devel()` to get an initial sense of whether R
+package build tools are installed and available.
+
+[`pkgbuild::check_build_tools()`](https://pkgbuild.r-lib.org/reference/has_build_tools.html)
+is another function to report on your system and, in an interactive
+RStudio session, should trigger an automatic installation of build
+tools.
+
+It is also possible to install build tools yourself.
+
+**macOS**: A convenient way to get the tools needed for compilation is
+to install Xcode Command Line Tools. Note that this is *much smaller*
+than full Xcode. In a shell, enter `xcode-select --install`. For
+installing almost anything else, consider using
+[Homebrew](https://brew.sh).
+
+**Windows**: Install Rtools. This is not an R package! It is “a
+collection of resources for building packages for R under Microsoft
+Windows, or for building R itself”. Go to
+<https://cran.r-project.org/bin/windows/Rtools/> and install as
+instructed.

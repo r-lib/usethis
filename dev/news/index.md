@@ -1,0 +1,2638 @@
+# Changelog
+
+## usethis (development version)
+
+- Removes deprecated
+  [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
+  from to-do’s from upkeep
+  ([@edgararuiz](https://github.com/edgararuiz))
+
+- [`pr_resume()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  (without a specific `branch`) and
+  [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  (without a specific `number`) no longer error when a branch name
+  contains curly braces
+  ([\#2107](https://github.com/r-lib/usethis/issues/2107),
+  [@jonthegeek](https://github.com/jonthegeek)).
+
+## usethis 3.2.1
+
+CRAN release: 2025-09-06
+
+- [`create_quarto_project()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  exits early if the Quarto CLI does not appear to be installed and
+  related tests are skipped
+  ([\#2162](https://github.com/r-lib/usethis/issues/2162)).
+
+## usethis 3.2.0
+
+CRAN release: 2025-08-28
+
+### Formatting
+
+- [`use_air()`](https://usethis.r-lib.org/dev/reference/use_air.md) is a
+  new function to configure a project to use
+  [Air](https://posit-dev.github.io/air/), an extremely fast R code
+  formatter.
+
+- [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
+  is deprecated, in favor of using Air for any new, explicit formatting
+  efforts ([\#2110](https://github.com/r-lib/usethis/issues/2110)).
+
+### Project-hood
+
+- usethis’s criteria for recognizing a project (listed in
+  [`?proj_utils`](https://usethis.r-lib.org/dev/reference/proj_utils.md))
+  have expanded to include
+  ([\#2133](https://github.com/r-lib/usethis/issues/2133)):
+
+  - a `.vscode/settings.json` file, which Positron or VS Code might
+    create
+  - a `_quarto.yml` file, typical of a Quarto project
+  - an `renv.lock` file, which renv creates
+
+- [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  and
+  [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  open the new folder in a new session of the current IDE (RStudio or
+  Positron) in more situations and add a `.here` file if the folder
+  doesn’t already fulfill any of usethis’s criteria for a project root
+  folder ([\#2127](https://github.com/r-lib/usethis/issues/2127)).
+
+- [`create_quarto_project()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  is a new experimental function that combines basic usage of
+  [`quarto::quarto_create_project()`](https://quarto-dev.github.io/quarto-r/reference/quarto_create_project.html)
+  with some of the niceties of usethis’s `create_*()` functions, such as
+  opening the newly created project in your IDE
+  ([\#1891](https://github.com/r-lib/usethis/issues/1891),
+  [@focardozom](https://github.com/focardozom)).
+
+### Other
+
+- `use_package(min_version = FALSE)` is treated the same as when
+  `min_version` is not specified
+  ([\#2117](https://github.com/r-lib/usethis/issues/2117),
+  [@salim-b](https://github.com/salim-b)).
+
+- [`use_r_universe_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+  is a new function that creates a README badge indicating your package
+  is available on [R-universe](https://r-universe.dev) and reporting the
+  latest version ([@olivroy](https://github.com/olivroy),
+  [\#1883](https://github.com/r-lib/usethis/issues/1883)).
+
+- Some GitHub functionality should now work for GitHub Enterprise Cloud
+  (as opposed to GitHub Enterprise Server). Specifically an HTTPS URL
+  such as `"https://my-cool-org.ghe.com"` should now be recognized as
+  “looks like GitHub”
+  ([\#2098](https://github.com/r-lib/usethis/issues/2098),
+  [@jameslairdsmith](https://github.com/jameslairdsmith)).
+
+- Several deprecated functions have been removed:
+
+  - `use_rscloud_badge()`, deprecated in v2.2.0; use
+    [`use_posit_cloud_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+    instead
+  - `git_branch_default()`, deprecated in v2.1.0; use
+    [`git_default_branch()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+    instead
+  - `use_tidy_eval()`, deprecated in v2.2.0; no longer necessary
+  - `use_github_actions()` and `use_github_action_check_release()`,
+    deprecated in v.2.2.0; use `use_github_action('check-release')`
+    instead
+  - `use_github_action_check_standard()`, deprecated in v2.2.0; use
+    `use_github_action('check-standard')` instead
+  - `use_github_action_pr_commands()`, deprecated in v2.2.0
+  - `use_github_action_check_full()`, deprecated in v2.1.0
+
+## usethis 3.1.0
+
+CRAN release: 2024-11-26
+
+- [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  and
+  [`use_article()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  support Quarto. The `name` of the new vignette or article can
+  optionally include a file extension to signal whether `.Rmd` or `.qmd`
+  is desired, with `.Rmd` remaining the default for now. Thanks to
+  [@olivroy](https://github.com/olivroy) for getting the ball rolling
+  ([\#1997](https://github.com/r-lib/usethis/issues/1997)).
+
+- [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  defaults to serialization version 3
+  ([@laurabrianna](https://github.com/laurabrianna),
+  [\#2044](https://github.com/r-lib/usethis/issues/2044)).
+
+- [`use_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  can lower a minimum version requirement
+  ([@jplecavalier](https://github.com/jplecavalier),
+  [\#1957](https://github.com/r-lib/usethis/issues/1957)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  only suggests doing reverse dependency checks if there are, in fact,
+  reverse dependencies
+  ([\#1817](https://github.com/r-lib/usethis/issues/1817),
+  [@seankross](https://github.com/seankross)).
+
+- [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  records the year it is being run in the `Config/usethis/upkeep` field
+  in DESCRIPTION. If this value exists, it is used to filter the
+  checklist when making the issue.
+
+## usethis 3.0.0
+
+CRAN release: 2024-07-29
+
+### Transition to cli package for UI
+
+- The `ui_*()` functions have been marked as
+  [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
+  External users of these functions are encouraged to use the [cli
+  package](https://cli.r-lib.org/) instead. The cli package did not have
+  the required functionality when the `usethis::ui_*()` functions were
+  first created, but it does now and it’s the superior option. There is
+  a cli vignette about how to make this transition:
+  [`vignette("usethis-ui", package = "cli")`](https://cli.r-lib.org/articles/usethis-ui.html).
+  usethis no longer uses the `ui_*()` functions internally, in favor of
+  new cli-based helpers that are not exported.
+
+### Deprecated function and argument removal
+
+We are removing functions and arguments that were deprecated as of
+usethis v2.0.0, which was released in December 2020.
+
+These changes have been in place for a long time now:
+
+- Switch from git2r to gert (+ credentials).
+- Use of git config and the gh package to infer, e.g., the target repo
+  spec.
+- Pivot towards GitHub Actions and away from Travis and AppVeyor.
+
+Functions that are removed and, where applicable, what to use instead:
+
+- `git_credentials()`
+- `use_git_credentials()`
+- `browse_github_token()` (do
+  [`create_github_token()`](https://usethis.r-lib.org/dev/reference/github-token.md))
+- `browse_github_pat()` (do
+  [`create_github_token()`](https://usethis.r-lib.org/dev/reference/github-token.md))
+- `github_token()` (do
+  [`gh_token_help()`](https://usethis.r-lib.org/dev/reference/github-token.md)
+  or [`gh::gh_token()`](https://gh.r-lib.org/reference/gh_token.html))
+- `pr_pull_upstream()` (do
+  [`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md))
+- `pr_sync()` (do
+  [`pr_merge_main(); pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md))
+- `use_appveyor()`
+- `use_appveyor_badge()`
+- `use_travis()`
+- `use_travis_badge()`
+- `browse_travis()`
+- `use_pkgdown_travis()`
+- `use_tidy_ci()` *deprecated in v2.1.0* (do
+  [`use_tidy_github_actions()`](https://usethis.r-lib.org/dev/reference/tidyverse.md))
+- `use_tidy_labels()` *deprecated in v2.1.0* (do
+  [`use_tidy_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md))
+
+Function arguments that are removed:
+
+- `create_from_github(auth_token =, credentials =)`
+- `use_github(auth_token =, credentials =)`
+- `use_github_labels(repo_spec =, host =, auth_token =)`
+- `use_github_links(auth_token =, host =)`
+- `use_github_release(host =, auth_token =)`
+
+### Other changes
+
+- [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  and
+  [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  are equipped to handle a ZIP where the parent folder is implicit
+  ([@burnsal](https://github.com/burnsal),
+  [\#1961](https://github.com/r-lib/usethis/issues/1961)).
+
+- [`use_test_helper()`](https://usethis.r-lib.org/dev/reference/use_test_helper.md)
+  is a new function to create a test helper file
+  ([@olivroy](https://github.com/olivroy),
+  [\#1822](https://github.com/r-lib/usethis/issues/1822)).
+
+- [`use_cpp11()`](https://usethis.r-lib.org/dev/reference/use_cpp11.md)
+  makes it easier to update `NAMESPACE`
+  ([@pachadotdev](https://github.com/pachadotdev),
+  [\#1921](https://github.com/r-lib/usethis/issues/1921)).
+
+- [`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  now offers the choice to not open the files with merge conflicts
+  ([@olivroy](https://github.com/olivroy),
+  [\#1720](https://github.com/r-lib/usethis/issues/1720)).
+
+- [`edit_rstudio_snippets()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  now accepts yaml snippets ([@olivroy](https://github.com/olivroy),
+  [\#1941](https://github.com/r-lib/usethis/issues/1941)).
+
+- [`use_standalone()`](https://usethis.r-lib.org/dev/reference/use_standalone.md)
+  inserts an improved header that includes the code needed to update the
+  standalone file ([@krlmlr](https://github.com/krlmlr),
+  [\#1903](https://github.com/r-lib/usethis/issues/1903)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  and
+  [`use_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/use_upkeep_issue.md)
+  behave better when the user has a fork. The user is asked just once to
+  choose between `origin` and `upstream` as the target repo
+  ([\#2023](https://github.com/r-lib/usethis/issues/2023)).
+
+- The README templates now recommend [pak](https://pak.r-lib.org)
+  instead of devtools for package installation
+  ([@olivroy](https://github.com/olivroy),
+  [\#1723](https://github.com/r-lib/usethis/issues/1723)).
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  now knows that you can reuse the name of an earlier repo that has
+  since been renamed ([@ateucher](https://github.com/ateucher),
+  [\#1893](https://github.com/r-lib/usethis/issues/1893)).
+
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) no
+  longer asks if you want to restart RStudio when using Positron.
+
+- [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) and
+  [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) now work
+  when you are in `tests/testthat/_snaps/{foo}.md`
+  ([@olivroy](https://github.com/olivroy),
+  [\#1988](https://github.com/r-lib/usethis/issues/1988)).
+
+- The URLs baked into the badge generated by
+  `use_coverage(type = "codecov")` are updated and no longer specify a
+  branch([\#2008](https://github.com/r-lib/usethis/issues/2008)).
+
+- [`usethis::use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  now tolerates empty lines preceding the first section title in the
+  package NEWS file.
+  ([\#1976](https://github.com/r-lib/usethis/issues/1976))
+
+## usethis 2.2.3
+
+CRAN release: 2024-02-19
+
+- Patch release with changes to `.Rd` files requested by CRAN.
+
+## usethis 2.2.2
+
+CRAN release: 2023-07-05
+
+- Implicit usage of
+  [`numeric_version()`](https://rdrr.io/r/base/numeric_version.html) via
+  comparison now always provides character input. This is in response to
+  a request from CRAN to anticipate future solutions to
+  <https://bugs.r-project.org/show_bug.cgi?id=18548>.
+
+## usethis 2.2.1
+
+CRAN release: 2023-06-23
+
+- Internal helper `cran_version()`, used in functions such as
+  `use_release_checklist()` and
+  [`use_news_md()`](https://usethis.r-lib.org/dev/reference/use_news_md.md),
+  is more resilient to situations where no CRAN mirror has been set
+  ([\#1857](https://github.com/r-lib/usethis/issues/1857)).
+
+- Internal usage of
+  [`numeric_version()`](https://rdrr.io/r/base/numeric_version.html) now
+  always provides character input, rather than relying on implicit
+  [`as.character()`](https://rdrr.io/r/base/character.html) coercion.
+  This is in response to a request from CRAN to anticipate future
+  solutions to <https://bugs.r-project.org/show_bug.cgi?id=18548>
+  ([\#1869](https://github.com/r-lib/usethis/issues/1869)).
+
+## usethis 2.2.0
+
+CRAN release: 2023-06-06
+
+### New functions
+
+- [`use_author()`](https://usethis.r-lib.org/dev/reference/use_author.md)
+  is a new function to introduce a new person into the `Authors@R` field
+  of DESCRIPTION ([@avalcarcel9](https://github.com/avalcarcel9),
+  [\#833](https://github.com/r-lib/usethis/issues/833)).
+
+- [`use_rstudio_preferences()`](https://usethis.r-lib.org/dev/reference/use_rstudio_preferences.md)
+  lets you set RStudio preferences programmatically
+  ([\#1518](https://github.com/r-lib/usethis/issues/1518))
+
+- [`use_standalone()`](https://usethis.r-lib.org/dev/reference/use_standalone.md)
+  is a new function that makes it easier to use standalone files
+  provided by various low-level tidyverse packages, like rlang
+  ([\#1654](https://github.com/r-lib/usethis/issues/1654)).
+
+- [`use_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/use_upkeep_issue.md)
+  is a new function to facilitate regular maintenance of your package.
+  Similar to
+  [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md),
+  it opens an issue in your repo with a checklist of maintenance tasks.
+  It will include additional bullets if your package includes an
+  `upkeep_bullets()` function that returns a character vector
+  ([\#1794](https://github.com/r-lib/usethis/issues/1794)).
+
+### Package development
+
+- Although nested projects are discouraged, they can be useful in
+  development contexts.
+  [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  now sets the correct package name and returns the correct package path
+  for a package nested inside a project
+  ([\#1647](https://github.com/r-lib/usethis/issues/1647)).
+
+- [`use_article()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  no longer adds the rmarkdown package to `Suggests`. Instead, if
+  rmarkdown is not already a dependency, it’s added to
+  `Config/Needs/website`. This means that a package that only uses
+  articles (vs. vignettes) won’t gain an unnecessary dependency on
+  rmarkdown ([\#1700](https://github.com/r-lib/usethis/issues/1700)).
+
+- [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  now sets the appropriate minimal R version in `DESCRIPTION`, depending
+  on which serialization format `version` you choose
+  ([@dpprdan](https://github.com/dpprdan),
+  [\#1672](https://github.com/r-lib/usethis/issues/1672)).
+
+- [`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+  by default now appends the GitHub url to existing urls in in the `URL`
+  field of DESCRIPTION, rather than replacing existing urls
+  ([\#1805](https://github.com/r-lib/usethis/issues/1805)).
+
+- [`use_latest_dependencies()`](https://usethis.r-lib.org/dev/reference/use_latest_dependencies.md)
+  no longer affects `Suggests` since those dependencies are not enforced
+  ([\#1749](https://github.com/r-lib/usethis/issues/1749)).
+
+- [`use_news_md()`](https://usethis.r-lib.org/dev/reference/use_news_md.md)
+  now places “(development version)” in the header of `NEWS.md` if there
+  is a development version number in `DESCRIPTION`. It also sets the
+  first bullet to “Initial CRAN submission” when it looks like a “new”
+  package ([\#1708](https://github.com/r-lib/usethis/issues/1708)).
+
+- [`use_coverage()`](https://usethis.r-lib.org/dev/reference/use_coverage.md)
+  no longer adds covr to `Suggests`, since the `test-coverage` GitHub
+  Actions workflow takes care of installing covr
+  ([@Bisaloo](https://github.com/Bisaloo),
+  [\#1851](https://github.com/r-lib/usethis/issues/1851)).
+
+### Package release
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  will now remind you to run
+  [`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+  if necessary ([@Bisaloo](https://github.com/Bisaloo),
+  [\#1754](https://github.com/r-lib/usethis/issues/1754))
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  now encourages the creation of `NEWS.md` prior to submission, instead
+  of after ([\#1755](https://github.com/r-lib/usethis/issues/1755)).
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  now automatically pushes to GitHub (if safe) and automatically
+  publishes the release, rather than requiring you to edit and publish
+  the draft ([\#1385](https://github.com/r-lib/usethis/issues/1385)).
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  no longer fails in the absence of `NEWS.md`
+  ([\#1755](https://github.com/r-lib/usethis/issues/1755)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  will now remind you to check/close the milestone corresponding to the
+  release, if it exists
+  ([\#1642](https://github.com/r-lib/usethis/issues/1642)).
+
+- [`use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  and
+  [`use_dev_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  gain a `push` argument to optionally push the result after committing.
+  This is used to eliminate a manual step from the
+  [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  checklist ([\#1385](https://github.com/r-lib/usethis/issues/1385)).
+
+- [`use_revdep()`](https://usethis.r-lib.org/dev/reference/use_revdep.md)
+  no longer places an email template, because these days we are more
+  likely to communicate with other maintainers about breaking changes
+  via GitHub issues and pull requests
+  ([\#1769](https://github.com/r-lib/usethis/issues/1769)).
+
+### Package file management
+
+- [`rename_files()`](https://usethis.r-lib.org/dev/reference/rename_files.md)
+  now also affects files in `src/`
+  ([\#1585](https://github.com/r-lib/usethis/issues/1585)).
+
+- [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) and
+  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) now
+  work with all active files in `R/`, `src/`, and `tests/testthat/`
+  ([\#1566](https://github.com/r-lib/usethis/issues/1566)).
+
+- [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) and
+  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) now
+  work with files containing `.`
+  ([\#1690](https://github.com/r-lib/usethis/issues/1690)).
+
+- [`use_rcpp()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md),
+  [`use_c()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md) and
+  friends now work the same way as
+  [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) and
+  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md):
+  they’ll take the default file name from the file you currently have
+  open in RStudio
+  ([\#1730](https://github.com/r-lib/usethis/issues/1730)).
+
+### Git and GitHub
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  will now use an existing `.Rproj` file if it exists anywhere in the
+  repo, not just the root directory. This is useful if you’re working
+  with repos that contain tools for multiple languages
+  ([\#1680](https://github.com/r-lib/usethis/issues/1680)).
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  gains two arguments: `tool` and `scope`, which enables you to limit
+  the report to, for example, `tool = "git"` or `scope = "user"`. The
+  default remains to provide a full report. Also, provides more feedback
+  if git user’s information is not set, and checks global git-email
+  against user-level GitHub PAT
+  ([@ijlyttle](https://github.com/ijlyttle),
+  [\#1732](https://github.com/r-lib/usethis/issues/1732),
+  [\#1714](https://github.com/r-lib/usethis/issues/1714),
+  [\#1706](https://github.com/r-lib/usethis/issues/1706)).
+
+- `git_vaccinated()` now treats a path configured as `core.excludesFile`
+  like other user-supplied paths; in particular, any use of the `~/`
+  home directory shortcut is expanded via
+  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html)
+  ([@dpprdan](https://github.com/dpprdan),
+  [\#1560](https://github.com/r-lib/usethis/issues/1560)).
+
+- [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  now suggests possible actions when called without arguments
+  ([\#1724](https://github.com/r-lib/usethis/issues/1724)).
+
+- `use_github_actions()`, `use_github_action_check_standard()`,
+  `use_github_action_check_release()`, and
+  `use_github_action_pr_commands()` have been deprecated in favour of
+  the new interactive powers of
+  [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  ([\#1724](https://github.com/r-lib/usethis/issues/1724)).
+
+### Minor improvements and fixes
+
+- Links to the R Packages book have been updated to the second edition
+  of the book ([\#1689](https://github.com/r-lib/usethis/issues/1689)).
+
+- The SVG badges placed by
+  [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
+  have improved accessibility features, i.e. they advertise the
+  lifecycle stage via the `aria-label` attribute
+  ([\#1554](https://github.com/r-lib/usethis/issues/1554),
+  <https://github.com/r-lib/lifecycle/issues/117>).
+
+- `use_rscloud_badge()` has been deprecated in favour of
+  [`use_posit_cloud_badge()`](https://usethis.r-lib.org/dev/reference/badges.md),
+  and both functions now accept the updated url format of Posit Cloud
+  projects ([\#1670](https://github.com/r-lib/usethis/issues/1670)).
+
+- [`use_rstudio()`](https://usethis.r-lib.org/dev/reference/use_rstudio.md)
+  gains a `reformat` argument which omits `.Rproj` settings that enforce
+  file formatting conventions, e.g. around whitespace.
+  [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  uses this option when it introduces an `.Rproj` to a project that
+  lacks one, making it easier to follow the project’s existing
+  conventions ([\#1679](https://github.com/r-lib/usethis/issues/1679)).
+
+- [`write_over()`](https://usethis.r-lib.org/dev/reference/write-this.md)
+  and
+  [`use_github_file()`](https://usethis.r-lib.org/dev/reference/use_github_file.md)
+  gain an overwrite argument
+  ([\#1748](https://github.com/r-lib/usethis/issues/1748)).
+
+### Tidyverse-related
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  now uses internal `release_extra_revdeps()` to add extra revdep
+  sources. Currently only use for internal Posit tooling, but we hope to
+  extend to all users in the future
+  ([\#1610](https://github.com/r-lib/usethis/issues/1610)).
+
+- [`use_tidy_logo()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  is a new function that calls
+  [`use_logo()`](https://usethis.r-lib.org/dev/reference/use_logo.md) on
+  the appropriate hex sticker PNG file at
+  <https://github.com/rstudio/hex-stickers>
+  ([\#1871](https://github.com/r-lib/usethis/issues/1871)).
+
+### Deprecated functions
+
+- `use_tidy_eval()` is now deprecated because it imports and re-exports
+  a large number of functions that are no longer needed in order to do
+  tidy evaluation
+  ([\#1656](https://github.com/r-lib/usethis/issues/1656)).
+
+- `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and
+  `use_appveyor()` are now deprecated because we no longer recommend
+  Travis or Appveyor. We recommend GitHub actions instead
+  ([\#1517](https://github.com/r-lib/usethis/issues/1517)).
+
+## usethis 2.1.6
+
+CRAN release: 2022-05-25
+
+#### GitHub-related
+
+- [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  and friends gain a `ref` argument, which defaults to the tag of the
+  latest release in <https://github.com/r-lib/actions>
+  ([\#1541](https://github.com/r-lib/usethis/issues/1541)).
+
+- [`use_github_actions_badge()`](https://usethis.r-lib.org/dev/reference/use_github_actions_badge.md)
+  now uses the same URLs as GitHub does via the “Create status badge”
+  helper in the browser
+  ([\#1525](https://github.com/r-lib/usethis/issues/1525)). This changes
+  the significance of the `name` argument; now it really must be the
+  name of the workflow configuration file.
+
+- All functions error more clearly when the requested operation is not
+  supported for the “theirs” remote configuration
+  ([\#1588](https://github.com/r-lib/usethis/issues/1588)).
+
+#### Other changes
+
+- [`use_roxygen_md()`](https://usethis.r-lib.org/dev/reference/use_roxygen_md.md)
+  gains an `overwrite` argument
+  ([\#1599](https://github.com/r-lib/usethis/issues/1599)).
+
+- `use_rscloud_badge()` is a new function that creates a README badge
+  indicating the repository can be launched in an [RStudio
+  Cloud](https://rstudio.cloud) project
+  ([@gvelasq](https://github.com/gvelasq),
+  [\#1584](https://github.com/r-lib/usethis/issues/1584)).
+
+- [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  gains an `ascii` argument, which is passed along to
+  [`save()`](https://rdrr.io/r/base/save.html)
+  ([@JosiahParry](https://github.com/JosiahParry),
+  [\#1625](https://github.com/r-lib/usethis/issues/1625)).
+
+- [`use_code_of_conduct()`](https://usethis.r-lib.org/dev/reference/use_code_of_conduct.md)
+  has been updated to version 2.1 of the Contributor Covenant
+  ([@batpigandme](https://github.com/batpigandme),
+  [\#1591](https://github.com/r-lib/usethis/issues/1591)).
+
+## usethis 2.1.5
+
+CRAN release: 2021-12-09
+
+- pkgdown-related functions no longer automatically strip a trailing
+  slash from the pkgdown site URL, in order to play more nicely with
+  CRAN’s URL checks
+  ([\#1526](https://github.com/r-lib/usethis/issues/1526)).
+
+- [`edit_pkgdown_config()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  is a new function that opens the pkgdown YAML configuration file for
+  the current Project, if such a file exists.
+
+- The error thrown when reporting an unsupported GitHub configuration
+  has been fixed for forward compatibility with a future version of
+  rlang, i.e. what is anticipated to be rlang v1.0.0.
+
+- Version 2.1.4 was never released. Version was advanced from 2.1.4 to
+  2.1.5 strictly for CRAN (re-)submission purposes.
+
+## usethis 2.1.3
+
+CRAN release: 2021-10-27
+
+- Modified a test to ensure that intermittent GitHub rate limiting does
+  not lead to ungraceful failure on CRAN.
+
+## usethis 2.1.2
+
+CRAN release: 2021-10-25
+
+- [`git_default_branch_rename()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  no longer errors on repos where README exists, but has no badge block.
+
+- [`git_default_branch_rediscover()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  prunes the defunct remote ref to the old default branch,
+  e.g. `origin/master`.
+
+- Version 2.1.1 was never released. Version was advanced from 2.1.1 to
+  2.1.2 strictly for CRAN (re-)submission purposes.
+
+## usethis 2.1.0
+
+CRAN release: 2021-10-16
+
+### Git default branch support
+
+usethis has a more sophisticated understanding of the default branch and
+gains several functions to support default branch renaming.
+
+- `git_branch_default()` has been renamed to
+  [`git_default_branch()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md),
+  to place it logically in the new family of functions. The old name
+  still works, but that won’t be true forever.
+- [`git_default_branch()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  is much more diligent about figuring out the default branch. Instead
+  of only consulting the local repo, now we integrate local info with
+  the default branch reported by the `upstream` or `origin` remote, if
+  applicable.
+  - This is intended to surface the case where a project has renamed its
+    default branch and the local repo needs sync up with that.
+- [`git_default_branch_rediscover()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  is a new function that helps contributors update their local repo (and
+  personal fork, if applicable) when a project/repo renames its default
+  branch.
+- [`git_default_branch_rename()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  is a new function that helps a repo owner rename the default branch
+  (both on GitHub and locally).
+- [`git_default_branch_configure()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
+  is a new function to set the new Git configuration option
+  `init.defaultBranch`, which controls the name of the initial branch of
+  new local repos.
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  exposes `init.defaultBranch` and surfaces the more sophisticated
+  analysis of
+  [`git_default_branch()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md).
+
+### Other GitHub-related changes
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  and
+  [`gh_token_help()`](https://usethis.r-lib.org/dev/reference/github-token.md)
+  try even harder to help people get on the happy path with respect to
+  their GitHub PAT
+  ([\#1400](https://github.com/r-lib/usethis/issues/1400),
+  [\#1413](https://github.com/r-lib/usethis/issues/1413),
+  [\#1488](https://github.com/r-lib/usethis/issues/1488),
+  [\#1489](https://github.com/r-lib/usethis/issues/1489),
+  [\#1497](https://github.com/r-lib/usethis/issues/1497)).
+
+- The minimum version of gh has been bumped to help / force more people
+  to upgrade to the gh version that supports current GitHub PAT formats
+  ([@ijlyttle](https://github.com/ijlyttle),
+  [\#1454](https://github.com/r-lib/usethis/issues/1454)).
+
+- [`use_github_file()`](https://usethis.r-lib.org/dev/reference/use_github_file.md)
+  is a new function related to
+  [`use_template()`](https://usethis.r-lib.org/dev/reference/use_template.md).
+  Instead of starting from a local file,
+  [`use_github_file()`](https://usethis.r-lib.org/dev/reference/use_github_file.md)
+  grabs the contents of an arbitrary file on GitHub that the user has
+  permission to read. It supports targeting a specific branch, tag, or
+  commit and can follow a symlink
+  ([\#1407](https://github.com/r-lib/usethis/issues/1407)).
+  [`use_github_file()`](https://usethis.r-lib.org/dev/reference/use_github_file.md)
+  now powers
+  [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  and friends.
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  is much more diligent about using any information left behind by
+  `devtools::submit_cran()` or `devtools::release()`. Specifically, this
+  applies to determining which SHA is to be tagged in the release. And
+  this SHA, in turn, determines the consulted versions of DESCRIPTION
+  (for package version) and NEWS.md (for release notes)
+  ([\#1380](https://github.com/r-lib/usethis/issues/1380)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  also takes bullets from `release_questions()`, for compatibility with
+  `devtools::release()`.
+
+- [`git_vaccinate()`](https://usethis.r-lib.org/dev/reference/git_vaccinate.md),
+  [`edit_git_ignore()`](https://usethis.r-lib.org/dev/reference/edit.md),
+  and
+  [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  are more careful to consult, reveal, and set the `core.excludesFile`
+  setting in user’s Git configuration
+  ([\#1461](https://github.com/r-lib/usethis/issues/1461)).
+
+- `use_github_action_check_full()` has been removed. It’s overkill for
+  the majority of R packages, which are better off with
+  `use_github_actions()` or `use_github_action_check_standard()`
+  ([\#1490](https://github.com/r-lib/usethis/issues/1490)).
+
+- [`use_github_pages()`](https://usethis.r-lib.org/dev/reference/use_github_pages.md)
+  and
+  [`use_pkgdown_github_pages()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  use a new method for creating an empty, orphan `gh-pages` branch. This
+  is necessary due to new GitHub behaviour, where it has become
+  essentially impossible to refer to the empty tree
+  ([\#1472](https://github.com/r-lib/usethis/issues/1472)).
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  can create repositories with `"internal"` visibility, a feature that
+  exists within GitHub Enterprise products
+  ([\#1505](https://github.com/r-lib/usethis/issues/1505)).
+
+### Package development
+
+- [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  and
+  [`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  no longer include CRAN installation instructions in the initial
+  template; instead, we only include GitHub-based install instructions
+  or otherwise prompt the user to update instructions
+  ([\#1507](https://github.com/r-lib/usethis/issues/1507)).
+
+- [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
+  is a new function that puts `@importFrom pkg fun` directives into a
+  package in a consistent location
+  ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1377](https://github.com/r-lib/usethis/issues/1377)).
+
+- `DESCRIPTION` files generated by usethis no longer include `LazyData`
+  by default, as per new CRAN checks; instead, `LazyData` is now added
+  the first time you use
+  [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1404](https://github.com/r-lib/usethis/issues/1404)).
+
+- `use_tidy_eval()` has been updated to reflect current recommendations
+  for using (and therefore exposing) tidy eval in other packages
+  ([@lionel-](https://github.com/lionel-),
+  [\#1445](https://github.com/r-lib/usethis/issues/1445)).
+
+- [`use_pkgdown()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  automatically uses Bootstrap 5 if the pkgdown version supports it
+  (anticipated for pkgdown 2.0.0).
+
+- [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
+  now imports
+  [`lifecycle::deprecated()`](https://lifecycle.r-lib.org/reference/deprecated.html)
+  ([\#1419](https://github.com/r-lib/usethis/issues/1419)).
+
+- [`use_code_of_conduct()`](https://usethis.r-lib.org/dev/reference/use_code_of_conduct.md)
+  now requires a `contact` argument to supply contact details for
+  reporting CoC violations
+  ([\#1269](https://github.com/r-lib/usethis/issues/1269)).
+
+- [`use_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  no longer guides the user on how to use a dependency when no change
+  was made ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1384](https://github.com/r-lib/usethis/issues/1384)).
+
+#### Aimed at the tidyverse team
+
+These functions are exported for anyone to use, but are aimed primarily
+at the maintainers of tidyverse, r-lib, and tidymodels packages.
+
+- [`use_tidy_dependencies()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  is a new function that sets up standard dependencies used by all
+  tidyverse packages, except those that are designed to be dependency
+  free ([\#1423](https://github.com/r-lib/usethis/issues/1423)).
+
+- [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  is a new function similar to
+  [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  that creates a checklist-style issue to prompt various updates
+  ([\#1416](https://github.com/r-lib/usethis/issues/1416)).
+
+- `use_tidy_release_test_env()` has been deleted since we no longer
+  recommend including test environments in `cran-comments.md`. There’s
+  no evidence that CRAN finds it useful, and it’s annoying to keep
+  up-to-date ([\#1365](https://github.com/r-lib/usethis/issues/1365)).
+
+- [`use_tidy_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
+  is the new name for `use_tidy_labels()`
+  ([\#1430](https://github.com/r-lib/usethis/issues/1430)).
+
+- [`use_tidy_github_actions()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  takes over for `use_tidy_ci()`, which is now deprecated.
+
+### User-level configuration
+
+- `"usethis.overwrite"` is a new option. When set to `TRUE`, usethis
+  overwrites an existing file without asking for user confirmation if
+  the file is inside a Git repo. The normal Git workflow makes it easy
+  to see and selectively accept/discard any proposed changes. This
+  behaviour is strictly opt-in
+  ([\#1424](https://github.com/r-lib/usethis/issues/1424)).
+
+- Functions that provide code to load packages in your `.Rprofile` now
+  use
+  [`rlang::check_installed()`](https://rlang.r-lib.org/reference/is_installed.html)
+  to make sure the package is installed locally
+  ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1398](https://github.com/r-lib/usethis/issues/1398)).
+
+- [`edit_rstudio_prefs()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  and
+  [`edit_rstudio_snippets()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  should work now on case-sensitive OSes, due to a path fix re: the
+  location of RStudio’s config files
+  ([@charliejhadley](https://github.com/charliejhadley),
+  [\#1420](https://github.com/r-lib/usethis/issues/1420)).
+
+## usethis 2.0.1
+
+CRAN release: 2021-02-10
+
+- All functions that require a package now ask you if you’d like to
+  install it.
+
+- Added
+  [`edit_template()`](https://usethis.r-lib.org/dev/reference/edit_file.md)
+  for opening and creating files in `inst/templates` (for use with
+  [`use_template()`](https://usethis.r-lib.org/dev/reference/use_template.md))
+  ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1319](https://github.com/r-lib/usethis/issues/1319)).
+
+- [`use_article()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  now creates the file in the `vignettes/articles/`
+  ([\#548](https://github.com/r-lib/usethis/issues/548)).
+
+- [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
+  has been updated for changes in our lifecycle workflow
+  ([\#1323](https://github.com/r-lib/usethis/issues/1323)).
+
+- `use_tidy_pkgdown()` has been renamed to
+  [`use_pkgdown_github_pages()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  since the function is useful for anyone who wants to automatically
+  publish to GitHub pages, not just the tidyverse team
+  ([\#1308](https://github.com/r-lib/usethis/issues/1308)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  includes a bunch of minor improvements. Most importantly, for initial
+  CRAN release we now include a number of common things that CRAN checks
+  for that aren’t in `R CMD check`.
+
+- [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md),
+  [`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md),
+  [`use_tidy_contributing()`](https://usethis.r-lib.org/dev/reference/tidyverse.md),
+  and
+  [`use_tidy_support()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  use updated logic for determining the `OWNER/REPO` spec of the target
+  repo ([\#1312](https://github.com/r-lib/usethis/issues/1312)).
+
+## usethis 2.0.0
+
+CRAN release: 2020-12-10
+
+### Adoption of gert and changes to Git/GitHub credential handling
+
+Usethis has various functions that help with Git-related tasks, which
+break down into two categories:
+
+1.  Git tasks, such as clone, push, and pull. These are things you could
+    do with command line Git.
+2.  GitHub tasks, such as fork, release, and open an issue or pull
+    request. These are things you could do in the browser or with the
+    GitHub API.
+
+We’ve switched from git2r to the gert package for Git operations
+(<https://docs.ropensci.org/gert/>). We continue to use the gh package
+for GitHub API work (<https://gh.r-lib.org>).
+
+The big news in this area is that these lower-level dependencies are
+getting better at finding Git credentials, finding the same credentials
+as command line Git (and, therefore, the same as RStudio), and finding
+the same credentials as each other. This allows usethis to shed some of
+the workarounds we have needed in the past, to serve as a remedial
+“credential valet”.
+
+Under the hood, both gert and gh are now consulting your local Git
+credential store, when they need credentials. At the time of writing,
+they are using two different even-lower-level packages to do this:
+
+- gert uses the credentials package
+  (<https://docs.ropensci.org/credentials/>)
+- gh uses the gitcreds package (<https://gitcreds.r-lib.org/>)
+
+Even now, gert and gh should discover the same credentials, at least for
+github.com. In the future, these two packages may merge into one.
+
+Git/GitHub credential management is covered in a new article: [Managing
+Git(Hub)
+Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+
+The main user-facing changes in usethis are:
+
+- usethis should discover and use the same credentials as command line
+  Git.
+- usethis should be able to work with any GitHub deployment. While
+  github.com is the default, GitHub Enterprise deployments are fully
+  supported. The target GitHub host is determined from the current
+  project’s configured GitHub remotes, whenever possible.
+
+As a result, several functions are deprecated and several other
+functions have some deprecated arguments.
+
+- Deprecated functions:
+  - `use_git_credentials()`
+  - `git_credentials()`
+  - `github_token()`
+- Functions with (deprecated arguments):
+  - [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+    (`auth_token`, `credentials`)
+  - [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+    (`auth_token`, `credentials`)
+  - [`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+    (`host`, `auth_token`)
+  - [`use_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
+    (`repo_spec`, `host`, `auth_token`)
+  - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)
+  - [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+    (`host`, `auth_token`)
+
+The switch to gert + credentials should eliminate most
+credential-finding fiascos. Gert also takes a different approach to
+wrapping libgit2, the underlying C library that does Git operations. The
+result is more consistent support for SSH and TLS, across all operating
+systems, without requiring special effort at install time. More users
+should enjoy Git remote operations that “just work”, for both SSH and
+HTTPS remotes. There should be fewer “unsupported protocol” errors.
+
+### GitHub remote configuration
+
+Usethis gains a more formal framework for characterizing a GitHub remote
+configuration. We look at:
+
+- Which GitHub repositories `origin` and `upstream` point to
+- Whether you can push to them
+- How they relate to each other, e.g. fork-parent relationship
+
+This is an internal matter, but users will notice that usethis is more
+clear about which configurations are supported by various functions and
+which are not. The most common configurations are reviewed in a [section
+of Happy Git](https://happygitwithr.com/common-remote-setups.html).
+
+When working in a fork, there is sometimes a question whether to target
+the fork or its parent repository. For example,
+[`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+adds GitHub links to the URL and BugReports fields of DESCRIPTION. If
+someone calls
+[`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+when working in a fork, they probably want those links to refer to the
+*parent* or *source* repo, not to their fork, because the user is
+probably preparing a pull request. Usethis should now have better
+default behaviour in these situations and, in some cases, will present
+an interactive choice.
+
+### Default branch
+
+There is increasing interest in making the name of a repo’s default
+branch configurable. Specifically, `main` is emerging as a popular
+alternative to `master`. Usethis now discovers the current repo’s
+default branch and uses that everywhere that, previously, we had
+hard-wired `master`.
+
+`git_branch_default()` is a newly exported function that is also what’s
+used internally.
+
+[`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md),
+[`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md), and
+[`create_download_url()`](https://usethis.r-lib.org/dev/reference/use_course_details.md)
+all have some support for forming the URL to download a `.zip` archive
+of a repo, based on a repo specification (e.g. `OWNER/REPO`) or a
+browser URL. These helpers now form a URL that targets `HEAD` of the
+repo, i.e. the default branch.
+
+### Changes to Git/GitHub functionality
+
+The default Git protocol is now “https” and we no longer provide an
+interactive choice, by default, in interactive sessions. As always, a
+user can express a preference for “ssh” in individual function calls,
+for an R session via
+[`use_git_protocol()`](https://usethis.r-lib.org/dev/reference/git_protocol.md),
+and for all R sessions via the `usethis.protocol` option
+([\#1262](https://github.com/r-lib/usethis/issues/1262)).
+
+[`pr_resume()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+is a new function for resuming work on an existing local PR branch. It
+can be called argument-less, to select a branch interactively.
+
+[`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+can also be called with no arguments, to select a PR interactively. The
+`owner` argument is replaced by `target`, with a choice of the source
+(default) or primary repo.
+
+[`pr_forget()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+is a new function for abandoning a PR you initiated locally or fetched
+from GitHub. It only does local clean up and, for example, doesn’t
+delete a remote branch or close a PR
+([\#1263](https://github.com/r-lib/usethis/issues/1263)).
+
+[`pr_view()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+can now be called with no arguments. If the current branch is associated
+with an open PR, we target that and, otherwise, we offer an interactive
+selection.
+
+[`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+deletes the remote PR branch if the PR has been merged and the current
+user has the power to do so, i.e. an external contributor deleting their
+own branch or a maintainer deleting a branch associated with an internal
+PR ([\#1150](https://github.com/r-lib/usethis/issues/1150)). It no
+longer errors if the PR branch has already been deleted
+([\#1196](https://github.com/r-lib/usethis/issues/1196)).
+
+`pr_pull_upstream()` is renamed to
+[`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+to emphasize that it merges the **main** line of development into the
+current branch, where the main line of development is taken to mean the
+default branch, as reported by `git_branch_default()`, of the source
+repo, which could be either `upstream` or `origin`, depending on the
+situation.
+
+[`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+will only create a read-only clone, due to lack of a GitHub personal
+access token, if explicitly directed to do so via `fork = FALSE`.
+
+[`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+and
+[`use_tidy_thanks()`](https://usethis.r-lib.org/dev/reference/use_tidy_thanks.md)
+accept browser and Git URLs as the `repo_spec` argument, to be
+friendlier to copy/paste. When a URL is passed, the `host` is also
+extracted from it.
+
+[`create_github_token()`](https://usethis.r-lib.org/dev/reference/github-token.md)
+is a new name for the function previously known as
+`browse_github_token()` and `browse_github_pat()`.
+
+[`issue_close_community()`](https://usethis.r-lib.org/dev/reference/issue-this.md)
+and
+[`issue_reprex_needed()`](https://usethis.r-lib.org/dev/reference/issue-this.md)
+are two new functions for maintainers who process lots of GitHub issues.
+They automate canned replies and actions, e.g. labelling or closing
+([\#940](https://github.com/r-lib/usethis/issues/940)).
+
+GitHub Actions is the preferred platform for continuous integration,
+because that is what the tidyverse team currently uses and maintains.
+Functions related to Travis-CI and AppVeyor are soft-deprecated to raise
+awareness about this change and to make it clear that, if substantial
+maintenance becomes necessary, we may elect to retire the function
+([\#1169](https://github.com/r-lib/usethis/issues/1169)).
+
+[`browse_github_actions()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+is a new function to open the Actions page of the respective repo on
+GitHub, similar to existing `browse_*()` functions
+([@pat-s](https://github.com/pat-s),
+[\#1102](https://github.com/r-lib/usethis/issues/1102)).
+
+[`use_github_pages()`](https://usethis.r-lib.org/dev/reference/use_github_pages.md)
+is a new function to activate or reconfigure the GitHub Pages site
+associated with a repository
+([\#224](https://github.com/r-lib/usethis/issues/224)).
+
+`use_tidy_pkgdown()` implements the complete pkgdown configuration used
+by the tidyverse team
+([\#224](https://github.com/r-lib/usethis/issues/224)).
+
+`pr_sync()` is deprecated and can be replicated by calling
+[`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+[`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+then
+[`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md).
+
+### Licensing improvements
+
+All `use_*_license()` functions now work for projects, not just
+packages.
+
+[`use_apl2_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+(not
+[`use_apache_license()`](https://usethis.r-lib.org/dev/reference/licenses.md))
+and
+[`use_gpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+no longer modify the license text
+([\#1198](https://github.com/r-lib/usethis/issues/1198)).
+
+[`use_mit_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+now sets the default copyright holder to “{package} authors”. This makes
+it more clear that the copyright holders are the contributors to the
+package; unless you are using a CLA there is no one copyright holder of
+a package ([\#1207](https://github.com/r-lib/usethis/issues/1207)).
+
+New
+[`use_gpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+and
+[`use_agpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+make it easier to pick specific versions of the GPL and AGPL licenses,
+and to choose whether or not you include future versions of the license.
+Both default to version 3 (and above).
+
+New
+[`use_proprietary_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+allows your package to pass R CMD check while making it clear that your
+code is not open source
+([\#1163](https://github.com/r-lib/usethis/issues/1163)). Thanks to
+[@atheriel](https://github.com/atheriel) for the blog post suggesting
+the wording:
+<https://unconj.ca/blog/copyright-in-closed-source-r-packages-the-right-way.html>
+
+[`use_lgpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+now uses version 3 (and above), and gains new `version` and
+`include_future` argument to control which version is used.
+
+[`use_gpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md),
+[`use_agpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+and
+[`use_apl2_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+have been deprecated in favour of the new `version` argument to
+[`use_gpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md),
+[`use_agpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+and
+[`use_apache_license()`](https://usethis.r-lib.org/dev/reference/licenses.md).
+
+The `name` argument to
+[`use_mit_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+has been changed to `copyright_holder` to make the purpose more clear.
+The `name` argument has been removed from all other license functions
+because it is not needed; no other license makes an assertion about who
+the copyright holder is.
+
+### RStudio preferences
+
+usethis is now fully cognizant of the [changes to RStudio
+preferences](https://posit.co/blog/rstudio-1-3-preview-configuration/)
+in RStudio 1.3:
+
+[`edit_rstudio_snippets()`](https://usethis.r-lib.org/dev/reference/edit.md)
+looks in the new location, and if you have snippets in the old location,
+will automatically copy them to the new location
+([\#1204](https://github.com/r-lib/usethis/issues/1204))
+
+New
+[`edit_rstudio_prefs()`](https://usethis.r-lib.org/dev/reference/edit.md)
+opens RStudio preferences file for editing
+([\#1148](https://github.com/r-lib/usethis/issues/1148)).
+
+[`use_blank_slate()`](https://usethis.r-lib.org/dev/reference/use_blank_slate.md)
+can now configure your global, i.e. user-level, RStudio preference, in
+addition to project-level
+([\#1018](https://github.com/r-lib/usethis/issues/1018)).
+
+### Other changes
+
+[`browse_package()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+and
+[`browse_project()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+are new functions that let the user choose from a list of URLs derived
+from local Git remotes and DESCRIPTION (local or possibly on CRAN)
+([\#1113](https://github.com/r-lib/usethis/issues/1113)).
+
+The legacy `"devtools.desc"` option is no longer consulted when
+populating a new DESCRIPTION file. You must use the
+`"usethis.description"` now
+([\#1069](https://github.com/r-lib/usethis/issues/1069)).
+
+[`use_dev_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+gains a `remote` parameter to allow you to specify the remote. The
+existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains
+the default ([\#918](https://github.com/r-lib/usethis/issues/918),
+[@ijlyttle](https://github.com/ijlyttle)).
+
+[`use_cpp11()`](https://usethis.r-lib.org/dev/reference/use_cpp11.md) is
+a new function to set up an R package to use cpp11.
+
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE
+file (and also has no Roxygen\* fields in DESCRIPTION)
+([\#1120](https://github.com/r-lib/usethis/issues/1120)).
+
+[`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md),
+[`create_project()`](https://usethis.r-lib.org/dev/reference/create_package.md),
+[`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md),
+and
+[`proj_activate()`](https://usethis.r-lib.org/dev/reference/proj_activate.md)
+work better with relative paths, inside and outside of RStudio
+([\#1122](https://github.com/r-lib/usethis/issues/1122),
+[\#954](https://github.com/r-lib/usethis/issues/954)).
+
+[`use_testthat()`](https://usethis.r-lib.org/dev/reference/use_testthat.md)
+gains an edition argument to support testthat v3.0.0
+([\#1185](https://github.com/r-lib/usethis/issues/1185))
+
+[`use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+now updates `src/version.c` if it exists and contains a line matching
+`PKG_version = "x.y.z";`.
+
+usethis has been re-licensed as MIT
+([\#1252](https://github.com/r-lib/usethis/issues/1252),
+[\#1253](https://github.com/r-lib/usethis/issues/1253)).
+
+### Dependency changes
+
+New Imports: gert, jsonlite (was already an indirect dependency),
+lifecycle, rappdirs
+
+No longer in Imports: git2r, rematch2
+
+## usethis 1.6.3
+
+CRAN release: 2020-09-17
+
+Patch release to refactor usage of withr in the tests for forward
+compatibility with an upcoming withr release. All changes are within the
+usethis tests.
+
+## usethis 1.6.1
+
+CRAN release: 2020-04-29
+
+Patch release to align some path handling internals with an update
+coming in the fs package.
+
+- [`use_github_links()`](https://usethis.r-lib.org/dev/reference/use_github_links.md)
+  is a bit more clever about remotes (e.g. `origin` vs. `upstream`),
+  which makes it easier to make a PR that adds GitHub links for a
+  package you’ve forked.
+
+- [`use_pkgdown()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  now `.gitignore`s the destination directory and only adds the
+  destination directory to the config file if it departs from the
+  default (which is `docs/`).
+
+- `use_tidy_ci()` is now deprecated in favour of
+  [`use_tidy_github_actions()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  ([\#1098](https://github.com/r-lib/usethis/issues/1098)).
+
+- `use_github_action_check_standard()` is a new intermediate workflow
+  that checks on more platforms than `_release`, but is less exhaustive
+  than `_full` ([@jimhester](https://github.com/jimhester)).
+
+- [`create_tidy_package()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  now uses an MIT license ([@topepo](https://github.com/topepo),
+  [\#1096](https://github.com/r-lib/usethis/issues/1096)).
+
+## usethis 1.6.0
+
+CRAN release: 2020-04-09
+
+### GitHub actions
+
+- New `use_github_actions()`, `use_github_action_check_release()`,
+  `use_github_action_check_full()`, `use_github_action_pr_commands()`,
+  to set up GitHub Actions for a package
+  ([@jimhester](https://github.com/jimhester)).
+
+- We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and
+  strongly recommend upgrading your packages.
+
+- Fix
+  [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  URL parameter to ensure custom URLs are allowed.
+  ([@coatless](https://github.com/coatless),
+  [\#1065](https://github.com/r-lib/usethis/issues/1065)).
+
+### Package creation
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  gains a `roxygen` argument. If `TRUE` (the default), it adds a
+  `RoxygenNote` field to the `DESCRIPTION` (which means the first run of
+  `devtools::check()` will re-document the package,
+  [\#963](https://github.com/r-lib/usethis/issues/963)), and creates an
+  empty `NAMESPACE` (which means you’ll always need an explicit
+  `@export` if you want to export functions,
+  [\#927](https://github.com/r-lib/usethis/issues/927)). It also turns
+  markdown processing on by default
+  ([\#911](https://github.com/r-lib/usethis/issues/911)).
+
+- [`use_rstudio()`](https://usethis.r-lib.org/dev/reference/use_rstudio.md)
+  now sets the `LineEndingConversion` to `Posix` so that packages
+  created using usethis always use LF line endings, regardless of who
+  contributes to them
+  ([\#1002](https://github.com/r-lib/usethis/issues/1002)).
+
+- In the `usethis.description` option, you can now set
+  `Authors@R = person()` directly, without having to wrap in additional
+  layer of quotes. If setting this in your `.Rprofile`, you’ll need to
+  use [`utils::person()`](https://rdrr.io/r/utils/person.html) since the
+  utils package isn’t loaded until after your profile is executed.
+
+### PR helpers
+
+- A new article [Pull request
+  helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
+  demonstrates how to use the `pr_*()` functions
+  ([@mine-cetinkaya-rundel](https://github.com/mine-cetinkaya-rundel),
+  [\#802](https://github.com/r-lib/usethis/issues/802)).
+
+- [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  checks that you don’t have any local changes
+  ([\#805](https://github.com/r-lib/usethis/issues/805)), and can
+  optionally finish any PR, not just the current
+  ([\#1040](https://github.com/r-lib/usethis/issues/1040)).
+
+- [`pr_pause()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  and
+  [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  now automatically pull to get latest changes
+  ([\#959](https://github.com/r-lib/usethis/issues/959),
+  [\#960](https://github.com/r-lib/usethis/issues/960)) and refresh
+  RStudio’s git pane
+  ([\#706](https://github.com/r-lib/usethis/issues/706)).
+
+- [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  now works for a repository with no open pull requests
+  ([@maurolepore](https://github.com/maurolepore),
+  [\#990](https://github.com/r-lib/usethis/issues/990)).
+
+- [`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  gives more information about which files have merge conflicts and
+  automatically opens conflicted files for editing
+  ([\#1056](https://github.com/r-lib/usethis/issues/1056)).
+
+### Other new features
+
+- New
+  [`rename_files()`](https://usethis.r-lib.org/dev/reference/rename_files.md)
+  makes it easy to rename paired `R/` and `test/` files
+  ([\#784](https://github.com/r-lib/usethis/issues/784)).
+
+- New
+  [`ui_silence()`](https://usethis.r-lib.org/dev/reference/ui_silence.md)
+  makes it easier to selectively silence some UI output.
+
+- New
+  [`use_agpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  ([@pachamaltese](https://github.com/pachamaltese),
+  [\#870](https://github.com/r-lib/usethis/issues/870)).
+
+- New
+  [`use_data_table()`](https://usethis.r-lib.org/dev/reference/use_data_table.md)
+  to set up a package for Import-ing `data.table`
+  ([@michaelchirico](https://github.com/michaelchirico),
+  [\#897](https://github.com/r-lib/usethis/issues/897)).
+
+- [`use_latest_dependencies()`](https://usethis.r-lib.org/dev/reference/use_latest_dependencies.md)
+  replaces `use_tidy_version()` as the new name better reflect its usage
+  ([\#771](https://github.com/r-lib/usethis/issues/771)).
+
+- New
+  [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
+  helper to import the lifecycle badges for functions and arguments in
+  your package. Learn more at <https://lifecycle.r-lib.org/>.
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  will include additional bullets if your package includes
+  `release_bullets()` function which returns a character vector (and the
+  package has been loaded with `load_all()`)
+  ([\#941](https://github.com/r-lib/usethis/issues/941)).
+
+### Minor improvements and bug fixes
+
+- When writing files, usethis now respects line endings. Default line
+  endings are taken from the `.Rproj` file (if available), otherwise the
+  `DESCRIPTION`, otherwise the first file found in `R/`, then all else
+  failing to your platform default
+  ([\#767](https://github.com/r-lib/usethis/issues/767)). It should do a
+  better job of preserving UTF-8 files on windows
+  ([\#969](https://github.com/r-lib/usethis/issues/969)).
+
+- [`browse_github()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+  now always goes to the canonical GitHub site:
+  `https://github.com/user/repo`. This is slightly worse than the
+  current behaviour but makes the function more consistent across
+  packages, and considerably simplifies the implementation.
+
+- `browse_circle()` opens the project dashboard on Circle CI.
+
+- [`create_download_url()`](https://usethis.r-lib.org/dev/reference/use_course_details.md)
+  is a new helper for making “ZIP file download” URLs suitable for use
+  with
+  [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  and
+  [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md),
+  starting with the URLs that mere mortals can usually get their hands
+  on in a browser ([@fmichonneau](https://github.com/fmichonneau),
+  [\#406](https://github.com/r-lib/usethis/issues/406)).
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  no longer fails partway through if you have a malformed
+  `usethis.description` option
+  ([\#961](https://github.com/r-lib/usethis/issues/961)).
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  will now create a package in a symlink to a directory
+  ([\#794](https://github.com/r-lib/usethis/issues/794)).
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  and
+  [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  gain a `check_name` argument to control whether to check for package
+  names invalid for CRAN ([@noamross](https://github.com/noamross),
+  [\#883](https://github.com/r-lib/usethis/issues/883)).
+
+- [`edit_file()`](https://usethis.r-lib.org/dev/reference/edit_file.md)
+  and [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md)
+  gain an `open` parameter that allows you to control whether or not the
+  function is opened for editing by the user
+  ([\#817](https://github.com/r-lib/usethis/issues/817)).
+
+- [`edit_rstudio_snippets()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  makes it more clear which snippet types are allowed and that user’s
+  snippets mask the built-in snippets
+  ([@GegznaV](https://github.com/GegznaV),
+  [\#885](https://github.com/r-lib/usethis/issues/885)).
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  now reports project-specific user name and email, if set
+  ([\#837](https://github.com/r-lib/usethis/issues/837)), and email(s)
+  associated with your GitHub account
+  ([@dragosmg](https://github.com/dragosmg),
+  [\#724](https://github.com/r-lib/usethis/issues/724)).
+
+- [`ui_yeah()`](https://usethis.r-lib.org/dev/reference/ui-questions.md)
+  and
+  [`ui_nope()`](https://usethis.r-lib.org/dev/reference/ui-questions.md)
+  allow you to override the default “yes” and “no” strings and to
+  opt-out of shuffling ([@rundel](https://github.com/rundel),
+  [\#796](https://github.com/r-lib/usethis/issues/796)).
+
+- [`use_circleci()`](https://usethis.r-lib.org/dev/reference/use_gitlab_ci.md)
+  uses correct delimiters in template
+  ([@jdblischak](https://github.com/jdblischak),
+  [\#835](https://github.com/r-lib/usethis/issues/835)).
+
+- [`use_circleci_badge()`](https://usethis.r-lib.org/dev/reference/use_gitlab_ci.md)
+  is now exported ([@pat-s](https://github.com/pat-s),
+  [\#920](https://github.com/r-lib/usethis/issues/920)).
+
+- [`use_code_of_conduct()`](https://usethis.r-lib.org/dev/reference/use_code_of_conduct.md)
+  now generates an absolute link to code of conduct on pkgdown website
+  or original source to avoid R CMD check issues
+  ([\#772](https://github.com/r-lib/usethis/issues/772)).
+
+- [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  and
+  [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  are now equipped with some retry capability, to cope with intermittent
+  failure or the need for a longer connect timeout
+  ([\#988](https://github.com/r-lib/usethis/issues/988)).
+
+- [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  automatically bumps R dependency to 2.10
+  ([\#962](https://github.com/r-lib/usethis/issues/962)).
+
+- [`use_data_raw()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  template quotes the dataset name correctly
+  ([\#736](https://github.com/r-lib/usethis/issues/736),
+  [@mitchelloharawild](https://github.com/mitchelloharawild)).
+
+- [`use_description_defaults()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  now shows the default fields combined with any options that you have
+  set.
+
+- [`use_dev_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  now supports packages installed from any remote type, not just GitHub
+  ([@antoine-sachet](https://github.com/antoine-sachet),
+  [\#1071](https://github.com/r-lib/usethis/issues/1071)).
+
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) will
+  now create initial commit if needed
+  ([\#852](https://github.com/r-lib/usethis/issues/852)).
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  no longer fails if you have no news bullets
+  ([\#1048](https://github.com/r-lib/usethis/issues/1048)).
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  now tags the latest local commit instead of the latest remote commit
+  on the default branch ([@davidchall](https://github.com/davidchall),
+  [\#1029](https://github.com/r-lib/usethis/issues/1029)).
+
+- [`use_gpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  now completes the license by providing additional information in a
+  file named LICENSE, just like
+  [`use_mit_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  and friends ([@Cervangirard](https://github.com/Cervangirard),
+  [\#683](https://github.com/r-lib/usethis/issues/683)).
+
+- [`use_logo()`](https://usethis.r-lib.org/dev/reference/use_logo.md)
+  now generates the correct href if the pkgdown `url` is set
+  ([@mitchelloharawild](https://github.com/mitchelloharawild),
+  [\#986](https://github.com/r-lib/usethis/issues/986)).
+
+- [`use_make()`](https://usethis.r-lib.org/dev/reference/use_make.md)
+  gains missing closing parenthesis
+  ([@ryapric](https://github.com/ryapric),
+  [\#804](https://github.com/r-lib/usethis/issues/804)).
+
+- `use_markdown_template()` no longer uses an unexported function in its
+  default arguments ([@fmichonneau](https://github.com/fmichonneau),
+  [\#761](https://github.com/r-lib/usethis/issues/761)).
+
+- [`use_testthat()`](https://usethis.r-lib.org/dev/reference/use_testthat.md)
+  and [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md)
+  now work in projects, not just packages
+  ([\#1017](https://github.com/r-lib/usethis/issues/1017)).
+
+- [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) works
+  on Windows when called without arguments
+  ([\#901](https://github.com/r-lib/usethis/issues/901)).
+
+- [`use_tidy_issue_template()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  uses current github format
+  ([@Maschette](https://github.com/Maschette),
+  [\#756](https://github.com/r-lib/usethis/issues/756)).
+
+- `use_travis()`, `use_travis_badge()`, and `browse_travis()`, now
+  default to `ext = "com"` since travis-ci.com is now recommended it
+  over travis-ci.org
+  ([@riccardoporreca](https://github.com/riccardoporreca),
+  [\#1038](https://github.com/r-lib/usethis/issues/1038)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  reminds you to re-generate `README.md`, if needed
+  ([\#767](https://github.com/r-lib/usethis/issues/767)).
+
+- [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) and
+  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) throw
+  a clear error if multiple names are provided
+  ([@strboul](https://github.com/strboul),
+  [\#862](https://github.com/r-lib/usethis/issues/862)).
+
+- [`use_rcpp()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
+  and [`use_c()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
+  now ensure `src/` contains at least one `.cpp` or `.c` placeholder
+  file, so that the package can be built
+  ([@coatless](https://github.com/coatless),
+  [\#720](https://github.com/r-lib/usethis/issues/720)).
+
+- `usethis.destdir` is a new option that is consulted when deciding
+  where to put a new folder created by
+  [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  or
+  [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  ([@malcolmbarrett](https://github.com/malcolmbarrett),
+  [\#1015](https://github.com/r-lib/usethis/issues/1015)).
+
+- [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
+  no longer adds the lifecycle package to the DESCRIPTION file. With the
+  new roxygen markdown syntax for including badges, lifecycle has become
+  a build-time dependency.
+
+### Dependency changes
+
+New Imports: cli, rematch2, rlang.
+
+gh minimum version is bumped to v.1.1.0, due to changed behaviour around
+requests that return nothing.
+
+clisymbols is removed from Imports.
+
+## usethis 1.5.1
+
+CRAN release: 2019-07-04
+
+This is a patch release with various small features and bug fixes.
+
+### Using the pipe `%>%` or the tidy eval toolkit in your package
+
+- The templates used by
+  [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md)
+  and `use_tidy_eval()` use a more robust form of cross-reference links,
+  linking to files rather than topics. This should silence some warnings
+  seen on Windows at install time
+  ([\#730](https://github.com/r-lib/usethis/issues/730),
+  [\#731](https://github.com/r-lib/usethis/issues/731)
+  [@jmgirard](https://github.com/jmgirard)).
+
+- [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md)
+  gains a logical `export` argument, so it can do the setup necessary to
+  use the pipe operator when it is re-exported (`export = TRUE`, which
+  is the default and preserves the previous behaviour) and when it is
+  not (`export = FALSE`)
+  ([\#783](https://github.com/r-lib/usethis/issues/783)).
+
+### Git, GitHub, and pull requests
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  removes newline `\n` characters from the description that can cause
+  the initial push to fail
+  ([\#493](https://github.com/r-lib/usethis/issues/493),
+  [@muschellij2](https://github.com/muschellij2)).
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  gives better feedback if we can’t validate the GitHub PAT
+  ([\#725](https://github.com/r-lib/usethis/issues/725),
+  [@ijlyttle](https://github.com/ijlyttle)).
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  sets remote tracking branch of `master` to `upstream/master`, when it
+  creates (and clones) a fork
+  ([\#792](https://github.com/r-lib/usethis/issues/792)).
+
+- [`pr_pause()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  can switch back to master even if there is no remote tracking branch
+  ([\#715](https://github.com/r-lib/usethis/issues/715),
+  [@cderv](https://github.com/cderv)).
+
+### Build tools and continuous integration
+
+- `use_tidy_ci()` is updated for R 3.6, meaning that R 3.2 is the oldest
+  version of R supported through proactive testing.
+
+- [`use_make()`](https://usethis.r-lib.org/dev/reference/use_make.md)
+  and
+  [`use_jenkins()`](https://usethis.r-lib.org/dev/reference/use_jenkins.md)
+  add a Makefile and Jenkinsfile, respectively
+  ([\#501](https://github.com/r-lib/usethis/issues/501),
+  [@ryapric](https://github.com/ryapric)).
+
+- [`use_circleci()`](https://usethis.r-lib.org/dev/reference/use_gitlab_ci.md)
+  creates a `.circleci/config.yaml` config file for CircleCI
+  ([\#703](https://github.com/r-lib/usethis/issues/703),
+  [@jdblischak](https://github.com/jdblischak)).
+
+### Other
+
+- [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md) is
+  a new variant of
+  [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  that downloads and unpacks a ZIP file, with less pedantic behaviour
+  re: the destination directory. Both functions now also work for ZIP
+  files with MIME type `"application/x-zip-compressed"`
+  ([\#573](https://github.com/r-lib/usethis/issues/573)).
+
+- [`use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  can detect `"(development version)"` in a NEWS header and update it
+  with an actual version
+  ([\#768](https://github.com/r-lib/usethis/issues/768),
+  [@DavisVaughan](https://github.com/DavisVaughan)).
+
+### Dependency changes
+
+R 3.1 is no longer explicitly supported or tested. Our general practice
+is to support the current release (3.6, at time of writing), devel, and
+the 4 previous versions of R (3.5, 3.4, 3.3, 3.2).
+
+fs minimum version is stated to be v1.3.0.
+
+glue minimum version is stated to be v1.3.0.
+
+## usethis 1.5.0
+
+CRAN release: 2019-04-07
+
+### Git, GitHub (and GitLab)
+
+usethis gains several functions to inspect and manipulate the Git
+situation for the current project = repository. We also provide more
+control and visibility into git2r’s workings, especially around
+credentials (usethis uses git2r for all Git operations).
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  lets you know what’s up with your Git, git2r and GitHub config
+  ([\#328](https://github.com/r-lib/usethis/issues/328)).
+
+- [`git_vaccinate()`](https://usethis.r-lib.org/dev/reference/git_vaccinate.md)
+  vaccinates your global (i.e. user-level) git ignore file. It adds
+  standard entries for R users, such as `.Rhistory` and `.Rdata`. This
+  decreases the chance that you commit and push files containing
+  confidential information
+  ([\#469](https://github.com/r-lib/usethis/issues/469)).
+
+- [`git_remotes()`](https://usethis.r-lib.org/dev/reference/use_git_remote.md)
+  and
+  [`use_git_remote()`](https://usethis.r-lib.org/dev/reference/use_git_remote.md)
+  are new helpers to inspect or modify Git remote URLs for the repo
+  associated with the active project
+  ([\#649](https://github.com/r-lib/usethis/issues/649)).
+
+- [`git_protocol()`](https://usethis.r-lib.org/dev/reference/git_protocol.md) +
+  [`use_git_protocol()`](https://usethis.r-lib.org/dev/reference/git_protocol.md)
+  and `git_credentials()` + `use_git_credentials()` are new helpers to
+  summon or set Git transport protocol (SSH or HTTPS) or git2r
+  credentials, respectively. These functions are primarily for internal
+  use. Most users can rely on default behaviour. Use these helpers to
+  intervene if git2r isn’t discovering the right credentials
+  ([\#653](https://github.com/r-lib/usethis/issues/653)). usethis honors
+  the `usethis.protocol` option, which allows you to express a general
+  preference for SSH vs. HTTPS.
+
+Other improvements and bug fixes:
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  tries harder but also fails earlier, with more informative messages,
+  making it less likely to leave the repo partially configured
+  ([\#221](https://github.com/r-lib/usethis/issues/221)).
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  and
+  [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  gain a `protocol` argument
+  ([\#494](https://github.com/r-lib/usethis/issues/494),
+  [@cderv](https://github.com/cderv)).
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  pulls from upstream master in a fork
+  ([\#695](https://github.com/r-lib/usethis/issues/695),
+  [@ijlyttle](https://github.com/ijlyttle)).
+
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  creates a GitHub issue containing a release checklist, reflecting the
+  standard practices of the tidyverse team
+  ([\#338](https://github.com/r-lib/usethis/issues/338)).
+
+- [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  creates a draft GitHub release using the entries in `NEWS.md`
+  ([\#137](https://github.com/r-lib/usethis/issues/137)).
+
+- [`use_gitlab_ci()`](https://usethis.r-lib.org/dev/reference/use_gitlab_ci.md)
+  creates a `gitlab-ci.yaml` config file for GitLab CI
+  ([\#565](https://github.com/r-lib/usethis/issues/565),
+  [@overmar](https://github.com/overmar)).
+
+- [`use_git_config()`](https://usethis.r-lib.org/dev/reference/use_git_config.md)
+  now invisibly returns the previous values of the settings.
+
+- [`use_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
+  has been rewritten be more flexible. You can now supply a repo name,
+  and `descriptions`, and you can set colours/descriptions independently
+  of creating labels. You can also `rename` existing labels
+  ([\#290](https://github.com/r-lib/usethis/issues/290)).
+
+### GitHub pull requests
+
+We’ve added **experimental** functions to work with GitHub pull
+requests. They are aimed at both a maintainer (who may make, review, and
+modify pull requests) and a contributor (who may make or explore pull
+requests).
+
+- [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md)
+  includes a section at the end aimed at describing “pull request
+  readiness”. Expect that to develop and expand.
+
+- [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  [`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  and
+  [`pr_view()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  constitute the new family of helpers. They are designed to be smart
+  about the significance of remotes with the standard names of `origin`
+  and `upstream` and to facilitate both internal and external pull
+  requests.
+
+### Partial file management
+
+usethis gains tooling to manage part of a file. This is currently used
+for managing badges in your README and roxygen import tags:
+
+- [`use_badge()`](https://usethis.r-lib.org/dev/reference/badges.md) and
+  friends now automatically add badges if your README contains a
+  specially formatted badge block
+  ([\#497](https://github.com/r-lib/usethis/issues/497)):
+
+      <-- badge:start -->
+      <-- badge:end -->
+
+- [`use_tibble()`](https://usethis.r-lib.org/dev/reference/use_tibble.md)
+  and
+  [`use_rcpp()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
+  automatically add roxygen tags to to `{package}-package.R` if it
+  contains a specially formatted namespace block
+  ([\#517](https://github.com/r-lib/usethis/issues/517)):
+
+  ``` r
+  ## usethis namespace: start
+  ## usethis namespace: end
+  NULL
+  ```
+
+  Unfortunately this means that
+  [`use_rcpp()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md) no
+  longer supports non-roxygen2 workflows, but I suspect the set of
+  people who use usethis and Rcpp but not roxygen2 is very small.
+
+### Extending and wrapping usethis
+
+- New
+  [`proj_activate()`](https://usethis.r-lib.org/dev/reference/proj_activate.md)
+  lets you activate a project, either opening a new RStudio session (if
+  you use RStudio) or changing the working directory
+  ([\#511](https://github.com/r-lib/usethis/issues/511)).
+
+- [`proj_get()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  and
+  [`proj_set()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  no longer have a `quiet` argument. The user-facing message about
+  setting a project is now under the same control as other messages,
+  i.e. `getOption("usethis.quiet", default = FALSE)`
+  ([\#441](https://github.com/r-lib/usethis/issues/441)).
+
+- A new set of `ui_*()` functions makes it possible to give your own
+  code the same user interface as usethis
+  ([\#308](https://github.com/r-lib/usethis/issues/308)). All use the
+  glue and crayon and packages to power easy interpolation and
+  formatting. There are four families of functions:
+
+  - block styles:
+    [`ui_line()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_done()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_todo()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_oops()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_info()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md).
+  - conditions:
+    [`ui_stop()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_warn()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md).
+  - questions:
+    [`ui_yeah()`](https://usethis.r-lib.org/dev/reference/ui-questions.md),
+    [`ui_nope()`](https://usethis.r-lib.org/dev/reference/ui-questions.md).
+  - inline styles:
+    [`ui_field()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_value()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_path()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md),
+    [`ui_code()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md).
+
+- [`with_project()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  and
+  [`local_project()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  are new withr-style functions to temporarily set an active usethis
+  project. They make usethis functions easier to use in an *ad hoc*
+  fashion or from another package
+  ([\#441](https://github.com/r-lib/usethis/issues/441)).
+
+### Tidyverse standards
+
+These standards are (aspirationally) used by all tidyverse packages; you
+are welcome to use them if you find them helpful.
+
+- Call `use_tidy_labels()` to update GitHub labels. Colours are less
+  saturated, docs is now documentation, we use some emoji, and
+  performance is no longer automatically added to all repos
+  ([\#519](https://github.com/r-lib/usethis/issues/519)). Repo specific
+  issues should be given colour `#eeeeee` and have an emoji.
+
+- Call
+  [`use_logo()`](https://usethis.r-lib.org/dev/reference/use_logo.md) to
+  update the package logo to the latest specifications:
+  `man/figure/logo.png` should be 240 x 278, and README should contain
+  `<img src="man/figures/logo.png" align="right" height="139" />`. This
+  gives a nicer display on retina displays. The logo is also linked to
+  the pkgdown site if available
+  ([\#536](https://github.com/r-lib/usethis/issues/536)).
+
+- When creating a new package, use
+  [`create_tidy_package()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  to start with a package following the tidyverse standards
+  ([\#461](https://github.com/r-lib/usethis/issues/461)).
+
+- `NEWS.md` for the development version should use “(development
+  version)” rather than the specific version
+  ([\#440](https://github.com/r-lib/usethis/issues/440)).
+
+- pkgdown sites should now be built by travis and deployed automatically
+  to GitHub pages. `use_pkgdown_travis()` will help you set that up.
+
+- When starting the release process, call
+  [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  to create a release checklist issue
+  ([\#338](https://github.com/r-lib/usethis/issues/338)).
+
+- Prior to CRAN submission call `use_tidy_release_test_env()` to update
+  the test environment section in `cran-comments()`
+  ([\#496](https://github.com/r-lib/usethis/issues/496)).
+
+- After acceptance, try
+  [`use_github_release()`](https://usethis.r-lib.org/dev/reference/use_github_release.md)
+  to automatically create a release. It’s created as a draft so you have
+  a chance to look over before publishing.
+
+- [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  includes the a standard initialisation chunk with
+  `knitr::opts_chunk$set(comment = "#>", collapse = TRUE)` which should
+  be used for all Rmds.
+
+### New functions not already mentioned
+
+- [`use_devtools()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+  ([\#624](https://github.com/r-lib/usethis/issues/624)),
+  [`use_conflicted()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+  ([\#362](https://github.com/r-lib/usethis/issues/362)), and
+  [`use_reprex()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+  ([\#465](https://github.com/r-lib/usethis/issues/465)) help add useful
+  packages to your `.Rprofile`.
+
+- [`use_partial_warnings()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+  helps the user add a standard warning block to `.Rprofile`
+  ([\#64](https://github.com/r-lib/usethis/issues/64)).
+
+- [`edit_r_buildignore()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  opens `.Rbuildignore` for manual editing
+  ([\#462](https://github.com/r-lib/usethis/issues/462),
+  [@bfgray3](https://github.com/bfgray3)).
+
+- [`use_lgpl_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  automates set up of the LGL license
+  ([\#448](https://github.com/r-lib/usethis/issues/448),
+  [@krlmlr](https://github.com/krlmlr)).
+
+- [`use_ccby_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  adds a CCBY 4.0 license
+  ([\#547](https://github.com/r-lib/usethis/issues/547),
+  [@njtierney](https://github.com/njtierney)).
+
+- [`use_rcpp_armadillo()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
+  and
+  [`use_rcpp_eigen()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
+  set up a package to use RcppArmadillo or RcppEigen, respectively
+  ([\#421](https://github.com/r-lib/usethis/issues/421),
+  [@coatless](https://github.com/coatless),
+  [@duckmayr](https://github.com/duckmayr)).
+
+- `use_c("foo")` sets up `src/` and creates `src/foo.c`
+  ([\#117](https://github.com/r-lib/usethis/issues/117)).
+
+- [`use_covr_ignore()`](https://usethis.r-lib.org/dev/reference/use_coverage.md)
+  makes it easy to ignore files in test coverage
+  ([\#434](https://github.com/r-lib/usethis/issues/434)).
+
+- `use_pkgdown_travis()` helps you set up pkgdown for automatic
+  build-and-deploy from Travis-CI to GitHub Pages
+  ([\#524](https://github.com/r-lib/usethis/issues/524)).
+
+- [`use_addin()`](https://usethis.r-lib.org/dev/reference/use_addin.md)
+  does setup for RStudio addins
+  ([\#353](https://github.com/r-lib/usethis/issues/353),
+  [@haozhu233](https://github.com/haozhu233)).
+
+- [`use_tutorial()`](https://usethis.r-lib.org/dev/reference/use_tutorial.md)
+  creates a new interactive R Markdown tutorial, as implemented by the
+  [`learnr` package](https://rstudio.github.io/learnr/index.html)
+  ([@angela-li](https://github.com/angela-li),
+  [\#645](https://github.com/r-lib/usethis/issues/645)).
+
+- [`use_article()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  creates articles, vignettes that are automatically added to
+  `.Rbuildignore`. These appear on pkgdown sites, but are not included
+  with the package itself
+  ([\#281](https://github.com/r-lib/usethis/issues/281)).
+
+- [`use_citation()`](https://usethis.r-lib.org/dev/reference/use_citation.md)
+  creates a basic `CITATION` template and puts it in the right place
+  ([\#100](https://github.com/r-lib/usethis/issues/100)).
+
+### Other minor bug fixes and improvements
+
+- [`write_union()`](https://usethis.r-lib.org/dev/reference/write-this.md)
+  appends the novel `lines`, but does not remove duplicates from
+  existing lines ([\#583](https://github.com/r-lib/usethis/issues/583),
+  [@khailper](https://github.com/khailper)).
+
+- `use_rcpp("foo")` now creates `src/foo.cpp`
+  ([\#117](https://github.com/r-lib/usethis/issues/117)).
+
+- [`use_data()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  gains a `version` argument and defaults to serialization format
+  version 2 ([\#675](https://github.com/r-lib/usethis/issues/675)).
+
+- [`use_data_raw()`](https://usethis.r-lib.org/dev/reference/use_data.md)
+  accepts a name for the to-be-prepared dataset and opens a templated R
+  script ([\#646](https://github.com/r-lib/usethis/issues/646)).
+
+- [`browse_github()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+  now falls back to CRAN organisation (with a warning) if package
+  doesn’t have its own GitHub repo
+  ([\#186](https://github.com/r-lib/usethis/issues/186)).
+
+- `create_*()` restore the active project if they error part way
+  through, and use
+  [`proj_activate()`](https://usethis.r-lib.org/dev/reference/proj_activate.md)
+  ([\#453](https://github.com/r-lib/usethis/issues/453),
+  [\#511](https://github.com/r-lib/usethis/issues/511)).
+
+- [`edit_r_profile()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  and
+  [`edit_r_environ()`](https://usethis.r-lib.org/dev/reference/edit.md)
+  now respect environment variables `R_PROFILE_USER` and
+  `R_ENVIRON_USER`, respectively
+  ([\#480](https://github.com/r-lib/usethis/issues/480)).
+
+- [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  once again prints the generated description
+  ([\#287](https://github.com/r-lib/usethis/issues/287)).
+
+- `use_description_field()` is no longer sensitive to whitespace, which
+  allows
+  [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  to work even if the `VignetteBuilder` field is spread over multiple
+  lines ([\#439](https://github.com/r-lib/usethis/issues/439)).
+
+- [`use_logo()`](https://usethis.r-lib.org/dev/reference/use_logo.md)
+  can override existing logo if user gives permission
+  ([\#454](https://github.com/r-lib/usethis/issues/454)). It also
+  produces retina appropriate logos by default, and matches the aspect
+  ratio to the [http://hexb.in/sticker.html](http://hexb.in/sticker.md)
+  specification ([\#499](https://github.com/r-lib/usethis/issues/499)).
+
+- [`use_news_md()`](https://usethis.r-lib.org/dev/reference/use_news_md.md)
+  will optionally commit.
+
+- [`use_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  gains a `min_version` argument to specify a minimum version
+  requirement ([\#498](https://github.com/r-lib/usethis/issues/498)).
+  Set to `TRUE` to use the currently installed version
+  ([\#386](https://github.com/r-lib/usethis/issues/386)). This is used
+  by `use_tidy_eval()` in order to require version 0.1.2 or greater of
+  rlang ([\#484](https://github.com/r-lib/usethis/issues/484)).
+
+- [`use_pkgdown()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  is now configurable with site options
+  ([@jayhesselberth](https://github.com/jayhesselberth),
+  [\#467](https://github.com/r-lib/usethis/issues/467)), and no longer
+  creates the `docs/` directory
+  ([\#495](https://github.com/r-lib/usethis/issues/495)).
+
+- [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) no
+  longer forces the filename to be lowercase
+  ([\#613](https://github.com/r-lib/usethis/issues/613),
+  [@stufield](https://github.com/stufield)).
+
+- [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) will
+  not include a `context()` in the generated file if used with testthat
+  2.1.0 and above (the future release of testthat)
+  ([\#325](https://github.com/r-lib/usethis/issues/325)).
+
+- [`use_tidy_description()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  sets the `Encoding` field in `DESCRIPTION`
+  ([\#502](https://github.com/r-lib/usethis/issues/502),
+  [@krlmlr](https://github.com/krlmlr)).
+
+- `use_tidy_eval()` re-exports `:=`
+  ([\#595](https://github.com/r-lib/usethis/issues/595),
+  [@jonthegeek](https://github.com/jonthegeek)).
+
+- `use_tidy_versions()` has source argument so that you can choose to
+  use local or CRAN versions
+  ([\#309](https://github.com/r-lib/usethis/issues/309)).
+
+- `use_travis()` gains an `ext` argument, defaulting to `"org"`. Use
+  `ext = "com"` for `https://travis-ci.com`
+  ([@cderv](https://github.com/cderv),
+  [\#500](https://github.com/r-lib/usethis/issues/500)).
+
+- [`use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  asks before committing.
+
+- [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  now has a `title` argument which is used in YAML header (in the two
+  places where it is needed). The vignettes also lose the default author
+  and date fields ([@rorynolan](https://github.com/rorynolan),
+  [\#445](https://github.com/r-lib/usethis/issues/445)), and the R
+  Markdown starter material. They gain a standard setup chunk.
+
+- `use_version("dev")` now creates a standard “(development version)”
+  heading in `NEWS.md`
+  ([\#440](https://github.com/r-lib/usethis/issues/440)).
+
+- [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  now checks if the vignette name is valid (starts with letter and
+  consists of letters, numbers, hyphen, and underscore) and throws an
+  error if not ([@akgold](https://github.com/akgold),
+  [\#555](https://github.com/r-lib/usethis/issues/555)).
+
+- `restart_rstudio()` now returns `FALSE` in RStudio if no project is
+  open, fixing an issue that caused errors in helpers that suggest
+  restarting RStudio ([@gadenbuie](https://github.com/gadenbuie),
+  [\#571](https://github.com/r-lib/usethis/issues/571)).
+
+### Dependency changes
+
+- withr moves from Suggests to Imports.
+
+- purrr and yaml are new in Imports.
+
+## usethis 1.4.0
+
+CRAN release: 2018-08-14
+
+### File system
+
+All usethis file system operations now use the
+[fs](https://fs.r-lib.org) package
+([\#177](https://github.com/r-lib/usethis/issues/177)). This should not
+change how usethis functions, but users may notice these features of
+fs-mediated paths:
+
+- Paths are “tidy”, meaning `/` is the path separator and there are
+  never multiple or trailing `/`.
+- Paths are UTF-8 encoded.
+- A Windows user’s home directory is interpreted as `C:\Users\username`
+  (typical of Unix-oriented tools, like Git and ssh; also matches
+  Python), as opposed to `C:\Users\username\Documents` (R’s default on
+  Windows). Read more in
+  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html).
+
+### Extending or wrapping usethis
+
+These changes make it easier for others to extend usethis, i.e. to
+create workflow packages specific to their organization, or to use
+usethis in other packages.
+
+- [`proj_path()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  is newly exported. Use it to build paths within the active project.
+  Like
+  [`proj_get()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
+  and
+  [`proj_set()`](https://usethis.r-lib.org/dev/reference/proj_utils.md),
+  it is not aimed at end users, but rather for use in extension
+  packages. End users should use
+  [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
+  [here](https://here.r-lib.org), to programmatically detect a project
+  and build paths within it
+  ([\#415](https://github.com/r-lib/usethis/issues/415),
+  [\#425](https://github.com/r-lib/usethis/issues/425)).
+
+  - [`edit_file()`](https://usethis.r-lib.org/dev/reference/edit_file.md),
+    [`write_over()`](https://usethis.r-lib.org/dev/reference/write-this.md),
+    and
+    [`write_union()`](https://usethis.r-lib.org/dev/reference/write-this.md)
+    are newly exported helpers. They are mostly for internal use, but
+    can also be useful in packages that extend or customize usethis
+    ([\#344](https://github.com/r-lib/usethis/issues/344),
+    [\#366](https://github.com/r-lib/usethis/issues/366),
+    [\#389](https://github.com/r-lib/usethis/issues/389)).
+
+- [`use_template()`](https://usethis.r-lib.org/dev/reference/use_template.md)
+  no longer errors when a user chooses not to overwrite an existing file
+  and simply exits with confirmation that the file is unchanged
+  ([\#348](https://github.com/r-lib/usethis/issues/348),
+  [\#350](https://github.com/r-lib/usethis/issues/350),
+  [@boshek](https://github.com/boshek)).
+
+- `getOption("usethis.quiet", default = FALSE)` is consulted when
+  printing user-facing messages. Set this option to `TRUE` to suppress
+  output, e.g., to use usethis functions quietly in another package. For
+  example, use `withr::local_options(list(usethis.quiet = TRUE))` in the
+  calling function
+  ([\#416](https://github.com/r-lib/usethis/issues/416),
+  [\#424](https://github.com/r-lib/usethis/issues/424)).
+
+### New functions
+
+- [`proj_sitrep()`](https://usethis.r-lib.org/dev/reference/proj_sitrep.md)
+  reports current working directory, the active usethis project, and the
+  active RStudio Project. Call this function if things seem weird and
+  you’re not sure what’s wrong or how to fix it. Designed for
+  interactive use and debugging, not for programmatic use
+  ([\#426](https://github.com/r-lib/usethis/issues/426)).
+
+- [`use_tibble()`](https://usethis.r-lib.org/dev/reference/use_tibble.md)
+  does minimum setup necessary for a package that returns or exports a
+  tibble. For example, this guarantees a tibble will print as a tibble
+  ([\#324](https://github.com/r-lib/usethis/issues/324)
+  [@martinjhnhadley](https://github.com/martinjhnhadley)).
+
+- [`use_logo()`](https://usethis.r-lib.org/dev/reference/use_logo.md)
+  resizes and adds a logo to a package
+  ([\#358](https://github.com/r-lib/usethis/issues/358),
+  [@jimhester](https://github.com/jimhester)).
+
+- [`use_spell_check()`](https://usethis.r-lib.org/dev/reference/use_spell_check.md)
+  adds a whitelist of words and a unit test to spell check package
+  documentation during `R CMD check`
+  ([\#285](https://github.com/r-lib/usethis/issues/285)
+  [@jeroen](https://github.com/jeroen)).
+
+### Other small changes and bug fixes
+
+- usethis has a new logo!
+  ([\#429](https://github.com/r-lib/usethis/issues/429))
+
+- [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  reports progress during download
+  ([\#276](https://github.com/r-lib/usethis/issues/276),
+  [\#380](https://github.com/r-lib/usethis/issues/380)).
+
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) only
+  makes an initial commit of all files if user gives explicit consent
+  ([\#378](https://github.com/r-lib/usethis/issues/378)).
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md):
+  the `repo` argument is renamed to `repo_spec`, since it takes input of
+  the form “OWNER/REPO”
+  ([\#376](https://github.com/r-lib/usethis/issues/376)).
+
+- `use_depsy_badge()` is deprecated. The Depsy project has officially
+  concluded and is no longer being maintained
+  ([\#354](https://github.com/r-lib/usethis/issues/354)).
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  fails earlier, with a more informative message, in the absence of a
+  GitHub personal access token (PAT). Also looks for the PAT more
+  proactively in the usual environment variables (i.e., GITHUB_PAT,
+  GITHUB_TOKEN) ([\#320](https://github.com/r-lib/usethis/issues/320),
+  [\#340](https://github.com/r-lib/usethis/issues/340),
+  [@cderv](https://github.com/cderv)).
+
+- The logic for setting DESCRIPTION fields in
+  [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  and
+  [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  got a Spring Cleaning. Fields directly specified by the user take
+  precedence, then the named list in `getOption("usethis.description")`
+  is consulted, and finally defaults built into usethis.
+  [`use_description_defaults()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  is a new function that reveals fields found in options and built into
+  usethis. Options specific to one DESCRIPTION field,
+  e.g. `devtools.desc.license`, are no longer supported. Instead, use a
+  single named list for all fields, preferably stored in an option named
+  `"usethis.description"` (however,`"devtools.desc"` is still consulted
+  for backwards compatibility).
+  ([\#159](https://github.com/r-lib/usethis/issues/159),
+  [\#233](https://github.com/r-lib/usethis/issues/233),
+  [\#367](https://github.com/r-lib/usethis/issues/367))
+
+### Dependency changes
+
+New Imports: fs, glue, utils
+
+No longer in Imports: backports, httr, rematch2, rmarkdown (moved to
+Suggests), styler (moved to Suggests)
+
+## usethis 1.3.0
+
+CRAN release: 2018-02-24
+
+- usethis has a website: <https://usethis.r-lib.org>
+  ([\#217](https://github.com/r-lib/usethis/issues/217)). It includes an
+  article with advice on system setup, for usethis and for R development
+  more generally.
+
+- `edit_*()` functions now return the target path, invisibly
+  ([\#255](https://github.com/r-lib/usethis/issues/255)).
+
+- `edit_git_ignore(scope = "user")` prefers `~/.gitignore`, but detects
+  an existing `~/.gitignore_global`, if it exists. If a new global
+  gitignore file is created, it is created as `~/.gitignore` and
+  recorded in user’s git config as the `core.excludesfile`
+  ([\#255](https://github.com/r-lib/usethis/issues/255)).
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  gains several arguments and new functionality. The `protocol` argument
+  lets user convey whether remote URLs should be ssh or https. In the
+  case of “fork and clone”, the original repo is added as `upstream`
+  remote. It is now possible – although rarely necessary – to directly
+  specify the GitHub PAT, credentials (in git2r form), and GitHub host
+  ([\#214](https://github.com/r-lib/usethis/issues/214),
+  [\#214](https://github.com/r-lib/usethis/issues/214),
+  [\#253](https://github.com/r-lib/usethis/issues/253)).
+
+- [`use_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
+  can create or update the colour of arbitrary GitHub issue labels,
+  defaulting to a set of labels and colours used by the tidyverse
+  packages, which are now exposed via
+  [`tidy_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md).
+  That set now includes the labels “good first issue” and “help wanted”
+  ([\#168](https://github.com/r-lib/usethis/issues/168),
+  [\#249](https://github.com/r-lib/usethis/issues/249)).
+
+- `appveyor_info()` no longer reverses the repo’s URL and image link.
+  Corrects the markdown produced by `use_appveyor_badge()`
+  ([\#240](https://github.com/r-lib/usethis/issues/240),
+  [@llrs](https://github.com/llrs)).
+
+- [`use_cran_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+  uses an HTTPS URL for the CRAN badge image
+  ([\#235](https://github.com/r-lib/usethis/issues/235),
+  [@jdblischak](https://github.com/jdblischak)).
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  and
+  [`create_project()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  return a normalized path, even if target directory does not pre-exist
+  ([\#227](https://github.com/r-lib/usethis/issues/227),
+  [\#228](https://github.com/r-lib/usethis/issues/228)).
+
+### New functions
+
+- [`use_git_config()`](https://usethis.r-lib.org/dev/reference/use_git_config.md)
+  can set user’s Git name or email, globally or locally in a
+  project/repo ([\#267](https://github.com/r-lib/usethis/issues/267)).
+
+- `browse_github_pat()` goes to the webpage where a GitHub user can
+  create a personal access token (PAT) for the GitHub API. If the user
+  configures a PAT, they can use functions like
+  [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  and
+  [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  to easily create and connect GitHub repos to local projects.
+  ([\#248](https://github.com/r-lib/usethis/issues/248),
+  [\#257](https://github.com/r-lib/usethis/issues/257),
+  [@jeroen](https://github.com/jeroen), via
+  [@jennybc](https://github.com/jennybc)).
+
+- [`use_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  increments the version of the active package, including an interactive
+  chooser.
+  [`use_dev_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  is now a special case wrapper around this.
+  ([\#188](https://github.com/r-lib/usethis/issues/188),
+  [\#223](https://github.com/r-lib/usethis/issues/223),
+  [@EmilHvitfeldt](https://github.com/EmilHvitfeldt)).
+
+- [`use_tidy_github()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  creates a standard set of files that make a GitHub repository more
+  navigable for users and contributors: an issue template, contributing
+  guidelines, support documentation, and a code of conduct. All are now
+  placed in a `.github/` subdirectory
+  ([\#165](https://github.com/r-lib/usethis/issues/165),
+  [@batpigandme](https://github.com/batpigandme)).
+
+- `use_bioc_badge` creates a Bioconductor badge that links to the build
+  report ([\#271](https://github.com/r-lib/usethis/issues/271),
+  [@LiNk-NY](https://github.com/LiNk-NY)).
+
+- [`use_binder_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+  creates a badge indicating the repository can be launched in an
+  executable environment via [Binder](https://mybinder.org/)
+  ([\#242](https://github.com/r-lib/usethis/issues/242),
+  [@uribo](https://github.com/uribo)).
+
+## usethis 1.2.0
+
+CRAN release: 2018-01-19
+
+### New functions
+
+- [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md)
+  downloads a folder’s worth of materials from a ZIP file, with
+  deliberate choices around the default folder name and location.
+  Developed for use at the start of a workshop. Helps participants
+  obtain materials from, e.g., a DropBox folder or GitHub repo
+  ([\#196](https://github.com/r-lib/usethis/issues/196)).
+
+- [`use_blank_slate()`](https://usethis.r-lib.org/dev/reference/use_blank_slate.md)
+  provides a way to opt in to an RStudio workflow where the user’s
+  workspace is neither saved nor reloaded between R sessions. Automated
+  for `scope = "project"`. Provides UI instructions for
+  `scope = "user"`, for now
+  ([\#139](https://github.com/r-lib/usethis/issues/139)).
+
+- [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
+  styles an entire project according to <https://style.tidyverse.org>
+  ([\#72](https://github.com/r-lib/usethis/issues/72),
+  [\#197](https://github.com/r-lib/usethis/issues/197)
+  [@lorenzwalthert](https://github.com/lorenzwalthert)).
+
+- GitHub conventions common to tidyverse packages are enacted by
+  [`use_tidy_contributing()`](https://usethis.r-lib.org/dev/reference/tidyverse.md),
+  [`use_tidy_issue_template()`](https://usethis.r-lib.org/dev/reference/tidyverse.md),
+  and
+  [`use_tidy_support()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  ([@batpigandme](https://github.com/batpigandme),
+  [\#143](https://github.com/r-lib/usethis/issues/143),
+  [\#166](https://github.com/r-lib/usethis/issues/166)).
+
+Other changes
+
+- New projects that don’t exhibit other obvious criteria for being a
+  “project” will include a sentinel, empty file named `.here`, so they
+  can be recognized as a project.
+
+- Project launching and switching works on RStudio server
+  ([\#115](https://github.com/r-lib/usethis/issues/115),
+  [\#129](https://github.com/r-lib/usethis/issues/129)).
+
+- [`use_template()`](https://usethis.r-lib.org/dev/reference/use_template.md)
+  is newly exported, so that other packages can provide templating
+  functions using this framework
+  ([@ijlyttle](https://github.com/ijlyttle)
+  [\#120](https://github.com/r-lib/usethis/issues/120)).
+
+- [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  and
+  [`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  work, in a similar fashion, for projects that are and are not a
+  package ([\#131](https://github.com/r-lib/usethis/issues/131),
+  [\#135](https://github.com/r-lib/usethis/issues/135)).
+
+- [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  once again creates a pre-commit git hook, to help keep `README.Rmd`
+  and `README.md` in sync ([@PeteHaitch](https://github.com/PeteHaitch)
+  [\#41](https://github.com/r-lib/usethis/issues/41)).
+
+- Substantial increase in unit test coverage.
+
+## usethis 1.1.0
+
+CRAN release: 2017-11-17
+
+### New helpers
+
+- [`browse_github()`](https://usethis.r-lib.org/dev/reference/browse-this.md),
+  [`browse_github_issues()`](https://usethis.r-lib.org/dev/reference/browse-this.md),
+  [`browse_github_pulls()`](https://usethis.r-lib.org/dev/reference/browse-this.md),
+  [`browse_cran()`](https://usethis.r-lib.org/dev/reference/browse-this.md)
+  and `browse_travis()` open useful websites related to the current
+  project or a named package.
+  ([\#96](https://github.com/r-lib/usethis/issues/96),
+  [\#103](https://github.com/r-lib/usethis/issues/103)).
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  creates a project from an existing GitHub repository, forking if
+  needed ([\#109](https://github.com/r-lib/usethis/issues/109)).
+
+- [`use_cc0_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  applies a CC0 license, particularly appropriate for data packages
+  ([\#94](https://github.com/r-lib/usethis/issues/94))
+
+- [`use_lifecycle_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+  creates a badge describing current stage in project lifecycle
+  ([\#48](https://github.com/r-lib/usethis/issues/48)).
+
+- [`use_pkgdown()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  creates the basics needed for a
+  [pkgdown](https://github.com/r-lib/pkgdown) website
+  ([\#88](https://github.com/r-lib/usethis/issues/88)).
+
+- `use_r("foo")` creates and edit `R/foo.R` file. If you have a test
+  file open,
+  [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md) will
+  open the corresponding `.R` file
+  ([\#105](https://github.com/r-lib/usethis/issues/105)).
+
+- `use_tidy_versions()` sets minimum version requirement for all
+  dependencies.
+
+### Bug fixes and improvements
+
+- [`use_dev_version()`](https://usethis.r-lib.org/dev/reference/use_version.md)
+  now correctly updates the `Version` field in a package description
+  file. ([@tjmahr](https://github.com/tjmahr),
+  [\#104](https://github.com/r-lib/usethis/issues/104))
+
+- [`use_revdep()`](https://usethis.r-lib.org/dev/reference/use_revdep.md)
+  now also git-ignores the SQLite database
+  ([\#107](https://github.com/r-lib/usethis/issues/107)).
+
+- `use_tidy_eval()` has been tweaked to reflect current guidance
+  ([\#106](https://github.com/r-lib/usethis/issues/106))
+
+## usethis 1.0.0
+
+CRAN release: 2017-10-22
+
+This is a new package that extracts out many functions that previously
+lived in devtools, as well as providing more building blocks so you can
+create your own helpers. As well as the many new helpers listed below,
+there are three main improvements to the package:
+
+- More support for general R projects, other than packages.
+- A notion of an “active” project that all commands operate on.
+- Refined output.
+
+usethis is gradually evolving towards supporting more general R
+“projects”, not just packages. This is still a work in progress, so
+please let me know if you use a function that you think should work with
+projects but doesn’t. You can also try out the new
+[`create_project()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+which creates a basic RStudio project.
+
+The concept of the working directory and the “base path” have been
+refined. Rather than using an argument to specify the active project,
+all `use_` functions now use a global active project setting, as
+returned by
+[`proj_get()`](https://usethis.r-lib.org/dev/reference/proj_utils.md).
+This is cached throughout a session, although it will be updated by
+[`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+and
+[`create_project()`](https://usethis.r-lib.org/dev/reference/create_package.md).
+You’ll now get an clear error if you attempt to `use_something()`
+outside of a project, and `create_something()` will warn if you’re
+trying to create inside an existing project.
+
+The output from all usethis commands has been reviewed to be informative
+but not overwhelming. usethis takes advantage of colour (using crayon
+and RStudio 1.1) to help chunk the output and clearly differentiate what
+you need to do vs. what has been done for you.
+
+### New functions
+
+- [`use_apl2_license()`](https://usethis.r-lib.org/dev/reference/licenses.md)
+  if you want to use the Apache 2.0 license.
+
+- `use_depsy_badge()` allows including a Depsy badge
+  ([@gvegayon](https://github.com/gvegayon),
+  [\#68](https://github.com/r-lib/usethis/issues/68)).
+
+- [`use_dev_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  works like
+  [`use_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
+  but also adds the repo to the `Remotes` field
+  ([\#32](https://github.com/r-lib/usethis/issues/32)).
+
+- [`use_github_labels()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
+  will automatically set up a standard set of labels, optionally
+  removing the default labels
+  ([\#1](https://github.com/r-lib/usethis/issues/1)).
+
+- [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md)
+  creates a template to use magrittr’s `%>%` in your package
+  ([\#15](https://github.com/r-lib/usethis/issues/15)).
+
+- `use_tidy_ci()` which sets up travis and codecov using the tidyverse
+  conventions ([\#14](https://github.com/r-lib/usethis/issues/14))
+
+- [`use_tidy_description()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
+  puts description fields in a standard order and alphabetises
+  dependencies.
+
+- `use_tidy_eval()` imports and re-exports the recommend set of tidy
+  eval helpers if your package uses tidy eval
+  ([\#46](https://github.com/r-lib/usethis/issues/46)).
+
+- [`use_usethis()`](https://usethis.r-lib.org/dev/reference/rprofile-helper.md)
+  opens your `.Rprofile` and gives you the code to copy and paste in.
+
+### New edit functions
+
+A new class of functions make it easy to edit common config files:
+
+- `edit_r_profile_user()` opens `.Rprofile`
+- `edit_r_environ_user()` opens `.Renviron`
+- `edit_r_makevars_user()` opens `.R/Makevars`
+- `edit_git_config_user()` opens `.gitconfig`
+- `edit_git_ignore_user()` opens `.gitignore`
+- `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
+
+### Updates
+
+- `use_coverage("codecov")` now sets a default threshold of 1% to try
+  and reduce false positives
+  ([\#8](https://github.com/r-lib/usethis/issues/8)).
+
+- [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  now sets `ByteCompile: true` so you can benefit from the byte compiler
+  ([\#29](https://github.com/r-lib/usethis/issues/29))
+
+- The license functions
+  ([`use_mit_license()`](https://usethis.r-lib.org/dev/reference/licenses.md),
+  [`use_apl2_license()`](https://usethis.r-lib.org/dev/reference/licenses.md),
+  and
+  [`use_gpl3_license()`](https://usethis.r-lib.org/dev/reference/licenses.md))
+  save a copy of the standard license text in `LICENSE.md`, which is
+  then added to `.Rbuildignore`. This allows you to follow standard
+  licensing best practices while adhering to CRANs requirements
+  ([\#10](https://github.com/r-lib/usethis/issues/10)).
+
+- [`use_package_doc()`](https://usethis.r-lib.org/dev/reference/use_package_doc.md)
+  uses more a modern roxygen2 template that requires less duplication.
+
+- [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) will
+  use the name of the currently open file in RStudio if you don’t supply
+  an explicit name ([\#89](https://github.com/r-lib/usethis/issues/89)).
+
+- [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  now puts images in `man/figures/` and no longer adds to
+  `.Rbuildgnore`. This ensures that the rendered `README.md` will also
+  work on CRAN ([\#16](https://github.com/r-lib/usethis/issues/16),
+  [\#19](https://github.com/r-lib/usethis/issues/19)). The first chunk
+  now uses `include = FALSE` and is named setup
+  ([\#19](https://github.com/r-lib/usethis/issues/19)).
+
+- [`use_revdep()`](https://usethis.r-lib.org/dev/reference/use_revdep.md)
+  creates structure for use with revdepcheck package, the preferred way
+  to run revdepchecks.
+  ([\#33](https://github.com/r-lib/usethis/issues/33))
+
+### Building blocks
+
+- New [`use_badge()`](https://usethis.r-lib.org/dev/reference/badges.md)
+  for adding any badge to a README. Now only prints a todo message if
+  the badge does not already exist.
+
+- [`use_directory()`](https://usethis.r-lib.org/dev/reference/use_directory.md)
+  is now exported ([\#27](https://github.com/r-lib/usethis/issues/27)).
+
+### Bug fixes and minor improvements
+
+- Functions which require code to be copied now automatically put the
+  code on the clipboard if it is available
+  ([\#52](https://github.com/r-lib/usethis/issues/52)).
+
+- [`create_package()`](https://usethis.r-lib.org/dev/reference/create_package.md)
+  no longer creates a dependency on the current version of
+
+  18. 
+
+- [`use_build_ignore()`](https://usethis.r-lib.org/dev/reference/use_build_ignore.md)
+  now strips trailing `/`
+
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) will
+  restart RStudio if needed (and possible)
+  ([\#42](https://github.com/r-lib/usethis/issues/42)).
+
+- [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md)
+  now has an organisation parameter so you can create repos in
+  organisations ([\#4](https://github.com/r-lib/usethis/issues/4)).
+
+- [`use_template()`](https://usethis.r-lib.org/dev/reference/use_template.md)
+  and [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md)
+  now convert title to a slug that only contains lowercase letters,
+  numbers, and `-`.
+
+- [`use_vignette()`](https://usethis.r-lib.org/dev/reference/use_vignette.md)
+  now adds `*.html` and `*.R` to your `.gitgnore` so you don’t
+  accidentally add in compiled vignette products
+  ([\#35](https://github.com/r-lib/usethis/issues/35)).
+
+- `use_travis_badge()` and `use_appveyor_badge()` are now exported
+  functions, so they can be used even if ci was separately set up
+  ([\#765](https://github.com/r-lib/usethis/issues/765),
+  [@smwindecker](https://github.com/smwindecker)).
