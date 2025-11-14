@@ -39,9 +39,6 @@ Imports:
     rlang (>= 1.1.0),
     rprojroot (>= 2.1.1),
     rstudioapi,
-    stats,
-    tools,
-    utils,
     whisker,
     withr (>= 2.3.0),
     yaml
