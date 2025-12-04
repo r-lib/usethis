@@ -267,3 +267,17 @@ cli::test_that_cli(
   },
   configs = c("plain", "fancy")
 )
+
+test_that("ui_escape_glue() doubles curly braces", {
+  expect_equal(ui_escape_glue("no braces"), "no braces")
+  expect_equal(ui_escape_glue("one { brace"), "one {{ brace")
+  expect_equal(ui_escape_glue("one } brace"), "one }} brace")
+  expect_equal(
+    ui_escape_glue("A {brace_set} in text"),
+    "A {{brace_set}} in text"
+  )
+  expect_equal(
+    ui_escape_glue("{multiple} {brace} {sets}"),
+    "{{multiple}} {{brace}} {{sets}}"
+  )
+})
