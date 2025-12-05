@@ -14,7 +14,7 @@
 #'   development tools.
 #'
 #' - Creates a `.claude/skills/` directory containing various skills found
-#'   useful by the tidyverse team. All skills have prefix `tidy-` to avoid
+#'   useful by the tidyverse team. All skills have a `tidy-` prefix to avoid
 #'   clashing with skills that you might provide.
 #'
 #' - Updates `.claude/.gitignore` to ignore `settings.local.json` (for

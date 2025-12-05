@@ -18,7 +18,7 @@ permissions for R package development, including the ability to run R,
 format with \href{https://posit-dev.github.io/air/}{Air}, and run common
 development tools.
 \item Creates a \verb{.claude/skills/} directory containing various skills found
-useful by the tidyverse team. All skills have prefix \verb{tidy-} to avoid
+useful by the tidyverse team. All skills have a \verb{tidy-} prefix to avoid
 clashing with skills that you might provide.
 \item Updates \code{.claude/.gitignore} to ignore \code{settings.local.json} (for
 user-specific settings).
