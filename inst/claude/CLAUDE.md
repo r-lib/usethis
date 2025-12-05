@@ -10,7 +10,7 @@ Rscript -e "devtools::load_all(); code"
 Rscript -e "devtools::test()"
 
 # To run tests for R/{name.R}
-Rscript -e "devtools::test(filter = '{name}', reporter = 'llm')"
+Rscript -e "devtools::test(filter = '{name}')"
 
 # To document the package
 Rscript -e "devtools::document()"
