@@ -643,7 +643,7 @@ pr_clean <- function(
         # If we get an unexpected libgit2 error, rethrow.
         if (
           !grepl(
-            "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number)' to delete",
+            "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number|github-pr-base-branch)' to delete",
             e$message
           )
         ) {
