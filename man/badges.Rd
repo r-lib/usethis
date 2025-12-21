@@ -52,8 +52,8 @@ badges that report information, such as the CRAN version or test coverage,
 and link out to relevant external resources. To allow badges to be added
 automatically, ensure your badge block starts with a line containing only
 \verb{<!-- badges: start -->} and ends with a line containing only
-\verb{<!-- badges: end -->}. The templates used by \code{\link[=use_readme_md]{use_readme_md()}} and
-\code{\link[=use_readme_rmd]{use_readme_rmd()}} include this block.
+\verb{<!-- badges: end -->}. The templates used by \code{\link[=use_readme_md]{use_readme_md()}},
+\code{\link[=use_readme_rmd]{use_readme_rmd()}}, and \code{\link[=use_readme_qmd]{use_readme_qmd()}} include this block.
 }
 \details{
 \itemize{
