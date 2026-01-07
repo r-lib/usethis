@@ -9,8 +9,14 @@ Rscript -e "devtools::load_all(); code"
 # To run all tests
 Rscript -e "devtools::test()"
 
-# To run tests for R/{name.R}
-Rscript -e "devtools::test(filter = '{name}')"
+# To run all tests for files starting with {name}
+Rscript -e "devtools::test(filter = '^{name}')"
+
+# To run all tests for R/{name}.R
+Rscript -e "devtools::test_active_file('R/{name}.R')"
+
+# To run a single test "blah" for R/{name}.R
+Rscript -e "devtools::test_active_file('R/{name}.R', desc = 'blah')"
 
 # To document the package
 Rscript -e "devtools::document()"
