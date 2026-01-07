@@ -45,7 +45,8 @@ copy_claude_directory <- function() {
     rel_path <- path_rel(source_file, source_dir)
     dest_file <- path(dest_dir, rel_path)
 
-    ui_bullets(c("v" = "Creating {.path {pth(dest_file)}}."))
-    file_copy(source_file, dest_file, overwrite = TRUE)
+    write_over(dest_file, readLines(source_file), overwrite = TRUE)
+    # ui_bullets(c("v" = "Creating {.path {pth(dest_file)}}."))
+    # file_copy(source_file, dest_file, overwrite = TRUE)
   }
 }
