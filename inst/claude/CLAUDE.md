@@ -24,6 +24,9 @@ Rscript -e "devtools::document()"
 # To check pkgdown documentation
 Rscript -e "pkgdown::check_pkgdown()"
 
+# To check the package with R CMD check
+Rscript -e "devtools::check()"
+
 # To format code
 air format .
 ```
