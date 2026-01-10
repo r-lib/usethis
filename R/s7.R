@@ -19,7 +19,6 @@
 use_s7 <- function(backwards_compat = TRUE) {
   check_is_package("use_s7()")
   check_uses_roxygen("use_s7()")
-  check_installed("S7")
 
   use_dependency("S7", "Imports")
 

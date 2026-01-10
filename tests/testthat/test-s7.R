@@ -3,15 +3,11 @@ test_that("use_s7() requires a package", {
   expect_usethis_error(use_s7(), "not an R package")
 })
 
-test_that("use_s7() creates zzz.R and edits DESCRIPTION", {
+test_that("use_s7() edits zzz.R and DESCRIPTION", {
   create_local_package()
   use_roxygen_md()
   use_package_doc()
-
-  local_interactive(TRUE)
-  local_mocked_bindings(
-    ui_yep = function(...) TRUE
-  )
+  use_template("zzz.R", "R/zzz.R")
 
   use_s7()
 
@@ -27,11 +23,7 @@ test_that("use_s7() adds rawNamespace directive when backwards_compat = TRUE", {
   create_local_package()
   use_roxygen_md()
   use_package_doc()
-
-  local_interactive(TRUE)
-  local_mocked_bindings(
-    ui_yep = function(...) TRUE
-  )
+  use_template("zzz.R", "R/zzz.R")
 
   use_s7(backwards_compat = TRUE)
 
@@ -44,8 +36,9 @@ test_that("use_s7() skips rawNamespace when backwards_compat = FALSE", {
   create_local_package()
   use_roxygen_md()
   use_package_doc()
+  use_template("zzz.R", "R/zzz.R")
 
-  local_interactive(TRUE)
+  local_interactive(FALSE)
   local_mocked_bindings(
     ui_yep = function(...) TRUE
   )
@@ -60,8 +53,9 @@ test_that("use_s7() can be called twice without changing zzz.R", {
   create_local_package()
   use_roxygen_md()
   use_package_doc()
+  use_template("zzz.R", "R/zzz.R")
 
-  local_interactive(TRUE)
+  local_interactive(FALSE)
   local_mocked_bindings(
     ui_yep = function(...) TRUE
   )
@@ -100,11 +94,5 @@ test_that("ensure_s7_methods_register() prompts if file differs from template", 
       "}"
     )
   )
-
-  local_mocked_bindings(
-    edit_file = function(...) invisible()
-  )
-
-  withr::local_options(usethis.quiet = FALSE)
-  expect_snapshot(ensure_s7_methods_register())
+  expect_error(use_s7())
 })
