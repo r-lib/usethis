@@ -76,30 +76,33 @@ ensure_s7_methods_register <- function() {
   zzz_path <- proj_path("R", "zzz.R")
   lines <- read_utf8(zzz_path)
 
- # Check if S7::methods_register() is already present (uncommented)
   if (any(grepl("^\\s*S7::methods_register\\(\\)", lines))) {
-    return(invisible(TRUE))
- }
-
-  # If file is identical to template, overwrite with S7 enabled version
-  template_lines <- render_template("zzz.R")
-  if (identical(lines, template_lines)) {
-    write_utf8(zzz_path, c(
-      ".onLoad <- function(libname, pkgname) {",
-      "  S7::methods_register()",
-      "}"
-    ))
-    ui_bullets(c(
-      "v" = "Added {.code S7::methods_register()} to {.path {pth(zzz_path)}}."
-    ))
     return(invisible(TRUE))
   }
 
-  # File has been modified - prompt user to add it manually
-  ui_bullets(c(
-    "_" = "Ensure {.code S7::methods_register()} is called in {.code .onLoad()}
-           in {.path {pth(zzz_path)}}."
-  ))
+  template_lines <- render_template("zzz.R")
+  if (identical(lines, template_lines)) {
+    write_utf8(
+      zzz_path,
+      c(
+        ".onLoad <- function(libname, pkgname) {",
+        "  S7::methods_register()",
+        "}"
+      )
+    )
+    ui_bullets(
+      c(
+        "v" = "Added {.code S7::methods_register()} to {.path {pth(zzz_path)}}."
+      )
+    )
+    return(invisible(TRUE))
+  }
+
+  ui_bullets(
+    c(
+      "_" = "Ensure {.code S7::methods_register()} is called in {.code .onLoad()} in {.path {pth(zzz_path)}}."
+    )
+  )
   edit_file(zzz_path)
   invisible(FALSE)
 }
