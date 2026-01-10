@@ -56,7 +56,7 @@ test_that("use_s7() skips rawNamespace when backwards_compat = FALSE", {
   expect_false(any(grepl("@rawNamespace", ns_show)))
 })
 
-test_that("use_s7() is idempotent", {
+test_that("use_s7() can be called twice without changing zzz.R", {
   create_local_package()
   use_roxygen_md()
   use_package_doc()
