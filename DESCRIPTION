@@ -53,6 +53,7 @@ Suggests:
     quarto (>= 1.5.1),
     rmarkdown,
     roxygen2 (>= 7.1.2),
+    S7,
     spelling (>= 1.2),
     testthat (>= 3.1.8)
 Config/Needs/website: r-lib/asciicast, tidyverse/tidytemplate, xml2
