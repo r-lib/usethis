@@ -62,6 +62,10 @@ air format .
 - If the change is related to a function, put the name of the function early in the bullet.
 - Order bullets alphabetically by function name. Put all bullets that don't mention function names at the beginning.
 
+### GitHub
+
+- If you use `gh` to retrieve information about an issue, always use `--comments` to read all the comments.
+
 ### Writing
 
 - Use sentence case for headings.
