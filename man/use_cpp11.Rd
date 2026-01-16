@@ -6,6 +6,9 @@
 \usage{
 use_cpp11(open = rlang::is_interactive())
 }
+\arguments{
+\item{open}{Whether to open the file for interactive editing.}
+}
 \description{
 Adds infrastructure needed to use the \href{https://cpp11.r-lib.org}{cpp11}
 package, a header-only R package that helps R package developers handle R

@@ -7,6 +7,8 @@
 #'   * Adds cpp11 to `DESCRIPTION`
 #'   * Creates `src/code.cpp`, an initial placeholder `.cpp` file
 #'
+#' @param open Whether to open the file for interactive editing.
+#' 
 #' @export
 use_cpp11  <- function(open = rlang::is_interactive()) {
   check_is_package("use_cpp11()")
