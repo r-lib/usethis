@@ -8,7 +8,7 @@
 #'   * Creates `src/code.cpp`, an initial placeholder `.cpp` file
 #'
 #' @export
-use_cpp11 <- function() {
+use_cpp11  <- function(open = rlang::is_interactive()) {
   check_is_package("use_cpp11()")
   check_installed("cpp11")
   check_uses_roxygen("use_cpp11()")
@@ -20,7 +20,7 @@ use_cpp11 <- function() {
   use_template(
     "code-cpp11.cpp",
     path("src", "code.cpp"),
-    open = is_interactive()
+    open = open
   )
 
   check_cpp_register_deps()

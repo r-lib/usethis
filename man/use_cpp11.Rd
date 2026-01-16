@@ -4,7 +4,7 @@
 \alias{use_cpp11}
 \title{Use C++ via the cpp11 package}
 \usage{
-use_cpp11()
+use_cpp11(open = rlang::is_interactive())
 }
 \description{
 Adds infrastructure needed to use the \href{https://cpp11.r-lib.org}{cpp11}

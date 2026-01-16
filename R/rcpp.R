@@ -8,7 +8,7 @@
 #'
 #' @inheritParams use_r
 #' @export
-use_rcpp <- function(name = NULL) {
+use_rcpp <- function(name = NULL, open = rlang::is_interactive()) {
   check_is_package("use_rcpp()")
   check_uses_roxygen("use_rcpp()")
 
@@ -19,15 +19,15 @@ use_rcpp <- function(name = NULL) {
   use_src()
   path <- path("src", compute_name(name, "cpp"))
   use_template("code.cpp", path)
-  edit_file(proj_path(path))
+  edit_file(proj_path(path), open = open)
 
   invisible()
 }
 
 #' @rdname use_rcpp
 #' @export
-use_rcpp_armadillo <- function(name = NULL) {
-  use_rcpp(name)
+use_rcpp_armadillo <- function(name = NULL, open = rlang::is_interactive()) {
+  use_rcpp(name, open = open)
 
   use_dependency("RcppArmadillo", "LinkingTo")
 
@@ -43,8 +43,8 @@ use_rcpp_armadillo <- function(name = NULL) {
 
 #' @rdname use_rcpp
 #' @export
-use_rcpp_eigen <- function(name = NULL) {
-  use_rcpp(name)
+use_rcpp_eigen <- function(name = NULL, open = rlang::is_interactive()) {
+  use_rcpp(name, open = open)
 
   use_dependency("RcppEigen", "LinkingTo")
 
@@ -55,7 +55,7 @@ use_rcpp_eigen <- function(name = NULL) {
 
 #' @rdname use_rcpp
 #' @export
-use_c <- function(name = NULL) {
+use_c <- function(name = NULL, open = rlang::is_interactive()) {
   check_is_package("use_c()")
   check_uses_roxygen("use_c()")
 
@@ -63,7 +63,7 @@ use_c <- function(name = NULL) {
 
   path <- path("src", compute_name(name, ext = "c"))
   use_template("code.c", path)
-  edit_file(proj_path(path))
+  edit_file(proj_path(path), open = open)
 
   invisible(TRUE)
 }
@@ -79,7 +79,7 @@ use_src <- function() {
   invisible()
 }
 
-use_makevars <- function(settings = NULL) {
+use_makevars <- function(settings = NULL, open = rlang::is_interactive()) {
   use_directory("src")
 
   settings_list <- settings %||% list()
@@ -107,7 +107,7 @@ use_makevars <- function(settings = NULL) {
       makevars_content,
       language = ""
     )
-    edit_file(makevars_path)
-    edit_file(makevars_win_path)
+    edit_file(makevars_path, open = open)
+    edit_file(makevars_win_path, open = open)
   }
 }
