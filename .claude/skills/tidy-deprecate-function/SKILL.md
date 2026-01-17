@@ -5,7 +5,7 @@ description: Guide for deprecating R functions/arguments. Use when a user asks t
 
 # Deprecate functions and function arguments
 
-Use this skill when deprecating functions or function parameters in dbplyr.
+Use this skill when deprecating functions or function parameters in this package.
 
 ## Overview
 
