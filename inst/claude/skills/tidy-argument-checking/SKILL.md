@@ -1,17 +1,27 @@
 ---
 name: types-check
-description: Validate function inputs in R using a standalone file of check_* functions. Use when writing exported R functions that need input validation, or reviewing existing validation code.
+description: Validate function inputs in R using a standalone file of check_* functions. Use when writing exported R functions that need input validation, reviewing existing validation code, or when creating new input validation helpers.
 ---
 
-# Input Validation in R Functions
+# Input validation in R functions
 
-This skill covers rlang and r-lib patterns for validating function inputs or reviewing existing validation code. It mostly covers rlang's exported type checkers and rlang's standalone file of `check_*` functions.
+This skill describes tidyverse style for validating function inputs. It focuses on rlang's exported type checkers along with the standalone file of `check_*` functions. These functions are carefully designed to produce clear, actionable error messages:
 
-## Checker functions reference (standalone file)
+```r
+check_string(123)
+#> Error: `123` must be a single string, not the number 123.
+
+check_number_whole(3.14, min = 1, max = 10)
+#> Error: `3.14` must be a whole number, not the number 3.14.
+```
+
+It assumes that the user has already run `usethis::use_standalone("r-lib/rlang", "types-check")`, and imports rlang in their package. If not, confirm with the user before continuing.
+
+## Function reference
 
 ### Scalars (single values)
 
-For atomic vectors, use scalar checkers when arguments parameterise the function (configuration flags, names, single counts), rather than represent vectors of user data. They assert a single value.
+Use scalar checkers when arguments parameterise the function (configuration flags, names, single counts), rather than represent vectors of user data. They all assert a single value.
 
 - `check_bool()`: Single TRUE/FALSE (use for flags/options)
 - `check_string()`: Single string (allows empty `""` by default)
@@ -42,9 +52,11 @@ check_number_decimal(timeout, allow_null = TRUE)
 
 The tidyverse style guide recommends using `NULL` defaults instead of `missing()` defaults, so this pattern comes up often in practice.
 
-## Checker functions reference (exported from rlang)
+## Other helpers
 
-- `rlang::arg_match()`: Validates enumerated choices. Partial matching is an error unlike `base::match.arg()`. Use when an argument must be one of a known set of strings.
+These functions are exported by rlang.
+
+- `arg_match()`: Validates enumerated choices. Use when an argument must be one of a known set of strings.
 
   ```r
   # Validates and returns the matched value
@@ -59,32 +71,17 @@ The tidyverse style guide recommends using `NULL` defaults instead of `missing()
   #> ℹ Did you mean "red"?
   ```
 
-- `rlang::check_exclusive()` ensures only one of two arguments can be supplied. Supplying both together (i.e. both of them are non-`NULL` is an error).
+  Note that partial matching is an error, unlike `base::match.arg()`. 
 
-- `rlang::check_required()`: Nice error message if required argument is not supplied.
+- `check_exclusive()` ensures only one of two arguments can be supplied. Supplying both together (i.e. both of them are non-`NULL`) is an error. Use `.require = TRUE` if both can be omitted.
 
-## About the Standalone File
+- `check_required()`: Nice error message if required argument is not supplied.
 
-Most of the `check_*` functions come from an rlang standalone file that can be vendored into any R package. This means:
+## `call` and `arg` arguments
 
-- **Use usethis to import**: If you see in diagnostics or runtime errors indicating that these helpers are missing, run `usethis::use_standalone("r-lib/rlang", "types-check")` to add the file in your package. Call again to update it.
-- **Dependency**: Requires a sufficiently new version of rlang in `Imports`.  The exact minimal version is inserted automatically by `usethis::use_standalone()`. These checkers are not a good fit for zero-dependencies packages.
+All check functions have `call` and `arg` arguments, but you should never use these unless you are creating your own `check_` function (see below for more details).
 
-## Core Principles
-
-### Error messages
-
-The `check_*` functions produce clear, actionable error messages crafted by rlang:
-
-```r
-check_string(123)
-#> Error: `123` must be a single string, not the number 123.
-
-check_number_whole(3.14, min = 1, max = 10)
-#> Error: `3.14` must be a whole number, not the number 3.14.
-```
-
-## When to Validate Inputs
+## When to validate inputs
 
 **Validate at entry points, not everywhere.**
 
@@ -160,15 +157,11 @@ Benefits:
 - This self-documents the types of the arguments
 - Eager evaluation also reduces the risk of confusing lazy evaluation effects
 
-## When to Use `arg` and `call` Parameters
+## Custom validation functions
 
-Understanding when to pass `arg` and `call` is critical for correct error reporting.
+Most packages will need one or more unique checker functions. Sometimes it's sufficient to wrap existing check functions with custom arguments. In this case you just need to carefully pass through the `arg` and `call` arguments. In other cases, you want a completely new check in which case you can call `stop_input_type` with your own arguments.
 
-### Entry point functions: DON'T pass `arg`/`call`
-
-When validating inputs directly in an entry point function (typically exported functions), **do not** pass `arg` and `call` parameters. The default parameters `caller_arg(x)` and `caller_env()` will automatically pick up the correct argument name and calling environment.
-
-### Check wrapper functions: DO pass `arg`/`call`
+### Wrapping existing `check_` functions
 
 When creating a wrapper or helper function that calls `check_*` functions on behalf of another function, you **must** propagate the caller context. Otherwise, errors will point to your wrapper function instead of the actual entry point.
 
@@ -207,3 +200,51 @@ my_function(-5)
 ```
 
 Note how `arg` and `call` are part of the function signature. That allows them to be wrapped again by another checking function that can pass down its own context.
+
+### Creating a new `check_` function
+
+When constructing your own `check_` function you can call `stop_input_type()` to take advantage of the existing infrastructure for generating error messages.
+For example, imagine we wanted to create a function that checked that the input was a single date:
+
+```R
+check_date <- function(x, ..., allow_null = FALSE, arg = caller_arg(x), call = caller_env()) {
+  if (!missing(x) && is.Date(x) && length(x) == 1) {
+    return(invisible())
+  }
+
+  stop_input_type(
+    x,
+    "a single Date",
+    ...,
+    allow_null = allow_null,
+    arg = arg,
+    call = call
+  )
+}
+```
+
+Note you must always check first that the input is not missing, as `stop_input_type()` handles this case specially.
+
+Sometimes you want to check if something is a compound type:
+
+```R
+check_string_or_bool <- function(x, ..., arg = caller_arg(x), call = caller_env()) {
+  if (!missing(x)) {
+    if (is_string(x) || isTRUE(x) || isFALSE(x)) {
+      return(invisible())
+    }
+  }
+
+  stop_input_type(
+    x, 
+    c("a string", "TRUE", "FALSE"),
+    ...,
+    arg = arg,
+    call = call
+  )
+}
+```
+
+Note that the second argument to `stop_input_type()` can take a vector, and it will automatically places commas and "and" in the appropriate locations.
+
+Generally, you should place this `check_` function close to the function that is usually used to construct the object being checked (e.g. close to the S3/S4/S7 constructor.)
