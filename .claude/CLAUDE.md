@@ -35,7 +35,7 @@ air format .
 
 * Always run `air format .` after generating code
 * Use the base pipe operator (`|>`) not the magrittr pipe (`%>%`)
-* Don't use `_$x` or `_$[["x"]]` since dbplyr must work on R 4.1.
+* Don't use `_$x` or `_$[["x"]]` since this package must work on R 4.1.
 * Use `\() ...` for single-line anonymous functions. For all other cases, use `function() {...}` 
 
 ### Testing

@@ -124,10 +124,10 @@ Then re-document the package.
 
 ### Step 5: Add NEWS entry
 
-Add a bullet point to the top of the "# dbplyr (development version)" section in NEWS.md:
+Add a bullet point to the top of the "# packagename (development version)" section in NEWS.md:
 
 ```markdown
-# dbplyr (development version)
+# packagename (development version)
 
 * `function_name(parameter)` is deprecated and will be removed in a future
   version.
