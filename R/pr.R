@@ -590,17 +590,33 @@ pr_clean <- function(
     }
     tracking_branch <- git_branch_tracking(pr_local_branch)
     if (is.na(tracking_branch)) {
+      pr_local_branch_head <- gert::git_commit_info(
+        ref = pr_local_branch,
+        repo = repo
+      )$id
+      # 2026-01-27 It's becoming common to enable
+      # "Automatically delete head branches", which means that we often don't
+      # have a tracking_branch because the PR has been successfully merged and
+      # the associated remote branch was automatically deleted. If HEAD SHA
+      # matches between local PR branch and a merged PR, don't bother the user.
       if (
-        ui_nah(c(
-          "!" = "Local branch {.val {pr_local_branch}} has no associated remote
-               branch.",
-          "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
-               on this branch may be hard for you to recover.",
-          " " = "Proceed anyway?"
-        ))
+        is.null(pr) ||
+          is.na(pr$pr_merged_at) ||
+          is.na(pr$pr_head_sha) ||
+          pr$pr_head_sha != pr_local_branch_head
       ) {
-        ui_bullets(c("x" = "Cancelling."))
-        return(invisible())
+        if (
+          ui_nah(c(
+            "!" = "Local branch {.val {pr_local_branch}} has no associated remote
+                 branch.",
+            "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
+                 on this branch may be hard for you to recover.",
+            " " = "Proceed anyway?"
+          ))
+        ) {
+          ui_bullets(c("x" = "Cancelling."))
+          return(invisible())
+        }
       }
     } else {
       cmp <- git_branch_compare(
@@ -788,6 +804,7 @@ pr_data_tidy <- function(pr) {
     pr_updated_at = pluck_chr(pr, "updated_at"),
     pr_merged_at = pluck_chr(pr, "merged_at"),
     pr_label = pluck_chr(pr, "head", "label"),
+    pr_head_sha = pluck_chr(pr, "head", "sha"),
     # the 'repo' element of 'head' is NULL when fork has been deleted
     pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
     pr_ref = pluck_chr(pr, "head", "ref"),
