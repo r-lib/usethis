@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* Adds `use_s7()` helper to add required S7 infrastructure (@josiahparry)
 * Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
 
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
