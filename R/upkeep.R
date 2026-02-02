@@ -166,7 +166,6 @@ tidy_upkeep_checklist <- function(
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
       todo("`usethis::use_tidy_github_labels()`"),
-      todo("`usethis::use_tidy_style()`"),
       todo("`urlchecker::url_check()`"),
       ""
     )
