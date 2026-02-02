@@ -24,10 +24,6 @@
           "[r]": {
               "editor.formatOnSave": true,
               "editor.defaultFormatter": "Posit.air-vscode"
-          },
-          "[quarto]": {
-              "editor.formatOnSave": true,
-              "editor.defaultFormatter": "quarto.quarto"
           }
       }
 
