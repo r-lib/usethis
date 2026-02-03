@@ -1,15 +1,20 @@
 # Use magrittr's pipe in your package
 
-Does setup necessary to use magrittr's pipe operator, `%>%` in your
-package. This function requires the use of roxygen2.
+**\[deprecated\]**
 
-- Adds magrittr to "Imports" in `DESCRIPTION`.
+The base R pipe has been available since R 4.1.0 and we recommend using
+it in all actively maintained and new work, both inside and outside
+packages. The `magrittr` pipe (`%>%`) can usually just be replaced with
+base R's `|>`, with a few things to keep in mind:
 
-- Imports the pipe operator specifically, which is necessary for
-  internal use.
+- Instead of `x %>% f`, use `x |> f()`.
 
-- Exports the pipe operator, if `export = TRUE`, which is necessary to
-  make `%>%` available to the users of your package.
+- Instead of `x %>% f(1, y = .)`, use `x |> f(1, y = _)`.
+
+- Instead of `x %>% f(a = ., b = .)`, define a new helper function.
+
+Learn more in
+<https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/>.
 
 ## Usage
 

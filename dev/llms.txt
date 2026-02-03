@@ -257,9 +257,6 @@ Package setup tasks, typically performed once.
 - [`use_make()`](https://usethis.r-lib.org/dev/reference/use_make.md) :
   Create Makefile
 
-- [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) :
-  Use magrittr's pipe in your package
-
 - [`use_rcpp()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
   [`use_rcpp_armadillo()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
   [`use_rcpp_eigen()`](https://usethis.r-lib.org/dev/reference/use_rcpp.md)
