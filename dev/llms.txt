@@ -333,6 +333,9 @@ Package setup tasks, typically performed once.
 - [`use_air()`](https://usethis.r-lib.org/dev/reference/use_air.md) :
   Configure a project to use Air
 
+- [`use_claude_code()`](https://usethis.r-lib.org/dev/reference/use_claude_code.md)
+  **\[experimental\]** : Configure a project to use Claude Code
+
 ## Package release
 
 - [`use_cran_comments()`](https://usethis.r-lib.org/dev/reference/use_cran_comments.md)
