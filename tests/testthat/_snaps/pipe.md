@@ -12,5 +12,5 @@
     Condition
       Warning:
       `use_pipe()` was deprecated in usethis 3.2.2.
-      i It is recommended to use the base R pipe |> in your package instead; it does not require an import.
+      i We recommend using the base R pipe instead.
 
