@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 
 # usethis 3.2.1
