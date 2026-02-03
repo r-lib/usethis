@@ -9,6 +9,7 @@ create_from_github(
   destdir = NULL,
   fork = NA,
   rstudio = NULL,
+  install_dependencies = TRUE,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
   host = NULL
@@ -48,6 +49,9 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise (but note th
 the cloned repo may already be an RStudio Project, i.e. may already have a
 \code{.Rproj} file).}
 
+\item{install_dependencies}{Install package dependencies? Defaults to \code{TRUE},
+so that you can immediately work with the package.}
+
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
 \item If using RStudio or Positron, the new project is opened in a new session,
@@ -76,7 +80,8 @@ either cloning or
 \href{https://docs.github.com/en/get-started/quickstart/fork-a-repo}{fork-and-cloning}.
 In the fork-and-clone case, \code{create_from_github()} also does additional
 remote and branch setup, leaving you in the perfect position to make a pull
-request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions for working with pull requests}.
+request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions for working with pull requests}. Finally, it installs the dependencies of the
+package, so you're set up to immediately start working on it.
 
 \code{create_from_github()} works best when your GitHub credentials are
 discoverable. See below for more about authentication.
