@@ -3,9 +3,10 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' The base R pipe has been available since R 4.1.0, which handles most cases
-#' the `magrittr` pipe handles -- `%>%` can usually just be replaced with `|>`.
-#' The exceptions:
+#' The base R pipe has been available since R 4.1.0 and we recommend using it
+#' in all actively maintained and new work, both inside and outside packages.
+#' The `magrittr` pipe (`%>%`) can usually just be replaced with base R's `|>`,
+#' with a few things to keep in mind:
 #'
 #' * Instead of `x %>% f`, use `x |> f()`.
 #' * Instead of `x %>% f(1, y = .)`, use `x |> f(1, y = _)`.

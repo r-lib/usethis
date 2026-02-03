@@ -14,9 +14,10 @@ roxygen directive is added, if possible, or otherwise instructions are given.}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-The base R pipe has been available since R 4.1.0, which handles most cases
-the \code{magrittr} pipe handles -- \verb{\%>\%} can usually just be replaced with \verb{|>}.
-The exceptions:
+The base R pipe has been available since R 4.1.0 and we recommend using it
+in all actively maintained and new work, both inside and outside packages.
+The \code{magrittr} pipe (\verb{\%>\%}) can usually just be replaced with base R's \verb{|>},
+with a few things to keep in mind:
 \itemize{
 \item Instead of \code{x \%>\% f}, use \code{x |> f()}.
 \item Instead of \code{x \%>\% f(1, y = .)}, use \code{x |> f(1, y = _)}.
