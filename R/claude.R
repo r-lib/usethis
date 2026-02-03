@@ -1,6 +1,8 @@
 #' Configure a project to use Claude Code
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This function sets up a project to use
 #' [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 #' Specifically, it:

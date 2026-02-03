@@ -7,6 +7,8 @@
 use_claude_code()
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This function sets up a project to use
 \href{https://docs.anthropic.com/en/docs/claude-code}{Claude Code}.
 Specifically, it:
