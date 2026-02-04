@@ -45,6 +45,19 @@ test_that("non-patch + lifecycle = advanced deprecation process", {
   expect_false(has_deprecation(release_checklist("1.1.1", on_cran = TRUE)))
 })
 
+test_that("construct correct rchk bullet", {
+  create_local_package()
+
+  local_mocked_bindings(
+    uses_c = function() TRUE
+  )
+
+  expect_snapshot(
+    writeLines(release_checklist("1.0.0", on_cran = TRUE)),
+    transform = scrub_testpkg
+  )
+})
+
 test_that("get extra news bullets if available", {
   env <- env(release_bullets = function() "Extra bullets")
   expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
