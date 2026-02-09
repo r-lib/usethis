@@ -14,7 +14,6 @@
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_tidy_github_labels()`
-      * [ ] `usethis::use_tidy_style()`
       * [ ] `urlchecker::url_check()`
       
       ### 2020

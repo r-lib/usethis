@@ -12,18 +12,23 @@ the roxygen template to import and re-export \verb{\%>\%}. If \code{FALSE}, the 
 roxygen directive is added, if possible, or otherwise instructions are given.}
 }
 \description{
-Does setup necessary to use magrittr's pipe operator, \verb{\%>\%} in your package.
-This function requires the use of \pkg{roxygen2}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+The base R pipe has been available since R 4.1.0 and we recommend using it
+in all actively maintained and new work, both inside and outside packages.
+The \code{magrittr} pipe (\verb{\%>\%}) can usually just be replaced with base R's \verb{|>},
+with a few things to keep in mind:
 \itemize{
-\item Adds magrittr to "Imports" in \code{DESCRIPTION}.
-\item Imports the pipe operator specifically, which is necessary for internal
-use.
-\item Exports the pipe operator, if \code{export = TRUE}, which is necessary to make
-\verb{\%>\%} available to the users of your package.
+\item Instead of \code{x \%>\% f}, use \code{x |> f()}.
+\item Instead of \code{x \%>\% f(1, y = .)}, use \code{x |> f(1, y = _)}.
+\item Instead of \code{x \%>\% f(a = ., b = .)}, define a new helper function.
 }
+
+Learn more in \url{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/}.
 }
 \examples{
 \dontrun{
 use_pipe()
 }
 }
+\keyword{internal}

@@ -1,6 +1,12 @@
 # usethis (development version)
 
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
+* `use_pipe()` is now deprecated (@math-mcshane, #2124).
+
+* `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
+
+* Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
+
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 
 # usethis 3.2.1

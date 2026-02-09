@@ -155,10 +155,6 @@ write_air_vscode_settings_json <- function(path) {
     `[r]` = list(
       "editor.formatOnSave" = TRUE,
       "editor.defaultFormatter" = "Posit.air-vscode"
-    ),
-    `[quarto]` = list(
-      "editor.formatOnSave" = TRUE,
-      "editor.defaultFormatter" = "quarto.quarto"
     )
   )
   settings <- utils::modifyList(settings, patch)

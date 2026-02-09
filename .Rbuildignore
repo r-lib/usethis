@@ -27,3 +27,4 @@
 ^\.vscode$
 ^[.]?air[.]toml$
 ^scratch\.R$
+^\.claude$
