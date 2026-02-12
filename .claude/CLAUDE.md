@@ -44,6 +44,8 @@ air format .
 - All new code should have an accompanying test.
 - If there are existing tests, place new tests next to similar existing tests.
 - Strive to keep your tests minimal with few comments.
+- Avoid `expect_true(fn(...))` or `expect_false(fn(...))` - there's almost always a specific expectation that gives better failure messages.
+- Never use `expect_error()` or `expect_warning()`. Instead, use `expect_snapshot(error = TRUE)` for errors and `expect_snapshot()` for warnings.
 
 ### Documentation
 
