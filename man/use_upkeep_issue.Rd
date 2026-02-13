@@ -20,6 +20,48 @@ up in subsequent lists), and some should be reviewed periodically. The
 tidyverse team uses a similar function \code{\link[=use_tidy_upkeep_issue]{use_tidy_upkeep_issue()}} for our
 annual package Spring Cleaning.
 }
+\details{
+The following checklist will be created. Please note that some checklist
+items may not apply to your specific package.
+\itemize{
+\item usethis::use_readme_rmd()
+\item usethis::use_roxygen_md()
+\item usethis::use_github_links()
+\item usethis::use_pkgdown_github_pages()
+\item Consider using Bootstrap 5 in your pkgdown site.
+\itemize{
+\item See \url{https://pkgdown.r-lib.org/articles/customise.html} for more info
+}
+\item usethis::use_tidy_description()
+\item usethis::use_tidy_description()
+\itemize{
+\item Consider letting usethis manage your \verb{@importFrom} directives here.
+\item usethis::use_import_from() is handy for this.
+}
+\item usethis::use_testthat()
+\item usethis::use_testthat(3)
+\item Align the names of \verb{R/} files and \verb{test/} files for workflow happiness.
+\itemize{
+\item The docs for \code{usethis::use_r()} include a helpful script.
+\item usethis::rename_files() may be be useful.
+}
+\item Consider changing default branch from \code{master} to \code{main}
+\item usethis::use_code_of_conduct()
+\item Remove description of test environments from cran-comments.md
+\itemize{
+\item See usethis::use_cran_comments()
+}
+\item Add alt-text to pictures, plots, etc
+\itemize{
+\item see \url{https://posit.co/blog/knitr-fig-alt/} for examples
+\item Set up or update GitHub Actions.
+\item Updating workflows to the latest version will often fix troublesome actions
+}
+\item usethis::use_github_action('check-standard')
+\item usethis::use_github_action('pkgdown')
+\item usethis::use_github_action('test-coverage')
+}
+}
 \examples{
 \dontrun{
 use_upkeep_issue()
