@@ -5,8 +5,8 @@
 #' and link out to relevant external resources. To allow badges to be added
 #' automatically, ensure your badge block starts with a line containing only
 #' `<!-- badges: start -->` and ends with a line containing only
-#' `<!-- badges: end -->`. The templates used by [use_readme_md()] and
-#' [use_readme_rmd()] include this block.
+#' `<!-- badges: end -->`. The templates used by [use_readme_md()],
+#' [use_readme_rmd()], and [use_readme_qmd()] include this block.
 #'
 #' @details
 #'
@@ -66,7 +66,7 @@ use_badge <- function(badge_name, href, src) {
     block_end = badge_end
   )
 
-  if (changed && path_ext(path) == "Rmd") {
+  if (changed && path_ext(path) %in% c("Rmd", "qmd")) {
     ui_bullets(c(
       "_" = "Re-knit {.path {pth(path)}} with {.run devtools::build_readme()}."
     ))
@@ -224,5 +224,5 @@ badge_start <- "<!-- badges: start -->"
 badge_end <- "<!-- badges: end -->"
 
 find_readme <- function() {
-  path_first_existing(proj_path(c("README.Rmd", "README.md")))
+  path_first_existing(proj_path(c("README.Rmd", "README.qmd", "README.md")))
 }
