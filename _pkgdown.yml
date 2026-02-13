@@ -57,6 +57,7 @@ reference:
   - use_import_from
   - use_r
   - use_rmarkdown_template
+  - use_snapshot
   - use_spell_check
   - use_test
   - use_test_helper

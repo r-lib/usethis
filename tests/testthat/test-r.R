@@ -10,6 +10,24 @@ test_that("use_test() creates a test file", {
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
 
+test_that("use_snapshot() errors for non-existent snapshot file", {
+  create_local_package()
+  expect_snapshot(
+    error = TRUE,
+    use_snapshot("foo", open = FALSE)
+  )
+})
+
+test_that("use_snapshot() works for existing snapshot file", {
+  create_local_package()
+  path <- proj_path("tests", "testthat", "_snaps", "foo.md")
+  use_directory(path("tests", "testthat", "_snaps"))
+  write_utf8(path, "## Snapshot for foo")
+  expect_no_error(
+    use_snapshot("foo", open = FALSE)
+  )
+})
+
 test_that("use_test_helper() creates a helper file", {
   create_local_package()
 
