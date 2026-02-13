@@ -8,6 +8,9 @@
 
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 
+* `git_default_branch_rename()`, if appropriate, offers a reminder to update 
+  codecov configuration (#2078, @ijlyttle).
+
 # usethis 3.2.1
 
 * `create_quarto_project()` exits early if the Quarto CLI does not appear to be
