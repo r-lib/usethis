@@ -27,6 +27,9 @@ Rscript -e "pkgdown::check_pkgdown()"
 # To check the package with R CMD check
 Rscript -e "devtools::check()"
 
+# To retrieve details for a reverse dependency (revdep) failure
+Rscript -e "revdepcheck::cloud_details(, "{package}")`"
+
 # To format code
 air format .
 ```
@@ -64,6 +67,10 @@ air format .
 - A bullet can consist of multiple sentences but should not contain any new lines (i.e. DO NOT line wrap).
 - If the change is related to a function, put the name of the function early in the bullet.
 - Order bullets alphabetically by function name. Put all bullets that don't mention function names at the beginning.
+
+### Revdep checks
+
+Prior to submitting to CRAN we use the revdepcheck package to test every reverse dependency with the current version of the code. The results of this process are summarised in `revdep/README.md` with more details in `revdep/problems.md`.
 
 ### GitHub
 
