@@ -76,6 +76,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
+  has_c <- uses_c()
   has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
   milestone_num <- gh_milestone_number(target_repo, version)
@@ -124,6 +125,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
+    todo("`rhub::rhub_check(platforms = 'rchk')`", has_c),
     if (type != "patch") release_revdepcheck(on_cran, is_posit_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
@@ -162,6 +164,10 @@ gh_milestone_number <- function(target_repo, version, state = "open") {
   numbers <- map_int(milestones, "number")
 
   numbers[match(paste0("v", version), titles)]
+}
+
+uses_c <- function() {
+  dir_exists(proj_path("src"))
 }
 
 # Get revdeps for current package
