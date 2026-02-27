@@ -23,7 +23,7 @@
       use_r_universe_badge("OWNER_DIRECT/SCRUBBED")
     Message
       ! Can't find a README for the current project.
-      i See `usethis::use_readme_rmd()` or `usethis::use_readme_rmd()` for help
+      i See `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()` for help
         creating this file.
       i Badge link will only be printed to screen.
       [ ] Copy and paste the following lines into 'README':
@@ -37,7 +37,7 @@
       use_r_universe_badge()
     Message
       ! Can't find a README for the current project.
-      i See `usethis::use_readme_rmd()` or `usethis::use_readme_rmd()` for help
+      i See `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()` for help
         creating this file.
       i Badge link will only be printed to screen.
       [ ] Copy and paste the following lines into 'README':
@@ -51,7 +51,7 @@
       use_r_universe_badge()
     Message
       ! Can't find a README for the current project.
-      i See `usethis::use_readme_rmd()` or `usethis::use_readme_rmd()` for help
+      i See `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()` for help
         creating this file.
       i Badge link will only be printed to screen.
       [ ] Copy and paste the following lines into 'README':

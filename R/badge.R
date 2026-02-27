@@ -53,7 +53,7 @@ use_badge <- function(badge_name, href, src) {
   if (is.null(path)) {
     ui_bullets(c(
       "!" = "Can't find a README for the current project.",
-      "i" = "See {.fun usethis::use_readme_rmd} or {.fun usethis::use_readme_rmd} for help creating this file.",
+      "i" = "See {.fun usethis::use_readme_qmd} or {.fun usethis::use_readme_rmd} for help creating this file.",
       "i" = "Badge link will only be printed to screen."
     ))
     path <- "README"
