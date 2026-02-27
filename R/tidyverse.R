@@ -66,7 +66,7 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   use_mit_license(copyright_holder)
   use_tidy_description()
 
-  use_readme_rmd(open = FALSE)
+  use_readme_qmd(open = FALSE)
   use_lifecycle_badge("experimental")
   use_cran_badge()
 

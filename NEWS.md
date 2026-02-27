@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
+
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
 
 * `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
