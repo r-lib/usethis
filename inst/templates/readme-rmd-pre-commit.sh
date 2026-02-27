@@ -6,10 +6,10 @@ if [[ ${#README[@]} == 0 ]]; then
   exit 0
 fi
 
-if [[ README.Rmd -nt README.md ]] || [[ README.qmd -nt README.md ]]; then
-  echo -e "README.md is out of date; please re-render README.Rmd/README.qmd\n$MSG"
+if [[ README.qmd -nt README.md ]] || [[ README.Rmd -nt README.md ]]; then
+  echo -e "README.md is out of date; please re-render README.qmd/README.Rmd\n$MSG"
   exit 1
 elif [[ ${#README[@]} -lt 2 ]]; then
-  echo -e "README.Rmd/README.qmd and README.md should be both staged\n$MSG"
+  echo -e "README.qmd/README.Rmd and README.md should be both staged\n$MSG"
   exit 1
 fi

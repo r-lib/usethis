@@ -5,8 +5,8 @@
 #' and link out to relevant external resources. To allow badges to be added
 #' automatically, ensure your badge block starts with a line containing only
 #' `<!-- badges: start -->` and ends with a line containing only
-#' `<!-- badges: end -->`. The templates used by [use_readme_rmd()],
-#' [use_readme_qmd()], and [use_readme_md()] and include this block.
+#' `<!-- badges: end -->`. The templates used by [use_readme_qmd()],
+#' [use_readme_rmd()], and [use_readme_md()] and include this block.
 #'
 #' @details
 #'
@@ -224,5 +224,5 @@ badge_start <- "<!-- badges: start -->"
 badge_end <- "<!-- badges: end -->"
 
 find_readme <- function() {
-  path_first_existing(proj_path(c("README.Rmd", "README.qmd", "README.md")))
+  path_first_existing(proj_path(c("README.qmd", "README.Rmd", "README.md")))
 }
