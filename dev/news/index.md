@@ -2,6 +2,14 @@
 
 ## usethis (development version)
 
+- [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  creates a starter `README.qmd` with Quarto-flavored YAML frontmatter,
+  analogous to
+  [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  ([\#1671](https://github.com/r-lib/usethis/issues/1671)). Thanks
+  [@VisruthSK](https://github.com/VisruthSK) for getting the ball
+  rolling.
+
 - [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) is
   now deprecated ([@math-mcshane](https://github.com/math-mcshane),
   [\#2124](https://github.com/r-lib/usethis/issues/2124)).

@@ -6,10 +6,11 @@ coverage, and link out to relevant external resources. To allow badges
 to be added automatically, ensure your badge block starts with a line
 containing only `<!-- badges: start -->` and ends with a line containing
 only `<!-- badges: end -->`. The templates used by
-[`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+[`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md),
+[`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md),
 and
-[`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
-include this block.
+[`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+and include this block.
 
 ## Usage
 

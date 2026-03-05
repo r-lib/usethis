@@ -294,6 +294,7 @@ Package setup tasks, typically performed once.
   : Use roxygen2 with markdown
 
 - [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   [`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   : Create README files
 
@@ -465,6 +466,7 @@ or for a specific project
 - [`use_code_of_conduct()`](https://usethis.r-lib.org/dev/reference/use_code_of_conduct.md)
   : Add a code of conduct
 - [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   [`use_readme_md()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   : Create README files
 - [`git_default_branch()`](https://usethis.r-lib.org/dev/reference/git-default-branch.md)
