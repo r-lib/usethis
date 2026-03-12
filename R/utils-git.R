@@ -216,25 +216,24 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     choice <- utils::menu(
       title = "What do you want to do?",
       choices = c(
-        "Stash changes and re-apply after",
         "Abort",
-        "Retry (after doing something with git)",
+        "Try again",
+        "Stash changes, re-try, then pop",
         "Proceed anyway"
       )
     )
 
-    if (choice == 1) {
+    if (choice == 0 || choice == 1) {
+      ui_abort("Uncommitted changes. Aborting.")
+    } else if (choice == 2) {
+      # Loop will re-check git_uncommitted()
+    } else if (choice == 3) {
       gert::git_stash_save(include_untracked = untracked, repo = git_repo())
       ui_bullets(c("v" = "Changes stashed."))
       withr::defer(git_stash_pop(), envir = parent.frame())
       return(invisible())
-    } else if (choice == 3) {
-      # Loop will re-check git_uncommitted()
     } else if (choice == 4) {
       return(invisible())
-    } else {
-      # choice == 2 or 0 (user cancelled)
-      ui_abort("Uncommitted changes. Aborting.")
     }
   }
 }
