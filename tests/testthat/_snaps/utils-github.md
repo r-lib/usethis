@@ -44,9 +44,19 @@
     Condition
       Error:
       x Failed to get details for "origin" remote (O/R)
-      i GitHub denied access.
-      i Your personal access token may be missing the scopes required to read this repo.
-      i See `usethis::gh_token_help()` for advice.
+      i GitHub API rate limit exceeded.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub API rate limit exceeded.
+      i An authenticated request has a much higher limit than an anonymous one; see `usethis::gh_token_help()` for advice.
       Caused by error in `gh_repo()`:
       ! failed
 

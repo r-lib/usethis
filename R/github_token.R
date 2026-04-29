@@ -118,6 +118,11 @@ code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
   glue_chr("{function_name}({arg_hint(host, arg_name)})")
 }
 
+has_pat <- function(api_url = "https://api.github.com") {
+  pat <- tryCatch(gh::gh_token(api_url = api_url), error = function(cnd) "")
+  nzchar(pat)
+}
+
 # workhorse behind gh_token_help() and called, possibly twice, in git_sitrep()
 # hence the need for `scold_for_renviron = TRUE/FALSE`
 # scope determines if "global" or "de_facto" email is checked

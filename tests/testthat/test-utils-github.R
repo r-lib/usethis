@@ -199,13 +199,14 @@ test_that("get_gh_repo() distinguishes between common API failures", {
   expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
 
   local_mocked_bindings(
-    gh_repo = fake_gh(403, list(`x-ratelimit-remaining` = "0"))
+    gh_repo = fake_gh(403, list(`x-ratelimit-remaining` = "42"))
   )
   expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
 
-  local_mocked_bindings(
-    gh_repo = fake_gh(403, list(`x-ratelimit-remaining` = "42"))
-  )
+  local_mocked_bindings(gh_repo = fake_gh(429), has_pat = \(...) TRUE)
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+
+  local_mocked_bindings(gh_repo = fake_gh(429), has_pat = function(...) FALSE)
   expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
 
   local_mocked_bindings(gh_repo = fake_gh(500))

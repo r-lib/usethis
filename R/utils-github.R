@@ -283,7 +283,7 @@ gh_repo_fail_message <- function(cnd, api_url) {
   } else if (gh_is_rate_limited(cnd)) {
     c(
       "GitHub API rate limit exceeded.",
-      "i" = if (has_path(api_url)) {
+      "i" = if (!has_pat(api_url)) {
         "An authenticated request has a much higher limit than an anonymous
              one; see {.run usethis::gh_token_help()} for advice."
       }
@@ -325,7 +325,7 @@ gh_is_rate_limited <- function(cnd) {
   } else if (inherits(cnd, "http_error_403")) {
     # GitHub also returns 403 (not 429) when you exhaust the primary hourly
     # quota, distinguished from a permissions failure by `x-ratelimit-remaining`.
-    remaining <- cnd$response$headers[["x-ratelimit-remaining"]]
+    remaining <- cnd$response_headers[["x-ratelimit-remaining"]]
     !is.null(remaining) && remaining == "0"
   } else {
     FALSE
