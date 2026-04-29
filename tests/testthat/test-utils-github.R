@@ -167,6 +167,54 @@ test_that("github_remotes() works", {
   expect_true(is.na(grl$is_fork))
 })
 
+test_that("get_gh_repo() can short-circuit without calling the API", {
+  local_mocked_bindings(gh_repo = function(...) stop("failed"))
+
+  expect_equal(get_gh_repo("origin", "O", "R", github_get = FALSE), list())
+  expect_equal(get_gh_repo("origin", NA, "R", github_get = TRUE), list())
+  expect_equal(get_gh_repo("origin", "O", NA, github_get = TRUE), list())
+})
+
+test_that("get_gh_repo() swallows errors when github_get = NA", {
+  local_mocked_bindings(gh_repo = function(...) stop("failed"))
+  expect_equal(get_gh_repo("origin", "O", "R", github_get = NA), list())
+})
+
+test_that("get_gh_repo() distinguishes between common API failures", {
+  # see gh:::gh_error()
+  fake_gh <- function(status, headers = list()) {
+    function(...) {
+      rlang::abort(
+        "failed",
+        class = c(sprintf("http_error_%d", status), "github_error"),
+        response_headers = headers
+      )
+    }
+  }
+
+  local_mocked_bindings(gh_repo = fake_gh(404))
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+
+  local_mocked_bindings(gh_repo = fake_gh(401))
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+
+  local_mocked_bindings(
+    gh_repo = fake_gh(403, list(`x-ratelimit-remaining` = "0"))
+  )
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+
+  local_mocked_bindings(
+    gh_repo = fake_gh(403, list(`x-ratelimit-remaining` = "42"))
+  )
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+
+  local_mocked_bindings(gh_repo = fake_gh(500))
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE, )
+
+  local_mocked_bindings(gh_repo = \(...) abort("could not resolve host"))
+  expect_snapshot(get_gh_repo("origin", "O", "R"), error = TRUE)
+})
+
 test_that("github_url_from_git_remotes() is idempotent", {
   url <- "https://github.com/r-lib/usethis.git"
   out <- github_url_from_git_remotes(url)
