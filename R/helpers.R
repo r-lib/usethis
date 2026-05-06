@@ -43,7 +43,7 @@ use_dependency <- function(package, type, min_version = NULL) {
   # In all cases, we can can simply make the change.
   if (nrow(deps) == 0 || new_linking_to || new_non_linking_to) {
     ui_bullets(c(
-      "v" = "Adding {.pkg {package}} to {.field {type}} field in DESCRIPTION."
+      "v" = "Adding {.pkg {package}} ({.val {version}}) to {.field {type}} field in DESCRIPTION."
     ))
     desc$set_dep(package, type, version = version)
     desc$write()
@@ -63,7 +63,7 @@ use_dependency <- function(package, type, min_version = NULL) {
   if (delta < 0) {
     # don't downgrade
     ui_bullets(c(
-      "!" = "Package {.pkg {package}} is already listed in
+      "!" = "Package {.pkg {package}} ({.val {version}}) is already listed in
              {.field {existing_type}} in DESCRIPTION; no change made."
     ))
   } else if (
@@ -85,7 +85,7 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports
     ui_bullets(c(
-      "v" = "Moving {.pkg {package}} from {.field {existing_type}} to
+      "v" = "Moving {.pkg {package}} ({.val {version}}) from {.field {existing_type}} to
              {.field {type}} field in DESCRIPTION."
     ))
     desc$del_dep(package, existing_type)
