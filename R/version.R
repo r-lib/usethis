@@ -79,6 +79,7 @@ use_version <- function(which = NULL, push = FALSE) {
     push = push,
     paths = c("DESCRIPTION", "NEWS.md", path("src", "version.c"))
   )
+  rstudio_git_tickle()
 
   invisible(TRUE)
 }

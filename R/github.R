@@ -220,6 +220,7 @@ use_github_links <- function(overwrite = FALSE) {
     untracked = TRUE,
     paths = "DESCRIPTION"
   )
+  rstudio_git_tickle()
 
   invisible()
 }

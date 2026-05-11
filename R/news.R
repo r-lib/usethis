@@ -31,6 +31,9 @@ use_news_md <- function(open = rlang::is_interactive()) {
   )
 
   git_ask_commit("Add NEWS.md", untracked = TRUE, paths = "NEWS.md")
+  rstudio_git_tickle()
+
+  invisible()
 }
 
 use_news_heading <- function(version) {
