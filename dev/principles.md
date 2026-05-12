@@ -43,6 +43,7 @@ neither is appropriate. If we ever do this, `zzz.R` would include
 something like this:
 
 ``` r
+
 .onLoad <- function(libname, pkgname) {
   try(proj_set(".", quiet = TRUE), silent = TRUE)
 }

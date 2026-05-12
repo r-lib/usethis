@@ -1,6 +1,7 @@
 # Exploring badge accessibility
 
 ``` r
+
 library(usethis)
 ```
 
@@ -84,6 +85,7 @@ data displayed here, but it seems good to show one badge in full gory
 detail. Later, we will display badge information very selectively.
 
 ``` r
+
 library(xml2)
 library(purrr)
 
@@ -269,6 +271,7 @@ It is my understanding that the two main pieces of metadata are the
 items from the badge:
 
 ``` r
+
 inspect_badge <- function(badge) {
   x <- badge |>
     read_xml() |>
@@ -317,6 +320,7 @@ Again, I am indicating fields I control with `my_alt_text` and
 Here is the `title` and `aria-label` of the badge above:
 
 ``` r
+
 inspect_badge("https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=my_label-R-CMD-check")
 #> $title
 #> [1] "my_label-R-CMD-check: https://github.com/badges/shields/issues/8671"
@@ -340,6 +344,7 @@ Here is the official badge provided by GitHub:
 Here is the `title` and `aria-label` of the badge above:
 
 ``` r
+
 inspect_badge("https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg")
 #> $title
 #> [1] "R-CMD-check.yaml - passing"
@@ -376,6 +381,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 Here is the `title` and `aria-label` of the badge above:
 
 ``` r
+
 inspect_badge("https://img.shields.io/badge/lifecycle-stable-brightgreen.svg")
 #> $title
 #> [1] "lifecycle: stable"
@@ -416,6 +422,7 @@ status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.or
 Here is the `title` and `aria-label` of the badge above:
 
 ``` r
+
 inspect_badge("https://www.r-pkg.org/badges/version/usethis")
 #> $title
 #> NULL
@@ -445,6 +452,7 @@ coverage](https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=
 Here are the `title` and `aria-label` of those badges::
 
 ``` r
+
 inspect_badge("https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg")
 #> $title
 #> NULL
@@ -473,6 +481,7 @@ coverage](https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=
 Here are the `title` and `aria-label` of the shields.io badges::
 
 ``` r
+
 inspect_badge("https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&logo=codecov")
 #> $title
 #> [1] "test coverage: 60%"
@@ -502,6 +511,7 @@ status](http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg)](ht
 Here is the `title` and `aria-label` of that badge:
 
 ``` r
+
 inspect_badge("http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg")
 #> $title
 #> NULL

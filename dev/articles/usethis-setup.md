@@ -40,6 +40,7 @@ Call
 for prompts to do this:
 
 ``` r
+
 library(devtools) ## or library(usethis)
 
 use_devtools()
@@ -55,6 +56,7 @@ This will:
 The suggested snippet looks like this:
 
 ``` r
+
 if (interactive()) {
   suppressMessages(require(devtools))
 }
@@ -100,6 +102,7 @@ editing via
 Here is example code:
 
 ``` r
+
 options(
   usethis.description = list(
     "Authors@R" = utils::person(
@@ -156,6 +159,7 @@ also works best when official Git tooling is available.
 Once Git is installed, introduce yourself to Git.
 
 ``` r
+
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
@@ -200,6 +204,7 @@ editor of choice and you don’t even know how to save and quit. You can
 enforce your will by executing this in R:
 
 ``` r
+
 library(usethis)
 
 use_git_config(core.editor = "nano")

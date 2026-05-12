@@ -13,6 +13,7 @@ by sampling from its collection of positive adjectives, adverbs, verbs,
 smileys, and exclamations:
 
 ``` r
+
 library(praise)
 
 template <- "${EXCLAMATION} - your pull request is ${adjective}!"
@@ -43,10 +44,12 @@ chunks with light gray background and code executed by the reviewer
 appears in chunks with beige background.
 
 ``` r
+
 # contributor code
 ```
 
 ``` r
+
 # reviewer code
 ```
 
@@ -82,6 +85,7 @@ Specifically, the `pr_*()` functions make use of:
 All the code below assumes you’ve attached usethis in your R session:
 
 ``` r
+
 library(usethis)
 ```
 
@@ -93,10 +97,12 @@ ways to accomplish these two steps, but here we demonstrate
 [`usethis::create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md):
 
 ``` r
+
 create_from_github("rladies/praise")
 ```
 
 ``` r
+
 #> ℹ Defaulting to 'https' Git protocol
 #> ✓ Setting `fork = TRUE`
 #> ✓ Creating '/Users/mine/Desktop/praise/'
@@ -144,10 +150,12 @@ repo’s default branch, which is `master` here (another common choice is
 `main`). We’ll call this branch `"formidable"`.
 
 ``` r
+
 pr_init(branch = "formidable")
 ```
 
 ``` r
+
 #> ✓ Setting active project to '/Users/mine/Desktop/praise'
 #> ℹ Pulling changes from 'upstream/master'
 #> ✓ Creating and switching to local branch 'formidable'
@@ -183,10 +191,12 @@ pushes the local change to your copy of praise on GitHub and puts you in
 position to make your pull request.
 
 ``` r
+
 pr_push()
 ```
 
 ``` r
+
 #> ✓ Checking that local branch 'formidable' has the changes in 'origin/formidable'
 #> ✓ Pushing local 'formidable' branch to 'origin/formidable'
 #> ✓ Create PR at link given below
@@ -216,10 +226,12 @@ And anyone can follow along with this PR
 [rladies/praise#90](https://github.com/rladies/praise/pull/90).
 
 ``` r
+
 pr_view(90)
 ```
 
 ``` r
+
 #> ✔ Opening URL 'https://github.com/rladies/praise/pull/90'
 ```
 
@@ -250,10 +262,12 @@ again to update the branch in our fork, which is automatically reflected
 in the PR.
 
 ``` r
+
 pr_push()
 ```
 
 ``` r
+
 #> ✔ Pushing local 'formidable' branch to 'origin:formidable'
 #> ✔ Setting upstream tracking branch for 'formidable' to 'origin/formidable'
 #> ✔ Create PR at link given below
@@ -268,10 +282,12 @@ To do so, the reviewer fetches the PR to their local machine with
 [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md).
 
 ``` r
+
 pr_fetch(90)
 ```
 
 ``` r
+
 #> ✔ Setting active project to '/Users/gaborcsardi/works/praise'
 #> ✔ Checking out PR 'rladies/praise/#90' (@mine-cetinkaya-rundel): 'Add "formidable" to adjectives'
 #> ✔ Adding remote 'mine-cetinkaya-rundel' as 'git@github.com:mine-cetinkaya-rundel/praise.git'
@@ -296,10 +312,12 @@ missing comma, they run
 to push their changes into our PR.
 
 ``` r
+
 pr_push()
 ```
 
 ``` r
+
 #> ✔ Checking that local branch 'mine-cetinkaya-rundel-formidable' has the changes in 'mine-cetinkaya-rundel/formidable'
 #> ✔ Pushing local 'mine-cetinkaya-rundel-formidable' branch to 'mine-cetinkaya-rundel:formidable'
 #> ✔ View PR at 'https://github.com/rladies/praise/pull/90' or call `pr_view()`
@@ -315,10 +333,12 @@ pull, delete the local branch created during the process of interacting
 with our PR, and remove the associated remote.
 
 ``` r
+
 pr_finish()
 ```
 
 ``` r
+
 #> ✔ Checking that remote branch 'mine-cetinkaya-rundel/formidable' has the changes in 'local/mine-cetinkaya-rundel-formidable'
 #> ✔ Switching back to 'master' branch
 #> ✔ Pulling changes from GitHub source repo 'origin/master'
@@ -337,10 +357,12 @@ can be useful in PRs if there are a few rounds of alternating
 contributions from you and the maintainer.
 
 ``` r
+
 pr_pull()
 ```
 
 ``` r
+
 #> ✓ Pulling from 'origin/formidable'
 #> Performing fast-forward merge, no commit needed
 ```
@@ -349,10 +371,12 @@ Finally, we can also conclude the PR process on our end with
 [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md).
 
 ``` r
+
 pr_finish()
 ```
 
 ``` r
+
 #> ✓ Checking that remote branch 'origin/formidable' has the changes in 'formidable'
 #> ✓ Switching back to default branch ('master')
 #> ℹ Pulling changes from 'origin/master'

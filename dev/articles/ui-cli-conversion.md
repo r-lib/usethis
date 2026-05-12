@@ -1,6 +1,7 @@
 # Converting usethis's UI to use cli
 
 ``` r
+
 library(usethis)
 library(glue)
 ```
@@ -14,6 +15,7 @@ without explicitly namespacing them.*
 
 The block styles exist to produce bulleted output with a specific
 symbol, using a specific color.
+
 
     > f <- function() {                                                     
     +   ui_todo("ui_todo(): red bullet")                                    
@@ -32,6 +34,7 @@ symbol, using a specific color.
 Another important feature is that all of this output can be turned off
 package-wide via the `usethis.quiet` option.
 
+
     > withr::with_options(                                                  
     +   list(usethis.quiet = TRUE),                                         
     +   ui_info("You won't see this message.")                              
@@ -45,6 +48,7 @@ package-wide via the `usethis.quiet` option.
 These styles are very close to what can be done with
 [`cli::cli_bullets()`](https://cli.r-lib.org/reference/cli_bullets.html)
 and the way it responds to the names of its input `text`.
+
 
     > cli::cli_bullets(c(                                                   
     +         "noindent",                                                   
@@ -67,13 +71,13 @@ and the way it responds to the names of its input `text`.
 
 A direct translation would look something like this:
 
-| Legacy `ui_*()`                                                               | `cli_bullets()` shortcode | tweaks needed                                                                                                                                              |
-|-------------------------------------------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`ui_todo()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `*`                       | blue (default) -\> red                                                                                                                                     |
-| [`ui_done()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `v`                       | perfect match                                                                                                                                              |
-| [`ui_oops()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `x`                       | perfect match                                                                                                                                              |
-| [`ui_info()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `i`                       | blue (default) -\> yellow                                                                                                                                  |
-| [`ui_line()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | (unnamed)                 | sort of a perfect match? although sometimes [`ui_line()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) is used just to get a blank line |
+| Legacy `ui_*()` | `cli_bullets()` shortcode | tweaks needed |
+|----|----|----|
+| [`ui_todo()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `*` | blue (default) -\> red |
+| [`ui_done()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `v` | perfect match |
+| [`ui_oops()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `x` | perfect match |
+| [`ui_info()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | `i` | blue (default) -\> yellow |
+| [`ui_line()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) | (unnamed) | sort of a perfect match? although sometimes [`ui_line()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md) is used just to get a blank line |
 
 The overall conversion plan is to switch to a new function,
 `ui_bullets()`, which is a wrapper around
@@ -84,6 +88,7 @@ that adds a few features:
   is `TRUE`.
 - A usethis theme, that changes the color of certain bullet styles and
   adds a new style for todo’s.
+
 
     > ui_bullets(c(                                                         
     +   "v" = "A great success!",                                           
@@ -121,6 +126,7 @@ built around `cli::code_block()`. Main observations:
   Therefore the `language` argument is also exposed in
   `ui_code_snippet()`, defaulting to `"R"`. Use `""` for anything that’s
   not R code:
+
         > ui_code_snippet("x <- 1 + 2")                                         
           x <- 1 + 2                                                            
         > ui_code_snippet("#include <blah.h>", language = "")                   
@@ -129,6 +135,7 @@ built around `cli::code_block()`. Main observations:
 - `ui_code_snippet()` takes a scalar glue-type template string or a
   vector of lines. Note that the two calls below produce the same
   output.
+
         > ui_code_snippet("                                                     
         +   options(                                                            
         +     warnPartialMatchArgs = TRUE,                                      
@@ -172,6 +179,7 @@ functions.
 default of `FALSE`.
 
 ``` r
+
 is_quiet <- function() {
   isTRUE(getOption("usethis.quiet", default = FALSE))
 }
@@ -195,6 +203,7 @@ both call `ui_inform()` directly.
 is guarded by a call to `is_quiet()`
 
 ``` r
+
 ui_inform <- function(...) {
   if (!is_quiet()) {
     inform(paste0(...))
@@ -219,6 +228,7 @@ while we’re here, which *is* exported. It’s just a `withr::with_*()`
 function for executing `code` with `usethis.quiet = TRUE`.
 
 ``` r
+
 ui_silence <- function(code) {
   withr::with_options(list(usethis.quiet = TRUE), code)
 }
@@ -236,6 +246,7 @@ usethis has its own inline styles (mostly) for use inside functions like
 - [`ui_path()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md)
 - [`ui_code()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md)
 - [`ui_unset()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md)
+
 
     > new_val <- "oxnard"                                                   
     > x <- glue("{ui_field('name')} set to {ui_value(new_val)}")            
@@ -263,6 +274,7 @@ a trailing `/`.
 [`ui_unset()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md)
 is a special purpose helper used when we need to report that something
 is unknown, not configured, nonexistent, etc.
+
 
     > x <- glue("Your super secret password is {ui_unset()}.")              
     > dput(x)                                                               
@@ -296,6 +308,7 @@ Here’s the general conversion plan:
   compactness. Here’s a typical conversion:
 
   ``` r
+
   # using legacy functions
   ui_done("Setting {ui_field('LazyData')} to \\
            {ui_value('true')} in {ui_path('DESCRIPTION')}")
@@ -338,6 +351,7 @@ I’m moving from
 [`ui_stop()`](https://usethis.r-lib.org/dev/reference/ui-legacy-functions.md):
 
 ``` r
+
 ui_stop <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
@@ -354,6 +368,7 @@ ui_stop <- function(x, .envir = parent.frame()) {
 to `ui_abort()`:
 
 ``` r
+
 ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
   cli::cli_div(theme = usethis_theme())
   # bullet naming gymnastics, see below
@@ -373,6 +388,7 @@ I also use `ui_abort()` to apply different default bullet
 naming/styling. Starting with `"x"` and then defaulting to `"i"` seems
 to fit best with usethis’s existing errors.
 
+
     > block_start = "# <<<"                                                 
     > block_end = "# >>>"                                                   
     > ui_abort(c(                                                           
@@ -386,6 +402,7 @@ to fit best with usethis’s existing errors.
     Run `rlang::last_trace()` to see where the error occurred.              
 
 Any bullets that are explicitly given are honored.
+
 
     atever."))                                                              
     Error:                                                                  
@@ -409,6 +426,7 @@ The legacy functions also include
 It has very little usage and, instead of converting it, I’ve eliminated
 its use altogether in favor of a `"!"` bullet:
 
+
     > ui_bullets(c("!" = "The guy she told you not to worry about."))       
     ! The guy she told you not to worry about.                              
 
@@ -426,6 +444,7 @@ This is a small clump of functions that support sitrep-type output.
   *exported and succeeded by `ui_special()`*
 
 `kv_line()` stands for “key-value line”. Here’s what it used to be:
+
 
     > kv_line_legacy <- function(key, value, .envir = parent.frame()) {     
     +   value <- if (is.null(value)) ui_unset() else ui_value(value)        
@@ -452,6 +471,7 @@ Key features:
 
 I won’t show the updated source for `kv_line()` but here is some usage
 to show what it’s capable of:
+
 
     > noun <- "thingy"                                                      
     > value <- "VALUE"                                                      
@@ -492,6 +512,7 @@ and
 that use cli for styling.
 
 ``` r
+
 if (ui_nope("
       Current branch ({ui_value(actual)}) is not repo's default \\
       branch ({ui_value(default_branch)}).{details}")) {
@@ -509,6 +530,7 @@ if (ui_nope("
   that’s going to look like when you’re writing the code.
 
   ``` r
+
   ui_bullets(c(
     "i" = "Downloading into {.path {pth(destdir)}}.",
     "_" = "Prefer a different location? Cancel, try again, and specify
@@ -538,6 +560,7 @@ if (ui_nope("
     line.
 
     ``` r
+
     pr <- list(pr_number = 13)
     ui_abort("
       The repo or branch where PR #{pr$pr_number} originates seems to have been

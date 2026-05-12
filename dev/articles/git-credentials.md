@@ -1,6 +1,7 @@
 # Managing Git(Hub) Credentials
 
 ``` r
+
 library(usethis)
 ```
 
@@ -82,15 +83,15 @@ It’s awkward to provide your credentials for every single Git
 transaction, so it’s customary to let your system remember your
 credentials. Git uses so-called credential helpers for this and,
 happily, they tend to “just work” these days (especially, on macOS and
-Windows) [¹](#fn1). Git credential helpers take advantage of official
+Windows) [^1]. Git credential helpers take advantage of official
 OS-provided credential stores, where possible, such as macOS Keychain
 and Windows Credential Manager.
 
 Recent innovations in gert and gh mean that Git/GitHub operations from R
 can also store and discover credentials using these same official Git
 credential helpers. This means we can stop storing GitHub PATs in plain
-text in a startup file, like `.Renviron` [²](#fn2). This, in turn,
-reduces the risk of accidentally leaking your credentials.
+text in a startup file, like `.Renviron` [^2]. This, in turn, reduces
+the risk of accidentally leaking your credentials.
 
 ## Practical instructions
 
@@ -114,7 +115,7 @@ usethis defaults to HTTPS in functions like
 [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
 and
 [`use_github()`](https://usethis.r-lib.org/dev/reference/use_github.md),
-as of v2.0.0[³](#fn3).
+as of v2.0.0[^3].
 
 It’s fine to adopt HTTPS for new work, even if some of your pre-existing
 repos use SSH.  
@@ -143,6 +144,7 @@ Turning on 2FA is recommended, but optional.
 ### Get a personal access token (PAT)
 
 ``` r
+
 usethis::create_github_token()
 ```
 
@@ -202,6 +204,7 @@ We assume you’ve created a PAT and have it available on your clipboard.
 How to insert your PAT in the Git credential store? Do this in R:
 
 ``` r
+
 gitcreds::gitcreds_set()
 ```
 
@@ -268,6 +271,7 @@ You can check that your PAT has been successfully stored with
 **executed in a fresh R session**:
 
 ``` r
+
 gh_token_help()
 ```
 
@@ -277,6 +281,7 @@ will also report on your PAT, along with other aspects of your
 Git/GitHub setup.
 
 ``` r
+
 git_sitrep()
 ```
 
@@ -336,12 +341,14 @@ specified. For example, you can store a PAT for a GitHub Enterprise
 deployment like so:
 
 ``` r
+
 gitcreds::gitcreds_set("https://github.acme.com")
 ```
 
 You can also troubleshoot PATs with GHE with the usual functions:
 
 ``` r
+
 usethis::gh_token_help("https://github.acme.com")
 # or
 usethis::git_sitrep()
@@ -388,6 +395,7 @@ If you still need to use `.Renviron` method,
 opens that file for editing.
 
 ``` r
+
 usethis::edit_r_environ()
 ```
 
@@ -411,6 +419,7 @@ The [remotes](https://remotes.r-lib.org) and
 from GitHub:
 
 ``` r
+
 remotes::install_github("r-lib/usethis")
 
 pak::pkg_install("r-lib/usethis")
@@ -454,6 +463,7 @@ executed in a startup file. This still avoids defining `GITHUB_PAT` in
 `.Renviron`.
 
 ``` r
+
 Sys.setenv(GITHUB_PAT = gitcreds::gitcreds_get(use_cache = FALSE)$password)
 ```
 
@@ -507,16 +517,14 @@ gert and credentials
 - rOpenSci tech note: [A better way to manage your GitHub personal
   access tokens](https://ropensci.org/technotes/2020/07/07/github-pat/)
 
-------------------------------------------------------------------------
-
-1.  If you’re trying to follow the advice in this article and things
+[^1]: If you’re trying to follow the advice in this article and things
     don’t work the way we say they do, consider that you may need to
     update Git. Credential helpers are absolutely an area of Git that
     has improved rapidly in recent years and the gitcreds and
     credentials package work best with recent versions of Git.
 
-2.  An even more dangerous practice is to hard-code a PAT in an R
+[^2]: An even more dangerous practice is to hard-code a PAT in an R
     script, which is never a good idea.
 
-3.  As always, the `usethis.protocol` option can be configured to
+[^3]: As always, the `usethis.protocol` option can be configured to
     customize your own default.

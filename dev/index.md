@@ -9,12 +9,14 @@ non-package projects.
 Install the released version of usethis from CRAN:
 
 ``` r
+
 install.packages("usethis")
 ```
 
 Or install the development version from GitHub with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("r-lib/usethis")
 ```
@@ -43,6 +45,7 @@ remember, many usethis functions are also applicable to analytical
 projects that are not packages.
 
 ``` r
+
 library(usethis)
 
 # Create a new package -------------------------------------------------

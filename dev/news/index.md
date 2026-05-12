@@ -1806,6 +1806,7 @@ for managing badges in your README and roxygen import tags:
   ([\#517](https://github.com/r-lib/usethis/issues/517)):
 
   ``` r
+
   ## usethis namespace: start
   ## usethis namespace: end
   NULL
