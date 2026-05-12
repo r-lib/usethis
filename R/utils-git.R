@@ -134,6 +134,9 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
     return(invisible())
   }
 
+  rstudio_git_tickle()
+  withr::defer(rstudio_git_tickle())
+
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
     repo <- git_repo()

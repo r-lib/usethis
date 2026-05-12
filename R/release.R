@@ -285,6 +285,7 @@ use_github_release <- function(publish = TRUE) {
   if (!is.null(dat$file)) {
     ui_bullets("Deleting {.path {dat$file}}")
     file_delete(dat$file)
+    rstudio_git_tickle()
   }
 
   invisible()
