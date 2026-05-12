@@ -233,16 +233,17 @@ get_gh_repo <- function(
   remote,
   owner,
   name,
-  api_url = "https://api.github.com",
+  api_url = default_api_url(),
   github_get = TRUE,
   call = caller_env()
 ) {
-  # Don't even try to get parent info for missing remote
+  # Don't even try to get info if we don't know owner/name
+  # This happens when we try and get the parent info for remote that wasn't found
   if (is.na(owner) || is.na(name)) {
     return(list())
   }
 
-  if (identical(github_get, TRUE)) {
+  if (isTRUE(github_get)) {
     # Fail with informative message
     withCallingHandlers(
       gh_repo(owner, name, api_url),
