@@ -31,3 +31,17 @@ test_that("use_roxygen_md() finds 'markdown = TRUE' in presence of other stuff",
   expect_no_error(use_roxygen_md())
   expect_true(uses_roxygen_md())
 })
+
+test_that("`uses_roxygen()` recognizes the `Config/roxygen2/version` field", {
+  skip_if_not_installed("roxygen2")
+
+  pkg <- create_local_package()
+  desc::desc_del(keys = c("Roxygen", "RoxygenNote"))
+  desc::desc_set(
+    `Config/roxygen2/version` = '8.0.0'
+  )
+
+  local_check_installed()
+  expect_no_error(usethis:::uses_roxygen())
+  expect_true(usethis:::uses_roxygen())
+})
