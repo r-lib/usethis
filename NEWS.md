@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
 
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
