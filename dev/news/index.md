@@ -2,6 +2,13 @@
 
 ## usethis (development version)
 
+- [`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
+  [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  and friends now give more informative errors if usethis can’t retrieve
+  details about a remote
+  ([\#1929](https://github.com/r-lib/usethis/issues/1929),
+  [\#2229](https://github.com/r-lib/usethis/issues/2229)).
+
 - [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   creates a starter `README.qmd` with Quarto-flavored YAML frontmatter,
   analogous to
