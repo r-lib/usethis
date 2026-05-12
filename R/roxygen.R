@@ -72,8 +72,10 @@ uses_roxygen_md <- function() {
 
   roxygen <- desc$get_field("Roxygen", "")
   config_roxygen <- desc$get_field("Config/roxygen2/markdown", "")
-  if (grepl("markdown\\s*=\\s*TRUE", roxygen) ||
-      grepl("TRUE", config_roxygen)) {
+  if (
+    grepl("markdown\\s*=\\s*TRUE", roxygen) ||
+      grepl("TRUE", config_roxygen)
+  ) {
     TRUE
   } else {
     NA
