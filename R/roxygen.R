@@ -59,21 +59,18 @@ use_roxygen_md <- function(overwrite = FALSE) {
   invisible()
 }
 
-# FALSE: no Roxygen field and no Config/roxygen2/markdown field
-# TRUE: Roxygen field matches regex targeting 'markdown = TRUE', with some
-#   whitespace slop or Config/roxygen2/markdown field matches '"TRUE"'
+# FALSE: no Roxygen field
+# TRUE: matches regex targetting 'markdown = TRUE', with some whitespace slop
 # NA: everything else
 uses_roxygen_md <- function() {
   desc <- proj_desc()
 
-  if (!any(desc$has_fields(c("Roxygen", "Config/roxygen2/markdown")))) {
+  if (!desc$has_fields("Roxygen")) {
     return(FALSE)
   }
 
   roxygen <- desc$get_field("Roxygen", "")
-  config_roxygen <- desc$get_field("Config/roxygen2/markdown", "")
-  if (grepl("markdown\\s*=\\s*TRUE", roxygen) ||
-      grepl("TRUE", config_roxygen)) {
+  if (grepl("markdown\\s*=\\s*TRUE", roxygen)) {
     TRUE
   } else {
     NA
@@ -82,7 +79,7 @@ uses_roxygen_md <- function() {
 
 uses_roxygen <- function() {
   any(proj_desc()$has_fields(
-    c("Roxygen", "RoxygenNote", "Config/roxygen2/version")
+    c("RoxygenNote", "Config/roxygen2/version")
   ), na.rm = TRUE)
 }
 

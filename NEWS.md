@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten).
+* `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
 
 * `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
 
