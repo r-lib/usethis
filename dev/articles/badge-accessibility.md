@@ -347,7 +347,7 @@ Here is the `title` and `aria-label` of the badge above:
 
 inspect_badge("https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg")
 #> $title
-#> [1] "R-CMD-check.yaml - passing"
+#> [1] "R-CMD-check.yaml - failing"
 #> 
 #> $`aria-label`
 #> NULL
@@ -484,10 +484,10 @@ Here are the `title` and `aria-label` of the shields.io badges::
 
 inspect_badge("https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&logo=codecov")
 #> $title
-#> [1] "test coverage: 60%"
+#> [1] "test coverage: 61%"
 #> 
 #> $`aria-label`
-#> [1] "test coverage: 60%"
+#> [1] "test coverage: 61%"
 
 inspect_badge("https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls")
 #> $title
