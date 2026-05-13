@@ -1,3 +1,89 @@
+# get_gh_repo() distinguishes between common API failures
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i Failed to find repo.
+      i Has the repo been deleted, renamed, or made private?
+      i If it's private, you may need a personal access token with access to it; see `usethis::gh_token_help()` for advice.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub authentication failed.
+      i Your personal access token is missing, invalid, or expired.
+      i See `usethis::gh_token_help()` for advice.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub denied access.
+      i Your personal access token may be missing the scopes required to read this repo.
+      i See `usethis::gh_token_help()` for advice.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub API rate limit exceeded.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub API rate limit exceeded.
+      i An authenticated request has a much higher limit than an anonymous one; see `usethis::gh_token_help()` for advice.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i GitHub API request failed.
+      i GitHub may be having trouble; check <https://www.githubstatus.com>.
+      Caused by error in `gh_repo()`:
+      ! failed
+
+---
+
+    Code
+      get_gh_repo("origin", "O", "R")
+    Condition
+      Error:
+      x Failed to get details for "origin" remote (O/R)
+      i Can't reach the GitHub API at <https://api.github.com>.
+      i Are you offline or behind a firewall that blocks GitHub?
+      Caused by error in `gh_repo()`:
+      ! could not resolve host
+
 # we understand the list of all possible configs
 
     Code
