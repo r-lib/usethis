@@ -40,8 +40,8 @@ This is extracted from \code{repo_spec} when user provides a URL.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing, if it is a text file? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise. Binary files will not be opened.}
 
 \item{overwrite}{Force overwrite of existing file?}
 
