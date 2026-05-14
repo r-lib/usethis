@@ -102,6 +102,17 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> [1] "my_label: my_message"
 #> 
 #> 
+#> $filter
+#> $filter$feGaussianBlur
+#> list()
+#> attr(,"in")
+#> [1] "SourceGraphic"
+#> attr(,"stdDeviation")
+#> [1] "16"
+#> 
+#> attr(,"id")
+#> [1] "blur"
+#> 
 #> $linearGradient
 #> $linearGradient$stop
 #> list()
@@ -160,7 +171,7 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> attr(,"height")
 #> [1] "20"
 #> attr(,"fill")
-#> [1] "#fe7d37"
+#> [1] "#ea7233"
 #> 
 #> $g$rect
 #> list()
@@ -175,6 +186,27 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> [1] "url(#r)"
 #> 
 #> $g
+#> $g$text
+#> $g$text[[1]]
+#> [1] "my_label"
+#> 
+#> attr(,"aria-hidden")
+#> [1] "true"
+#> attr(,"x")
+#> [1] "315"
+#> attr(,"y")
+#> [1] "150"
+#> attr(,"fill")
+#> [1] "#010101"
+#> attr(,"fill-opacity")
+#> [1] ".80"
+#> attr(,"filter")
+#> [1] "url(#blur)"
+#> attr(,"transform")
+#> [1] "scale(.1)"
+#> attr(,"textLength")
+#> [1] "510"
+#> 
 #> $g$text
 #> $g$text[[1]]
 #> [1] "my_label"
@@ -208,6 +240,27 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> [1] "#fff"
 #> attr(,"textLength")
 #> [1] "510"
+#> 
+#> $g$text
+#> $g$text[[1]]
+#> [1] "my_message"
+#> 
+#> attr(,"aria-hidden")
+#> [1] "true"
+#> attr(,"x")
+#> [1] "1015"
+#> attr(,"y")
+#> [1] "150"
+#> attr(,"fill")
+#> [1] "#010101"
+#> attr(,"fill-opacity")
+#> [1] ".80"
+#> attr(,"filter")
+#> [1] "url(#blur)"
+#> attr(,"transform")
+#> [1] "scale(.1)"
+#> attr(,"textLength")
+#> [1] "730"
 #> 
 #> $g$text
 #> $g$text[[1]]
@@ -347,7 +400,7 @@ Here is the `title` and `aria-label` of the badge above:
 
 inspect_badge("https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg")
 #> $title
-#> [1] "R-CMD-check.yaml - failing"
+#> [1] "R-CMD-check.yaml - passing"
 #> 
 #> $`aria-label`
 #> NULL
