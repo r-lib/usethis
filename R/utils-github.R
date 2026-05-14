@@ -178,46 +178,26 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 github_remotes <- function(
   these = c("origin", "upstream"),
   github_get = NA,
-  x = NULL
+  x = NULL,
+  call = caller_env()
 ) {
   grl <- github_remote_list(these = these, x = x)
-  get_gh_repo <- function(
-    repo_owner,
-    repo_name,
-    api_url = "https://api.github.com"
-  ) {
-    if (isFALSE(github_get)) {
-      f <- function(...) list()
-    } else {
-      f <- purrr::possibly(gh::gh, otherwise = list())
-    }
-    f(
-      "GET /repos/{owner}/{repo}",
-      owner = repo_owner,
-      repo = repo_name,
-      .api_url = api_url
-    )
-  }
-  repo_info <- purrr::pmap(
-    grl[c("repo_owner", "repo_name", "api_url")],
-    get_gh_repo
-  )
+
+  repo_info <- unwrap_purrr(purrr::pmap(
+    list(
+      remote = grl$remote,
+      owner = grl$repo_owner,
+      name = grl$repo_name,
+      api_url = grl$api_url
+    ),
+    get_gh_repo,
+    github_get = github_get,
+    call = call
+  ))
   # NOTE: these can be two separate matters:
   # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
   # 2. If so, did we call it with auth? Means we know if we can push.
   grl$github_got <- map_lgl(repo_info, \(x) length(x) > 0)
-  if (isTRUE(github_get) && !all(grl$github_got)) {
-    oops <- which(!grl$github_got)
-    oops_remotes <- grl$remote[oops]
-    oops_hosts <- unique(grl$host[oops])
-    ui_abort(c(
-      "Unable to get GitHub info for these remotes: {.val {oops_remotes}}.",
-      "Are we offline? Is GitHub down? Has the repo been deleted?",
-      "Otherwise, you probably need to configure a personal access token (PAT)
-       for {.val {oops_hosts}}.",
-      "See {.run usethis::gh_token_help()} for advice."
-    ))
-  }
 
   grl$default_branch <- map_chr(repo_info, "default_branch", .default = NA)
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
@@ -233,16 +213,124 @@ github_remotes <- function(
   grl$parent_repo_spec <- make_spec(grl$parent_repo_owner, grl$parent_repo_name)
 
   parent_info <- purrr::pmap(
-    set_names(
-      grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
-      \(x) sub("parent_", "", x)
+    list(
+      remote = grl$remote,
+      owner = grl$parent_repo_owner,
+      name = grl$parent_repo_name,
+      api_url = grl$api_url
     ),
-    get_gh_repo
+    get_gh_repo,
+    # only ever best effort, since there may not be a parent
+    github_get = NA
   )
   grl$can_push_to_parent <-
     map_lgl(parent_info, c("permissions", "push"), .default = NA)
 
   grl
+}
+
+get_gh_repo <- function(
+  remote,
+  owner,
+  name,
+  api_url = default_api_url(),
+  github_get = TRUE,
+  call = caller_env()
+) {
+  # Don't even try to get info if we don't know owner/name
+  # This happens when we try and get the parent info for remote that wasn't found
+  if (is.na(owner) || is.na(name)) {
+    return(list())
+  }
+
+  if (isTRUE(github_get)) {
+    # Fail with informative message
+    withCallingHandlers(
+      gh_repo(owner, name, api_url),
+      error = function(cnd) {
+        ui_abort(
+          c(
+            "Failed to get details for {.val {remote}} remote ({owner}/{name})",
+            gh_repo_fail_message(cnd, api_url)
+          ),
+          parent = cnd,
+          call = call
+        )
+      }
+    )
+  } else if (identical(github_get, NA)) {
+    # Proceed anyway
+    tryCatch(gh_repo(owner, name, api_url), error = function(cnd) list())
+  } else {
+    # Don't even try
+    list()
+  }
+}
+
+gh_repo_fail_message <- function(cnd, api_url) {
+  if (inherits(cnd, "http_error_404")) {
+    c(
+      "Failed to find repo.",
+      "i" = "Has the repo been deleted, renamed, or made private?",
+      "i" = "If it's private, you may need a personal access token with access
+             to it; see {.run usethis::gh_token_help()} for advice."
+    )
+  } else if (inherits(cnd, "http_error_401")) {
+    c(
+      "GitHub authentication failed.",
+      "i" = "Your personal access token is missing, invalid, or expired.",
+      "i" = "See {.run usethis::gh_token_help()} for advice."
+    )
+  } else if (gh_is_rate_limited(cnd)) {
+    c(
+      "GitHub API rate limit exceeded.",
+      "i" = if (!has_pat(api_url)) {
+        "An authenticated request has a much higher limit than an anonymous
+             one; see {.run usethis::gh_token_help()} for advice."
+      }
+    )
+  } else if (inherits(cnd, "http_error_403")) {
+    c(
+      "GitHub denied access.",
+      "i" = "Your personal access token may be missing the scopes required to read this repo.",
+      "i" = "See {.run usethis::gh_token_help()} for advice."
+    )
+  } else if (inherits(cnd, "github_error")) {
+    # Any other HTTP error (e.g., 5xx).
+    c(
+      "GitHub API request failed.",
+      "i" = "GitHub may be having trouble; check {.url https://www.githubstatus.com}."
+    )
+  } else {
+    # Non-HTTP: DNS failure, timeout, SSL, etc.
+    c(
+      "Can't reach the GitHub API at {.url {api_url}}.",
+      "i" = "Are you offline or behind a firewall that blocks GitHub?"
+    )
+  }
+}
+
+# So we can mock it
+gh_repo <- function(repo_owner, repo_name, api_url) {
+  gh::gh(
+    "GET /repos/{owner}/{repo}",
+    owner = repo_owner,
+    repo = repo_name,
+    .api_url = api_url
+  )
+}
+
+gh_is_rate_limited <- function(cnd) {
+  if (inherits(cnd, "http_error_429")) {
+    TRUE
+  } else if (inherits(cnd, "http_error_403")) {
+    # GitHub also returns 403 (not 429) when you exhaust the primary hourly
+    # quota, distinguished from a permissions failure by `x-ratelimit-remaining`.
+    remaining <- cnd$response_headers[["x-ratelimit-remaining"]]
+    !is.null(remaining) && remaining == "0"
+  } else {
+    FALSE
+  }
 }
 
 #' Classify the GitHub remote configuration
@@ -339,9 +427,9 @@ new_github_remote_config <- function() {
   )
 }
 
-github_remote_config <- function(github_get = NA) {
+github_remote_config <- function(github_get = NA, call = caller_env()) {
   cfg <- new_github_remote_config()
-  grl <- github_remotes(github_get = github_get)
+  grl <- github_remotes(github_get = github_get, call = call)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
