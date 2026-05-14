@@ -78,10 +78,7 @@ uses_roxygen_md <- function() {
 }
 
 uses_roxygen <- function() {
-  any(
-    proj_desc()$has_fields(c("RoxygenNote", "Config/roxygen2/version")),
-    na.rm = TRUE
-  )
+  any(proj_desc()$has_fields(c("RoxygenNote", "Config/roxygen2/version")))
 }
 
 roxygen_ns_append <- function(tag) {
