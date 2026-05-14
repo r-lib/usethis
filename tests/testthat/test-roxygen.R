@@ -32,16 +32,65 @@ test_that("use_roxygen_md() finds 'markdown = TRUE' in presence of other stuff",
   expect_true(uses_roxygen_md())
 })
 
-test_that("`uses_roxygen()` recognizes the `Config/roxygen2/version` field", {
+test_that("uses_roxygen() recognizes the 'RoxygenNote' field", {
   skip_if_not_installed("roxygen2")
 
-  pkg <- create_local_package()
-  desc::desc_del(keys = c("Roxygen", "RoxygenNote"))
+  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
+  withr::local_dir(roxy_tempdir)
+  path_note <- file.path(roxy_tempdir, "DESCRIPTION")
+  file.create(path_note, showWarnings = TRUE)
+
   desc::desc_set(
-    `Config/roxygen2/version` = '8.0.0'
+    Package = "oldtyle",
+    "RoxygenNote" = "7.3.3",
+    check = TRUE,
+    file = path_note
   )
 
-  local_check_installed()
+  usethis::local_project()
+  expect_identical(desc::desc_get_field("Package"), "oldtyle")
   expect_no_error(usethis:::uses_roxygen())
   expect_true(usethis:::uses_roxygen())
+})
+
+test_that("uses_roxygen() recognizes the 'Config/roxygen2/version' field", {
+  skip_if_not_installed("roxygen2")
+
+  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
+  withr::local_dir(roxy_tempdir)
+  path_config <- file.path(roxy_tempdir, "DESCRIPTION")
+  file.create(path_config, showWarnings = TRUE)
+
+  desc::desc_set(
+    Package = "newstyle",
+    `Config/roxygen2/version` = "8.0.0",
+    check = TRUE,
+    file = path_config
+  )
+
+  usethis::local_project(quiet = TRUE)
+  expect_identical(desc::desc_get_field("Package"), "newstyle")
+  # usethis:::proj_desc(path = path_config)
+  expect_no_error(usethis:::uses_roxygen())
+  expect_true(usethis:::uses_roxygen())
+})
+
+test_that("uses_roxygen() returns FALSE in absence of roxygen fields", {
+  skip_if_not_installed("roxygen2")
+
+  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
+  withr::local_dir(roxy_tempdir)
+  path_null <- file.path(roxy_tempdir, "DESCRIPTION")
+  file.create(path_null, showWarnings = TRUE)
+
+  desc::desc_set(
+    Package = "nullstyle",
+    check = TRUE,
+    file = path_null
+  )
+
+  usethis::local_project(quiet = TRUE)
+  expect_identical(desc::desc_get_field("Package"), "nullstyle")
+  expect_no_error(usethis:::uses_roxygen())
+  expect_false(usethis:::uses_roxygen())
 })
