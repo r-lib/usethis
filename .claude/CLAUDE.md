@@ -2,31 +2,43 @@
 
 ### Key commands
 
-```
+```R
 # To run code
-Rscript -e "devtools::load_all(); code"
+devtools::load_all(); code
 
 # To run all tests
-Rscript -e "devtools::test()"
+devtools::test()
 
 # To run all tests for files starting with {name}
-Rscript -e "devtools::test(filter = '^{name}')"
+devtools::test(filter = '^{name}')
 
 # To run all tests for R/{name}.R
-Rscript -e "devtools::test_active_file('R/{name}.R')"
+devtools::test_active_file('R/{name}.R')
 
 # To run a single test "blah" for R/{name}.R
-Rscript -e "devtools::test_active_file('R/{name}.R', desc = 'blah')"
+devtools::test_active_file('R/{name}.R', desc = 'blah')
 
 # To redocument the package
-Rscript -e "devtools::document()"
+devtools::document()
 
 # To check pkgdown documentation
-Rscript -e "pkgdown::check_pkgdown()"
+pkgdown::check_pkgdown()
 
 # To check the package with R CMD check
-Rscript -e "devtools::check()"
+devtools::check()
+```
 
+You have two options to run R code:
+
+* `Rscript --no-environ  -e "code"`. 
+
+  Without `--no-environ`, every R call fails with `"Fatal error: cannot create 'R_TempDir'"` because the sandbox blocks reads of `~/.Renviron`, which R reads during startup before creating `tempdir()`.
+
+* If the mcp-repl tool is available, you can use it instead. Note that its default sandbox blocks network requests. 
+
+Other commands:
+
+```
 # To format code
 air format .
 ```
@@ -60,15 +72,15 @@ air format .
 
 ### `NEWS.md`
 
-- Every user-facing change should be given a bullet in `NEWS.md`. Do not add bullets for small documentation changes or internal refactorings.
+- Every user-facing change should be given a bullet in `NEWS.md`. 
+- Changes that shouldn't get a bullet:
+    - Small documentation changes.
+    - Internal refactorings. 
+    - Fixes to bugs introduced in the current dev version.
 - Each bullet should briefly describe the change to the end user and mention the related issue in parentheses.
 - A bullet can consist of multiple sentences but should not contain any new lines (i.e. DO NOT line wrap).
 - If the change is related to a function, put the name of the function early in the bullet.
 - Order bullets alphabetically by function name. Put all bullets that don't mention function names at the beginning.
-
-### GitHub
-
-- If you use `gh` to retrieve information about an issue, always use `--comments` to read all the comments.
 
 ### Writing
 
