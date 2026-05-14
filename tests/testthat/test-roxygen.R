@@ -37,8 +37,8 @@ test_that("uses_roxygen() recognizes the 'RoxygenNote' field", {
 
   roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
   withr::local_dir(roxy_tempdir)
-  path_note <- file.path(roxy_tempdir, "DESCRIPTION")
-  file.create(path_note, showWarnings = TRUE)
+  path_note <- fs::path(roxy_tempdir, "DESCRIPTION")
+  fs::file_create(path_note)
 
   desc::desc_set(
     Package = "oldtyle",
@@ -58,8 +58,8 @@ test_that("uses_roxygen() recognizes the 'Config/roxygen2/version' field", {
 
   roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
   withr::local_dir(roxy_tempdir)
-  path_config <- file.path(roxy_tempdir, "DESCRIPTION")
-  file.create(path_config, showWarnings = TRUE)
+  path_config <- fs::path(roxy_tempdir, "DESCRIPTION")
+  fs::file_create(path_config)
 
   desc::desc_set(
     Package = "newstyle",
@@ -70,7 +70,6 @@ test_that("uses_roxygen() recognizes the 'Config/roxygen2/version' field", {
 
   usethis::local_project(quiet = TRUE)
   expect_identical(desc::desc_get_field("Package"), "newstyle")
-  # usethis:::proj_desc(path = path_config)
   expect_no_error(usethis:::uses_roxygen())
   expect_true(usethis:::uses_roxygen())
 })
@@ -80,8 +79,8 @@ test_that("uses_roxygen() returns FALSE in absence of roxygen fields", {
 
   roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
   withr::local_dir(roxy_tempdir)
-  path_null <- file.path(roxy_tempdir, "DESCRIPTION")
-  file.create(path_null, showWarnings = TRUE)
+  path_null <- fs::path(roxy_tempdir, "DESCRIPTION")
+  fs::file_create(path_null)
 
   desc::desc_set(
     Package = "nullstyle",
