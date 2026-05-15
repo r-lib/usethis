@@ -32,64 +32,26 @@ test_that("use_roxygen_md() finds 'markdown = TRUE' in presence of other stuff",
   expect_true(uses_roxygen_md())
 })
 
-test_that("uses_roxygen() recognizes the 'RoxygenNote' field", {
+test_that("uses_roxygen() recognizes Roxygen fields", {
   skip_if_not_installed("roxygen2")
 
-  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
-  withr::local_dir(roxy_tempdir)
-  path_note <- fs::path(roxy_tempdir, "DESCRIPTION")
-  fs::file_create(path_note)
+  path <- withr::local_tempdir(pattern = "roxy")
+  desc <- desc::description$new("!new")
+  desc$write(file = file.path(path, "DESCRIPTION"))
+  local_project(path)
 
-  desc::desc_set(
-    Package = "oldtyle",
-    "RoxygenNote" = "7.3.3",
-    check = TRUE,
-    file = path_note
-  )
+  # Default
+  expect_false(uses_roxygen())
 
-  usethis::local_project()
-  expect_identical(desc::desc_get_field("Package"), "oldtyle")
-  expect_no_error(usethis:::uses_roxygen())
-  expect_true(usethis:::uses_roxygen())
-})
+  # Old style
+  desc2 <- desc$clone()
+  desc2$set("RoxygenNote", "7.3.3")
+  desc2$write(file = file.path(path, "DESCRIPTION"))
+  expect_true(uses_roxygen())
 
-test_that("uses_roxygen() recognizes the 'Config/roxygen2/version' field", {
-  skip_if_not_installed("roxygen2")
-
-  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
-  withr::local_dir(roxy_tempdir)
-  path_config <- fs::path(roxy_tempdir, "DESCRIPTION")
-  fs::file_create(path_config)
-
-  desc::desc_set(
-    Package = "newstyle",
-    `Config/roxygen2/version` = "8.0.0",
-    check = TRUE,
-    file = path_config
-  )
-
-  usethis::local_project(quiet = TRUE)
-  expect_identical(desc::desc_get_field("Package"), "newstyle")
-  expect_no_error(usethis:::uses_roxygen())
-  expect_true(usethis:::uses_roxygen())
-})
-
-test_that("uses_roxygen() returns FALSE in absence of roxygen fields", {
-  skip_if_not_installed("roxygen2")
-
-  roxy_tempdir <- withr::local_tempdir(pattern = "roxy")
-  withr::local_dir(roxy_tempdir)
-  path_null <- fs::path(roxy_tempdir, "DESCRIPTION")
-  fs::file_create(path_null)
-
-  desc::desc_set(
-    Package = "nullstyle",
-    check = TRUE,
-    file = path_null
-  )
-
-  usethis::local_project(quiet = TRUE)
-  expect_identical(desc::desc_get_field("Package"), "nullstyle")
-  expect_no_error(usethis:::uses_roxygen())
-  expect_false(usethis:::uses_roxygen())
+  # New style
+  desc3 <- desc$clone()
+  desc3$set("Config/roxygen2/version", "8.0.0")
+  desc3$write(file = file.path(path, "DESCRIPTION"))
+  expect_true(uses_roxygen())
 })
