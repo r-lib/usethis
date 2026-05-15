@@ -2,37 +2,49 @@
 
 ## usethis (development version)
 
+- [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
+  works in packages using `roxygen2` 8.0.0
+  ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by
+  [@jonthegeek](https://github.com/jonthegeek); fix by
+  [@JesseAlderliesten](https://github.com/JesseAlderliesten) in
+  [\#2234](https://github.com/r-lib/usethis/issues/2234)).
+
 - [`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
   [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
   and friends now give more informative errors if usethis can’t retrieve
   details about a remote
   ([\#1929](https://github.com/r-lib/usethis/issues/1929),
   [\#2229](https://github.com/r-lib/usethis/issues/2229)).
-- [`pr_resume()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
-  (without a specific `branch`) and
-  [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
-  (without a specific `number`) no longer error when a branch name
-  contains curly braces ([@jonthegeek](https://github.com/jonthegeek),
-  [\#2107](https://github.com/r-lib/usethis/issues/2107)).
-- [`use_claude_code()`](https://usethis.r-lib.org/dev/reference/use_claude_code.md)
-  is an experimental helper to set up Claude Code in an R package in the
-  same way as the tidyverse team
-  ([\#2195](https://github.com/r-lib/usethis/issues/2195)).
-- [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) is
-  now deprecated ([@math-mcshane](https://github.com/math-mcshane),
-  [\#2124](https://github.com/r-lib/usethis/issues/2124)).
+
 - [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   creates a starter `README.qmd` with Quarto-flavored YAML frontmatter,
   analogous to
   [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
   ([\#1671](https://github.com/r-lib/usethis/issues/1671)). Thanks
   [@VisruthSK](https://github.com/VisruthSK) for getting the ball
-  rolling!
-- [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
-  no longer includes a to-do for the deprecated
+  rolling.
+
+- [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) is
+  now deprecated ([@math-mcshane](https://github.com/math-mcshane),
+  [\#2124](https://github.com/r-lib/usethis/issues/2124)).
+
+- [`use_claude_code()`](https://usethis.r-lib.org/dev/reference/use_claude_code.md)
+  is an experimental helper to set up Claude code in an R package in the
+  same way as the tidyverse team
+  ([\#2195](https://github.com/r-lib/usethis/issues/2195)).
+
+- Removes deprecated
   [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
-  ([@edgararuiz](https://github.com/edgararuiz),
-  [\#2197](https://github.com/r-lib/usethis/issues/2197)).
+  from to-do’s from upkeep
+  ([@edgararuiz](https://github.com/edgararuiz))
+
+- [`pr_resume()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  (without a specific `branch`) and
+  [`pr_fetch()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  (without a specific `number`) no longer error when a branch name
+  contains curly braces
+  ([\#2107](https://github.com/r-lib/usethis/issues/2107),
+  [@jonthegeek](https://github.com/jonthegeek)).
 
 ## usethis 3.2.1
 
