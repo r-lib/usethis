@@ -1,11 +1,18 @@
 # usethis (development version)
 
+* `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
+
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
-* `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (@jonthegeek, #2107).
-* `use_claude_code()` is an experimental helper to set up Claude Code in an R package in the same way as the tidyverse team (#2195).
+
+* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
+
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
-* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling!
-* `use_tidy_upkeep_issue()` no longer includes a to-do for the deprecated `use_tidy_style()` (@edgararuiz, #2197).
+
+* `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
+
+* Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
+
+* `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 
 # usethis 3.2.1
 
