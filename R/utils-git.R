@@ -211,7 +211,6 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
       )
     }
 
-    cli::cli_div(theme = usethis_theme())
     cli::cli_inform(c("!" = msg))
     choice <- utils::menu(
       title = "What do you want to do?",
