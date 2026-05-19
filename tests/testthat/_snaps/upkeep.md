@@ -9,7 +9,7 @@
       
       ### Pre-history
       
-      * [ ] `usethis::use_readme_rmd()`
+      * [ ] `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`
       * [ ] `usethis::use_roxygen_md()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
@@ -122,7 +122,7 @@
     Code
       writeLines(upkeep_checklist())
     Output
-      * [ ] `usethis::use_readme_rmd()`
+      * [ ] `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_tidy_description()`
@@ -144,7 +144,7 @@
     Code
       writeLines(checklist)
     Output
-      * [ ] `usethis::use_readme_rmd()`
+      * [ ] `usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_tidy_description()`

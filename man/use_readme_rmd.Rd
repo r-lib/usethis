@@ -2,10 +2,13 @@
 % Please edit documentation in R/readme.R
 \name{use_readme_rmd}
 \alias{use_readme_rmd}
+\alias{use_readme_qmd}
 \alias{use_readme_md}
 \title{Create README files}
 \usage{
 use_readme_rmd(open = rlang::is_interactive())
+
+use_readme_qmd(open = rlang::is_interactive())
 
 use_readme_md(open = rlang::is_interactive())
 }
@@ -21,26 +24,30 @@ Creates skeleton README files with possible stubs for
 \item a basic example
 }
 
-Use \code{Rmd} if you want a rich intermingling of code and output. Use \code{md} for a
-basic README. \code{README.Rmd} will be automatically added to \code{.Rbuildignore}.
-The resulting README is populated with default YAML frontmatter and R fenced
-code blocks (\code{md}) or chunks (\code{Rmd}).
+Use \code{qmd} or \code{Rmd} if you want a rich intermingling of code and output.
+Use \code{md} for a basic README. \code{README.qmd} and \code{README.Rmd} will be
+automatically added to \code{.Rbuildignore}. The resulting README is populated
+with default YAML frontmatter and R fenced code blocks (\code{md}) or
+chunks (\code{qmd}, \code{Rmd}).
 
-If you use \code{Rmd}, you'll still need to render it regularly, to keep
-\code{README.md} up-to-date. \code{devtools::build_readme()} is handy for this. You
-could also use GitHub Actions to re-render \code{README.Rmd} every time you push.
-An example workflow can be found in the \verb{examples/} directory here:
+If you use \code{qmd} or \code{Rmd}, you'll still need to render it regularly, to
+keep \code{README.md} up-to-date. \code{devtools::build_readme()} is handy for
+this. You could also use GitHub Actions to re-render \code{README.qmd} or
+\code{README.Rmd} every time you push. An example workflow can be found in
+the \verb{examples/} directory here:
 \url{https://github.com/r-lib/actions/}.
 
-If the current project is a Git repo, then \code{use_readme_rmd()} automatically
-configures a pre-commit hook that helps keep \code{README.Rmd} and \code{README.md},
-synchronized. The hook creates friction if you try to commit when
-\code{README.Rmd} has been edited more recently than \code{README.md}. If this hook
-causes more problems than it solves for you, it is implemented in
+If the current project is a Git repo, then \code{use_readme_qmd()} and
+\code{use_readme_rmd()} automatically configure a pre-commit hook that helps
+keep \code{README.md} synchronized with the source file. The hook creates
+friction if you try to commit when \code{README.qmd} or \code{README.Rmd} has
+been edited more recently than \code{README.md}. If this hook causes more
+problems than it solves for you, it is implemented in
 \code{.git/hooks/pre-commit}, which you can modify or even delete.
 }
 \examples{
 \dontrun{
+use_readme_qmd()
 use_readme_rmd()
 use_readme_md()
 }

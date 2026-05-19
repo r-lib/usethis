@@ -1,0 +1,71 @@
+---
+format:
+  gfm:
+    default-image-extension: ""
+---
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# {{{ Package }}}
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of {{{ Package }}} is to ...
+
+## Installation
+
+{{#on_github}}
+You can install the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("{{{ github_spec }}}")
+```
+{{/on_github}}
+{{^on_github}}
+You can install the development version of {{{ Package }}} like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+{{/on_github}}
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r}
+#| label: example
+library({{Package}})
+## basic example code
+```
+
+What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
+
+```{r}
+#| label: cars
+summary(cars)
+```
+
+You'll still need to render `README.qmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+
+You can also embed plots, for example:
+
+```{r}
+#| label: pressure
+#| echo: false
+plot(pressure)
+```
+
+In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

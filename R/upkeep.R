@@ -62,7 +62,11 @@ upkeep_checklist <- function(target_repo = NULL) {
   has_github_links <- has_github_links(target_repo)
 
   bullets <- c(
-    todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
+    todo(
+      "`usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`",
+      !file_exists(proj_path("README.Rmd")) &&
+        !file_exists(proj_path("README.qmd"))
+    ),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
@@ -161,7 +165,7 @@ tidy_upkeep_checklist <- function(
       bullets,
       "### Pre-history",
       "",
-      todo("`usethis::use_readme_rmd()`"),
+      todo("`usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`"),
       todo("`usethis::use_roxygen_md()`"),
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),

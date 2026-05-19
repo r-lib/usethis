@@ -134,6 +134,9 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
     return(invisible())
   }
 
+  rstudio_git_tickle()
+  withr::defer(rstudio_git_tickle())
+
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
     repo <- git_repo()
@@ -185,7 +188,11 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
+challenge_uncommitted_changes <- function(
+  untracked = FALSE,
+  msg = NULL,
+  error_call = caller_env()
+) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -196,20 +203,58 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
 
   default_msg <- "
     There are uncommitted changes, which may cause problems or be lost when \\
-    we push, pull, switch, or compare branches"
+    we push, pull, switch, or compare branches."
   msg <- glue(msg %||% default_msg)
-  if (git_uncommitted(untracked = untracked)) {
-    if (
-      ui_yep(c(
-        "!" = msg,
-        " " = "Do you want to proceed anyway?"
-      ))
-    ) {
+
+  while (git_uncommitted(untracked = untracked)) {
+    if (!is_interactive()) {
+      ui_abort(
+        "
+        There are uncommitted changes.
+        Please commit or stash before continuing.",
+        call = error_call
+      )
+    }
+
+    cli::cli_inform(c("!" = msg))
+    choice <- utils::menu(
+      title = "What do you want to do?",
+      choices = c(
+        "Cancel",
+        "Try again",
+        "Stash changes, re-try, then pop",
+        "Proceed anyway"
+      )
+    )
+
+    if (choice == 0 || choice == 1) {
+      ui_abort("Cancelling.", call = error_call)
+    } else if (choice == 2) {
+      # Loop will re-check git_uncommitted()
+    } else if (choice == 3) {
+      gert::git_stash_save(include_untracked = untracked, repo = git_repo())
+      ui_bullets(c("v" = "Changes stashed."))
+      withr::defer(git_stash_pop(), envir = parent.frame())
       return(invisible())
-    } else {
-      ui_abort("Uncommitted changes. Please commit before continuing.")
+    } else if (choice == 4) {
+      return(invisible())
     }
   }
+}
+
+git_stash_pop <- function() {
+  tryCatch(
+    {
+      gert::git_stash_pop(repo = git_repo())
+      ui_bullets(c("v" = "Stashed changes re-applied."))
+    },
+    error = function(e) {
+      ui_bullets(c(
+        "!" = "Could not re-apply stashed changes automatically.",
+        "i" = "Use {.run gert::git_stash_pop()} to manually re-apply."
+      ))
+    }
+  )
 }
 
 git_conflict_report <- function() {

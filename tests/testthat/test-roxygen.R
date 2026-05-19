@@ -31,3 +31,27 @@ test_that("use_roxygen_md() finds 'markdown = TRUE' in presence of other stuff",
   expect_no_error(use_roxygen_md())
   expect_true(uses_roxygen_md())
 })
+
+test_that("uses_roxygen() recognizes Roxygen fields", {
+  skip_if_not_installed("roxygen2")
+
+  path <- withr::local_tempdir(pattern = "roxy")
+  desc <- desc::description$new("!new")
+  desc$write(file = path(path, "DESCRIPTION"))
+  local_project(path)
+
+  # Default
+  expect_false(uses_roxygen())
+
+  # Old style
+  desc2 <- desc$clone()
+  desc2$set("RoxygenNote", "7.3.3")
+  desc2$write(file = path(path, "DESCRIPTION"))
+  expect_true(uses_roxygen())
+
+  # New style
+  desc3 <- desc$clone()
+  desc3$set("Config/roxygen2/version", "8.0.0")
+  desc3$write(file = path(path, "DESCRIPTION"))
+  expect_true(uses_roxygen())
+})

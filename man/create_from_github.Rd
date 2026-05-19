@@ -50,7 +50,7 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 \code{.Rproj} file).}
 
 \item{install_dependencies}{Install package dependencies? Defaults to \code{TRUE},
-so that you can immediately work with the package.}
+so that you can immediately do development work on the package.}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
