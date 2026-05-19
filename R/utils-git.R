@@ -216,7 +216,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     choice <- utils::menu(
       title = "What do you want to do?",
       choices = c(
-        "Abort",
+        "Cancel",
         "Try again",
         "Stash changes, re-try, then pop",
         "Proceed anyway"
@@ -224,7 +224,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     )
 
     if (choice == 0 || choice == 1) {
-      ui_abort("Uncommitted changes. Aborting.")
+      ui_abort("Cancelling.")
     } else if (choice == 2) {
       # Loop will re-check git_uncommitted()
     } else if (choice == 3) {
