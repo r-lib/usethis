@@ -9,6 +9,8 @@ pull request with
 [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
 one of several [functions for working with pull
 requests](https://usethis.r-lib.org/dev/reference/pull-requests.md).
+Finally, it installs the dependencies of the package, so you're set up
+to immediately start working on it.
 
 `create_from_github()` works best when your GitHub credentials are
 discoverable. See below for more about authentication.
@@ -21,6 +23,7 @@ create_from_github(
   destdir = NULL,
   fork = NA,
   rstudio = NULL,
+  install_dependencies = TRUE,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
   host = NULL
@@ -73,6 +76,11 @@ create_from_github(
   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise (but note
   that the cloned repo may already be an RStudio Project, i.e. may
   already have a `.Rproj` file).
+
+- install_dependencies:
+
+  Install package dependencies? Defaults to `TRUE`, so that you can
+  immediately do development work on the package.
 
 - open:
 

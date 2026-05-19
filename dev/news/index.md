@@ -2,6 +2,12 @@
 
 ## usethis (development version)
 
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  now installs package dependencies by default, so you’re set up to
+  immediately start working on the package. Use
+  `install_dependencies = FALSE` to suppress
+  ([\#2186](https://github.com/r-lib/usethis/issues/2186)).
+
 - [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
   works in packages using `roxygen2` 8.0.0
   ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by

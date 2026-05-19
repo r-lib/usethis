@@ -4,14 +4,16 @@ either cloning or
 fork-and-cloning.
 In the fork-and-clone case, create_from_github() also does additional
 remote and branch setup, leaving you in the perfect position to make a pull
-request with pr_init(), one of several functions for working with pull requests.
+request with pr_init(), one of several functions for working with pull requests. Finally, it installs the dependencies of the
+package, so you're set up to immediately start working on it.
 create_from_github() works best when your GitHub credentials are
 discoverable. See below for more about authentication."><meta property="og:description" content="Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
 fork-and-cloning.
 In the fork-and-clone case, create_from_github() also does additional
 remote and branch setup, leaving you in the perfect position to make a pull
-request with pr_init(), one of several functions for working with pull requests.
+request with pr_init(), one of several functions for working with pull requests. Finally, it installs the dependencies of the
+package, so you're set up to immediately start working on it.
 create_from_github() works best when your GitHub credentials are
 discoverable. See below for more about authentication."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><meta name="robots" content="noindex"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-UPyXHAePcJ3LJp_xWm8Ym.js"></script><script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
@@ -77,7 +79,8 @@ either cloning or
 <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo" class="external-link">fork-and-cloning</a>.
 In the fork-and-clone case, <code>create_from_github()</code> also does additional
 remote and branch setup, leaving you in the perfect position to make a pull
-request with <code><a href="pull-requests.html">pr_init()</a></code>, one of several <a href="pull-requests.html">functions for working with pull requests</a>.</p>
+request with <code><a href="pull-requests.html">pr_init()</a></code>, one of several <a href="pull-requests.html">functions for working with pull requests</a>. Finally, it installs the dependencies of the
+package, so you're set up to immediately start working on it.</p>
 <p><code>create_from_github()</code> works best when your GitHub credentials are
 discoverable. See below for more about authentication.</p>
     </div>
@@ -89,6 +92,7 @@ discoverable. See below for more about authentication.</p>
 <span>  destdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fork <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  rstudio <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  install_dependencies <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  protocol <span class="op">=</span> <span class="fu"><a href="git_protocol.html">git_protocol</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  host <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -132,6 +136,11 @@ Defaults to <code>TRUE</code> if in an RStudio session and project has no
 pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise (but note that
 the cloned repo may already be an RStudio Project, i.e. may already have a
 <code>.Rproj</code> file).</p></dd>
+
+
+<dt id="arg-install-dependencies">install_dependencies<a class="anchor" aria-label="anchor" href="#arg-install-dependencies"></a></dt>
+<dd><p>Install package dependencies? Defaults to <code>TRUE</code>,
+so that you can immediately do development work on the package.</p></dd>
 
 
 <dt id="arg-open">open<a class="anchor" aria-label="anchor" href="#arg-open"></a></dt>
