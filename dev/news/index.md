@@ -24,6 +24,13 @@
   [@VisruthSK](https://github.com/VisruthSK) for getting the ball
   rolling.
 
+- Functions that check for uncommitted changes (like
+  [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md))
+  now offer a menu with four options: stash changes (and re-apply
+  after), cancel, retry, or proceed anyway. Previously, the only options
+  were to proceed or cancel
+  ([\#1300](https://github.com/r-lib/usethis/issues/1300)).
+
 - [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) is
   now deprecated ([@math-mcshane](https://github.com/math-mcshane),
   [\#2124](https://github.com/r-lib/usethis/issues/2124)).
