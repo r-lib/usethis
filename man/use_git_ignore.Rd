@@ -15,9 +15,9 @@ use_git_ignore(ignores, directory = ".")
 Tell Git to ignore files
 }
 \seealso{
-Other git helpers: 
-\code{\link{use_git}()},
-\code{\link{use_git_config}()},
-\code{\link{use_git_hook}()}
+Other git helpers:
+\code{\link[=use_git]{use_git()}},
+\code{\link[=use_git_config]{use_git_config()}},
+\code{\link[=use_git_hook]{use_git_hook()}}
 }
 \concept{git helpers}

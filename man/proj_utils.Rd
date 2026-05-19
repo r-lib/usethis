@@ -127,7 +127,7 @@ with_project("path/to/some/other/project", print(proj_sitrep()))
 }
 }
 \seealso{
-Other project functions: 
-\code{\link{proj_sitrep}()}
+Other project functions:
+\code{\link[=proj_sitrep]{proj_sitrep()}}
 }
 \concept{project functions}
