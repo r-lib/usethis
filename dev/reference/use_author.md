@@ -45,33 +45,8 @@ use_author(given = NULL, family = NULL, ..., role = "ctb")
 
 - ...:
 
-  Arguments passed on to
-  [`utils::person`](https://rdrr.io/r/utils/person.html)
-
-  `middle`
-
-  :   a character string with the collapsed middle name(s). Deprecated,
-      see **Details**.
-
-  `email`
-
-  :   a character string (or vector) giving an e-mail address (each), or
-      a list thereof.
-
-  `comment`
-
-  :   a character string (or vector) providing comments, or a list
-      thereof.
-
-  `first`
-
-  :   a character string giving the first name. Deprecated, see
-      **Details**.
-
-  `last`
-
-  :   a character string giving the last name. Deprecated, see
-      **Details**.
+  Additional parameters to pass along to
+  [`utils::person()`](https://rdrr.io/r/utils/person.html)
 
 - role:
 
