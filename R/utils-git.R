@@ -188,7 +188,11 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
+challenge_uncommitted_changes <- function(
+  untracked = FALSE,
+  msg = NULL,
+  error_call = caller_env()
+) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -207,7 +211,8 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
       ui_abort(
         "
         There are uncommitted changes.
-        Please commit or stash before continuing."
+        Please commit or stash before continuing.",
+        call = error_call
       )
     }
 
@@ -223,7 +228,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     )
 
     if (choice == 0 || choice == 1) {
-      ui_abort("Cancelling.")
+      ui_abort("Cancelling.", call = error_call)
     } else if (choice == 2) {
       # Loop will re-check git_uncommitted()
     } else if (choice == 3) {
