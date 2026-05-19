@@ -239,7 +239,7 @@ create_quarto_project <- function(
 #'   the cloned repo may already be an RStudio Project, i.e. may already have a
 #'   `.Rproj` file).
 #' @param install_dependencies Install package dependencies? Defaults to `TRUE`,
-#'   so that you can immediately work with the package.
+#'   so that you can immediately do development work on the package.
 #' @inheritParams use_github
 #'
 #' @export
