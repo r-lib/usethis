@@ -28,3 +28,4 @@
 ^[.]?air[.]toml$
 ^scratch\.R$
 ^\.claude$
+^\.positai$
