@@ -392,7 +392,7 @@ create_from_github <- function(
     )
   }
 
-  if (install_dependencies) {
+  if (install_dependencies && is_package()) {
     ui_bullets(c("v" = "Installing missing dependencies."))
     pak::local_install_dev_deps(repo_path, upgrade = FALSE)
   }
