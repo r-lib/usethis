@@ -400,7 +400,7 @@ Here is the `title` and `aria-label` of the badge above:
 
 inspect_badge("https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg")
 #> $title
-#> [1] "R-CMD-check.yaml - passing"
+#> [1] "R-CMD-check.yaml - failing"
 #> 
 #> $`aria-label`
 #> NULL
