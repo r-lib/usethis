@@ -17,7 +17,7 @@ use_c(name = NULL)
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
-\code{NULL} to take the name from the currently open file in RStudio.}
+\code{NULL} to take the name from the currently open file in RStudio/Positron.}
 }
 \description{
 Adds infrastructure commonly needed when using compiled code:
