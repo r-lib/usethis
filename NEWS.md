@@ -10,6 +10,8 @@
 
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
 
+* `use_code_of_conduct()` has been updated to version 3.0 of the Contributor Covenant.
+
 * `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
 
 * Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
