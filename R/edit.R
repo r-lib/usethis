@@ -120,6 +120,7 @@ edit_r_profile <- function(scope = c("user", "project")) {
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+  challenge_renviron_precedence(path)
   edit_file(path)
   ui_bullets(c("_" = "Restart R for changes to take effect."))
   invisible(path)
@@ -264,5 +265,23 @@ edit_pkgdown_config <- function() {
     ui_bullets(c("x" = "No pkgdown config file found in current Project."))
   } else {
     invisible(edit_file(path))
+  }
+}
+
+
+challenge_renviron_precedence <- function(path) {
+  print(path)
+  if (!is.null(proj_find())) {
+    #checking for project specific .Renviron
+    if (file_exists(path(proj_find(), ".Renviron"))) {
+      ui_bullets(c(
+        "!" = "project-level .Renviron detected."
+      ))
+      if (ui_nah("Do you want to edit user level .Renviron?")) {
+        ui_abort(
+          "Use `edit_r_environ(scope = \"project\")` to  edit project-level .Renviron."
+        )
+      }
+    }
   }
 }
