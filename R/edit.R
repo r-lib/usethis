@@ -361,19 +361,27 @@ edit_pkgdown_config <- function() {
 }
 
 renviron_quote <- function(value) {
-  if (endsWith(value, "\\")) {
-    ui_abort(c(
-      "{.arg value} ends with a backslash, which cannot be encoded in
-      {.file .Renviron}.",
-      "i" = "Remove the trailing backslash."
-    ))
-  }
   if (grepl("\\$\\{", value)) {
     ui_abort(c(
       "{.arg value} contains {.code ${{VAR}}}, which {.file .Renviron}
       expands on re-read and cannot be stored literally.",
       "i" = "Use a plain value without variable references."
     ))
+  }
+  if (endsWith(value, "\\")) {
+    # Double-quoted form can't represent a trailing backslash (it would
+    # escape the closing "). Fall back to unquoted form, which uses \x->x
+    # escaping, but strips leading/trailing whitespace.
+    if (!identical(value, trimws(value))) {
+      ui_abort(c(
+        "{.arg value} ends with a backslash and has surrounding whitespace,
+        which cannot be encoded in {.file .Renviron}.",
+        "i" = "Remove the backslash or the surrounding whitespace."
+      ))
+    }
+    value <- gsub("\\", "\\\\", value, fixed = TRUE) # \ -> \\
+    value <- gsub('"', '\\"', value, fixed = TRUE) # " -> \"
+    return(value)
   }
   value <- gsub('"', '\\"', value, fixed = TRUE)
   paste0('"', value, '"')

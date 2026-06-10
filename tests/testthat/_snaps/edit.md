@@ -54,14 +54,14 @@
       x `value` must not contain newline characters.
       i .Renviron does not support multi-line values.
 
-# use_env_var() rejects value ending with backslash
+# use_env_var() rejects trailing-backslash value with surrounding whitespace
 
     Code
-      use_env_var("MY_KEY", value = "trailing\\")
+      use_env_var("MY_KEY", value = "  trailing\\")
     Condition
       Error in `renviron_quote()`:
-      x `value` ends with a backslash, which cannot be encoded in '.Renviron'.
-      i Remove the trailing backslash.
+      x `value` ends with a backslash and has surrounding whitespace, which cannot be encoded in '.Renviron'.
+      i Remove the backslash or the surrounding whitespace.
 
 # use_env_var() rejects values containing ${...}
 

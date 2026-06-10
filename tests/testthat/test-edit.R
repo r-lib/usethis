@@ -254,8 +254,23 @@ test_that("use_env_var() round-trips values through .Renviron correctly", {
   }
 })
 
-test_that("use_env_var() rejects value ending with backslash", {
-  expect_snapshot(use_env_var("MY_KEY", value = "trailing\\"), error = TRUE)
+test_that("use_env_var() writes trailing-backslash values using unquoted encoding", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, MY_PATH = NA))
+
+  use_env_var("MY_PATH", value = "C:\\Users\\garrick\\", scope = "user")
+
+  expect_equal(readLines(tmp), "MY_PATH=C:\\\\Users\\\\garrick\\\\")
+  Sys.unsetenv("MY_PATH")
+  readRenviron(tmp)
+  expect_equal(Sys.getenv("MY_PATH"), "C:\\Users\\garrick\\")
+})
+
+test_that("use_env_var() rejects trailing-backslash value with surrounding whitespace", {
+  expect_snapshot(
+    use_env_var("MY_KEY", value = "  trailing\\"),
+    error = TRUE
+  )
 })
 
 test_that("use_env_var() rejects values containing ${...}", {
