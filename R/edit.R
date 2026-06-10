@@ -212,7 +212,8 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
 
   ui_bullets(c(
     "v" = "Added {.envvar {name}} to {.file {pth(path)}}.",
-    "_" = "Restart R for changes to take effect in new sessions."
+    "i" = "{.envvar {name}} is now set in the current session.",
+    "_" = "Restart R for {.envvar {name}} to be set in new sessions."
   ))
 
   invisible(path)
