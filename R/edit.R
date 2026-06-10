@@ -164,6 +164,24 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
   }
 
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+  lines <- if (file_exists(path)) read_utf8(path) else character()
+  existing_idx <- grep(paste0("^\\s*", name, "\\s*="), lines)
+
+  if (length(existing_idx) > 0) {
+    ui_bullets(c(
+      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
+    ))
+    overwrite <- if (getOption("usethis.overwrite", FALSE)) {
+      TRUE
+    } else if (is_interactive()) {
+      ui_yep("Overwrite the existing value for {.envvar {name}}?")
+    } else {
+      FALSE
+    }
+    if (!overwrite) {
+      return(invisible(path))
+    }
+  }
 
   if (is.null(value)) {
     rlang::check_installed("askpass")
@@ -180,25 +198,9 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
     ))
   }
 
-  lines <- if (file_exists(path)) read_utf8(path) else character()
-
-  existing_idx <- grep(paste0("^\\s*", name, "\\s*="), lines)
   new_line <- paste0(name, "=", renviron_quote(value))
 
   if (length(existing_idx) > 0) {
-    ui_bullets(c(
-      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
-    ))
-    overwrite <- if (getOption("usethis.overwrite", FALSE)) {
-      TRUE
-    } else if (is_interactive()) {
-      ui_yep("Overwrite the existing value for {.envvar {name}}?")
-    } else {
-      FALSE
-    }
-    if (!overwrite) {
-      return(invisible(path))
-    }
     lines[existing_idx] <- new_line
     write_utf8(path, lines)
   } else {
