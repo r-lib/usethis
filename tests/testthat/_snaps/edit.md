@@ -63,3 +63,21 @@
       x `value` ends with a backslash, which cannot be encoded in '.Renviron'.
       i Remove the trailing backslash.
 
+# use_env_var() rejects values containing ${...}
+
+    Code
+      use_env_var("MY_KEY", value = "${HOME}")
+    Condition
+      Error in `renviron_quote()`:
+      x `value` contains a variable reference (`$VAR` or `${VAR}`) that '.Renviron' expands on re-read.
+      i Use a plain value without variable references.
+
+---
+
+    Code
+      use_env_var("MY_KEY", value = "prefix_${VAR}_suffix")
+    Condition
+      Error in `renviron_quote()`:
+      x `value` contains a variable reference (`$VAR` or `${VAR}`) that '.Renviron' expands on re-read.
+      i Use a plain value without variable references.
+

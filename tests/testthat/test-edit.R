@@ -258,9 +258,27 @@ test_that("use_env_var() rejects value ending with backslash", {
   expect_snapshot(use_env_var("MY_KEY", value = "trailing\\"), error = TRUE)
 })
 
+test_that("use_env_var() rejects values containing ${...}", {
+  expect_snapshot(use_env_var("MY_KEY", value = "${HOME}"), error = TRUE)
+  expect_snapshot(use_env_var("MY_KEY", value = "prefix_${VAR}_suffix"), error = TRUE)
+})
+
 test_that("use_env_var() detects existing var written with spaces around =", {
   tmp <- withr::local_tempfile()
   writeLines("MY_KEY = old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  lines <- readLines(tmp)
+  expect_equal(length(lines), 1L)
+  expect_equal(lines, 'MY_KEY="new"')
+})
+
+test_that("use_env_var() detects existing var with leading whitespace", {
+  tmp <- withr::local_tempfile()
+  writeLines("  MY_KEY = old", tmp)
   withr::local_envvar(list(R_ENVIRON_USER = tmp))
   withr::local_options(usethis.overwrite = TRUE)
 

@@ -182,7 +182,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
 
   lines <- if (file_exists(path)) read_utf8(path) else character()
 
-  existing_idx <- grep(paste0("^", name, "\\s*="), lines)
+  existing_idx <- grep(paste0("^\\s*", name, "\\s*="), lines)
   new_line <- paste0(name, "=", renviron_quote(value))
 
   if (length(existing_idx) > 0) {
@@ -366,6 +366,13 @@ renviron_quote <- function(value) {
       "{.arg value} ends with a backslash, which cannot be encoded in
       {.file .Renviron}.",
       "i" = "Remove the trailing backslash."
+    ))
+  }
+  if (grepl("\\$\\{", value)) {
+    ui_abort(c(
+      "{.arg value} contains a variable reference ({.code $VAR} or
+      {.code ${{VAR}}}) that {.file .Renviron} expands on re-read.",
+      "i" = "Use a plain value without variable references."
     ))
   }
   value <- gsub('"', '\\"', value, fixed = TRUE)
