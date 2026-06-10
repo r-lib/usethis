@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `use_env_var()` sets an environment variable in `.Renviron`, prompting for the value securely via `askpass::askpass()` and immediately activating it in the current session via `Sys.setenv()` (#2201).
+
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
 * `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
 

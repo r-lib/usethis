@@ -175,3 +175,64 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })
+
+# use_env_var() ---------------------------------------------------------------
+
+test_that("use_env_var() rejects invalid env var names", {
+  expect_snapshot(use_env_var("bad name"), error = TRUE)
+  expect_snapshot(use_env_var("123bad"), error = TRUE)
+  expect_snapshot(use_env_var("bad-name"), error = TRUE)
+})
+
+test_that("use_env_var() writes to a new .Renviron", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, TEST_USE_ENV_VAR = NA))
+
+  use_env_var("TEST_USE_ENV_VAR", value = "hello", scope = "user")
+
+  expect_true(file_exists(tmp))
+  expect_equal(readLines(tmp), "TEST_USE_ENV_VAR=hello")
+  expect_equal(Sys.getenv("TEST_USE_ENV_VAR"), "hello")
+})
+
+test_that("use_env_var() appends to an existing .Renviron", {
+  tmp <- withr::local_tempfile()
+  writeLines("EXISTING=yes", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, NEWVAR = NA))
+
+  use_env_var("NEWVAR", value = "42", scope = "user")
+
+  expect_equal(readLines(tmp), c("EXISTING=yes", "NEWVAR=42"))
+})
+
+test_that("use_env_var() replaces existing var in-place with usethis.overwrite", {
+  tmp <- withr::local_tempfile()
+  writeLines(c("FIRST=a", "MY_KEY=old", "LAST=z"), tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, MY_KEY = NA))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  expect_equal(readLines(tmp), c("FIRST=a", "MY_KEY=new", "LAST=z"))
+  expect_equal(Sys.getenv("MY_KEY"), "new")
+})
+
+test_that("use_env_var() leaves file unchanged when overwrite is declined (non-interactive)", {
+  tmp <- withr::local_tempfile()
+  writeLines("MY_KEY=old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  expect_equal(readLines(tmp), "MY_KEY=old")
+})
+
+test_that("use_env_var() defaults to project scope in active project", {
+  create_local_project()
+
+  use_env_var("PROJ_KEY", value = "val")
+
+  expect_proj_file(".Renviron")
+  renviron <- read_utf8(proj_path(".Renviron"))
+  expect_true(any(grepl("^PROJ_KEY=val$", renviron)))
+})

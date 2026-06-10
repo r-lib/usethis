@@ -125,6 +125,93 @@ edit_r_environ <- function(scope = c("user", "project")) {
   invisible(path)
 }
 
+#' Set an environment variable in `.Renviron`
+#'
+#' Adds or updates an environment variable in `.Renviron` and immediately
+#' makes it available in the current session via [Sys.setenv()]. The
+#' `scope` defaults to `"project"` when an active project is detected,
+#' otherwise `"user"`.
+#'
+#' @param name Name of the environment variable. Must contain only letters,
+#'   digits, and underscores, and must start with a letter or underscore.
+#' @param value Value to set. If `NULL` (the default), you are prompted to
+#'   enter the value securely using [askpass::askpass()].
+#' @param scope Edit globally for the current **user** (`"user"`), or locally
+#'   for the current **project** (`"project"`). Defaults to `"project"` when
+#'   an active project is detected, otherwise `"user"`.
+#'
+#' @return Path to the `.Renviron` file, invisibly.
+#' @export
+#' @examples
+#' \dontrun{
+#' use_env_var("OPENAI_API_KEY")
+#' }
+use_env_var <- function(name, value = NULL, scope = NULL) {
+  check_string(name)
+  if (!grepl("^[A-Za-z_][A-Za-z0-9_]*$", name)) {
+    ui_abort(c(
+      "{.arg name} must be a valid environment variable name.",
+      "x" = "{.val {name}} contains invalid characters.",
+      "i" = "Valid names start with a letter or underscore and contain only
+             letters, digits, and underscores."
+    ))
+  }
+
+  if (is.null(scope)) {
+    scope <- if (proj_active()) "project" else "user"
+  } else {
+    scope <- match.arg(scope, c("user", "project"))
+  }
+
+  path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+
+  if (is.null(value)) {
+    rlang::check_installed("askpass")
+    value <- askpass::askpass(paste0("Enter value for ", name))
+    if (is.null(value)) {
+      ui_abort("No value provided for {.envvar {name}}.")
+    }
+  }
+  check_string(value)
+
+  lines <- if (file_exists(path)) read_utf8(path) else character()
+
+  existing_idx <- grep(paste0("^", name, "="), lines)
+  new_line <- paste0(name, "=", value)
+
+  if (length(existing_idx) > 0) {
+    ui_bullets(c(
+      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
+    ))
+    overwrite <- if (getOption("usethis.overwrite", FALSE)) {
+      TRUE
+    } else if (is_interactive()) {
+      ui_yep("Overwrite the existing value for {.envvar {name}}?")
+    } else {
+      FALSE
+    }
+    if (!overwrite) {
+      return(invisible(path))
+    }
+    lines[existing_idx] <- new_line
+    write_utf8(path, lines)
+  } else {
+    create_directory(path_dir(path))
+    write_utf8(path, c(lines, new_line))
+  }
+
+  args <- list(value)
+  names(args) <- name
+  do.call(Sys.setenv, args)
+
+  ui_bullets(c(
+    "v" = "Added {.envvar {name}} to {.file {pth(path)}}.",
+    "_" = "Restart R for changes to take effect in new sessions."
+  ))
+
+  invisible(path)
+}
+
 #' @export
 #' @rdname edit
 edit_r_buildignore <- function() {

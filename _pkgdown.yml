@@ -120,6 +120,7 @@ reference:
   - use_usethis
   - use_reprex
   - use_conflicted
+  - use_env_var
   - matches("edit_r")
 - title: Git and GitHub
   contents:

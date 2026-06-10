@@ -44,6 +44,7 @@ Imports:
     withr (>= 2.3.0),
     yaml
 Suggests:
+    askpass,
     covr,
     knitr,
     magick,
