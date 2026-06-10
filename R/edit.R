@@ -373,7 +373,7 @@ renviron_quote <- function(value) {
     # escaping, but strips leading/trailing whitespace.
     if (!identical(value, trimws(value))) {
       ui_abort(c(
-        "{.arg value} ends with a backslash and has surrounding whitespace which cannot be encoded in {.file .Renviron}.",
+        "{.arg value} ends with a backslash and has surrounding whitespace, which cannot be encoded in {.file .Renviron}.",
         "i" = "Remove the backslash or the surrounding whitespace."
       ))
     }
