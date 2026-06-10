@@ -215,8 +215,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
   verb <- if (length(existing_idx) > 0) "Updated" else "Added"
   ui_bullets(c(
     "v" = "{verb} {.envvar {name}} in {.file {pth(path)}}.",
-    "i" = "{.envvar {name}} is now set in the current session.",
-    "_" = "Restart R for {.envvar {name}} to be set in new sessions."
+    "i" = "{.envvar {name}} is now set in the current session."
   ))
 
   invisible(path)
