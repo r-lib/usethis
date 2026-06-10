@@ -244,8 +244,7 @@ test_that("use_env_var() round-trips values through .Renviron correctly", {
     'slash\\"quote'
   )
   for (v in tricky_values) {
-    tmp <- tempfile()
-    withr::defer(unlink(tmp))
+    tmp <- withr::local_tempfile()
     withr::local_envvar(list(R_ENVIRON_USER = tmp))
     use_env_var("ROUNDTRIP_KEY", value = v, scope = "user")
     Sys.unsetenv("ROUNDTRIP_KEY")
