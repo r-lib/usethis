@@ -370,8 +370,8 @@ renviron_quote <- function(value) {
   }
   if (grepl("\\$\\{", value)) {
     ui_abort(c(
-      "{.arg value} contains a variable reference ({.code $VAR} or
-      {.code ${{VAR}}}) that {.file .Renviron} expands on re-read.",
+      "{.arg value} contains {.code ${{VAR}}}, which {.file .Renviron}
+      expands on re-read and cannot be stored literally.",
       "i" = "Use a plain value without variable references."
     ))
   }

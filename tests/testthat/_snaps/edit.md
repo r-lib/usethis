@@ -69,7 +69,7 @@
       use_env_var("MY_KEY", value = "${HOME}")
     Condition
       Error in `renviron_quote()`:
-      x `value` contains a variable reference (`$VAR` or `${VAR}`) that '.Renviron' expands on re-read.
+      x `value` contains `${VAR}`, which '.Renviron' expands on re-read and cannot be stored literally.
       i Use a plain value without variable references.
 
 ---
@@ -78,6 +78,6 @@
       use_env_var("MY_KEY", value = "prefix_${VAR}_suffix")
     Condition
       Error in `renviron_quote()`:
-      x `value` contains a variable reference (`$VAR` or `${VAR}`) that '.Renviron' expands on re-read.
+      x `value` contains `${VAR}`, which '.Renviron' expands on re-read and cannot be stored literally.
       i Use a plain value without variable references.
 
