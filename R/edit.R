@@ -183,7 +183,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
   lines <- if (file_exists(path)) read_utf8(path) else character()
 
   existing_idx <- grep(paste0("^", name, "="), lines)
-  new_line <- paste0(name, "=", value)
+  new_line <- paste0(name, "=", renviron_quote(value))
 
   if (length(existing_idx) > 0) {
     ui_bullets(c(
@@ -358,4 +358,10 @@ edit_pkgdown_config <- function() {
   } else {
     invisible(edit_file(path))
   }
+}
+
+renviron_quote <- function(value) {
+  value <- gsub("\\\\", "\\\\\\\\", value, fixed = FALSE)
+  value <- gsub('"', '\\\\"', value, fixed = TRUE)
+  paste0('"', value, '"')
 }

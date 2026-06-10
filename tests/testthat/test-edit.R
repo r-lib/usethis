@@ -196,7 +196,7 @@ test_that("use_env_var() writes to a new .Renviron", {
   use_env_var("TEST_USE_ENV_VAR", value = "hello", scope = "user")
 
   expect_true(file_exists(tmp))
-  expect_equal(readLines(tmp), "TEST_USE_ENV_VAR=hello")
+  expect_equal(readLines(tmp), 'TEST_USE_ENV_VAR="hello"')
   expect_equal(Sys.getenv("TEST_USE_ENV_VAR"), "hello")
 })
 
@@ -207,7 +207,7 @@ test_that("use_env_var() appends to an existing .Renviron", {
 
   use_env_var("NEWVAR", value = "42", scope = "user")
 
-  expect_equal(readLines(tmp), c("EXISTING=yes", "NEWVAR=42"))
+  expect_equal(readLines(tmp), c("EXISTING=yes", 'NEWVAR="42"'))
 })
 
 test_that("use_env_var() replaces existing var in-place with usethis.overwrite", {
@@ -218,7 +218,7 @@ test_that("use_env_var() replaces existing var in-place with usethis.overwrite",
 
   use_env_var("MY_KEY", value = "new", scope = "user")
 
-  expect_equal(readLines(tmp), c("FIRST=a", "MY_KEY=new", "LAST=z"))
+  expect_equal(readLines(tmp), c("FIRST=a", 'MY_KEY="new"', "LAST=z"))
   expect_equal(Sys.getenv("MY_KEY"), "new")
 })
 
@@ -232,6 +232,16 @@ test_that("use_env_var() leaves file unchanged when overwrite is declined (non-i
   expect_equal(readLines(tmp), "MY_KEY=old")
 })
 
+test_that("use_env_var() round-trips values through .Renviron correctly", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, ROUNDTRIP_KEY = NA))
+
+  use_env_var("ROUNDTRIP_KEY", value = "  spaces  ", scope = "user")
+  Sys.unsetenv("ROUNDTRIP_KEY")
+  readRenviron(tmp)
+  expect_equal(Sys.getenv("ROUNDTRIP_KEY"), "  spaces  ")
+})
+
 test_that("use_env_var() defaults to project scope in active project", {
   create_local_project()
 
@@ -239,5 +249,5 @@ test_that("use_env_var() defaults to project scope in active project", {
 
   expect_proj_file(".Renviron")
   renviron <- read_utf8(proj_path(".Renviron"))
-  expect_true(any(grepl("^PROJ_KEY=val$", renviron)))
+  expect_true(any(grepl('^PROJ_KEY="val"$', renviron)))
 })
