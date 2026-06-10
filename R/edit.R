@@ -173,6 +173,12 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
     }
   }
   check_string(value)
+  if (grepl("[\n\r]", value)) {
+    ui_abort(c(
+      "{.arg value} must not contain newline characters.",
+      "i" = ".Renviron does not support multi-line values."
+    ))
+  }
 
   lines <- if (file_exists(path)) read_utf8(path) else character()
 

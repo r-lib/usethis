@@ -36,3 +36,21 @@
       x "bad-name" contains invalid characters.
       i Valid names start with a letter or underscore and contain only letters, digits, and underscores.
 
+# use_env_var() rejects values with newlines
+
+    Code
+      use_env_var("MY_KEY", value = "abc\ndef")
+    Condition
+      Error in `use_env_var()`:
+      x `value` must not contain newline characters.
+      i .Renviron does not support multi-line values.
+
+---
+
+    Code
+      use_env_var("MY_KEY", value = "abc\rdef")
+    Condition
+      Error in `use_env_var()`:
+      x `value` must not contain newline characters.
+      i .Renviron does not support multi-line values.
+

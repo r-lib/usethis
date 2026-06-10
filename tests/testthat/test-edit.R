@@ -184,6 +184,11 @@ test_that("use_env_var() rejects invalid env var names", {
   expect_snapshot(use_env_var("bad-name"), error = TRUE)
 })
 
+test_that("use_env_var() rejects values with newlines", {
+  expect_snapshot(use_env_var("MY_KEY", value = "abc\ndef"), error = TRUE)
+  expect_snapshot(use_env_var("MY_KEY", value = "abc\rdef"), error = TRUE)
+})
+
 test_that("use_env_var() writes to a new .Renviron", {
   tmp <- withr::local_tempfile()
   withr::local_envvar(list(R_ENVIRON_USER = tmp, TEST_USE_ENV_VAR = NA))
