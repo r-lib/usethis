@@ -158,7 +158,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
   }
 
   if (is.null(scope)) {
-    scope <- if (proj_active()) "project" else "user"
+    scope <- if (possibly_in_proj()) "project" else "user"
   } else {
     scope <- match.arg(scope, c("user", "project"))
   }
