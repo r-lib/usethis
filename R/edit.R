@@ -363,8 +363,7 @@ edit_pkgdown_config <- function() {
 renviron_quote <- function(value) {
   if (grepl("\\$\\{", value)) {
     ui_abort(c(
-      "{.arg value} contains {.code ${{VAR}}}, which {.file .Renviron}
-      expands on re-read and cannot be stored literally.",
+      "{.arg value} contains {.code ${{VAR}}}, which {.file .Renviron} expands on re-read and cannot be stored literally.",
       "i" = "Use a plain value without variable references."
     ))
   }
@@ -374,8 +373,7 @@ renviron_quote <- function(value) {
     # escaping, but strips leading/trailing whitespace.
     if (!identical(value, trimws(value))) {
       ui_abort(c(
-        "{.arg value} ends with a backslash and has surrounding whitespace,
-        which cannot be encoded in {.file .Renviron}.",
+        "{.arg value} ends with a backslash and has surrounding whitespace which cannot be encoded in {.file .Renviron}.",
         "i" = "Remove the backslash or the surrounding whitespace."
       ))
     }

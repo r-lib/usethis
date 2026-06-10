@@ -275,7 +275,10 @@ test_that("use_env_var() rejects trailing-backslash value with surrounding white
 
 test_that("use_env_var() rejects values containing ${...}", {
   expect_snapshot(use_env_var("MY_KEY", value = "${HOME}"), error = TRUE)
-  expect_snapshot(use_env_var("MY_KEY", value = "prefix_${VAR}_suffix"), error = TRUE)
+  expect_snapshot(
+    use_env_var("MY_KEY", value = "prefix_${VAR}_suffix"),
+    error = TRUE
+  )
 })
 
 test_that("use_env_var() detects existing var written with spaces around =", {
