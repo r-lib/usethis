@@ -182,7 +182,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
 
   lines <- if (file_exists(path)) read_utf8(path) else character()
 
-  existing_idx <- grep(paste0("^", name, "="), lines)
+  existing_idx <- grep(paste0("^", name, "\\s*="), lines)
   new_line <- paste0(name, "=", renviron_quote(value))
 
   if (length(existing_idx) > 0) {
@@ -361,7 +361,13 @@ edit_pkgdown_config <- function() {
 }
 
 renviron_quote <- function(value) {
-  value <- gsub("\\\\", "\\\\\\\\", value, fixed = FALSE)
-  value <- gsub('"', '\\\\"', value, fixed = TRUE)
+  if (endsWith(value, "\\")) {
+    ui_abort(c(
+      "{.arg value} ends with a backslash, which cannot be encoded in
+      {.file .Renviron}.",
+      "i" = "Remove the trailing backslash."
+    ))
+  }
+  value <- gsub('"', '\\"', value, fixed = TRUE)
   paste0('"', value, '"')
 }

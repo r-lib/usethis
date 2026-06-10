@@ -233,13 +233,42 @@ test_that("use_env_var() leaves file unchanged when overwrite is declined (non-i
 })
 
 test_that("use_env_var() round-trips values through .Renviron correctly", {
-  tmp <- withr::local_tempfile()
-  withr::local_envvar(list(R_ENVIRON_USER = tmp, ROUNDTRIP_KEY = NA))
+  withr::local_envvar(list(ROUNDTRIP_KEY = NA))
+  withr::local_options(usethis.overwrite = TRUE)
 
-  use_env_var("ROUNDTRIP_KEY", value = "  spaces  ", scope = "user")
-  Sys.unsetenv("ROUNDTRIP_KEY")
-  readRenviron(tmp)
-  expect_equal(Sys.getenv("ROUNDTRIP_KEY"), "  spaces  ")
+  tricky_values <- c(
+    "  spaces  ",
+    "back\\slash",
+    "C:\\Users\\garrick",
+    'has"quote',
+    'slash\\"quote'
+  )
+  for (v in tricky_values) {
+    tmp <- tempfile()
+    withr::defer(unlink(tmp))
+    withr::local_envvar(list(R_ENVIRON_USER = tmp))
+    use_env_var("ROUNDTRIP_KEY", value = v, scope = "user")
+    Sys.unsetenv("ROUNDTRIP_KEY")
+    readRenviron(tmp)
+    expect_equal(Sys.getenv("ROUNDTRIP_KEY"), v, info = paste("value:", v))
+  }
+})
+
+test_that("use_env_var() rejects value ending with backslash", {
+  expect_snapshot(use_env_var("MY_KEY", value = "trailing\\"), error = TRUE)
+})
+
+test_that("use_env_var() detects existing var written with spaces around =", {
+  tmp <- withr::local_tempfile()
+  writeLines("MY_KEY = old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  lines <- readLines(tmp)
+  expect_equal(length(lines), 1L)
+  expect_equal(lines, 'MY_KEY="new"')
 })
 
 test_that("use_env_var() defaults to project scope in active project", {
