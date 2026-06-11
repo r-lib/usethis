@@ -10,7 +10,7 @@
 
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
 
-* `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
+* `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
 
 * Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
 
