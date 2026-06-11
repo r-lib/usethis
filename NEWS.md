@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_git()` now works in a directory that is not yet a project: it treats the working directory as the project root and initialises the Git repository there (#2242).
+
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
 * `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
 
