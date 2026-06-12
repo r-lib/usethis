@@ -5,6 +5,7 @@ test_that("use_tidy_agents() creates expected files", {
 
   expect_proj_file("AGENTS.md")
   expect_proj_file(".claude", "CLAUDE.md")
+  expect_proj_file(".claude", "settings.json")
 
   expect_identical(
     read_utf8(proj_path(".claude", "CLAUDE.md")),

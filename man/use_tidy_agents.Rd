@@ -28,6 +28,8 @@ package-specific advice. If you re-run \code{use_tidy_agents()} to update
 \itemize{
 \item \code{CLAUDE.md} imports \code{AGENTS.md}, so Claude Code uses the same
 instructions as other agents.
+\item \code{settings.json} denies the agent access to sensitive files like
+\code{.Renviron} and \code{.env}.
 \item \code{.gitignore} ignores \code{settings.local.json} (for user-specific
 settings).
 }

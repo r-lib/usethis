@@ -24,6 +24,9 @@
 #'   - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
 #'     instructions as other agents.
 #'
+#'   - `settings.json` denies the agent access to sensitive files like
+#'     `.Renviron` and `.env`.
+#'
 #'   - `.gitignore` ignores `settings.local.json` (for user-specific
 #'     settings).
 #'
