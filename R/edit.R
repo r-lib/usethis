@@ -210,9 +210,7 @@ use_env_var <- function(
     write_utf8(path, c(lines, new_line))
   }
 
-  args <- list(value)
-  names(args) <- name
-  do.call(Sys.setenv, args)
+  do.call(Sys.setenv, set_names(list(value), name))
 
   verb <- if (length(existing_idx) > 0) "Updated" else "Added"
   ui_bullets(c(
