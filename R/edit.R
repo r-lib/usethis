@@ -204,7 +204,6 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
     lines[existing_idx] <- new_line
     write_utf8(path, lines)
   } else {
-    create_directory(path_dir(path))
     write_utf8(path, c(lines, new_line))
   }
 
