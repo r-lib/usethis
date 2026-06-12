@@ -18,6 +18,10 @@ as pointers to specific skills provided by \code{\link[=learn_tidy_skill]{learn_
 
 This file is read by most coding agents, including Codex, Gemini CLI,
 and Cursor.
+
+The file begins with a "This package" section for your own
+package-specific advice. If you re-run \code{use_tidy_agents()} to update
+\code{AGENTS.md}, the contents of this section are preserved.
 \item Creates a \verb{.claude/} directory to configure
 \href{https://code.claude.com}{Claude Code}, which doesn't yet read
 \code{AGENTS.md}:

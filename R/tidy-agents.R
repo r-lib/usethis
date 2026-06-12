@@ -13,6 +13,10 @@
 #'   This file is read by most coding agents, including Codex, Gemini CLI,
 #'   and Cursor.
 #'
+#'   The file begins with a "This package" section for your own
+#'   package-specific advice. If you re-run `use_tidy_agents()` to update
+#'   `AGENTS.md`, the contents of this section are preserved.
+#'
 #' - Creates a `.claude/` directory to configure
 #'   [Claude Code](https://code.claude.com), which doesn't yet read
 #'   `AGENTS.md`:
@@ -31,10 +35,12 @@
 #' use_tidy_agents()
 #' }
 use_tidy_agents <- function() {
-  write_over(
-    proj_path("AGENTS.md"),
-    read_utf8(path_package("usethis", "AGENTS.md"))
-  )
+  agents_path <- proj_path("AGENTS.md")
+  agents_lines <- read_utf8(path_package("usethis", "AGENTS.md"))
+  if (file_exists(agents_path)) {
+    agents_lines <- preserve_this_package(agents_lines, read_utf8(agents_path))
+  }
+  write_over(agents_path, agents_lines)
   use_build_ignore("AGENTS.md")
 
   use_directory(".claude", ignore = TRUE)
@@ -69,6 +75,33 @@ learn_tidy_skill <- function(name) {
 
   writeLines(read_utf8(path_package("usethis", "skills", paste0(name, ".md"))))
   invisible()
+}
+
+# Replace the "This package" section of `new` with the version found in
+# `old`, so that user-supplied advice survives an update
+preserve_this_package <- function(new, old) {
+  new_section <- find_section(new, "## This package")
+  old_section <- find_section(old, "## This package")
+  if (is.null(new_section) || is.null(old_section)) {
+    return(new)
+  }
+
+  c(
+    new[seq2(1, new_section[1] - 1)],
+    old[seq2(old_section[1], old_section[2])],
+    new[seq2(new_section[2] + 1, length(new))]
+  )
+}
+
+find_section <- function(lines, heading) {
+  start <- which(lines == heading)
+  if (length(start) != 1) {
+    return(NULL)
+  }
+
+  headings <- grep("^## ", lines)
+  end <- min(c(headings[headings > start], length(lines) + 1))
+  c(start, end - 1)
 }
 
 copy_claude_directory <- function() {
