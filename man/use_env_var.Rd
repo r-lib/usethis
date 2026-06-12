@@ -4,7 +4,12 @@
 \alias{use_env_var}
 \title{Set an environment variable in \code{.Renviron}}
 \usage{
-use_env_var(name, value = NULL, scope = c("user", "project"))
+use_env_var(
+  name,
+  value = NULL,
+  scope = c("user", "project"),
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{name}{Name of the environment variable. Must contain only letters,
@@ -16,6 +21,11 @@ enter the value securely using \code{\link[askpass:askpass]{askpass::askpass()}}
 \item{scope}{Edit globally for the current \strong{user} (\code{"user"}, the default),
 or locally for the current \strong{project} (\code{"project"}). Setting a variable in
 the user scope ensures that it is available in all future R sessions.}
+
+\item{overwrite}{If \code{TRUE}, overwrite an existing value without prompting.
+If \code{FALSE} (the default) and the variable already exists, you are asked
+interactively whether to overwrite it. In non-interactive sessions, the
+\code{usethis.overwrite} option is consulted; if unset, an error is thrown.}
 }
 \value{
 Path to the \code{.Renviron} file, invisibly.

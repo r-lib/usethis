@@ -137,6 +137,10 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #' @param scope Edit globally for the current **user** (`"user"`, the default),
 #'   or locally for the current **project** (`"project"`). Setting a variable in
 #'   the user scope ensures that it is available in all future R sessions.
+#' @param overwrite If `TRUE`, overwrite an existing value without prompting.
+#'   If `FALSE` (the default) and the variable already exists, you are asked
+#'   interactively whether to overwrite it. In non-interactive sessions, the
+#'   `usethis.overwrite` option is consulted; if unset, an error is thrown.
 #'
 #' @return Path to the `.Renviron` file, invisibly.
 #' @export
@@ -144,7 +148,12 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #' \dontrun{
 #' use_env_var("OPENAI_API_KEY")
 #' }
-use_env_var <- function(name, value = NULL, scope = c("user", "project")) {
+use_env_var <- function(
+  name,
+  value = NULL,
+  scope = c("user", "project"),
+  overwrite = FALSE
+) {
   scope <- arg_match(scope)
 
   check_string(name)
@@ -167,6 +176,7 @@ use_env_var <- function(name, value = NULL, scope = c("user", "project")) {
     ))
 
     overwrite <-
+      overwrite ||
       getOption("usethis.overwrite", FALSE) ||
       ui_yep("Overwrite the existing value for {.envvar {name}}?")
 

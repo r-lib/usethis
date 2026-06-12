@@ -227,7 +227,10 @@ test_that("use_env_var() leaves file unchanged when overwrite is declined (non-i
   writeLines("MY_KEY=old", tmp)
   withr::local_envvar(list(R_ENVIRON_USER = tmp))
 
-  use_env_var("MY_KEY", value = "new", scope = "user")
+  expect_snapshot(error = TRUE, {
+    use_env_var("MY_KEY", value = "new", scope = "user")
+    use_env_var("MY_KEY", value = "new", scope = "user", overwrite = FALSE)
+  })
 
   expect_equal(readLines(tmp), "MY_KEY=old")
 })
