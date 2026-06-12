@@ -31,6 +31,8 @@
 #'   - `.gitignore` ignores `settings.local.json` (for user-specific
 #'     settings).
 #'
+#' - `.Rbuildignore` ignores `AGENTS.md` and `.claude/`, so they aren't
+#'   included in your built package.
 #' @export
 #' @examples
 #' \dontrun{

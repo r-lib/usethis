@@ -9,8 +9,8 @@ use_tidy_agents()
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-This function sets up a project to work with AI coding agents in the same
-way as the tidyverse team. Specifically, it:
+This function sets up a project to work with AI coding agents.
+Specifically, it:
 \itemize{
 \item Creates an \code{AGENTS.md} file containing project-specific instructions for
 R package development. This file is read by most coding agents, including
@@ -33,6 +33,8 @@ format, so they also work with other agents that read
 \item \code{.gitignore} ignores \code{settings.local.json} (for user-specific
 settings).
 }
+\item \code{.Rbuildignore} ignores \code{AGENTS.md} and \verb{.claude/}, so they aren't
+included in your built package.
 }
 }
 \examples{
