@@ -208,9 +208,6 @@ Package setup tasks, typically performed once.
 - [`use_air()`](https://usethis.r-lib.org/dev/reference/use_air.md) :
   Configure a project to use Air
 
-- [`use_claude_code()`](https://usethis.r-lib.org/dev/reference/use_claude_code.md)
-  **\[experimental\]** : Configure a project to use Claude Code
-
 ## Package release
 
 - [`use_cran_comments()`](https://usethis.r-lib.org/dev/reference/use_cran_comments.md)
@@ -259,6 +256,9 @@ Conventions used in the tidyverse and r-lib organisations
   [`tidy_label_colours()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
   [`tidy_label_descriptions()`](https://usethis.r-lib.org/dev/reference/use_github_labels.md)
   : Manage GitHub issue labels
+- [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
+  **\[experimental\]** : Configure a project to work with AI coding
+  agents
 - [`use_tidy_thanks()`](https://usethis.r-lib.org/dev/reference/use_tidy_thanks.md)
   : Identify contributors via GitHub activity
 

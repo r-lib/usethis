@@ -45,7 +45,6 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_blank_slate.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_build_ignore.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_citation.html</loc></url>
-<url><loc>https://usethis.r-lib.org/dev/reference/use_claude_code.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_code_of_conduct.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_course_details.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_coverage.html</loc></url>
@@ -96,6 +95,7 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_test_helper.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_testthat.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tibble.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_agents.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tidy_thanks.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_tutorial.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_upkeep_issue.html</loc></url>

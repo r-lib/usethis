@@ -25,10 +25,6 @@
   contains curly braces
   ([\#2107](https://github.com/r-lib/usethis/issues/2107),
   [@jonthegeek](https://github.com/jonthegeek)).
-- [`use_claude_code()`](https://usethis.r-lib.org/dev/reference/use_claude_code.md)
-  is an experimental helper to set up Claude Code in an R package in the
-  same way as the tidyverse team
-  ([\#2195](https://github.com/r-lib/usethis/issues/2195)).
 - [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
   works in packages using `roxygen2` 8.0.0
   ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by
@@ -45,6 +41,11 @@
   ([\#1671](https://github.com/r-lib/usethis/issues/1671)). Thanks
   [@VisruthSK](https://github.com/VisruthSK) for getting the ball
   rolling.
+- [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
+  is an experimental helper to set up an R package to work with AI
+  coding agents in the same way as the tidyverse team
+  ([\#2195](https://github.com/r-lib/usethis/issues/2195),
+  [\#2239](https://github.com/r-lib/usethis/issues/2239)).
 - [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
   no longer includes the deprecated
   [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
