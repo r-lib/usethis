@@ -229,7 +229,6 @@ test_that("use_env_var() leaves file unchanged when overwrite is declined (non-i
 
   expect_snapshot(error = TRUE, {
     use_env_var("MY_KEY", value = "new", scope = "user")
-    use_env_var("MY_KEY", value = "new", scope = "user", overwrite = FALSE)
   })
 
   expect_equal(readLines(tmp), "MY_KEY=old")

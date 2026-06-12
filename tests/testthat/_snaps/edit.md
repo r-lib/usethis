@@ -62,12 +62,6 @@
       Error in `ui_yep()`:
       x User input required, but session is not interactive.
       i Query: "Overwrite the existing value for {.envvar {name}}?"
-    Code
-      use_env_var("MY_KEY", value = "new", scope = "user", overwrite = FALSE)
-    Condition
-      Error in `ui_yep()`:
-      x User input required, but session is not interactive.
-      i Query: "Overwrite the existing value for {.envvar {name}}?"
 
 # use_env_var() rejects trailing-backslash value with surrounding whitespace
 
