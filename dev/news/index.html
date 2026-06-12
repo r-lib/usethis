@@ -61,6 +61,8 @@
 <ul><li>
 <code><a href="../reference/create_from_github.html">create_from_github()</a></code> now installs package dependencies by default, so you’re set up to immediately start working on the package. Use <code>install_dependencies = FALSE</code> to suppress (<a href="https://github.com/r-lib/usethis/issues/2186" class="external-link">#2186</a>).</li>
 <li>
+<code><a href="../reference/learn_tidy_skill.html">learn_tidy_skill()</a></code> is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It’s primarily designed to be called by AI coding agents, as directed by the <code>AGENTS.md</code> created by <code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code>.</li>
+<li>
 <code><a href="../reference/pull-requests.html">pr_init()</a></code> and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (<a href="https://github.com/r-lib/usethis/issues/1300" class="external-link">#1300</a>).</li>
 <li>
 <code><a href="../reference/pull-requests.html">pr_pull()</a></code>, <code><a href="../reference/pull-requests.html">pr_push()</a></code> and friends now give more informative errors if usethis can’t retrieve details about a remote (<a href="https://github.com/r-lib/usethis/issues/1929" class="external-link">#1929</a>, <a href="https://github.com/r-lib/usethis/issues/2229" class="external-link">#2229</a>).</li>

@@ -7,6 +7,13 @@
   immediately start working on the package. Use
   `install_dependencies = FALSE` to suppress
   ([\#2186](https://github.com/r-lib/usethis/issues/2186)).
+- [`learn_tidy_skill()`](https://usethis.r-lib.org/dev/reference/learn_tidy_skill.md)
+  is an experimental new function that prints instructions for
+  performing a specialized R package development task (like deprecating
+  a function) the way the tidyverse team does. It’s primarily designed
+  to be called by AI coding agents, as directed by the `AGENTS.md`
+  created by
+  [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md).
 - [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
   and other functions that check for uncommitted changes now offer a
   menu with four options: stash changes (and re-apply after), cancel,

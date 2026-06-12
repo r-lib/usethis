@@ -1,4 +1,5 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://usethis.r-lib.org/dev/AGENTS.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/CONTRIBUTING.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/LICENSE-text.html</loc></url>
@@ -27,6 +28,7 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/github-token.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/index.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/issue-this.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/learn_tidy_skill.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/licenses.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/proj_activate.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/proj_sitrep.html</loc></url>

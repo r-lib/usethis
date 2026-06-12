@@ -6,8 +6,16 @@ This function sets up a project to work with AI coding agents.
 Specifically, it:
 
 - Creates an `AGENTS.md` file containing project-specific instructions
-  for R package development. This file is read by most coding agents,
-  including Codex, Gemini CLI, and Cursor.
+  for R package development. It includes general development advice, as
+  well as pointers to specific skills provided by
+  [`learn_tidy_skill()`](https://usethis.r-lib.org/dev/reference/learn_tidy_skill.md).
+
+  This file is read by most coding agents, including Codex, Gemini CLI,
+  and Cursor.
+
+  The file begins with a "This package" section for your own
+  package-specific advice. If you re-run `use_tidy_agents()` to update
+  `AGENTS.md`, the contents of this section are preserved.
 
 - Creates a `.claude/` directory to configure [Claude
   Code](https://code.claude.com), which doesn't yet read `AGENTS.md`:
@@ -15,16 +23,8 @@ Specifically, it:
   - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
     instructions as other agents.
 
-  - `settings.json` provides recommended permissions for R package
-    development, including the ability to run R, format with
-    [Air](https://posit-dev.github.io/air/), and run common development
-    tools.
-
-  - `skills/` contains various skills found useful by the tidyverse
-    team. All skills have a `tidy-` prefix to avoid clashing with skills
-    that you might provide. Skills use the [Agent
-    Skills](https://agentskills.io) format, so they also work with other
-    agents that read `.claude/skills/`.
+  - `settings.json` denies the agent access to sensitive files like
+    `.Renviron` and `.env`.
 
   - `.gitignore` ignores `settings.local.json` (for user-specific
     settings).
