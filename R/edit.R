@@ -171,12 +171,12 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
     ui_bullets(c(
       "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
     ))
-    overwrite <- if (getOption("usethis.overwrite", FALSE)) {
-      TRUE
+    if (getOption("usethis.overwrite", FALSE)) {
+      overwrite <- TRUE
     } else if (is_interactive()) {
-      ui_yep("Overwrite the existing value for {.envvar {name}}?")
+      overwrite <- ui_yep("Overwrite the existing value for {.envvar {name}}?")
     } else {
-      FALSE
+      overwrite <- FALSE
     }
     if (!overwrite) {
       return(invisible(path))
