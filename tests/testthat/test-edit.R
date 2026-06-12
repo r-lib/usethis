@@ -175,3 +175,147 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })
+
+# use_env_var() ---------------------------------------------------------------
+
+test_that("use_env_var() rejects invalid env var names", {
+  expect_snapshot(use_env_var("bad name"), error = TRUE)
+  expect_snapshot(use_env_var("123bad"), error = TRUE)
+  expect_snapshot(use_env_var("bad-name"), error = TRUE)
+})
+
+test_that("use_env_var() rejects values with newlines", {
+  expect_snapshot(use_env_var("MY_KEY", value = "abc\ndef"), error = TRUE)
+  expect_snapshot(use_env_var("MY_KEY", value = "abc\rdef"), error = TRUE)
+})
+
+test_that("use_env_var() writes to a new .Renviron", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, TEST_USE_ENV_VAR = NA))
+
+  use_env_var("TEST_USE_ENV_VAR", value = "hello", scope = "user")
+
+  expect_true(file_exists(tmp))
+  expect_equal(readLines(tmp), 'TEST_USE_ENV_VAR="hello"')
+  expect_equal(Sys.getenv("TEST_USE_ENV_VAR"), "hello")
+})
+
+test_that("use_env_var() appends to an existing .Renviron", {
+  tmp <- withr::local_tempfile()
+  writeLines("EXISTING=yes", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, NEWVAR = NA))
+
+  use_env_var("NEWVAR", value = "42", scope = "user")
+
+  expect_equal(readLines(tmp), c("EXISTING=yes", 'NEWVAR="42"'))
+})
+
+test_that("use_env_var() replaces existing var in-place with usethis.overwrite", {
+  tmp <- withr::local_tempfile()
+  writeLines(c("FIRST=a", "MY_KEY=old", "LAST=z"), tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, MY_KEY = NA))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  expect_equal(readLines(tmp), c("FIRST=a", 'MY_KEY="new"', "LAST=z"))
+  expect_equal(Sys.getenv("MY_KEY"), "new")
+})
+
+test_that("use_env_var() leaves file unchanged when overwrite is declined (non-interactive)", {
+  tmp <- withr::local_tempfile()
+  writeLines("MY_KEY=old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+
+  expect_snapshot(error = TRUE, {
+    use_env_var("MY_KEY", value = "new", scope = "user")
+  })
+
+  expect_equal(readLines(tmp), "MY_KEY=old")
+})
+
+test_that("use_env_var() round-trips values through .Renviron correctly", {
+  withr::local_envvar(list(ROUNDTRIP_KEY = NA))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  tricky_values <- c(
+    "  spaces  ",
+    "back\\slash",
+    "C:\\Users\\garrick",
+    'has"quote',
+    'slash\\"quote'
+  )
+  for (v in tricky_values) {
+    tmp <- withr::local_tempfile()
+    withr::local_envvar(list(R_ENVIRON_USER = tmp))
+    use_env_var("ROUNDTRIP_KEY", value = v, scope = "user")
+    Sys.unsetenv("ROUNDTRIP_KEY")
+    readRenviron(tmp)
+    expect_equal(Sys.getenv("ROUNDTRIP_KEY"), v, info = paste("value:", v))
+  }
+})
+
+test_that("use_env_var() writes trailing-backslash values using unquoted encoding", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp, MY_PATH = NA))
+
+  use_env_var("MY_PATH", value = "C:\\Users\\garrick\\", scope = "user")
+
+  expect_equal(readLines(tmp), "MY_PATH=C:\\\\Users\\\\garrick\\\\")
+  Sys.unsetenv("MY_PATH")
+  readRenviron(tmp)
+  expect_equal(Sys.getenv("MY_PATH"), "C:\\Users\\garrick\\")
+})
+
+test_that("use_env_var() rejects trailing-backslash value with surrounding whitespace", {
+  expect_snapshot(
+    use_env_var("MY_KEY", value = "  trailing\\"),
+    error = TRUE
+  )
+})
+
+test_that("use_env_var() rejects values containing ${...}", {
+  expect_snapshot(use_env_var("MY_KEY", value = "${HOME}"), error = TRUE)
+  expect_snapshot(
+    use_env_var("MY_KEY", value = "prefix_${VAR}_suffix"),
+    error = TRUE
+  )
+})
+
+test_that("use_env_var() detects existing var written with spaces around =", {
+  tmp <- withr::local_tempfile()
+  writeLines("MY_KEY = old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  lines <- readLines(tmp)
+  expect_equal(length(lines), 1L)
+  expect_equal(lines, 'MY_KEY="new"')
+})
+
+test_that("use_env_var() detects existing var with leading whitespace", {
+  tmp <- withr::local_tempfile()
+  writeLines("  MY_KEY = old", tmp)
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+  withr::local_options(usethis.overwrite = TRUE)
+
+  use_env_var("MY_KEY", value = "new", scope = "user")
+
+  lines <- readLines(tmp)
+  expect_equal(length(lines), 1L)
+  expect_equal(lines, 'MY_KEY="new"')
+})
+
+test_that("use_env_var() defaults to user scope even in active project", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
+  create_local_project()
+
+  use_env_var("PROJ_KEY", value = "val")
+
+  expect_true(file_exists(tmp))
+  expect_equal(readLines(tmp), 'PROJ_KEY="val"')
+  expect_false(file_exists(proj_path(".Renviron")))
+})
