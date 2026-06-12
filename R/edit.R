@@ -178,7 +178,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
       overwrite <- FALSE
     }
     if (!overwrite) {
-      ui_bullets(c("i" = "{.envvar {name}} was not changed."))
+      ui_bullets(c("i" = "Leaving {.file {pth(path)}} unchanged."))
       return(invisible(path))
     }
   }
