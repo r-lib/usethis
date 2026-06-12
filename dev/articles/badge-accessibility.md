@@ -105,8 +105,6 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> $filter
 #> $filter$feGaussianBlur
 #> list()
-#> attr(,"in")
-#> [1] "SourceGraphic"
 #> attr(,"stdDeviation")
 #> [1] "16"
 #> 
@@ -146,8 +144,6 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> [1] "20"
 #> attr(,"rx")
 #> [1] "3"
-#> attr(,"fill")
-#> [1] "#fff"
 #> 
 #> attr(,"id")
 #> [1] "r"
@@ -186,115 +182,103 @@ inspect_badge("https://img.shields.io/badge/my__label-my__message-orange")
 #> [1] "url(#r)"
 #> 
 #> $g
-#> $g$text
-#> $g$text[[1]]
+#> $g$g
+#> $g$g$g
+#> $g$g$g$text
+#> $g$g$g$text[[1]]
 #> [1] "my_label"
 #> 
-#> attr(,"aria-hidden")
-#> [1] "true"
 #> attr(,"x")
 #> [1] "315"
 #> attr(,"y")
 #> [1] "150"
-#> attr(,"fill")
-#> [1] "#010101"
 #> attr(,"fill-opacity")
-#> [1] ".80"
+#> [1] ".8"
 #> attr(,"filter")
 #> [1] "url(#blur)"
-#> attr(,"transform")
-#> [1] "scale(.1)"
 #> attr(,"textLength")
 #> [1] "510"
 #> 
-#> $g$text
-#> $g$text[[1]]
+#> $g$g$g$text
+#> $g$g$g$text[[1]]
 #> [1] "my_label"
 #> 
-#> attr(,"aria-hidden")
-#> [1] "true"
 #> attr(,"x")
 #> [1] "315"
 #> attr(,"y")
 #> [1] "150"
-#> attr(,"fill")
-#> [1] "#010101"
 #> attr(,"fill-opacity")
 #> [1] ".3"
-#> attr(,"transform")
-#> [1] "scale(.1)"
 #> attr(,"textLength")
 #> [1] "510"
 #> 
-#> $g$text
-#> $g$text[[1]]
+#> attr(,"aria-hidden")
+#> [1] "true"
+#> attr(,"fill")
+#> [1] "#010101"
+#> 
+#> $g$g$text
+#> $g$g$text[[1]]
 #> [1] "my_label"
 #> 
 #> attr(,"x")
 #> [1] "315"
 #> attr(,"y")
 #> [1] "140"
-#> attr(,"transform")
-#> [1] "scale(.1)"
-#> attr(,"fill")
-#> [1] "#fff"
 #> attr(,"textLength")
 #> [1] "510"
 #> 
-#> $g$text
-#> $g$text[[1]]
+#> attr(,"transform")
+#> [1] "scale(.1)"
+#> 
+#> $g$g
+#> $g$g$g
+#> $g$g$g$text
+#> $g$g$g$text[[1]]
 #> [1] "my_message"
 #> 
-#> attr(,"aria-hidden")
-#> [1] "true"
 #> attr(,"x")
 #> [1] "1015"
 #> attr(,"y")
 #> [1] "150"
-#> attr(,"fill")
-#> [1] "#010101"
 #> attr(,"fill-opacity")
-#> [1] ".80"
+#> [1] ".8"
 #> attr(,"filter")
 #> [1] "url(#blur)"
-#> attr(,"transform")
-#> [1] "scale(.1)"
 #> attr(,"textLength")
 #> [1] "730"
 #> 
-#> $g$text
-#> $g$text[[1]]
+#> $g$g$g$text
+#> $g$g$g$text[[1]]
 #> [1] "my_message"
 #> 
-#> attr(,"aria-hidden")
-#> [1] "true"
 #> attr(,"x")
 #> [1] "1015"
 #> attr(,"y")
 #> [1] "150"
-#> attr(,"fill")
-#> [1] "#010101"
 #> attr(,"fill-opacity")
 #> [1] ".3"
-#> attr(,"transform")
-#> [1] "scale(.1)"
 #> attr(,"textLength")
 #> [1] "730"
 #> 
-#> $g$text
-#> $g$text[[1]]
+#> attr(,"aria-hidden")
+#> [1] "true"
+#> attr(,"fill")
+#> [1] "#010101"
+#> 
+#> $g$g$text
+#> $g$g$text[[1]]
 #> [1] "my_message"
 #> 
 #> attr(,"x")
 #> [1] "1015"
 #> attr(,"y")
 #> [1] "140"
-#> attr(,"transform")
-#> [1] "scale(.1)"
-#> attr(,"fill")
-#> [1] "#fff"
 #> attr(,"textLength")
 #> [1] "730"
+#> 
+#> attr(,"transform")
+#> [1] "scale(.1)"
 #> 
 #> attr(,"fill")
 #> [1] "#fff"
