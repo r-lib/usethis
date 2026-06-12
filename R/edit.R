@@ -165,17 +165,16 @@ use_env_var <- function(name, value = NULL, scope = c("user", "project")) {
     ui_bullets(c(
       "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
     ))
+
     overwrite <-
-      if (getOption("usethis.overwrite", FALSE)) {
-        TRUE
-      } else if (!is_interactive()) {
-        FALSE
-      } else {
-        ui_yep("Overwrite the existing value for {.envvar {name}}?")
-      }
+      getOption("usethis.overwrite", FALSE) ||
+      ui_yep("Overwrite the existing value for {.envvar {name}}?")
+
     if (!overwrite) {
-      ui_bullets(c("i" = "Leaving {.file {pth(path)}} unchanged."))
-      return(invisible(path))
+      ui_abort(c(
+        "Environment variable {.val {name}} already exists.",
+        "Use {.code overwrite = TRUE} to edit it anyway."
+      ))
     }
   }
 
