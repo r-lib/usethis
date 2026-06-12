@@ -7,8 +7,11 @@
 #' Specifically, it:
 #'
 #' - Creates an `AGENTS.md` file containing project-specific instructions for
-#'   R package development. This file is read by most coding agents, including
-#'   Codex, Gemini CLI, and Cursor.
+#'   R package development. It includes general development advice, as well
+#'   as pointers to specific skills provided by [learn_tidy_skill()].
+#'
+#'   This file is read by most coding agents, including Codex, Gemini CLI,
+#'   and Cursor.
 #'
 #' - Creates a `.claude/` directory to configure
 #'   [Claude Code](https://code.claude.com), which doesn't yet read
@@ -16,12 +19,6 @@
 #'
 #'   - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
 #'     instructions as other agents.
-#'
-#'   - `skills/` contains various skills found useful by the tidyverse team.
-#'     All skills have a `tidy-` prefix to avoid clashing with skills that you
-#'     might provide. Skills use the [Agent Skills](https://agentskills.io)
-#'     format, so they also work with other agents that read
-#'     `.claude/skills/`.
 #'
 #'   - `.gitignore` ignores `settings.local.json` (for user-specific
 #'     settings).
@@ -45,6 +42,33 @@ use_tidy_agents <- function() {
   use_git_ignore("settings.local.json", directory = ".claude")
 
   invisible(TRUE)
+}
+
+#' Learn a specialized skill
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' `learn_tidy_skill()` prints detailed instructions for performing a specialized
+#' R package development task the way the tidyverse team does. It's primarily
+#' designed to be called by AI coding agents: the `AGENTS.md` created by
+#' [use_tidy_agents()] tells agents when to read each skill.
+#'
+#' @param name Name of the skill:
+#'   * `"arg-checking"`: add input checking to a function.
+#'   * `"deprecate"`: deprecate a function or argument.
+#' @export
+#' @examples
+#' \dontrun{
+#' learn_tidy_skill("deprecate")
+#' }
+learn_tidy_skill <- function(name) {
+  skill_paths <- dir_ls(path_package("usethis", "skills"), glob = "*.md")
+  skills <- path_ext_remove(path_file(skill_paths))
+  name <- arg_match(name, values = skills)
+
+  writeLines(read_utf8(path_package("usethis", "skills", paste0(name, ".md"))))
+  invisible()
 }
 
 copy_claude_directory <- function() {

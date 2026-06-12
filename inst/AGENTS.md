@@ -96,3 +96,8 @@ Work paragraph by paragraph, always starting by making a TODO list that includes
 Fix spelling, grammar, and other minor problems without asking the user. Label any unclear, confusing, or ambiguous sentences with a FIXME comment.
 
 Only report what you have changed.
+
+## Specialized skills
+
+* Do you need to deprecate a function or argument? Read `usethis::learn_tidy_skill("deprecate")`.
+* Are you adding input checking to an existing function or writing a new exported function? Read `usethis::learn_tidy_skill("arg-checking")`.

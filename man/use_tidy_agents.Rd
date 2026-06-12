@@ -13,19 +13,17 @@ This function sets up a project to work with AI coding agents.
 Specifically, it:
 \itemize{
 \item Creates an \code{AGENTS.md} file containing project-specific instructions for
-R package development. This file is read by most coding agents, including
-Codex, Gemini CLI, and Cursor.
+R package development. It includes general development advice, as well
+as pointers to specific skills provided by \code{\link[=learn_tidy_skill]{learn_tidy_skill()}}.
+
+This file is read by most coding agents, including Codex, Gemini CLI,
+and Cursor.
 \item Creates a \verb{.claude/} directory to configure
 \href{https://code.claude.com}{Claude Code}, which doesn't yet read
 \code{AGENTS.md}:
 \itemize{
 \item \code{CLAUDE.md} imports \code{AGENTS.md}, so Claude Code uses the same
 instructions as other agents.
-\item \verb{skills/} contains various skills found useful by the tidyverse team.
-All skills have a \verb{tidy-} prefix to avoid clashing with skills that you
-might provide. Skills use the \href{https://agentskills.io}{Agent Skills}
-format, so they also work with other agents that read
-\verb{.claude/skills/}.
 \item \code{.gitignore} ignores \code{settings.local.json} (for user-specific
 settings).
 }
