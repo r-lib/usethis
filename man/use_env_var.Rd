@@ -10,8 +10,12 @@ use_env_var(name, value = NULL, scope = c("user", "project"))
 \item{name}{Name of the environment variable. Must contain only letters,
 digits, and underscores, and must start with a letter or underscore.}
 
-\item{value}{Value to set. If \code{NULL} (the default), you are prompted to
-enter the value securely using \code{\link[askpass:askpass]{askpass::askpass()}}.}
+\item{value}{Value to set. By default, you are prompted to enter the value
+securely using \code{\link[askpass:askpass]{askpass::askpass()}}. Otherwise, we \strong{do not recommend}
+that you provide the value directly in code, as it may be visible in your
+command history. This argument exists primarily to allow you to set an
+environment variable to a value retrieved programmatically, e.g. from
+\pkg{keyring}.}
 
 \item{scope}{Edit globally for the current \strong{user} (\code{"user"}, the default),
 or locally for the current \strong{project} (\code{"project"}). Setting a variable in

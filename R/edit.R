@@ -132,8 +132,12 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #'
 #' @param name Name of the environment variable. Must contain only letters,
 #'   digits, and underscores, and must start with a letter or underscore.
-#' @param value Value to set. If `NULL` (the default), you are prompted to
-#'   enter the value securely using [askpass::askpass()].
+#' @param value Value to set. By default, you are prompted to enter the value
+#'   securely using [askpass::askpass()]. Otherwise, we **do not recommend**
+#'   that you provide the value directly in code, as it may be visible in your
+#'   command history. This argument exists primarily to allow you to set an
+#'   environment variable to a value retrieved programmatically, e.g. from
+#'   \pkg{keyring}.
 #' @param scope Edit globally for the current **user** (`"user"`, the default),
 #'   or locally for the current **project** (`"project"`). Setting a variable in
 #'   the user scope ensures that it is available in all future R sessions.
