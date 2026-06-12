@@ -135,7 +135,8 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #' @param value Value to set. If `NULL` (the default), you are prompted to
 #'   enter the value securely using [askpass::askpass()].
 #' @param scope Edit globally for the current **user** (`"user"`, the default),
-#'   or locally for the current **project** (`"project"`).
+#'   or locally for the current **project** (`"project"`). Setting a variable in
+#'   the user scope ensures that it is available in all future R sessions.
 #'
 #' @return Path to the `.Renviron` file, invisibly.
 #' @export
@@ -162,12 +163,7 @@ use_env_var <- function(name, value = NULL, scope = c("user", "project")) {
 
   if (length(existing_idx) > 0) {
     ui_bullets(c(
-      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}.",
-      if (scope == "user" && possibly_in_proj()) {
-        c(
-          "i" = "To set it for this project only instead, cancel and use {.code scope = \"project\"}."
-        )
-      }
+      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
     ))
     overwrite <-
       if (getOption("usethis.overwrite", FALSE)) {

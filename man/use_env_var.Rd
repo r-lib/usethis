@@ -14,7 +14,8 @@ digits, and underscores, and must start with a letter or underscore.}
 enter the value securely using \code{\link[askpass:askpass]{askpass::askpass()}}.}
 
 \item{scope}{Edit globally for the current \strong{user} (\code{"user"}, the default),
-or locally for the current \strong{project} (\code{"project"}).}
+or locally for the current \strong{project} (\code{"project"}). Setting a variable in
+the user scope ensures that it is available in all future R sessions.}
 }
 \value{
 Path to the \code{.Renviron} file, invisibly.
