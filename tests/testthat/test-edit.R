@@ -306,12 +306,14 @@ test_that("use_env_var() detects existing var with leading whitespace", {
   expect_equal(lines, 'MY_KEY="new"')
 })
 
-test_that("use_env_var() defaults to project scope in active project", {
+test_that("use_env_var() defaults to user scope even in active project", {
+  tmp <- withr::local_tempfile()
+  withr::local_envvar(list(R_ENVIRON_USER = tmp))
   create_local_project()
 
   use_env_var("PROJ_KEY", value = "val")
 
-  expect_proj_file(".Renviron")
-  renviron <- read_utf8(proj_path(".Renviron"))
-  expect_true(any(grepl('^PROJ_KEY="val"$', renviron)))
+  expect_true(file_exists(tmp))
+  expect_equal(readLines(tmp), 'PROJ_KEY="val"')
+  expect_false(file_exists(proj_path(".Renviron")))
 })

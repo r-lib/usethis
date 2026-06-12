@@ -127,18 +127,15 @@ edit_r_environ <- function(scope = c("user", "project")) {
 
 #' Set an environment variable in `.Renviron`
 #'
-#' Adds or updates an environment variable in `.Renviron` and immediately
-#' makes it available in the current session via [Sys.setenv()]. The
-#' `scope` defaults to `"project"` when an active project is detected,
-#' otherwise `"user"`.
+#' Adds or updates an environment variable in the user `.Renviron` and
+#' immediately makes it available in the current session via [Sys.setenv()].
 #'
 #' @param name Name of the environment variable. Must contain only letters,
 #'   digits, and underscores, and must start with a letter or underscore.
 #' @param value Value to set. If `NULL` (the default), you are prompted to
 #'   enter the value securely using [askpass::askpass()].
-#' @param scope Edit globally for the current **user** (`"user"`), or locally
-#'   for the current **project** (`"project"`). Defaults to `"project"` when
-#'   an active project is detected, otherwise `"user"`.
+#' @param scope Edit globally for the current **user** (`"user"`, the default),
+#'   or locally for the current **project** (`"project"`).
 #'
 #' @return Path to the `.Renviron` file, invisibly.
 #' @export
@@ -157,11 +154,8 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
     ))
   }
 
-  if (is.null(scope)) {
-    scope <- if (possibly_in_proj()) "project" else "user"
-  } else {
-    scope <- rlang::arg_match(scope, values = c("user", "project"))
-  }
+  scope <- scope %||% "user"
+  scope <- rlang::arg_match(scope, values = c("user", "project"))
 
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   lines <- if (file_exists(path)) read_utf8(path) else character()
@@ -169,7 +163,12 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
 
   if (length(existing_idx) > 0) {
     ui_bullets(c(
-      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
+      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}.",
+      if (scope == "user" && possibly_in_proj()) {
+        c(
+          "i" = "To set it for this project only instead, cancel and use {.code scope = \"project\"}."
+        )
+      }
     ))
     if (getOption("usethis.overwrite", FALSE)) {
       overwrite <- TRUE
