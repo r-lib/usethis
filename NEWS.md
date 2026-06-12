@@ -3,20 +3,14 @@
 * New `use_env_var()` sets an environment variable in `.Renviron`, prompting for the value securely via `askpass::askpass()` and immediately activating it in the current session via `Sys.setenv()` (#2201, @gadenbuie).
 
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
-* `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
-
+* `pr_init()` and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
-
-* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
-* Functions that check for uncommitted changes (like `pr_init()`) now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
-
-* `use_pipe()` is now deprecated (@math-mcshane, #2124).
-
-* `use_claude_code()` is an experimental helper to set up Claude code in an R package in the same way as the tidyverse team (#2195).
-
-* Removes deprecated `use_tidy_style()` from to-do's from upkeep (@edgararuiz)
-
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+* `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
+* `use_pipe()` is now deprecated (@math-mcshane, #2124).
+* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
+* `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
+* `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
 # usethis 3.2.1
 
