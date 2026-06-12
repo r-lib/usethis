@@ -21,10 +21,6 @@ Codex, Gemini CLI, and Cursor.
 \itemize{
 \item \code{CLAUDE.md} imports \code{AGENTS.md}, so Claude Code uses the same
 instructions as other agents.
-\item \code{settings.json} provides recommended permissions for R package
-development, including the ability to run R, format with
-\href{https://posit-dev.github.io/air/}{Air}, and run common development
-tools.
 \item \verb{skills/} contains various skills found useful by the tidyverse team.
 All skills have a \verb{tidy-} prefix to avoid clashing with skills that you
 might provide. Skills use the \href{https://agentskills.io}{Agent Skills}

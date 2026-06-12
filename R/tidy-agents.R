@@ -17,11 +17,6 @@
 #'   - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
 #'     instructions as other agents.
 #'
-#'   - `settings.json` provides recommended permissions for R package
-#'     development, including the ability to run R, format with
-#'     [Air](https://posit-dev.github.io/air/), and run common development
-#'     tools.
-#'
 #'   - `skills/` contains various skills found useful by the tidyverse team.
 #'     All skills have a `tidy-` prefix to avoid clashing with skills that you
 #'     might provide. Skills use the [Agent Skills](https://agentskills.io)

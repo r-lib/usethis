@@ -5,7 +5,6 @@ test_that("use_tidy_agents() creates expected files", {
 
   expect_proj_file("AGENTS.md")
   expect_proj_file(".claude", "CLAUDE.md")
-  expect_proj_file(".claude", "settings.json")
   expect_proj_dir(".claude", "skills")
 
   expect_identical(
