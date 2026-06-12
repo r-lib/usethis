@@ -1,8 +1,3 @@
----
-name: types-check
-description: Validate function inputs in R using a standalone file of check_* functions. Use when writing exported R functions that need input validation, reviewing existing validation code, or when creating new input validation helpers.
----
-
 # Input validation in R functions
 
 This skill describes tidyverse style for validating function inputs. It focuses on rlang's exported type checkers along with the standalone file of `check_*` functions. These functions are carefully designed to produce clear, actionable error messages:

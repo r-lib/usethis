@@ -1,6 +1,7 @@
 # usethis (development version)
 
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
+* `learn_tidy_skill()` is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It's primarily designed to be called by AI coding agents, as directed by the `AGENTS.md` created by `use_tidy_agents()`.
 * `pr_init()` and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).

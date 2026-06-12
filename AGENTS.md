@@ -1,7 +1,5 @@
 ## This package
 
-<!-- Insert package-specific content here. use_tidy_agents() will preserve this section when updating the rest of the file. -->
-
 ## Package development
 
 ### Key commands
