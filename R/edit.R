@@ -127,8 +127,8 @@ edit_r_environ <- function(scope = c("user", "project")) {
 
 #' Set an environment variable in `.Renviron`
 #'
-#' Adds or updates an environment variable in the user `.Renviron` and
-#' immediately makes it available in the current session via [Sys.setenv()].
+#' Adds or updates an environment variable in the user or project `.Renviron`
+#' and immediately makes it available in the current session via [Sys.setenv()].
 #'
 #' @param name Name of the environment variable. Must contain only letters,
 #'   digits, and underscores, and must start with a letter or underscore.
@@ -143,7 +143,9 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #' \dontrun{
 #' use_env_var("OPENAI_API_KEY")
 #' }
-use_env_var <- function(name, value = NULL, scope = NULL) {
+use_env_var <- function(name, value = NULL, scope = c("user", "project")) {
+  scope <- arg_match(scope)
+
   check_string(name)
   if (!grepl("^[A-Za-z_][A-Za-z0-9_]*$", name)) {
     ui_abort(c(
@@ -153,9 +155,6 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
              letters, digits, and underscores."
     ))
   }
-
-  scope <- scope %||% "user"
-  scope <- rlang::arg_match(scope, values = c("user", "project"))
 
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   lines <- if (file_exists(path)) read_utf8(path) else character()
@@ -170,13 +169,14 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
         )
       }
     ))
-    if (getOption("usethis.overwrite", FALSE)) {
-      overwrite <- TRUE
-    } else if (is_interactive()) {
-      overwrite <- ui_yep("Overwrite the existing value for {.envvar {name}}?")
-    } else {
-      overwrite <- FALSE
-    }
+    overwrite <-
+      if (getOption("usethis.overwrite", FALSE)) {
+        TRUE
+      } else if (!is_interactive()) {
+        FALSE
+      } else {
+        ui_yep("Overwrite the existing value for {.envvar {name}}?")
+      }
     if (!overwrite) {
       ui_bullets(c("i" = "Leaving {.file {pth(path)}} unchanged."))
       return(invisible(path))
