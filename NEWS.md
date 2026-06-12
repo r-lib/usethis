@@ -5,6 +5,7 @@
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
 * `use_claude_code()` is an experimental helper to set up Claude Code in an R package in the same way as the tidyverse team (#2195).
+* `use_course()`, `use_zip()`, and `use_github_action()` no longer emit download or pagination progress when the `usethis.quiet` option is `TRUE`.
 * `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
 * `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
