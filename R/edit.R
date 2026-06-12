@@ -160,7 +160,7 @@ use_env_var <- function(name, value = NULL, scope = NULL) {
   if (is.null(scope)) {
     scope <- if (possibly_in_proj()) "project" else "user"
   } else {
-    scope <- match.arg(scope, c("user", "project"))
+    scope <- rlang::arg_match(scope, values = c("user", "project"))
   }
 
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
