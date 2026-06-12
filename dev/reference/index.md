@@ -285,6 +285,11 @@ or for a specific project
 
   Helpers to make useful changes to `.Rprofile`
 
+- [`use_env_var()`](https://usethis.r-lib.org/dev/reference/use_env_var.md)
+  :
+
+  Set an environment variable in `.Renviron`
+
 - [`edit_r_profile()`](https://usethis.r-lib.org/dev/reference/edit.md)
   [`edit_r_environ()`](https://usethis.r-lib.org/dev/reference/edit.md)
   [`edit_r_buildignore()`](https://usethis.r-lib.org/dev/reference/edit.md)

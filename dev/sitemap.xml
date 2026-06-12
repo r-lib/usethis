@@ -54,6 +54,7 @@
 <url><loc>https://usethis.r-lib.org/dev/reference/use_data_table.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_description.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_directory.html</loc></url>
+<url><loc>https://usethis.r-lib.org/dev/reference/use_env_var.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_git.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_git_config.html</loc></url>
 <url><loc>https://usethis.r-lib.org/dev/reference/use_git_hook.html</loc></url>

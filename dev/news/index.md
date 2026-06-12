@@ -25,6 +25,15 @@
   contains curly braces
   ([\#2107](https://github.com/r-lib/usethis/issues/2107),
   [@jonthegeek](https://github.com/jonthegeek)).
+- New
+  [`use_env_var()`](https://usethis.r-lib.org/dev/reference/use_env_var.md)
+  sets an environment variable in `.Renviron`, prompting for the value
+  securely via
+  [`askpass::askpass()`](https://r-lib.r-universe.dev/askpass/reference/askpass.html)
+  and immediately activating it in the current session via
+  [`Sys.setenv()`](https://rdrr.io/r/base/Sys.setenv.html)
+  ([\#2201](https://github.com/r-lib/usethis/issues/2201),
+  [@gadenbuie](https://github.com/gadenbuie)).
 - [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
   works in packages using `roxygen2` 8.0.0
   ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by
