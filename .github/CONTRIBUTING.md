@@ -20,7 +20,7 @@ If you’ve found a bug, please file an issue that illustrates the bug with a mi
 
 *   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("r-lib/usethis", fork = TRUE)`.
 
-*   Install all development dependencies with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. 
+*   Install all development dependencies with `pak::local_install_dev_deps()` (or, for `devtools` prior to version 2.5.0, with `devtools::install_dev_deps()`), and then make sure the package passes R CMD check by running `devtools::check()`. 
     If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
 *   Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
 
