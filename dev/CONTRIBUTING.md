@@ -1,8 +1,9 @@
 # Contributing to usethis
 
-This outlines how to propose a change to usethis. For more detailed info
-about contributing to this, and other tidyverse packages, please see the
-[**development contributing guide**](https://rstd.io/tidy-contrib).
+This outlines how to propose a change to usethis. For a detailed
+discussion on contributing to this and other tidyverse packages, please
+see the [development contributing guide](https://rstd.io/tidy-contrib)
+and our [code review principles](https://code-review.tidyverse.org/).
 
 ## Fixing typos
 
@@ -20,7 +21,9 @@ If you want to make a bigger change, it’s a good idea to first file an
 issue and make sure someone from the team agrees that it’s needed. If
 you’ve found a bug, please file an issue that illustrates the bug with a
 minimal [reprex](https://www.tidyverse.org/help/#reprex) (this will also
-help you write a unit test, if needed).
+help you write a unit test, if needed). See our guide on [how to create
+a great issue](https://code-review.tidyverse.org/issues/) for more
+advice.
 
 ### Pull request process
 
@@ -29,16 +32,19 @@ help you write a unit test, if needed).
   `usethis::create_from_github("r-lib/usethis", fork = TRUE)`.
 
 - Install all development dependencies with
-  `devtools::install_dev_deps()`, and then make sure the package passes
-  R CMD check by running `devtools::check()`. If R CMD check doesn’t
-  pass cleanly, it’s a good idea to ask for help before continuing.
+  [`pak::local_install_dev_deps()`](https://pak.r-lib.org/reference/local_install_dev_deps.html),
+  and then make sure the package passes `R CMD check` by running
+  `devtools::check()`. If `R CMD check` doesn’t pass cleanly, it’s a
+  good idea to ask for help before continuing.
 
 - Create a Git branch for your pull request (PR). We recommend using
   `usethis::pr_init("brief-description-of-change")`.
 
-- Make your changes, commit to git, and then create a PR by running
+- Make your changes and check that the package passes `R CMD check` by
+  running `devtools::check()` again. Commit the changes to git, and then
+  create a PR by running
   [`usethis::pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
-  and following the prompts in your browser. The title of your PR should
+  and follow the prompts in your browser. The title of your PR should
   briefly describe the change. The body of your PR should contain
   `Fixes #issue-number`.
 
