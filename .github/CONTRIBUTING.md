@@ -20,12 +20,12 @@ See our guide on [how to create a great issue](https://code-review.tidyverse.org
 
 *   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("r-lib/usethis", fork = TRUE)`.
 
-*   Install all development dependencies with `pak::local_install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. 
-    If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing.
+*   Install all development dependencies with `pak::local_install_dev_deps()`, and then make sure the package passes `R CMD check` by running `devtools::check()`. 
+    If `R CMD check` doesn't pass cleanly, it's a good idea to ask for help before continuing.
 
 *   Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
 
-*   Make your changes and check that the package passes R CMD check by running `devtools::check()` again.
+*   Make your changes and check that the package passes `R CMD check` by running `devtools::check()` again.
     Commit the changes to git, and then create a PR by running `usethis::pr_push()`, and follow the prompts in your browser.
     The title of your PR should briefly describe the change.
     The body of your PR should contain `Fixes #issue-number`.
