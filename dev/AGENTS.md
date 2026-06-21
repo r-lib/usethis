@@ -6,33 +6,34 @@
 
 ### Key commands
 
+(All these functions have been optimized for agentic use, so they can be
+called directly without other arguments.)
+
 ``` r
 
-# To run code
+# Executing code
 devtools::load_all()
 code
 
-# To run all tests
-devtools::test()
+# Tests
+devtools::test() # all tests
+devtools::test(filter = "^{name}") # tests for files starting with {name}
+devtools::test_active_file("R/{name}.R") # tests for R/{name}.R
+devtools::test_active_file("R/{name}.R", desc = 'blah') # single test with exact description "blah" (no regexp)
 
-# To run all tests for files starting with {name}
-devtools::test(filter = '^{name}')
+# Test coverage
+devtools::test_coverage() # all files
+devtools::test_coverage_active_file("R/{name}.R") # coverage for R/{name}.R from tests in tests/testthat/test-{name}.R
 
-# To run all tests for R/{name}.R
-devtools::test_active_file('R/{name}.R')
+# Documentation
+devtools::document() # redocument package
+pkgdown::check_pkgdown() # check website
 
-# To run a single test with exact description "blah" (no regexp)
-devtools::test_active_file('R/{name}.R', desc = 'blah')
-
-# To redocument the package
-devtools::document()
-
-# To check pkgdown documentation
-pkgdown::check_pkgdown()
-
-# To check the package with R CMD check
+# Run complete R CMD check
 devtools::check()
 ```
+
+### Running R
 
 There are three possible ways to run code, listed in rough order of
 desirability:
@@ -48,14 +49,15 @@ desirability:
 
 - Otherwise, use `Rscript -e "code"`.
 
-### Coding
+### Code style
 
+- Follow the tidyverse style guide
 - Always run `air format .` after generating code.
 - Use the base pipe operator (`|>`), not the magrittr pipe (`%>%`).
 - Use `\() ...` for single-line anonymous functions. For all other
   cases, use `function() {...}`.
 
-### Testing
+### Test style
 
 - Tests for `R/{name}.R` go in `tests/testthat/test-{name}.R`.
 - All new code should have an accompanying test.
@@ -69,10 +71,12 @@ desirability:
   expectation with a better failure message. A few expectations in newer
   releases that you might not know about are `expect_all_true()`,
   `expect_all_equal()`, and `expect_r6_class()`.
-- When testing errors and warnings, don’t use `expect_error()` or
-  `expect_warning()`. Instead, use `expect_snapshot(error = TRUE)` for
-  errors and `expect_snapshot()` for warnings because these allow the
-  user to review the full text of the output.
+- When testing errors and warnings:
+  - Only use `expect_error()` or `expect_warning()` if the error or
+    warning has a known class.
+  - Generally, prefer `expect_snapshot(error = TRUE)` for errors and
+    `expect_snapshot()` for warnings because these allow the user to
+    review the full text of the output.
 - Avoid the `.package` argument to `local_mocked_bindings()`; this
   modifies the namespace of another package, which is not good practice.
   Instead create a mockable version of the function in the current
@@ -104,6 +108,10 @@ desirability:
   newlines (i.e. DO NOT line wrap).
 - If the change is related to a function, put the name of the function
   early in the bullet.
+- If the change is related to an issue, include the issue number in
+  parentheses.
+- Only include a GitHub username if the PR was created by someone who
+  isn’t an author.
 - Order bullets alphabetically by function name. Put all bullets that
   don’t mention function names at the beginning.
 
@@ -114,6 +122,13 @@ desirability:
 - Are you adding input checking to an existing function or writing a new
   exported function? Read the output of
   `usethis::learn_tidy_skill("arg-checking")`.
+
+## Git
+
+- If the user asks you to commit, use markdown in the commit message,
+  and don’t line wrap.
+- If the commit fixes an issue, include `Fixes #num.` on its own line.
+- Only push when the user explicitly requests it.
 
 ## Writing
 

@@ -64,51 +64,55 @@
 <h2 id="package-development">Package development<a class="anchor" aria-label="anchor" href="#package-development"></a></h2>
 <div class="section level3">
 <h3 id="key-commands">Key commands<a class="anchor" aria-label="anchor" href="#key-commands"></a></h3>
+<p>(All these functions have been optimized for agentic use, so they can be called directly without other arguments.)</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># To run code</span></span>
+<code class="sourceCode R"><span><span class="co"># Executing code</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">code</span></span>
 <span></span>
-<span><span class="co"># To run all tests</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Tests</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span> <span class="co"># all tests</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span>filter <span class="op">=</span> <span class="st">"^{name}"</span><span class="op">)</span> <span class="co"># tests for files starting with {name}</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_active_file</span><span class="op">(</span><span class="st">"R/{name}.R"</span><span class="op">)</span> <span class="co"># tests for R/{name}.R</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_active_file</span><span class="op">(</span><span class="st">"R/{name}.R"</span>, desc <span class="op">=</span> <span class="st">'blah'</span><span class="op">)</span> <span class="co"># single test with exact description "blah" (no regexp)</span></span>
 <span></span>
-<span><span class="co"># To run all tests for files starting with {name}</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span>filter <span class="op">=</span> <span class="st">'^{name}'</span><span class="op">)</span></span>
+<span><span class="co"># Test coverage</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_coverage</span><span class="op">(</span><span class="op">)</span> <span class="co"># all files</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_coverage_active_file</span><span class="op">(</span><span class="st">"R/{name}.R"</span><span class="op">)</span> <span class="co"># coverage for R/{name}.R from tests in tests/testthat/test-{name}.R</span></span>
 <span></span>
-<span><span class="co"># To run all tests for R/{name}.R</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_active_file</span><span class="op">(</span><span class="st">'R/{name}.R'</span><span class="op">)</span></span>
+<span><span class="co"># Documentation</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span> <span class="co"># redocument package</span></span>
+<span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/check_pkgdown.html" class="external-link">check_pkgdown</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># check website</span></span>
 <span></span>
-<span><span class="co"># To run a single test with exact description "blah" (no regexp)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test_active_file</span><span class="op">(</span><span class="st">'R/{name}.R'</span>, desc <span class="op">=</span> <span class="st">'blah'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># To redocument the package</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># To check pkgdown documentation</span></span>
-<span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/check_pkgdown.html" class="external-link">check_pkgdown</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># To check the package with R CMD check</span></span>
+<span><span class="co"># Run complete R CMD check</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">check</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="running-r">Running R<a class="anchor" aria-label="anchor" href="#running-r"></a></h3>
 <p>There are three possible ways to run code, listed in rough order of desirability:</p>
 <ul><li><p>If you’re running inside Posit Assistant or otherwise have an <code>executeCode()</code> tool available, use it to run code in a session that the user can also interact with.</p></li>
 <li><p>Otherwise, if an R REPL (e.g. <code>mcp__r__repl</code> or <code>btw::run_r</code>) is available, use that. Note that <code>mcp__r__repl</code> uses a sandbox that blocks network requests and reads/writes outside of the current directory.</p></li>
 <li><p>Otherwise, use <code>Rscript -e "code"</code>.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="coding">Coding<a class="anchor" aria-label="anchor" href="#coding"></a></h3>
-<ul><li>Always run <code>air format .</code> after generating code.</li>
+<h3 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h3>
+<ul><li>Follow the tidyverse style guide</li>
+<li>Always run <code>air format .</code> after generating code.</li>
 <li>Use the base pipe operator (<code>|&gt;</code>), not the magrittr pipe (<code>%&gt;%</code>).</li>
 <li>Use <code>\() ...</code> for single-line anonymous functions. For all other cases, use <code>function() {...}</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h3>
+<h3 id="test-style">Test style<a class="anchor" aria-label="anchor" href="#test-style"></a></h3>
 <ul><li>Tests for <code>R/{name}.R</code> go in <code>tests/testthat/test-{name}.R</code>.</li>
 <li>All new code should have an accompanying test.</li>
 <li>If there are existing tests, place new tests next to similar existing tests.</li>
 <li>Strive to keep your tests minimal with few comments.</li>
 <li>Never put code in a <code>test-{name}.R</code> file outside of a <code>test_that()</code> block. Instead, use <code>tests/testthat/helper.R</code> or <code>tests/testthat/helper-{name}.R</code>.</li>
 <li>Avoid <code>expect_true()</code> and <code>expect_false()</code> in favor of a specific expectation with a better failure message. A few expectations in newer releases that you might not know about are <code>expect_all_true()</code>, <code>expect_all_equal()</code>, and <code>expect_r6_class()</code>.</li>
-<li>When testing errors and warnings, don’t use <code>expect_error()</code> or <code>expect_warning()</code>. Instead, use <code>expect_snapshot(error = TRUE)</code> for errors and <code>expect_snapshot()</code> for warnings because these allow the user to review the full text of the output.</li>
+<li>When testing errors and warnings:
+<ul><li>Only use <code>expect_error()</code> or <code>expect_warning()</code> if the error or warning has a known class.</li>
+<li>Generally, prefer <code>expect_snapshot(error = TRUE)</code> for errors and <code>expect_snapshot()</code> for warnings because these allow the user to review the full text of the output.</li>
+</ul></li>
 <li>Avoid the <code>.package</code> argument to <code>local_mocked_bindings()</code>; this modifies the namespace of another package, which is not good practice. Instead create a mockable version of the function in the current package. See <code>?local_mocked_bindings</code> for more details.</li>
 </ul></div>
 <div class="section level3">
@@ -131,6 +135,8 @@
 <li>Each bullet should briefly describe the change to the end user and mention the related issue in parentheses.</li>
 <li>A bullet can consist of multiple sentences but should not contain any newlines (i.e. DO NOT line wrap).</li>
 <li>If the change is related to a function, put the name of the function early in the bullet.</li>
+<li>If the change is related to an issue, include the issue number in parentheses.</li>
+<li>Only include a GitHub username if the PR was created by someone who isn’t an author.</li>
 <li>Order bullets alphabetically by function name. Put all bullets that don’t mention function names at the beginning.</li>
 </ul></div>
 </div>
@@ -138,6 +144,12 @@
 <h2 id="specialized-skills">Specialized skills<a class="anchor" aria-label="anchor" href="#specialized-skills"></a></h2>
 <ul><li>Do you need to deprecate a function or argument? Read the output of <code>usethis::learn_tidy_skill("deprecate")</code>.</li>
 <li>Are you adding input checking to an existing function or writing a new exported function? Read the output of <code>usethis::learn_tidy_skill("arg-checking")</code>.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="git">Git<a class="anchor" aria-label="anchor" href="#git"></a></h2>
+<ul><li>If the user asks you to commit, use markdown in the commit message, and don’t line wrap.</li>
+<li>If the commit fixes an issue, include <code>Fixes #num.</code> on its own line.</li>
+<li>Only push when the user explicitly requests it.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="writing">Writing<a class="anchor" aria-label="anchor" href="#writing"></a></h2>
