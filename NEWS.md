@@ -12,6 +12,9 @@
 * `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
 * `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
+* `git_default_branch_rename()`, if appropriate, offers a reminder to update 
+  codecov configuration (#2078, @ijlyttle).
+
 # usethis 3.2.1
 
 * `create_quarto_project()` exits early if the Quarto CLI does not appear to be
