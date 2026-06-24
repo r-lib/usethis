@@ -69,6 +69,20 @@ use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to turn on GitHub Pages")
 
+  cfg <- github_remote_config(github_get = NA)
+  online <- is_online(tr$host)
+
+  default_branch <- if (online) {
+    git_default_branch_(cfg)
+  } else {
+    guess_local_default_branch()
+  }
+  challenge_non_default_branch(
+    "Your site will not build until this branch is merged with
+    {.val {default_branch}}. Do you want to continue on this branch?",
+    default_branch = default_branch
+  )
+
   use_pkgdown()
   site <- use_github_pages()
   use_github_action("pkgdown")
