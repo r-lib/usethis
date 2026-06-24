@@ -12,6 +12,8 @@
 * `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
 * `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
+* Adds `open` argument to `use_c()`, `use_rcpp()`, `use_rcpp_armadillo()`, `use_rcpp_eingen()`, `use_makevars()` and `use_cpp11()` (#2207, @brunomartins-rdev).*
+
 # usethis 3.2.1
 
 * `create_quarto_project()` exits early if the Quarto CLI does not appear to be
