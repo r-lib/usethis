@@ -78,23 +78,42 @@
       ! `file` is absent, but must be supplied.
       i Possible options are cli, downstream-deps, lazyeval, lifecycle, linked-version, obj-type, purrr, rlang, s3-register, sizes, types-check, vctrs, or zeallot.
 
-# can extract imports
+# can extract imports/suggests
 
     Code
-      extract_imports("# imports: rlang (== 1.0.0)")
+      extract_pkgs("# imports: rlang (== 1.0.0)", "imports")
     Condition
-      Error in `extract_imports()`:
+      Error in `extract_pkgs()`:
       ! Version specification must use `>=`.
     Code
-      extract_imports("# imports: rlang (>= 1.0.0), purrr")
+      extract_pkgs("# suggests: rlang (== 1.0.0)", "suggests")
+    Output
+      # A data frame: 1 x 3
+        pkg   cmp   ver  
+        <chr> <chr> <chr>
+      1 rlang ==    1.0.0
+    Code
+      extract_pkgs("# imports: rlang (>= 1.0.0), purrr", "imports")
     Condition
-      Error in `extract_imports()`:
+      Error in `extract_pkgs()`:
       ! Version field can't contain comma.
       i Do you need to wrap in a list?
     Code
-      extract_imports("# imports: foo (>=0.0.0)")
+      extract_pkgs("# suggests: rlang (>= 1.0.0), purrr", "suggests")
     Condition
-      Error in `extract_imports()`:
+      Error in `extract_pkgs()`:
+      ! Version field can't contain comma.
+      i Do you need to wrap in a list?
+    Code
+      extract_pkgs("# imports: foo (>=0.0.0)", "imports")
+    Condition
+      Error in `extract_pkgs()`:
+      ! Can't parse version `foo (>=0.0.0)` in `imports:` field.
+      i Example of expected version format: `rlang (>= 1.0.0)`.
+    Code
+      extract_pkgs("# suggests: foo (>=0.0.0)", "suggests")
+    Condition
+      Error in `extract_pkgs()`:
       ! Can't parse version `foo (>=0.0.0)` in `imports:` field.
       i Example of expected version format: `rlang (>= 1.0.0)`.
 
