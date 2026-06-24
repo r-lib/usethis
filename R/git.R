@@ -3,6 +3,10 @@
 #' `use_git()` initialises a Git repository and adds important files to
 #' `.gitignore`. If user consents, it also makes an initial commit.
 #'
+#' If there is no active project and the working directory is not inside an
+#' existing project, `use_git()` treats the working directory as the project
+#' root and initialises the Git repository there.
+#'
 #' @param message Message to use for first commit.
 #' @family git helpers
 #' @export
@@ -11,17 +15,15 @@
 #' use_git()
 #' }
 use_git <- function(message = "Initial commit") {
+  if (!proj_active() && !possibly_in_proj()) {
+    proj_set(path_wd(), force = TRUE)
+  }
+
   needs_init <- !uses_git()
   if (needs_init) {
     ui_bullets(c("v" = "Initialising Git repo."))
     git_init()
-    # hacky but helps prevent a pop-up in Positron, where early attempts to
-    # interact with a newly created repo lead to:
-    # Git: There are no available repositories
-    # https://github.com/r-lib/usethis/pull/2011#issue-2380380721
-    if (is_positron()) {
-      Sys.sleep(1)
-    }
+    rstudio_git_tickle()
   }
 
   use_git_ignore(git_ignore_lines)
