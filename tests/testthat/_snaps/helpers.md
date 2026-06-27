@@ -62,6 +62,14 @@
       ! Package usethis is already listed in 'Imports' in DESCRIPTION; no change
         made.
 
+# use_dependency() respects downgrade = FALSE
+
+    Code
+      use_dependency("crayon", "Imports", min_version = "1.0.0", downgrade = FALSE)
+    Message
+      ! Package crayon is already listed with version ">= 2.0.0" in DESCRIPTION; no
+        change made.
+
 # can add LinkingTo dependency if other dependency already exists
 
     Code

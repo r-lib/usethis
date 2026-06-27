@@ -83,6 +83,22 @@ test_that("use_dependency() declines to downgrade a dependency", {
   expect_no_match(desc::desc_get("Suggests"), "usethis")
 })
 
+test_that("use_dependency() respects downgrade = FALSE", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+
+  use_dependency("crayon", "Imports", min_version = "2.0.0")
+  expect_snapshot(
+    use_dependency(
+      "crayon",
+      "Imports",
+      min_version = "1.0.0",
+      downgrade = FALSE
+    )
+  )
+  expect_match(desc::desc_get("Imports"), ">= 2.0.0")
+})
+
 test_that("can add LinkingTo dependency if other dependency already exists", {
   create_local_package()
   use_dependency("rlang", "Imports")
