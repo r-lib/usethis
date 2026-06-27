@@ -25,6 +25,9 @@
 #' @param min_version Optionally, supply a minimum version for the package. Set
 #'   to `TRUE` to use the currently installed version or use a version string
 #'   suitable for [numeric_version()], such as "2.5.0".
+#' @param downgrade If `FALSE`, a minimum version that is lower than the
+#'   currently recorded version will be silently ignored. The default (`TRUE`)
+#'   preserves the historical behaviour of allowing the version to be lowered.
 #' @param remote By default, an `OWNER/REPO` GitHub remote is inserted.
 #'   Optionally, you can supply a character string to specify the remote, e.g.
 #'   `"gitlab::jimhester/covr"`, using any syntax supported by the [remotes
@@ -44,12 +47,23 @@
 #' # Depend on R version 4.1
 #' use_package("R", type = "Depends", min_version = "4.1")
 #' }
-use_package <- function(package, type = "Imports", min_version = NULL) {
+use_package <- function(
+  package,
+  type = "Imports",
+  min_version = NULL,
+  downgrade = TRUE
+) {
   if (type == "Imports") {
     refuse_package(package, verboten = c("tidyverse", "tidymodels"))
   }
+  check_bool(downgrade)
 
-  changed <- use_dependency(package, type, min_version = min_version)
+  changed <- use_dependency(
+    package,
+    type,
+    min_version = min_version,
+    downgrade = downgrade
+  )
   if (changed) {
     how_to_use(package, type)
   }

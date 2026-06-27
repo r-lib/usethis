@@ -5,7 +5,7 @@
 \alias{use_dev_package}
 \title{Depend on another package}
 \usage{
-use_package(package, type = "Imports", min_version = NULL)
+use_package(package, type = "Imports", min_version = NULL, downgrade = TRUE)
 
 use_dev_package(package, type = "Imports", remote = NULL)
 }
@@ -19,6 +19,10 @@ is case insensitive.}
 \item{min_version}{Optionally, supply a minimum version for the package. Set
 to \code{TRUE} to use the currently installed version or use a version string
 suitable for \code{\link[=numeric_version]{numeric_version()}}, such as "2.5.0".}
+
+\item{downgrade}{If \code{FALSE}, a minimum version that is lower than the
+currently recorded version will be silently ignored. The default (\code{TRUE})
+preserves the historical behaviour of allowing the version to be lowered.}
 
 \item{remote}{By default, an \code{OWNER/REPO} GitHub remote is inserted.
 Optionally, you can supply a character string to specify the remote, e.g.

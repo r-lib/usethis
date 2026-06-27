@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `use_package()` gains a `downgrade` argument. When set to `FALSE`, a `min_version` lower than the currently recorded version is silently ignored rather than being written to `DESCRIPTION`. `use_standalone()` now passes `downgrade = FALSE` when recording its `imports:` dependencies, preventing a standalone file from inadvertently lowering a version constraint the package author has intentionally set higher.
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
 * `learn_tidy_skill()` is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It's primarily designed to be called by AI coding agents, as directed by the `AGENTS.md` created by `use_tidy_agents()`.
 * `pr_init()` and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
