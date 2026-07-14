@@ -34,9 +34,8 @@
 #'
 #' - `imports`: A package or list of packages that the standalone file
 #'    depends on. A minimal version may be specified in parentheses,
-#'    e.g. `rlang (>= 1.0.0)`. These dependencies are passed to
-#'    [use_package()] to ensure they are included in the `Imports:`
-#'    field of the `DESCRIPTION` file.
+#'    e.g. `rlang (>= 1.0.0)`. The `DESCRIPTION` file will be updated
+#'    as needed.
 #'
 #' Note that lists are specified with standard YAML syntax, using
 #' square brackets, for example: `imports: [rlang (>= 1.0.0), purrr]`.
@@ -94,7 +93,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
       ver <- import$ver
     }
     ui_silence(
-      use_package(import$pkg, min_version = ver)
+      use_dependency(import$pkg, "Imports", min_version = ver)
     )
   }
 

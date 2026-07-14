@@ -55,6 +55,18 @@ test_that("we message for version change and are silent for same version", {
   expect_snapshot(
     use_dependency("crayon", "Imports", min_version = "1.0.0")
   )
+  expect_match(desc::desc_get("Imports"), ">= 2.0.0")
+})
+
+test_that("use_dependency() lowers version when force = TRUE", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+
+  use_dependency("crayon", "Imports", min_version = "2.0.0")
+  expect_snapshot(
+    use_dependency("crayon", "Imports", min_version = "1.0.0", force = TRUE)
+  )
+  expect_match(desc::desc_get("Imports"), ">= 1.0.0")
 })
 
 ## https://github.com/r-lib/usethis/issues/99

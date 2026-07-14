@@ -66,9 +66,8 @@ the standalone file depends on. These files are retrieved
 automatically by \code{use_standalone()}.
 \item \code{imports}: A package or list of packages that the standalone file
 depends on. A minimal version may be specified in parentheses,
-e.g. \verb{rlang (>= 1.0.0)}. These dependencies are passed to
-\code{\link[=use_package]{use_package()}} to ensure they are included in the \verb{Imports:}
-field of the \code{DESCRIPTION} file.
+e.g. \verb{rlang (>= 1.0.0)}. The \code{DESCRIPTION} file will be updated
+as needed.
 }
 
 Note that lists are specified with standard YAML syntax, using
