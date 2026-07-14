@@ -5,7 +5,7 @@ This helper:
 - Adds lifecycle as a dependency.
 
 - Imports
-  [`lifecycle::deprecated()`](https://lifecycle.r-lib.org/reference/deprecated.html)
+  [`lifecycle::deprecated()`](https://rdrr.io/pkg/lifecycle/man/deprecated.html)
   for use in function arguments.
 
 - Copies the lifecycle badges into `man/figures`.

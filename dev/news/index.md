@@ -815,7 +815,7 @@ gains several functions to support default branch renaming.
 
 - [`use_lifecycle()`](https://usethis.r-lib.org/dev/reference/use_lifecycle.md)
   now imports
-  [`lifecycle::deprecated()`](https://lifecycle.r-lib.org/reference/deprecated.html)
+  [`lifecycle::deprecated()`](https://rdrr.io/pkg/lifecycle/man/deprecated.html)
   ([\#1419](https://github.com/r-lib/usethis/issues/1419)).
 
 - [`use_code_of_conduct()`](https://usethis.r-lib.org/dev/reference/use_code_of_conduct.md)

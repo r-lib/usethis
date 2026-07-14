@@ -76,10 +76,7 @@ Two of these fields are consulted by `use_standalone()`:
 
 - `imports`: A package or list of packages that the standalone file
   depends on. A minimal version may be specified in parentheses, e.g.
-  `rlang (>= 1.0.0)`. These dependencies are passed to
-  [`use_package()`](https://usethis.r-lib.org/dev/reference/use_package.md)
-  to ensure they are included in the `Imports:` field of the
-  `DESCRIPTION` file.
+  `rlang (>= 1.0.0)`. The `DESCRIPTION` file will be updated as needed.
 
 Note that lists are specified with standard YAML syntax, using square
 brackets, for example: `imports: [rlang (>= 1.0.0), purrr]`.
