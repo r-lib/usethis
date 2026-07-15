@@ -11,6 +11,20 @@ test_that("uses_git() works", {
   expect_no_error(check_uses_git())
 })
 
+test_that("use_git() works in a directory that is not yet a project", {
+  skip_if_no_git_user()
+
+  dir <- withr::local_tempdir(pattern = "usegit")
+  withr::local_dir(dir)
+  local_project(NULL, force = TRUE, setwd = FALSE, quiet = TRUE)
+
+  use_git()
+
+  expect_equal(proj_get(), path_real(dir))
+  expect_true(uses_git())
+  expect_proj_file(".gitignore")
+})
+
 test_that('use_git_config(scope = "project") errors if project not using git', {
   create_local_package()
   expect_usethis_error(
