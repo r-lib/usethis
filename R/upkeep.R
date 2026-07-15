@@ -10,6 +10,43 @@
 #' tidyverse team uses a similar function [use_tidy_upkeep_issue()] for our
 #' annual package Spring Cleaning.
 #'
+#' @details
+#' The following checklist will be created. Please note that some checklist
+#' items may not apply to your specific package.
+#'
+#'
+#' * usethis::use_readme_rmd()
+#' * usethis::use_roxygen_md()
+#' * usethis::use_github_links()
+#' * usethis::use_pkgdown_github_pages()
+#' * Consider using Bootstrap 5 in your pkgdown site.
+#'    + See <https://pkgdown.r-lib.org/articles/customise.html> for more info
+#' * usethis::use_tidy_description()
+#' * usethis::use_tidy_description()
+#'    + Consider letting usethis manage your `@importFrom` directives here.
+#'    + usethis::use_import_from() is handy for this.
+#' * usethis::use_testthat()
+#' * usethis::use_testthat(3)
+#' * Align the names of `R/` files and `test/` files for workflow happiness.
+#'    + The docs for `usethis::use_r()` include a helpful script.
+#'    + usethis::rename_files() may be be useful.
+#' * Consider changing default branch from `master` to `main`
+#' * usethis::use_code_of_conduct()
+#' * Remove description of test environments from cran-comments.md
+#'    + See usethis::use_cran_comments()
+#' * Add alt-text to pictures, plots, etc
+#'    + see <https://posit.co/blog/knitr-fig-alt/> for examples
+#'    + Set up or update GitHub Actions.
+#'    + Updating workflows to the latest version will often fix troublesome actions
+#' * usethis::use_github_action('check-standard')
+#' * usethis::use_github_action('pkgdown')
+#' * usethis::use_github_action('test-coverage')
+#'
+#'
+#'
+#'
+#'
+#'
 #' @param year Year you are performing the upkeep, used in the issue title.
 #'   Defaults to current year
 #'
