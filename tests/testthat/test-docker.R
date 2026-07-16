@@ -5,7 +5,10 @@ test_that("use_dockerfile() creates Dockerfile", {
   expect_no_error(use_dockerfile(open = FALSE, use_git = TRUE))
   expect_true(file_exists(proj_path("Dockerfile")))
   content <- readLines(proj_path("Dockerfile"))
-  expect_match(paste(content, collapse = "\n"), "Multi-stage build for R package")
+  expect_match(
+    paste(content, collapse = "\n"),
+    "Multi-stage build for R package"
+  )
 })
 
 test_that("use_dockerfile() sets defaults from DESCRIPTION", {
