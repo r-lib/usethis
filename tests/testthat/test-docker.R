@@ -111,4 +111,3 @@ test_that("use_dockerfile() outputs expected messages", {
     }
   )
 })
-
