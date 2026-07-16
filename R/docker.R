@@ -4,10 +4,10 @@
 #' Automate Docker containerization for an R package or project.
 #' Creates a multi-stage Dockerfile optimized for R development.
 #'
-#' @param R_version Character vector of R version to use (e.g., "4.4.0").
-#'   Defaults to current version via `paste0("4.", R.version$minor)`.
+#' @param R_version Character string of R version to use (e.g., "4.4.0").
+#'   Defaults to current version via `paste0(R.version$major, ".", R.version$minor)`.
 #' @param use_quarto Logical. Include Quarto (>= 1.5.1) for documentation rendering.
-#'   Default `TRUE` if suggested packages include quarto.
+#'   Default `TRUE` if quarto is in Imports or Suggests.
 #' @param use_tidyverse Logical. Include tidyverse collection (ggplot2, dplyr, tidyr, etc.).
 #'   Default `FALSE`.
 #' @param use_tidymodels Logical. Include tidymodels for modeling workflows.
@@ -15,30 +15,36 @@
 #' @param use_latex Logical. Include TinyTeX for LaTeX/PDF rendering.
 #'   Default `FALSE`.
 #' @param use_pandoc Logical. Include pandoc for document conversion.
-#'   Default `TRUE` if rmarkdown is in Suggests.
+#'   Default `TRUE` if rmarkdown is in Imports or Suggests.
 #' @param use_git Logical. Include git in the image. Default `TRUE`.
 #' @param additional_packages Character vector of additional system packages to install
-#'   (e.g., `c("curl-dev", "openssl-dev")`). Default `NULL`.
-#' @param base_image Character. Base image URI. Default `"r-base"` (rocker project).
+#'   (e.g., `c("curl-dev", "libxml2-dev")`). Default `NULL`.
+#' @param base_image Character. Base image URI without tag.
+#'   Default `"rocker/r-base"` (rocker project). Do not include a tag;
+#'   the tag is controlled by `R_version`.
 #' @param workdir Character. Working directory inside container. Default `"/workspace"`.
+#' @param repos Character. R package repositories for `install.packages()`.
+#'   Default uses [Posit Public Package Manager](https://packagemanager.posit.co)
+#'   with a date-pinned snapshot for reproducibility.
 #' @param open Logical. Open the generated Dockerfile after creation? Default `TRUE`
 #'   if interactive.
 #'
 #' @details
 #' Uses multi-stage Docker build:
-#' 1. **builder stage**: Installs system dependencies, R packages, and tools.
-#' 2. **final stage**: Minimal runtime image with installed packages and project code.
+#' 1. **builder stage**: Installs system dependencies and R packages.
+#' 2. **final stage**: Runtime image with installed packages and project code.
 #'
 #' Best practices applied:
 #' - Layer caching for fast iterative builds
 #' - Separate system deps, R package deps, and source code layers
 #' - Non-root user for security
 #' - `.dockerignore` to reduce build context
+#' - Date-pinned package repository for reproducibility
 #'
 #' Package dependencies are extracted from DESCRIPTION imports/suggests.
 #' Local packages (`.` notation) must be in `DESCRIPTION::Imports`.
 #'
-#' @return `NULL` invisibly. Called for side effects (file creation).
+#' @return `TRUE` invisibly. Called for side effects (file creation).
 #'
 #' @seealso
 #' - [Docker documentation](https://docs.docker.com/develop/dev-best-practices/)
@@ -75,26 +81,41 @@ use_dockerfile <- function(
   additional_packages = NULL,
   base_image = "rocker/r-base",
   workdir = "/workspace",
+  repos = paste0(
+    "https://packagemanager.rstudio.com/cran/__linux__/jammy/",
+    Sys.Date()
+  ),
   open = rlang::is_interactive()
 ) {
   check_is_project()
+
+  if (grepl(":", base_image)) {
+    ui_abort(c(
+      "!" = "{.arg base_image} must not include a tag.",
+      "i" = "Pass just the image name (e.g., {.val rocker/r-ver}) and use {.arg R_version} to control the tag."
+    ))
+  }
 
   # Set defaults
   if (is.null(R_version)) {
     R_version <- paste0(R.version$major, ".", R.version$minor)
   }
 
+  if (length(R_version) != 1L) {
+    ui_abort("{.arg R_version} must be a single character string.")
+  }
+
   desc <- proj_desc()
-  suggests <- tolower(desc$get_field("Suggests", default = ""))
-  imports <- tolower(desc$get_field("Imports", default = ""))
-  all_deps <- paste(suggests, imports)
+  suggests <- desc$get_field("Suggests", default = "")
+  imports <- desc$get_field("Imports", default = "")
+  all_deps <- tolower(paste(suggests, imports))
 
   if (is.null(use_quarto)) {
-    use_quarto <- grepl("quarto", all_deps)
+    use_quarto <- grepl("quarto", all_deps, fixed = TRUE)
   }
 
   if (is.null(use_pandoc)) {
-    use_pandoc <- grepl("rmarkdown", all_deps)
+    use_pandoc <- grepl("rmarkdown", all_deps, fixed = TRUE)
   }
 
   project_name <- project_name()
@@ -126,7 +147,13 @@ use_dockerfile <- function(
   }
 
   r_pkgs <- unique(sort(r_pkgs))
-  r_pkgs_str <- paste0('c("', paste(r_pkgs, collapse = '", "'), '")')
+  check_docker_pkgs(r_pkgs)
+
+  r_pkgs_str <- if (length(r_pkgs)) {
+    paste0('c("', paste(r_pkgs, collapse = '", "'), '")')
+  } else {
+    "character(0)"
+  }
 
   # Build system packages list
   sys_pkgs <- c()
@@ -162,7 +189,50 @@ use_dockerfile <- function(
 
   # Build Dockerfile content
   dockerfile_content <- glue(
-    "# Multi-stage build for R package: {project_name}\n# Stage 1: builder\nFROM {base_image}:{R_version} AS builder\n\nWORKDIR /build\n\n# Install system dependencies\n{sys_pkgs_str}\n\n# Install R packages\nRUN R --quiet --no-save <<'EOF'\npkgs <- {r_pkgs_str}\ninstall.packages(pkgs, repos = \"https://cloud.r-project.org\")\nEOF\n\n# Stage 2: final runtime\nFROM {base_image}:{R_version}\n\n# Create non-root user (or use existing if UID in use)\nRUN useradd -m -u 1000 ruser || echo 'User already exists'\n\nWORKDIR {workdir}\n\n# Copy system deps + R packages from builder\nCOPY --from=builder /usr/local/lib/R /usr/local/lib/R\nCOPY --from=builder /usr/bin /usr/bin\nCOPY --from=builder /usr/local/bin /usr/local/bin\n\n# Install minimal system deps for runtime\n{sys_pkgs_str}\n\n# Copy project source\nCOPY --chown=ruser:ruser . .\n\n# Switch to non-root user\nUSER ruser\n\n# Set R repo and startup options\nENV R_LIBS_USER=/home/ruser/R/library\nRUN mkdir -p /home/ruser/R/library\n\n# Default: R interactive\nCMD [\"R\", \"--no-save\"]\n",
+    "
+# Multi-stage build for R package: {project_name}
+
+# Stage 1: builder
+FROM {base_image}:{R_version} AS builder
+
+WORKDIR /build
+
+# Install system dependencies
+{sys_pkgs_str}
+
+# Install R packages
+RUN R --quiet --no-save <<'EOF'
+pkgs <- {r_pkgs_str}
+install.packages(pkgs, repos = \"{repos}\")
+EOF
+
+# Stage 2: final runtime
+FROM {base_image}:{R_version}
+
+# Create non-root user (skip if already exists)
+RUN id -u ruser >/dev/null 2>&1 || useradd -m -u 1000 ruser
+
+WORKDIR {workdir}
+
+# Copy R packages from builder
+COPY --from=builder /usr/local/lib/R /usr/local/lib/R
+
+# Install system deps for runtime
+{sys_pkgs_str}
+
+# Copy project source
+COPY --chown=ruser:ruser . .
+
+# Switch to non-root user
+USER ruser
+
+# Set R repo and startup options
+ENV R_LIBS_USER=/home/ruser/R/library
+RUN mkdir -p /home/ruser/R/library
+
+# Default: R interactive
+CMD [\"R\", \"--no-save\"]
+",
     .trim = FALSE
   )
 
@@ -186,7 +256,9 @@ use_dockerfile <- function(
         "*~",
         ".DS_Store",
         "revdep/",
-        "pkgdown/"
+        "pkgdown/",
+        "renv/library",
+        "renv/staging"
       ),
       dockerignore_path
     )
@@ -218,6 +290,25 @@ use_dockerfile <- function(
   }
 
   invisible(TRUE)
+}
+
+
+#' Validate package names for Dockerfile generation
+#'
+#' @keywords internal
+#' @noRd
+check_docker_pkgs <- function(pkgs) {
+  if (length(pkgs) == 0) {
+    return(invisible())
+  }
+  bad <- pkgs[!grepl("^[A-Za-z][A-Za-z0-9.]+$", pkgs)]
+  if (length(bad) > 0) {
+    ui_abort(c(
+      "x" = "Invalid package name{?s}: {.val {bad}}.",
+      "i" = "Package names must start with a letter and contain only ASCII letters, digits, and '.'."
+    ))
+  }
+  invisible()
 }
 
 

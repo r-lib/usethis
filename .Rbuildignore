@@ -33,3 +33,4 @@
 ^\.posit$
 ^\.dockerignore$
 ^Dockerfile$
+^README_files$

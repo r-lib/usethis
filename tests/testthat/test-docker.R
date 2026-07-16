@@ -109,3 +109,65 @@ test_that("use_dockerfile() outputs expected messages", {
   )
 })
 
+test_that("use_dockerfile() preserves case-sensitive package names", {
+  pkg <- create_local_package()
+  desc::desc_set(
+    "Imports" = "DBI, clubSandwich, dplyr",
+    file = proj_path("DESCRIPTION")
+  )
+  use_dockerfile(open = FALSE)
+  content <- paste(readLines(proj_path("Dockerfile")), collapse = "\n")
+  expect_match(content, "DBI")
+  expect_match(content, "clubSandwich")
+  expect_match(content, "dplyr")
+  expect_no_match(content, "dbi")
+  expect_no_match(content, "clubsandwich")
+})
+
+test_that("use_dockerfile() uses character(0) when no R packages needed", {
+  pkg <- create_local_package()
+  use_dockerfile(open = FALSE)
+  content <- paste(readLines(proj_path("Dockerfile")), collapse = "\n")
+  expect_match(content, "character\\(0\\)")
+  expect_no_match(content, 'c\\(""\\)')
+})
+
+test_that("use_dockerfile() errors on vector R_version", {
+  pkg <- create_local_package()
+  expect_snapshot(
+    use_dockerfile(R_version = c("4.3.0", "4.4.0"), open = FALSE),
+    error = TRUE
+  )
+})
+
+test_that("use_dockerfile() errors when base_image includes a tag", {
+  pkg <- create_local_package()
+  expect_snapshot(
+    use_dockerfile(base_image = "rocker/r-ver:4.3.3", open = FALSE),
+    error = TRUE
+  )
+})
+
+test_that("use_dockerfile() uses PPM repo by default", {
+  pkg <- create_local_package()
+  use_dockerfile(open = FALSE)
+  content <- paste(readLines(proj_path("Dockerfile")), collapse = "\n")
+  expect_match(content, "packagemanager.rstudio.com")
+})
+
+test_that("use_dockerfile() creates non-root user", {
+  pkg <- create_local_package()
+  use_dockerfile(open = FALSE)
+  content <- paste(readLines(proj_path("Dockerfile")), collapse = "\n")
+  expect_match(content, "id -u ruser")
+  expect_match(content, "useradd")
+})
+
+test_that("use_dockerfile() does not copy redundant system binaries", {
+  pkg <- create_local_package()
+  use_dockerfile(open = FALSE)
+  content <- paste(readLines(proj_path("Dockerfile")), collapse = "\n")
+  expect_no_match(content, "COPY --from=builder /usr/bin")
+  expect_no_match(content, "COPY --from=builder /usr/local/bin")
+})
+

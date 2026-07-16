@@ -15,15 +15,16 @@ use_dockerfile(
   additional_packages = NULL,
   base_image = "rocker/r-base",
   workdir = "/workspace",
+  repos = paste0("https://packagemanager.rstudio.com/cran/__linux__/jammy/", Sys.Date()),
   open = rlang::is_interactive()
 )
 }
 \arguments{
-\item{R_version}{Character vector of R version to use (e.g., "4.4.0").
-Defaults to current version via \code{paste0("4.", R.version$minor)}.}
+\item{R_version}{Character string of R version to use (e.g., "4.4.0").
+Defaults to current version via \code{paste0(R.version$major, ".", R.version$minor)}.}
 
 \item{use_quarto}{Logical. Include Quarto (>= 1.5.1) for documentation rendering.
-Default \code{TRUE} if suggested packages include quarto.}
+Default \code{TRUE} if quarto is in Imports or Suggests.}
 
 \item{use_tidyverse}{Logical. Include tidyverse collection (ggplot2, dplyr, tidyr, etc.).
 Default \code{FALSE}.}
@@ -35,22 +36,28 @@ Default \code{FALSE}.}
 Default \code{FALSE}.}
 
 \item{use_pandoc}{Logical. Include pandoc for document conversion.
-Default \code{TRUE} if rmarkdown is in Suggests.}
+Default \code{TRUE} if rmarkdown is in Imports or Suggests.}
 
 \item{use_git}{Logical. Include git in the image. Default \code{TRUE}.}
 
 \item{additional_packages}{Character vector of additional system packages to install
-(e.g., \code{c("curl-dev", "openssl-dev")}). Default \code{NULL}.}
+(e.g., \code{c("curl-dev", "libxml2-dev")}). Default \code{NULL}.}
 
-\item{base_image}{Character. Base image URI. Default \code{"r-base"} (rocker project).}
+\item{base_image}{Character. Base image URI without tag.
+Default \code{"rocker/r-base"} (rocker project). Do not include a tag;
+the tag is controlled by \code{R_version}.}
 
 \item{workdir}{Character. Working directory inside container. Default \code{"/workspace"}.}
+
+\item{repos}{Character. R package repositories for \code{install.packages()}.
+Default uses \href{https://packagemanager.posit.co}{Posit Public Package Manager}
+with a date-pinned snapshot for reproducibility.}
 
 \item{open}{Logical. Open the generated Dockerfile after creation? Default \code{TRUE}
 if interactive.}
 }
 \value{
-\code{NULL} invisibly. Called for side effects (file creation).
+\code{TRUE} invisibly. Called for side effects (file creation).
 }
 \description{
 Automate Docker containerization for an R package or project.
@@ -59,8 +66,8 @@ Creates a multi-stage Dockerfile optimized for R development.
 \details{
 Uses multi-stage Docker build:
 \enumerate{
-\item \strong{builder stage}: Installs system dependencies, R packages, and tools.
-\item \strong{final stage}: Minimal runtime image with installed packages and project code.
+\item \strong{builder stage}: Installs system dependencies and R packages.
+\item \strong{final stage}: Runtime image with installed packages and project code.
 }
 
 Best practices applied:
@@ -69,6 +76,7 @@ Best practices applied:
 \item Separate system deps, R package deps, and source code layers
 \item Non-root user for security
 \item \code{.dockerignore} to reduce build context
+\item Date-pinned package repository for reproducibility
 }
 
 Package dependencies are extracted from DESCRIPTION imports/suggests.
