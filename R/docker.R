@@ -20,8 +20,8 @@
 #' @param additional_packages Character vector of additional system packages to install
 #'   (e.g., `c("curl-dev", "libxml2-dev")`). Default `NULL`.
 #' @param base_image Character. Base image URI without tag.
-#'   Default `"rocker/r-base"` (rocker project). Do not include a tag;
-#'   the tag is controlled by `R_version`.
+#'   Default `"rocker/r-ver"` (Ubuntu Jammy-based, includes pandoc).
+#'   Do not include a tag; the tag is controlled by `R_version`.
 #' @param workdir Character. Working directory inside container. Default `"/workspace"`.
 #' @param repos Character. R package repositories for `install.packages()`.
 #'   Default uses [Posit Public Package Manager](https://packagemanager.posit.co)
@@ -42,7 +42,6 @@
 #' - Date-pinned package repository for reproducibility
 #'
 #' Package dependencies are extracted from DESCRIPTION imports/suggests.
-#' Local packages (`.` notation) must be in `DESCRIPTION::Imports`.
 #'
 #' @return `TRUE` invisibly. Called for side effects (file creation).
 #'
@@ -79,12 +78,9 @@ use_dockerfile <- function(
   use_pandoc = NULL,
   use_git = TRUE,
   additional_packages = NULL,
-  base_image = "rocker/r-base",
+  base_image = "rocker/r-ver",
   workdir = "/workspace",
-  repos = paste0(
-    "https://packagemanager.rstudio.com/cran/__linux__/jammy/",
-    Sys.Date()
-  ),
+  repos = NULL,
   open = rlang::is_interactive()
 ) {
   check_is_project()
@@ -105,24 +101,33 @@ use_dockerfile <- function(
     ui_abort("{.arg R_version} must be a single character string.")
   }
 
+  if (is.null(repos)) {
+    repos <- paste0(
+      "https://packagemanager.posit.co/cran/__linux__/jammy/",
+      Sys.Date()
+    )
+  }
+
   desc <- proj_desc()
-  suggests <- desc$get_field("Suggests", default = "")
-  imports <- desc$get_field("Imports", default = "")
-  all_deps <- tolower(paste(suggests, imports))
+  deps <- desc$get_deps()
+
+  # Robustly get all dependencies from DESCRIPTION
+  r_pkgs <- deps$package[
+    deps$type %in% c("Depends", "Imports", "Suggests", "LinkingTo")
+  ]
+  r_pkgs <- setdiff(r_pkgs, "R") # Remove R itself
 
   if (is.null(use_quarto)) {
-    use_quarto <- grepl("quarto", all_deps, fixed = TRUE)
+    use_quarto <- "quarto" %in% tolower(r_pkgs)
   }
 
   if (is.null(use_pandoc)) {
-    use_pandoc <- grepl("rmarkdown", all_deps, fixed = TRUE)
+    use_pandoc <- "rmarkdown" %in% tolower(r_pkgs)
   }
 
   project_name <- project_name()
-  is_pkg <- is_package()
 
   # Build R packages list
-  r_pkgs <- c()
   if (use_tidyverse) {
     r_pkgs <- c(r_pkgs, "tidyverse")
   }
@@ -132,18 +137,9 @@ use_dockerfile <- function(
   if (use_quarto) {
     r_pkgs <- c(r_pkgs, "quarto")
   }
-  if (use_latex) {
-    r_pkgs <- c(r_pkgs, "tinytex")
-  }
+  # Note: if use_latex, we use system texlive rather than tinytex to avoid bloat
   if (use_pandoc) {
     r_pkgs <- c(r_pkgs, "rmarkdown")
-  }
-
-  # Extract packages from DESCRIPTION
-  if (is_pkg) {
-    desc_imports <- parse_dependencies(imports)
-    desc_suggests <- parse_dependencies(suggests)
-    r_pkgs <- c(r_pkgs, desc_imports, desc_suggests)
   }
 
   r_pkgs <- unique(sort(r_pkgs))
@@ -176,7 +172,7 @@ use_dockerfile <- function(
 
   sys_pkgs <- unique(sys_pkgs)
 
-  # Use apt for Debian-based rocker images
+  # Use apt for Debian/Ubuntu-based rocker images
   if (length(sys_pkgs) > 0) {
     sys_pkgs_str <- paste0(
       "RUN apt-get update && apt-get install -y --no-install-recommends ",
@@ -190,45 +186,47 @@ use_dockerfile <- function(
   # Build Dockerfile content
   dockerfile_content <- glue(
     "
+# syntax=docker/dockerfile:1.6
+
 # Multi-stage build for R package: {project_name}
 
 # Stage 1: builder
 FROM {base_image}:{R_version} AS builder
 
+ENV R_LIBS=/rlib
 WORKDIR /build
 
 # Install system dependencies
 {sys_pkgs_str}
 
-# Install R packages
-RUN R --quiet --no-save <<'EOF'
-pkgs <- {r_pkgs_str}
-install.packages(pkgs, repos = \"{repos}\")
-EOF
+# Install R packages into a dedicated library
+RUN mkdir -p /rlib && Rscript -e 'install.packages({r_pkgs_str}, repos = \"{repos}\", lib = \"/rlib\")'
 
 # Stage 2: final runtime
 FROM {base_image}:{R_version}
 
+LABEL org.opencontainers.image.title=\"{project_name}\"
+
 # Create non-root user (skip if already exists)
 RUN id -u ruser >/dev/null 2>&1 || useradd -m -u 1000 ruser
+
+# Install runtime system deps
+{sys_pkgs_str}
 
 WORKDIR {workdir}
 
 # Copy R packages from builder
-COPY --from=builder /usr/local/lib/R /usr/local/lib/R
-
-# Install system deps for runtime
-{sys_pkgs_str}
+COPY --from=builder /rlib /rlib
+ENV R_LIBS=/rlib
 
 # Copy project source
 COPY --chown=ruser:ruser . .
 
+# Ensure working directory is owned by non-root user
+RUN chown -R ruser:ruser {workdir}
+
 # Switch to non-root user
 USER ruser
-
-# Set R repo and startup options
-ENV R_LIBS_USER=/home/ruser/R/library
-RUN mkdir -p /home/ruser/R/library
 
 # Default: R interactive
 CMD [\"R\", \"--no-save\"]
@@ -247,7 +245,6 @@ CMD [\"R\", \"--no-save\"]
         ".Rbuildignore",
         ".Rproj.user",
         ".vscode",
-        ".claude",
         "README.md",
         "NEWS.md",
         "*.log",
@@ -274,16 +271,24 @@ CMD [\"R\", \"--no-save\"]
     quiet = FALSE
   )
 
-  ui_bullets(c(
+  # Cleanly construct UI features list
+  features <- c(
+    use_quarto && "Quarto",
+    use_tidyverse && "Tidyverse",
+    use_tidymodels && "Tidymodels",
+    use_latex && "LaTeX"
+  )
+  features <- features[features]
+
+  bullets <- c(
     "v" = "Dockerfile created at {.path {pth('Dockerfile')}}",
     "i" = "To build: {.code docker build -t {tolower(project_name)}:{R_version} .}",
     "i" = "To run: {.code docker run -it {tolower(project_name)}:{R_version}}",
     "i" = "R version: {R_version}",
-    if (use_quarto) c("i" = "Quarto: enabled"),
-    if (use_tidyverse) c("i" = "Tidyverse: enabled"),
-    if (use_tidymodels) c("i" = "Tidymodels: enabled"),
-    if (use_latex) c("i" = "LaTeX: enabled")
-  ))
+    if (length(features)) "i" <- "Features: {paste(features, collapse = ', ')}"
+  )
+
+  ui_bullets(bullets)
 
   if (open) {
     edit_file(proj_path("Dockerfile"))
@@ -301,32 +306,15 @@ check_docker_pkgs <- function(pkgs) {
   if (length(pkgs) == 0) {
     return(invisible())
   }
-  bad <- pkgs[!grepl("^[A-Za-z][A-Za-z0-9.]+$", pkgs)]
+  # Per WRE: start with letter, >= 2 chars, <= 63 chars, letters/digits/dots, no trailing dot
+  bad <- pkgs[
+    !grepl("^[A-Za-z][A-Za-z0-9.]{1,62}$", pkgs) | grepl("\\.$", pkgs)
+  ]
   if (length(bad) > 0) {
     ui_abort(c(
       "x" = "Invalid package name{?s}: {.val {bad}}.",
-      "i" = "Package names must start with a letter and contain only ASCII letters, digits, and '.'."
+      "i" = "Package names must start with a letter, be 2-63 characters, contain only ASCII letters, digits, and '.', and not end with a '.'."
     ))
   }
   invisible()
-}
-
-
-#' Parse package dependencies from DESCRIPTION field
-#'
-#' @keywords internal
-#' @noRd
-parse_dependencies <- function(deps_str) {
-  if (!nzchar(deps_str)) {
-    return(character(0))
-  }
-
-  # Split by comma, clean whitespace and version specs
-  deps <- strsplit(deps_str, ",")[[1]]
-  deps <- trimws(deps)
-  # Remove version specs: package (>= 1.0) -> package
-  deps <- sub("\\s*\\(.*\\)$", "", deps)
-  deps <- trimws(deps)
-  deps <- unique(deps[nzchar(deps)])
-  sort(deps)
 }
