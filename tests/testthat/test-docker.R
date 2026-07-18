@@ -5,7 +5,10 @@ test_that("use_dockerfile() creates Dockerfile", {
   expect_no_error(use_dockerfile(open = FALSE, use_git = TRUE))
   expect_true(file_exists(proj_path("Dockerfile")))
   content <- readLines(proj_path("Dockerfile"))
-  expect_match(paste(content, collapse = "\n"), "Multi-stage build for R package")
+  expect_match(
+    paste(content, collapse = "\n"),
+    "Multi-stage build for R package"
+  )
 })
 
 test_that("use_dockerfile() sets defaults from DESCRIPTION", {
@@ -108,6 +111,7 @@ test_that("use_dockerfile() outputs expected messages", {
     }
   )
 })
+<<<<<<< HEAD
 
 test_that("use_dockerfile() preserves case-sensitive package names", {
   pkg <- create_local_package()
@@ -171,3 +175,5 @@ test_that("use_dockerfile() does not copy redundant system binaries", {
   expect_no_match(content, "COPY --from=builder /usr/local/bin")
 })
 
+=======
+>>>>>>> a4b25216f64fc4247719901af2fc331c281fbb95
