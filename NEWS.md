@@ -5,6 +5,13 @@
 * `pr_init()` and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+* New `use_dockerfile()` automates Docker containerization for R packages and projects. Generates a multi-stage Dockerfile with sensible R development defaults. Supports optional Quarto, tidyverse, tidymodels, LaTeX, and custom system packages. Automatically creates `.dockerignore` for efficient builds.
+* `use_dockerfile()` now uses Posit Public Package Manager with a date-pinned snapshot as the default R package repository, improving reproducibility. The new `repos` parameter allows override.
+* `use_dockerfile()` now validates `R_version` is a single string, `base_image` does not include a tag, and package names are well-formed before generating the Dockerfile.
+* `use_dockerfile()` now preserves package name case (e.g., `DBI`, `clubSandwich`) when building the install list. Previously, `tolower()` mangled names before they reached `install.packages()`.
+* `use_dockerfile()` no longer generates `install.packages(c(""))` when no R packages are needed. An empty dependency list now correctly produces `character(0)`.
+* `use_dockerfile()` non-root user creation now checks for existing users before attempting creation, rather than swallowing all errors.
+* `use_dockerfile()` multi-stage build no longer copies redundant system binary directories (`/usr/bin`, `/usr/local/bin`) from the builder stage.
 * New `use_env_var()` sets an environment variable in `.Renviron`, prompting for the value securely via `askpass::askpass()` and immediately activating it in the current session via `Sys.setenv()` (#2201, @gadenbuie).
 * `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).

@@ -62,8 +62,9 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/RtmpPZsquk/mypkg/'.
-#> ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".
+#> ✔ Creating 'C:/Users/jkyle/AppData/Local/Temp/RtmpOGdTFv/mypkg/'.
+#> ✔ Setting active project to
+#>   "C:/Users/jkyle/AppData/Local/Temp/RtmpOGdTFv/mypkg".
 #> ✔ Creating 'R/'.
 #> ✔ Writing 'DESCRIPTION'.
 #> Package: mypkg
@@ -76,13 +77,15 @@ create_package(path)
 #>     license
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.3.2
+#> RoxygenNote: 8.0.0
 #> ✔ Writing 'NAMESPACE'.
 #> ✔ Setting active project to "<no active project>".
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to "/private/tmp/RtmpPZsquk/mypkg".
-#> ✔ Changing working directory to '/tmp/RtmpPZsquk/mypkg/'
+#> ✔ Setting active project to
+#>   "C:/Users/jkyle/AppData/Local/Temp/RtmpOGdTFv/mypkg".
+#> ✔ Changing working directory to
+#>   'C:/Users/jkyle/AppData/Local/Temp/RtmpOGdTFv/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -127,6 +130,16 @@ use_git()
 #> ✔ Initialising Git repo.
 #> ✔ Adding ".Rproj.user", ".Rhistory", ".RData", ".httr-oauth", ".DS_Store", and
 #>   ".quarto" to '.gitignore'.
+
+# Set up Docker --------------------------------------------------
+use_dockerfile()
+#> ✔ Adding ".dockerignore" to '.Rbuildignore'.
+#> ✔ Adding "^Dockerfile$" to '.Rbuildignore'.
+#> ✔ Writing 'Dockerfile'.
+#> ✔ Dockerfile created at 'Dockerfile'
+#> ℹ To build: `docker build -t mypkg:4.6.0 .`
+#> ℹ To run: `docker run -it mypkg:4.6.0`
+#> ℹ R version: 4.6.0
 ```
 
 ## Code of Conduct

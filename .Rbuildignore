@@ -31,3 +31,6 @@
 ^\.positai$
 ^AGENTS\.md$
 ^\.posit$
+^\.dockerignore$
+^Dockerfile$
+^README_files$
