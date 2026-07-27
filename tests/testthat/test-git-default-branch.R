@@ -115,6 +115,10 @@ test_that("git_default_branch_rename() surfaces files that smell fishy", {
     file = path("whatever", "foo", "_bookdown.yaml")
   )
 
+  # The code to remind about updating codecov configuration,
+  # `fishy_codecov_config()`, is not tested because it depends
+  # on the location of a GitHub remote, which does not exist in this test.
+
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(
     git_default_branch_rename()
