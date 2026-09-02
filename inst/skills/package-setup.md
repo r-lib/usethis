@@ -11,4 +11,4 @@ In general, you will want to follow these steps.
 * Take a dependency on rlang with `usethis::use_package("rlang")`. Import all functions from rlang into the `NAMESPACE` with `@import rlang`.
 * Call `use_news_md()` to set up a news file.
 * Check the package with `devtools::check()` and ensure there are no issues
-* Make an initial git commit
+* Initialise a git repo

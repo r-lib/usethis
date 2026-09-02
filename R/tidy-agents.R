@@ -66,6 +66,7 @@ use_tidy_agents <- function() {
 #' @param name Name of the skill:
 #'   * `"arg-checking"`: add input checking to a function.
 #'   * `"deprecate"`: deprecate a function or argument.
+#'   * `"package-setup"`: set up a new package.
 #' @export
 #' @examples
 #' \dontrun{

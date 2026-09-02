@@ -11,6 +11,7 @@ learn_tidy_skill(name)
 \itemize{
 \item \code{"arg-checking"}: add input checking to a function.
 \item \code{"deprecate"}: deprecate a function or argument.
+\item \code{"package-setup"}: set up a new package.
 }}
 }
 \description{

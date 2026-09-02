@@ -46,7 +46,7 @@ There are three possible ways to run code, listed in rough order of desirability
 ### Code style
 
 - Follow the tidyverse style guide
-- Always run `air format .` after generating code.
+- Always run `air format .` after generating code. (air is bundled with Positron so look there if you can't otherwise find it.)
 - Use the base pipe operator (`|>`), not the magrittr pipe (`%>%`).
 - Use `\() ...` for single-line anonymous functions. For all other cases, use `function() {...}`.
 
@@ -88,8 +88,9 @@ There are three possible ways to run code, listed in rough order of desirability
 
 ## Specialized skills
 
-- Do you need to deprecate a function or argument? Read the output of `usethis::learn_tidy_skill("deprecate")`.
-- Are you adding input checking to an existing function or writing a new exported function? Read the output of `usethis::learn_tidy_skill("arg-checking")`.
+- Do you need to deprecate a function or argument? Read `usethis::learn_tidy_skill("deprecate")`.
+- Are you adding input checking to an existing function or writing a new exported function? Read `usethis::learn_tidy_skill("arg-checking")`.
+- Are you creating a new package? Read `usethis::learn_tidy_skill("package-setup")`.
 
 ## Git
 

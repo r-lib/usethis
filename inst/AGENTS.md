@@ -1,5 +1,7 @@
 ## This package
 
+<!-- Insert package-specific content here. use_tidy_agents() will preserve this section when updating the rest of the file. -->
+
 ## Package development
 
 ### Key commands
@@ -90,7 +92,7 @@ There are three possible ways to run code, listed in rough order of desirability
 
 - Do you need to deprecate a function or argument? Read `usethis::learn_tidy_skill("deprecate")`.
 - Are you adding input checking to an existing function or writing a new exported function? Read `usethis::learn_tidy_skill("arg-checking")`.
-- Are you creating a new package? Read `usethis::learn_tidy_skill("setup")`.
+- Are you creating a new package? Read `usethis::learn_tidy_skill("package-setup")`.
 
 ## Git
 
