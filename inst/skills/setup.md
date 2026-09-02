@@ -6,9 +6,9 @@ In general, you will want to follow these steps.
 
 * Call `usethis::use_testthat()` to set up unit tests
 * Call `devtools::document()` to generate `NAMESPACE` and update docs
-* Ask the use which license they want to use, then call `usethis::use_mit_license()`, `usethis::use_proprietary_license()` etc.
+* Ask the user which license they want to use, then call `usethis::use_mit_license()`, `usethis::use_proprietary_license()` etc.
 * Create package documentation with `usethis::use_package_doc()`.
-* Take a depedency on rlang with `usethis::use_package("rlang")`. Import all functions from rlang into the `NAMESPACE` with `@import rlang`.
+* Take a dependency on rlang with `usethis::use_package("rlang")`. Import all functions from rlang into the `NAMESPACE` with `@import rlang`.
 * Call `use_news_md()` to set up a news file.
 * Check the package with `devtools::check()` and ensure there are no issues
 * Make an initial git commit
