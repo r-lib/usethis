@@ -66,6 +66,7 @@ use_tidy_agents <- function() {
 #' @param name Name of the skill:
 #'   * `"arg-checking"`: add input checking to a function.
 #'   * `"deprecate"`: deprecate a function or argument.
+#'   * `"package-setup"`: set up a new package.
 #' @export
 #' @examples
 #' \dontrun{
@@ -74,6 +75,12 @@ use_tidy_agents <- function() {
 learn_tidy_skill <- function(name) {
   skill_paths <- dir_ls(path_package("usethis", "skills"), glob = "*.md")
   skills <- path_ext_remove(path_file(skill_paths))
+  if (is_missing(name)) {
+    cli::cli_abort(c(
+      "{.arg name} is required.",
+      "i" = "Available skills: {.val {skills}}."
+    ))
+  }
   name <- arg_match(name, values = skills)
 
   writeLines(read_utf8(path_package("usethis", "skills", paste0(name, ".md"))))

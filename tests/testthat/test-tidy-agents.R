@@ -41,6 +41,10 @@ test_that("learn_tidy_skill() prints the requested skill", {
   expect_output(learn_tidy_skill("deprecate"), "^# Deprecate functions")
 })
 
+test_that("learn_tidy_skill() errors informatively without a skill", {
+  expect_snapshot(learn_tidy_skill(), error = TRUE)
+})
+
 test_that("learn_tidy_skill() errors informatively for unknown skill", {
   expect_snapshot(learn_tidy_skill("doesnt-exist"), error = TRUE)
 })
