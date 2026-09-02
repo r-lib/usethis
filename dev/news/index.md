@@ -14,6 +14,8 @@
   to be called by AI coding agents, as directed by the `AGENTS.md`
   created by
   [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md).
+  It now errors informatively, listing the available skills, when called
+  without a `name`.
 - [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
   and other functions that check for uncommitted changes now offer a
   menu with four options: stash changes (and re-apply after), cancel,

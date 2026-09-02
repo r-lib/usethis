@@ -25,6 +25,8 @@ learn_tidy_skill(name)
 
   - `"deprecate"`: deprecate a function or argument.
 
+  - `"package-setup"`: set up a new package.
+
 ## Examples
 
 ``` r
