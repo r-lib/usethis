@@ -7,17 +7,19 @@
 \alias{use_c}
 \title{Use C, C++, RcppArmadillo, or RcppEigen}
 \usage{
-use_rcpp(name = NULL)
+use_rcpp(name = NULL, open = rlang::is_interactive())
 
-use_rcpp_armadillo(name = NULL)
+use_rcpp_armadillo(name = NULL, open = rlang::is_interactive())
 
-use_rcpp_eigen(name = NULL)
+use_rcpp_eigen(name = NULL, open = rlang::is_interactive())
 
-use_c(name = NULL)
+use_c(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
 \code{NULL} to take the name from the currently open file in RStudio.}
+
+\item{open}{Whether to open the file for interactive editing.}
 }
 \description{
 Adds infrastructure commonly needed when using compiled code:
