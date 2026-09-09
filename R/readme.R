@@ -70,7 +70,7 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
   }
 
   ui_bullets(c(
-    "_" = "Use {.fun devtools::build_readme} to render {.path {pth('README.Rmd')}}."
+    "_" = "Use {.run devtools::build_readme()} to render {.path {pth('README.Rmd')}}."
   ))
 
   if (uses_git()) {
@@ -123,7 +123,7 @@ use_readme_qmd <- function(open = rlang::is_interactive()) {
   }
 
   ui_bullets(c(
-    "_" = "Use {.fun devtools::build_readme} to render {.path {pth('README.qmd')}}."
+    "_" = "Use {.run devtools::build_readme()} to render {.path {pth('README.qmd')}}."
   ))
 
   if (uses_git()) {
