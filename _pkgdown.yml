@@ -89,6 +89,7 @@ reference:
   - use_standalone
   - use_testthat
   - use_air
+  - use_dockerfile
 - title: Package release
   contents:
   - use_cran_comments
