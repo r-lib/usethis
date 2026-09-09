@@ -109,7 +109,7 @@ reference:
   - matches("tidy")
 - title: Configuration
   desc: >
-    Configure the behaviour of R or RStudio or usethis, globally as a user or
+    Configure the behaviour of R or usethis or your IDE, globally as a user or
     for a specific project
   contents:
   - usethis_options
