@@ -27,8 +27,8 @@ test_that("use_binder_badge() needs a github repository", {
 test_that("use_r_universe_badge() needs to know the owner", {
   skip_if_no_git_user()
   local_interactive(FALSE)
-  withr::local_options(usethis.quiet = FALSE)
   create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
 
   expect_snapshot(
     error = TRUE,
@@ -47,7 +47,7 @@ test_that("use_r_universe_badge() needs to know the owner", {
     transform = scrub_testpkg
   )
 
-  use_git()
+  ui_silence(use_git())
   use_git_remote("origin", "https://github.com/OWNER_ORIGIN/SCRUBBED.git")
   expect_snapshot(
     use_r_universe_badge(),
