@@ -49,7 +49,9 @@
 #'   can be viewed with `use_description_defaults()`.
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
 #'   error if not.
-#' @param roxygen If `TRUE`, sets `RoxygenNote` to current roxygen2 version
+#' @param roxygen If `TRUE`, records the current roxygen2 version in
+#'   `Config/roxygen2/version` (for roxygen2 >= 8.0.0) or the legacy
+#'   `RoxygenNote` otherwise.
 #' @seealso The [description chapter](https://r-pkgs.org/description.html)
 #'   of [R Packages](https://r-pkgs.org)
 #' @export
@@ -88,13 +90,12 @@ use_description_defaults <- function(
   usethis <- usethis_description_defaults(package)
 
   if (roxygen) {
-    if (is_installed("roxygen2")) {
-      roxygen_note <- utils::packageVersion("roxygen2")
-    } else {
-      roxygen_note <- "7.0.0" # version doesn't really matter
-    }
     usethis$Roxygen <- "list(markdown = TRUE)"
-    usethis$RoxygenNote <- roxygen_note
+    if (is_installed("roxygen2")) {
+      usethis[[roxygen2_version_field()]] <- utils::packageVersion("roxygen2")
+    } else {
+      usethis$RoxygenNote <- "7.0.0" # version doesn't really matter
+    }
   }
 
   options <- getOption("usethis.description") %||% list()

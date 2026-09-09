@@ -7,6 +7,7 @@
 * `pr_init()` and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (#1300).
 * `pr_pull()`, `pr_push()` and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+* `use_description()` and `use_roxygen_md()` now record the roxygen2 version in the `Config/roxygen2/version` field (instead of `RoxygenNote`) when roxygen2 >= 8.0.0 is installed (#2226).
 * New `use_env_var()` sets an environment variable in `.Renviron`, prompting for the value securely via `askpass::askpass()` and immediately activating it in the current session via `Sys.setenv()` (#2201, @gadenbuie).
 * `use_course()`, `use_zip()`, and `use_github_action()` no longer emit download or pagination progress when the `usethis.quiet` option is `TRUE`.
 * `use_import_from()` works in packages using `roxygen2` 8.0.0 (#2226, report by @jonthegeek; fix by @JesseAlderliesten in #2234).
