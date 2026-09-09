@@ -43,6 +43,12 @@
   [`Sys.setenv()`](https://rdrr.io/r/base/Sys.setenv.html)
   ([\#2201](https://github.com/r-lib/usethis/issues/2201),
   [@gadenbuie](https://github.com/gadenbuie)).
+- [`use_course()`](https://usethis.r-lib.org/dev/reference/zip-utils.md),
+  [`use_zip()`](https://usethis.r-lib.org/dev/reference/zip-utils.md),
+  and
+  [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
+  no longer emit download or pagination progress when the
+  `usethis.quiet` option is `TRUE`.
 - [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
   works in packages using `roxygen2` 8.0.0
   ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by
