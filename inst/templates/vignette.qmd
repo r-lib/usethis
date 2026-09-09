@@ -1,6 +1,6 @@
 ---
 title: "{{{ vignette_title }}}"
-vignette: >
+vignette: |
   %\VignetteIndexEntry{{{ braced_vignette_title }}}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
