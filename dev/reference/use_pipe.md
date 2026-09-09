@@ -14,7 +14,7 @@ base R's `|>`, with a few things to keep in mind:
 - Instead of `x %>% f(a = ., b = .)`, define a new helper function.
 
 Learn more in
-<https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/>.
+<https://tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/>.
 
 ## Usage
 

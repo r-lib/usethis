@@ -2,19 +2,13 @@
 
 ## usethis (development version)
 
-- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) now
-  works in a directory that is not yet recognized as a usethis project:
-  it assumes you want to initialise a Git repository in the current
-  working directory
-  ([\#2242](https://github.com/r-lib/usethis/issues/2242)).
-- Messages and documentation now refer to “RStudio or Positron” instead
-  of just “RStudio”, where the functionality applies to both IDEs
-  ([\#2182](https://github.com/r-lib/usethis/issues/2182)).
-- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
-  now installs package dependencies by default, so you’re set up to
-  immediately start working on the package. Use
-  `install_dependencies = FALSE` to suppress
-  ([\#2186](https://github.com/r-lib/usethis/issues/2186)).
+### AI coding agents
+
+- [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
+  is an experimental helper to set up an R package to work with AI
+  coding agents in the same way as the tidyverse team
+  ([\#2195](https://github.com/r-lib/usethis/issues/2195),
+  [\#2239](https://github.com/r-lib/usethis/issues/2239)).
 - [`learn_tidy_skill()`](https://usethis.r-lib.org/dev/reference/learn_tidy_skill.md)
   is an experimental new function that prints instructions for
   performing a specialized R package development task (like deprecating
@@ -22,19 +16,25 @@
   to be called by AI coding agents, as directed by the `AGENTS.md`
   created by
   [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md).
-  It now errors informatively, listing the available skills, when called
-  without a `name`.
+
+### Git and GitHub
+
+- [`create_from_github()`](https://usethis.r-lib.org/dev/reference/create_from_github.md)
+  now installs package dependencies by default, so you’re set up to
+  immediately start working on the package. Use
+  `install_dependencies = FALSE` to suppress
+  ([\#2186](https://github.com/r-lib/usethis/issues/2186)).
+- [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  and other functions that check for uncommitted changes now offer to
+  stash and re-apply the changes or to retry, in addition to the
+  existing options to proceed or cancel
+  ([\#1300](https://github.com/r-lib/usethis/issues/1300)).
 - [`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
   and other functions that report merge conflicts no longer offer to
   open the conflicted files in Positron
   ([\#2157](https://github.com/r-lib/usethis/issues/2157)).
-- [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
-  and other functions that check for uncommitted changes now offer a
-  menu with four options: stash changes (and re-apply after), cancel,
-  retry, or proceed anyway. Previously, the only options were to proceed
-  or cancel ([\#1300](https://github.com/r-lib/usethis/issues/1300)).
 - [`pr_pull()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
-  [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  [`pr_push()`](https://usethis.r-lib.org/dev/reference/pull-requests.md),
   and friends now give more informative errors if usethis can’t retrieve
   details about a remote
   ([\#1929](https://github.com/r-lib/usethis/issues/1929),
@@ -46,18 +46,42 @@
   contains curly braces
   ([\#2107](https://github.com/r-lib/usethis/issues/2107),
   [@jonthegeek](https://github.com/jonthegeek)).
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) now
+  works in a directory that is not yet recognized as a usethis project:
+  it assumes you want to initialise a Git repository in the current
+  working directory
+  ([\#2242](https://github.com/r-lib/usethis/issues/2242)).
+
+### Documentation
+
+- [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  creates a starter `README.qmd` with Quarto-flavored YAML frontmatter,
+  analogous to
+  [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
+  ([\#1671](https://github.com/r-lib/usethis/issues/1671)). Thanks
+  [@VisruthSK](https://github.com/VisruthSK) for getting the ball
+  rolling.
 - [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
   and
   [`use_roxygen_md()`](https://usethis.r-lib.org/dev/reference/use_roxygen_md.md)
   now record the roxygen2 version in the `Config/roxygen2/version` field
   (instead of `RoxygenNote`) when roxygen2 \>= 8.0.0 is installed
   ([\#2226](https://github.com/r-lib/usethis/issues/2226)).
-- New
-  [`use_env_var()`](https://usethis.r-lib.org/dev/reference/use_env_var.md)
-  sets an environment variable in `.Renviron`, prompting for the value
-  securely via
-  [`askpass::askpass()`](https://r-lib.r-universe.dev/askpass/reference/askpass.html)
-  and immediately activating it in the current session via
+- [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
+  works in packages that use roxygen2 \>= 8.0.0
+  ([@JesseAlderliesten](https://github.com/JesseAlderliesten),
+  [\#2234](https://github.com/r-lib/usethis/issues/2234)).
+
+### Other
+
+- More messages and documentation refer to “RStudio or Positron” instead
+  of just “RStudio”, when the functionality applies to both IDEs
+  ([\#2182](https://github.com/r-lib/usethis/issues/2182)).
+- [`use_env_var()`](https://usethis.r-lib.org/dev/reference/use_env_var.md)
+  is a new function that sets an environment variable in `.Renviron`,
+  prompts for the value securely via
+  [`askpass::askpass()`](https://r-lib.r-universe.dev/askpass/reference/askpass.html),
+  and activates it in the current session via
   [`Sys.setenv()`](https://rdrr.io/r/base/Sys.setenv.html)
   ([\#2201](https://github.com/r-lib/usethis/issues/2201),
   [@gadenbuie](https://github.com/gadenbuie)).
@@ -67,29 +91,11 @@
   [`use_github_action()`](https://usethis.r-lib.org/dev/reference/use_github_action.md)
   no longer emit download or pagination progress when the
   `usethis.quiet` option is `TRUE`.
-- [`use_import_from()`](https://usethis.r-lib.org/dev/reference/use_import_from.md)
-  works in packages using `roxygen2` 8.0.0
-  ([\#2226](https://github.com/r-lib/usethis/issues/2226), report by
-  [@jonthegeek](https://github.com/jonthegeek); fix by
-  [@JesseAlderliesten](https://github.com/JesseAlderliesten) in
-  [\#2234](https://github.com/r-lib/usethis/issues/2234)).
 - [`use_pipe()`](https://usethis.r-lib.org/dev/reference/use_pipe.md) is
-  now deprecated ([@math-mcshane](https://github.com/math-mcshane),
+  deprecated ([@math-mcshane](https://github.com/math-mcshane),
   [\#2124](https://github.com/r-lib/usethis/issues/2124)).
-- [`use_readme_qmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
-  creates a starter `README.qmd` with Quarto-flavored YAML frontmatter,
-  analogous to
-  [`use_readme_rmd()`](https://usethis.r-lib.org/dev/reference/use_readme_rmd.md)
-  ([\#1671](https://github.com/r-lib/usethis/issues/1671)). Thanks
-  [@VisruthSK](https://github.com/VisruthSK) for getting the ball
-  rolling.
-- [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
-  is an experimental helper to set up an R package to work with AI
-  coding agents in the same way as the tidyverse team
-  ([\#2195](https://github.com/r-lib/usethis/issues/2195),
-  [\#2239](https://github.com/r-lib/usethis/issues/2239)).
 - [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
-  now points first-time submitters to `devtools::check_doc_fields()` to
+  points first-time submitters to `devtools::check_doc_fields()` to
   verify that exported functions document their return values
   ([\#2241](https://github.com/r-lib/usethis/issues/2241)).
 - [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
@@ -1230,8 +1236,8 @@ the copyright holder is.
 ### RStudio preferences
 
 usethis is now fully cognizant of the [changes to RStudio
-preferences](https://posit.co/blog/rstudio-1-3-preview-configuration/)
-in RStudio 1.3:
+preferences](https://posit.co/blog/rstudio-1-3-preview-configuration) in
+RStudio 1.3:
 
 [`edit_rstudio_snippets()`](https://usethis.r-lib.org/dev/reference/edit.md)
 looks in the new location, and if you have snippets in the old location,

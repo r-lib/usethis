@@ -58,39 +58,52 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+<div class="section level3">
+<h3 id="ai-coding-agents-development-version">AI coding agents<a class="anchor" aria-label="anchor" href="#ai-coding-agents-development-version"></a></h3>
 <ul><li>
-<code><a href="../reference/use_git.html">use_git()</a></code> now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (<a href="https://github.com/r-lib/usethis/issues/2242" class="external-link">#2242</a>).</li>
-<li>Messages and documentation now refer to “RStudio or Positron” instead of just “RStudio”, where the functionality applies to both IDEs (<a href="https://github.com/r-lib/usethis/issues/2182" class="external-link">#2182</a>).</li>
+<code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code> is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (<a href="https://github.com/r-lib/usethis/issues/2195" class="external-link">#2195</a>, <a href="https://github.com/r-lib/usethis/issues/2239" class="external-link">#2239</a>).</li>
 <li>
+<code><a href="../reference/learn_tidy_skill.html">learn_tidy_skill()</a></code> is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It’s primarily designed to be called by AI coding agents, as directed by the <code>AGENTS.md</code> created by <code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="git-and-github-development-version">Git and GitHub<a class="anchor" aria-label="anchor" href="#git-and-github-development-version"></a></h3>
+<ul><li>
 <code><a href="../reference/create_from_github.html">create_from_github()</a></code> now installs package dependencies by default, so you’re set up to immediately start working on the package. Use <code>install_dependencies = FALSE</code> to suppress (<a href="https://github.com/r-lib/usethis/issues/2186" class="external-link">#2186</a>).</li>
 <li>
-<code><a href="../reference/learn_tidy_skill.html">learn_tidy_skill()</a></code> is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It’s primarily designed to be called by AI coding agents, as directed by the <code>AGENTS.md</code> created by <code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code>. It now errors informatively, listing the available skills, when called without a <code>name</code>.</li>
+<code><a href="../reference/pull-requests.html">pr_init()</a></code> and other functions that check for uncommitted changes now offer to stash and re-apply the changes or to retry, in addition to the existing options to proceed or cancel (<a href="https://github.com/r-lib/usethis/issues/1300" class="external-link">#1300</a>).</li>
 <li>
 <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> and other functions that report merge conflicts no longer offer to open the conflicted files in Positron (<a href="https://github.com/r-lib/usethis/issues/2157" class="external-link">#2157</a>).</li>
 <li>
-<code><a href="../reference/pull-requests.html">pr_init()</a></code> and other functions that check for uncommitted changes now offer a menu with four options: stash changes (and re-apply after), cancel, retry, or proceed anyway. Previously, the only options were to proceed or cancel (<a href="https://github.com/r-lib/usethis/issues/1300" class="external-link">#1300</a>).</li>
-<li>
-<code><a href="../reference/pull-requests.html">pr_pull()</a></code>, <code><a href="../reference/pull-requests.html">pr_push()</a></code> and friends now give more informative errors if usethis can’t retrieve details about a remote (<a href="https://github.com/r-lib/usethis/issues/1929" class="external-link">#1929</a>, <a href="https://github.com/r-lib/usethis/issues/2229" class="external-link">#2229</a>).</li>
+<code><a href="../reference/pull-requests.html">pr_pull()</a></code>, <code><a href="../reference/pull-requests.html">pr_push()</a></code>, and friends now give more informative errors if usethis can’t retrieve details about a remote (<a href="https://github.com/r-lib/usethis/issues/1929" class="external-link">#1929</a>, <a href="https://github.com/r-lib/usethis/issues/2229" class="external-link">#2229</a>).</li>
 <li>
 <code><a href="../reference/pull-requests.html">pr_resume()</a></code> (without a specific <code>branch</code>) and <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> (without a specific <code>number</code>) no longer error when a branch name contains curly braces (<a href="https://github.com/r-lib/usethis/issues/2107" class="external-link">#2107</a>, <a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>).</li>
 <li>
+<code><a href="../reference/use_git.html">use_git()</a></code> now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (<a href="https://github.com/r-lib/usethis/issues/2242" class="external-link">#2242</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/use_readme_rmd.html">use_readme_qmd()</a></code> creates a starter <code>README.qmd</code> with Quarto-flavored YAML frontmatter, analogous to <code><a href="../reference/use_readme_rmd.html">use_readme_rmd()</a></code> (<a href="https://github.com/r-lib/usethis/issues/1671" class="external-link">#1671</a>). Thanks <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a> for getting the ball rolling.</li>
+<li>
 <code><a href="../reference/use_description.html">use_description()</a></code> and <code><a href="../reference/use_roxygen_md.html">use_roxygen_md()</a></code> now record the roxygen2 version in the <code>Config/roxygen2/version</code> field (instead of <code>RoxygenNote</code>) when roxygen2 &gt;= 8.0.0 is installed (<a href="https://github.com/r-lib/usethis/issues/2226" class="external-link">#2226</a>).</li>
-<li>New <code><a href="../reference/use_env_var.html">use_env_var()</a></code> sets an environment variable in <code>.Renviron</code>, prompting for the value securely via <code><a href="https://r-lib.r-universe.dev/askpass/reference/askpass.html" class="external-link">askpass::askpass()</a></code> and immediately activating it in the current session via <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code> (<a href="https://github.com/r-lib/usethis/issues/2201" class="external-link">#2201</a>, <a href="https://github.com/gadenbuie" class="external-link">@gadenbuie</a>).</li>
+<li>
+<code><a href="../reference/use_import_from.html">use_import_from()</a></code> works in packages that use roxygen2 &gt;= 8.0.0 (<a href="https://github.com/JesseAlderliesten" class="external-link">@JesseAlderliesten</a>, <a href="https://github.com/r-lib/usethis/issues/2234" class="external-link">#2234</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
+<ul><li>More messages and documentation refer to “RStudio or Positron” instead of just “RStudio”, when the functionality applies to both IDEs (<a href="https://github.com/r-lib/usethis/issues/2182" class="external-link">#2182</a>).</li>
+<li>
+<code><a href="../reference/use_env_var.html">use_env_var()</a></code> is a new function that sets an environment variable in <code>.Renviron</code>, prompts for the value securely via <code><a href="https://r-lib.r-universe.dev/askpass/reference/askpass.html" class="external-link">askpass::askpass()</a></code>, and activates it in the current session via <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code> (<a href="https://github.com/r-lib/usethis/issues/2201" class="external-link">#2201</a>, <a href="https://github.com/gadenbuie" class="external-link">@gadenbuie</a>).</li>
 <li>
 <code><a href="../reference/zip-utils.html">use_course()</a></code>, <code><a href="../reference/zip-utils.html">use_zip()</a></code>, and <code><a href="../reference/use_github_action.html">use_github_action()</a></code> no longer emit download or pagination progress when the <code>usethis.quiet</code> option is <code>TRUE</code>.</li>
 <li>
-<code><a href="../reference/use_import_from.html">use_import_from()</a></code> works in packages using <code>roxygen2</code> 8.0.0 (<a href="https://github.com/r-lib/usethis/issues/2226" class="external-link">#2226</a>, report by <a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>; fix by <a href="https://github.com/JesseAlderliesten" class="external-link">@JesseAlderliesten</a> in <a href="https://github.com/r-lib/usethis/issues/2234" class="external-link">#2234</a>).</li>
+<code><a href="../reference/use_pipe.html">use_pipe()</a></code> is deprecated (<a href="https://github.com/math-mcshane" class="external-link">@math-mcshane</a>, <a href="https://github.com/r-lib/usethis/issues/2124" class="external-link">#2124</a>).</li>
 <li>
-<code><a href="../reference/use_pipe.html">use_pipe()</a></code> is now deprecated (<a href="https://github.com/math-mcshane" class="external-link">@math-mcshane</a>, <a href="https://github.com/r-lib/usethis/issues/2124" class="external-link">#2124</a>).</li>
-<li>
-<code><a href="../reference/use_readme_rmd.html">use_readme_qmd()</a></code> creates a starter <code>README.qmd</code> with Quarto-flavored YAML frontmatter, analogous to <code><a href="../reference/use_readme_rmd.html">use_readme_rmd()</a></code> (<a href="https://github.com/r-lib/usethis/issues/1671" class="external-link">#1671</a>). Thanks <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a> for getting the ball rolling.</li>
-<li>
-<code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code> is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (<a href="https://github.com/r-lib/usethis/issues/2195" class="external-link">#2195</a>, <a href="https://github.com/r-lib/usethis/issues/2239" class="external-link">#2239</a>).</li>
-<li>
-<code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> now points first-time submitters to <code>devtools::check_doc_fields()</code> to verify that exported functions document their return values (<a href="https://github.com/r-lib/usethis/issues/2241" class="external-link">#2241</a>).</li>
+<code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> points first-time submitters to <code>devtools::check_doc_fields()</code> to verify that exported functions document their return values (<a href="https://github.com/r-lib/usethis/issues/2241" class="external-link">#2241</a>).</li>
 <li>
 <code><a href="../reference/tidyverse.html">use_tidy_upkeep_issue()</a></code> no longer includes the deprecated <code><a href="../reference/tidy-deprecated.html">use_tidy_style()</a></code> in the upkeep checklist (<a href="https://github.com/r-lib/usethis/issues/2197" class="external-link">#2197</a>, <a href="https://github.com/edgararuiz" class="external-link">@edgararuiz</a>).</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.2.1" id="usethis-321">usethis 3.2.1<a class="anchor" aria-label="anchor" href="#usethis-321"></a></h2><p class="text-muted">CRAN release: 2025-09-06</p>
 <ul><li>
@@ -470,7 +483,7 @@
 </div>
 <div class="section level3">
 <h3 id="rstudio-preferences-2-0-0">RStudio preferences<a class="anchor" aria-label="anchor" href="#rstudio-preferences-2-0-0"></a></h3>
-<p>usethis is now fully cognizant of the <a href="https://posit.co/blog/rstudio-1-3-preview-configuration/" class="external-link">changes to RStudio preferences</a> in RStudio 1.3:</p>
+<p>usethis is now fully cognizant of the <a href="https://posit.co/blog/rstudio-1-3-preview-configuration" class="external-link">changes to RStudio preferences</a> in RStudio 1.3:</p>
 <p><code><a href="../reference/edit.html">edit_rstudio_snippets()</a></code> looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (<a href="https://github.com/r-lib/usethis/issues/1204" class="external-link">#1204</a>)</p>
 <p>New <code><a href="../reference/edit.html">edit_rstudio_prefs()</a></code> opens RStudio preferences file for editing (<a href="https://github.com/r-lib/usethis/issues/1148" class="external-link">#1148</a>).</p>
 <p><code><a href="../reference/use_blank_slate.html">use_blank_slate()</a></code> can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (<a href="https://github.com/r-lib/usethis/issues/1018" class="external-link">#1018</a>).</p>

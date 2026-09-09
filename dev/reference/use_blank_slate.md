@@ -7,7 +7,7 @@ memory at every restart. Starting with a blank slate provides timely
 feedback that encourages the development of scripts that are complete
 and self-contained. More detail can be found in the blog post
 [Project-oriented
-workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/).
+workflow](https://tidyverse.org/blog/2017/12/workflow-vs-script/).
 
 ## Usage
 
