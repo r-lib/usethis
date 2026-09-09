@@ -275,20 +275,27 @@ git_conflict_report <- function() {
     bulletize(conflicted_paths, n_show = 10)
   ))
 
-  yes <- "Yes, open the conflicted files for editing."
-  yes_soft <- "Yes, but do not open the conflicted files."
+  yes_open <- "Yes, open the conflicted files for editing."
+  yes_no_open <- "Yes, but do not open the conflicted files."
+  yes_accept <- "Yes, I will deal with the conflicted files."
   no <- "No, I want to abort this merge."
-  choice <- utils::menu(
+  if (is_positron()) {
+    choices <- c(yes = yes_accept, no = no)
+  } else {
+    choices <- c(yes_open = yes_open, yes = yes_no_open, no = no)
+  }
+  choice_number <- utils::menu(
     title = "Do you want to proceed with this merge?",
-    choices = c(yes, yes_soft, no)
+    choices = choices
   )
+  choice <- names(choices)[choice_number]
 
-  if (choice < 1 || choice > 2) {
+  if (choice_number == 0 || choice == "no") {
     gert::git_merge_abort(repo = git_repo())
     ui_abort("Abandoning the merge, since it will cause merge conflicts.")
   }
 
-  if (choice == 1) {
+  if (choice == "yes_open") {
     ui_silence(purrr::walk(conflicted, edit_file))
   }
   ui_abort(c(
