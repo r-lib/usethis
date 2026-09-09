@@ -1,9 +1,10 @@
-#' Report working directory and usethis/RStudio project
+#' Report working directory and usethis/IDE project
 #'
 #' @description `proj_sitrep()` reports
 #'   * current working directory
 #'   * the active usethis project
-#'   * the active RStudio Project
+#'   * the active project according to your IDE, e.g. RStudio project or
+#'     current folder/workspace in Positron
 #'
 #' @description Call this function if things seem weird and you're not sure
 #'   what's wrong or how to fix it. Usually, all three of these should coincide
@@ -12,7 +13,7 @@
 #'
 #' @return A named list, with S3 class `sitrep` (for printing purposes),
 #'   reporting current working directory, active usethis project, and active
-#'   RStudio Project
+#'   IDE project
 #' @export
 #' @family project functions
 #' @examples
@@ -50,7 +51,7 @@ print.sitrep <- function(x, ...) {
 
   if (rstudio_available() && !rstudio_proj_is_active) {
     ui_bullets(c(
-      "i" = "You are working in RStudio, but are not in an RStudio Project.",
+      "i" = "You are working in RStudio or Positron, but are not in a project.",
       "i" = "A Project-based workflow offers many advantages. Read more at:",
       " " = "{.url https://docs.posit.co/ide/user/ide/guide/code/projects.html}",
       " " = "{.url https://rstats.wtf/projects}"
@@ -78,21 +79,23 @@ print.sitrep <- function(x, ...) {
 
   if (rstudio_proj_is_not_wd) {
     ui_bullets(c(
-      "i" = "Your working directory is not the same as the active RStudio Project.",
-      "_" = "Set working directory to the Project:
+      "i" = "Your working directory is not the same as the active project
+             according to your IDE.",
+      "_" = "Set working directory to the IDE's project:
              {.code setwd(rstudioapi::getActiveProject())}."
     ))
   }
 
   if (usethis_proj_is_not_rstudio_proj) {
     ui_bullets(c(
-      "i" = "Your active RStudio Project is not the same as the active
+      "i" = "Your active IDE project is not the same as the active
              {.pkg usethis} project.",
-      "_" = "Set active {.pkg usethis} project to RStudio Project:
+      "_" = "Set active {.pkg usethis} project to the same as the IDE:
              {.code usethis::proj_set(rstudioapi::getActiveProject())}.",
-      "_" = "Restart RStudio in the active {.pkg usethis} project:
+      "_" = "Restart the IDE in the active {.pkg usethis} project:
              {.code rstudioapi::openProject(usethis::proj_get())}.",
-      "_" = "Open the active {.pkg usethis} project in a new instance of RStudio:
+      "_" = "Open the active {.pkg usethis} project in a new instance of
+             the IDE:
              {.code usethis::proj_activate(usethis::proj_get())}."
     ))
   }

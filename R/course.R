@@ -260,7 +260,9 @@ tidy_download <- function(url, destdir = getwd()) {
   tmp <- file_temp("tidy-download-")
 
   h <- download_url(url, destfile = tmp)
-  cli::cat_line()
+  if (!is_quiet()) {
+    cli::cat_line()
+  }
 
   cd <- content_disposition(h)
   base_name <- make_filename(cd, fallback = path_file(url))
@@ -286,8 +288,10 @@ download_url <- function(
   n_tries = 3,
   retry_connecttimeout = 40L
 ) {
-  handle_options <- list(noprogress = FALSE, progressfunction = progress_fun)
-  curl::handle_setopt(handle, .list = handle_options)
+  if (!is_quiet()) {
+    handle_options <- list(noprogress = FALSE, progressfunction = progress_fun)
+    curl::handle_setopt(handle, .list = handle_options)
+  }
 
   we_should_retry <- function(i, n_tries, status) {
     if (i >= n_tries) {
@@ -346,7 +350,13 @@ download_url <- function(
   invisible(handle)
 }
 
-try_download <- function(url, destfile, quiet = FALSE, mode = "wb", handle) {
+try_download <- function(
+  url,
+  destfile,
+  quiet = is_quiet(),
+  mode = "wb",
+  handle
+) {
   tryCatch(
     curl::curl_download(
       url = url,

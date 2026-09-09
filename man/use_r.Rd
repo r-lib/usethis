@@ -11,7 +11,8 @@ use_test(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
-\code{NULL} to take the name from the currently open file in RStudio.}
+\code{NULL} to take the name from the currently open file in RStudio or
+Positron.}
 
 \item{open}{Whether to open the file for interactive editing.}
 }
@@ -19,11 +20,11 @@ use_test(name = NULL, open = rlang::is_interactive())
 This pair of functions makes it easy to create paired R and test files,
 using the convention that the tests for \code{R/foofy.R} should live
 in \code{tests/testthat/test-foofy.R}. You can use them to create new files
-from scratch by supplying \code{name}, or if you use RStudio, you can call
-to create (or navigate to) the companion file based on the currently open
-file. This also works when a test snapshot file is active, i.e. if you're
-looking at \verb{tests/testthat/_snaps/foofy.md}, \code{use_r()} or \code{use_test()} take
-you to \code{R/foofy.R} or \code{tests/testthat/test-foofy.R}, respectively.
+from scratch by supplying \code{name}, or if you use RStudio or Positron, you can
+call to create (or navigate to) the companion file based on the currently
+open file. This also works when a test snapshot file is active, i.e. if
+you're looking at \verb{tests/testthat/_snaps/foofy.md}, \code{use_r()} or \code{use_test()}
+take you to \code{R/foofy.R} or \code{tests/testthat/test-foofy.R}, respectively.
 }
 \section{Renaming files in an existing package}{
 

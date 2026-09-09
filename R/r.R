@@ -3,11 +3,11 @@
 #' This pair of functions makes it easy to create paired R and test files,
 #' using the convention that the tests for `R/foofy.R` should live
 #' in `tests/testthat/test-foofy.R`. You can use them to create new files
-#' from scratch by supplying `name`, or if you use RStudio, you can call
-#' to create (or navigate to) the companion file based on the currently open
-#' file. This also works when a test snapshot file is active, i.e. if you're
-#' looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take
-#' you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
+#' from scratch by supplying `name`, or if you use RStudio or Positron, you can
+#' call to create (or navigate to) the companion file based on the currently
+#' open file. This also works when a test snapshot file is active, i.e. if
+#' you're looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()`
+#' take you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 #'
 #' @section Renaming files in an existing package:
 #'
@@ -41,7 +41,8 @@
 #' The [rename_files()] function can also be helpful.
 #'
 #' @param name Either a string giving a file name (without directory) or
-#'   `NULL` to take the name from the currently open file in RStudio.
+#'   `NULL` to take the name from the currently open file in RStudio or
+#'   Positron.
 #' @inheritParams edit_file
 #' @seealso
 #' * The [testing](https://r-pkgs.org/testing-basics.html) and
@@ -171,7 +172,7 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   if (is.null(path)) {
     cli::cli_abort(
       c(
-        "No file is open in RStudio.",
+        "No file is open in RStudio or Positron.",
         i = "Please specify {.arg name}."
       ),
       call = error_call

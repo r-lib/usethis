@@ -2,21 +2,22 @@
 % Please edit documentation in R/sitrep.R
 \name{proj_sitrep}
 \alias{proj_sitrep}
-\title{Report working directory and usethis/RStudio project}
+\title{Report working directory and usethis/IDE project}
 \usage{
 proj_sitrep()
 }
 \value{
 A named list, with S3 class \code{sitrep} (for printing purposes),
 reporting current working directory, active usethis project, and active
-RStudio Project
+IDE project
 }
 \description{
 \code{proj_sitrep()} reports
 \itemize{
 \item current working directory
 \item the active usethis project
-\item the active RStudio Project
+\item the active project according to your IDE, e.g. RStudio project or
+current folder/workspace in Positron
 }
 
 Call this function if things seem weird and you're not sure

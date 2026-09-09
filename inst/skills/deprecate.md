@@ -1,8 +1,3 @@
----
-name: tidy-deprecate-function
-description: Guide for deprecating R functions/arguments. Use when a user asks to deprecate a function or parameter, including adding lifecycle warnings, updating documentation, adding NEWS entries, and updating tests.
----
-
 # Deprecate functions and function arguments
 
 Use this skill when deprecating functions or function parameters in this package.

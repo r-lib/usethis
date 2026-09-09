@@ -15,8 +15,13 @@ test_that("use_roxygen_md() adds DESCRIPTION fields to naive package", {
 
   desc <- proj_desc()
   expect_equal(desc$get("Roxygen"), c(Roxygen = "list(markdown = TRUE)"))
-  expect_true(desc$has_fields("RoxygenNote"))
+  expect_true(desc$has_fields(roxygen2_version_field()))
   expect_true(uses_roxygen_md())
+})
+
+test_that("roxygen2_version_field() reflects installed roxygen2 version", {
+  skip_if_not_installed("roxygen2", minimum_version = "8.0.0")
+  expect_equal(roxygen2_version_field(), "Config/roxygen2/version")
 })
 
 test_that("use_roxygen_md() finds 'markdown = TRUE' in presence of other stuff", {
