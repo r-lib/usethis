@@ -20,7 +20,7 @@ test_that("use_git() works in a directory that is not yet a project", {
 
   use_git()
 
-  expect_equal(proj_get(), path_real(dir))
+  expect_equal(proj_get(), proj_path_prep(dir))
   expect_true(uses_git())
   expect_proj_file(".gitignore")
 })
