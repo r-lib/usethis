@@ -13,6 +13,7 @@
 * `use_pipe()` is now deprecated (@math-mcshane, #2124).
 * `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
 * `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
+* `use_release_issue()` now points first-time submitters to `devtools::check_doc_fields()` to verify that exported functions document their return values (#2241).
 * `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
 # usethis 3.2.1

@@ -91,7 +91,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         todo("Update (aspirational) install instructions in README"),
         todo("Proofread `Title:` and `Description:`"),
         todo(
-          "Check that all exported functions have `@return` and `@examples`"
+          "Check that all exported functions have `@returns` and `@examples` with `devtools::check_doc_fields()`"
         ),
         todo(
           "Check that `Authors@R:` includes a copyright holder (role 'cph')"
