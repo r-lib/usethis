@@ -149,7 +149,7 @@ path
 - [`proj_activate()`](https://usethis.r-lib.org/dev/reference/proj_activate.md)
   : Activate a project
 - [`proj_sitrep()`](https://usethis.r-lib.org/dev/reference/proj_sitrep.md)
-  : Report working directory and usethis/RStudio project
+  : Report working directory and usethis/IDE project
 - [`proj_get()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
   [`proj_set()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
   [`proj_path()`](https://usethis.r-lib.org/dev/reference/proj_utils.md)
@@ -392,7 +392,7 @@ Conventions used in the tidyverse and r-lib organisations
 
 ## Configuration
 
-Configure the behaviour of R or RStudio or usethis, globally as a user
+Configure the behaviour of R or usethis or your IDE, globally as a user
 or for a specific project
 
 - [`usethis_options`](https://usethis.r-lib.org/dev/reference/usethis_options.md)

@@ -106,10 +106,11 @@ Here is example code:
 options(
   usethis.description = list(
     "Authors@R" = utils::person(
-        "Jane", "Doe",
-        email = "jane@example.com",
-        role = c("aut", "cre"),
-        comment = c(ORCID = "JANE'S-ORCID-ID")
+      "Jane",
+      "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "JANE'S-ORCID-ID")
     )
   ),
   usethis.destdir = "~/the/place/where/I/keep/my/R/projects",
@@ -127,8 +128,8 @@ things:
 
 - [`proj_sitrep()`](https://usethis.r-lib.org/dev/reference/proj_sitrep.md):
   prints info about the active usethis project, working directory, and
-  the active RStudio Project. Points out when things are peculiar and
-  how to fix.
+  the active project according to your IDE. Points out when things are
+  peculiar and how to fix.
 - [`git_sitrep()`](https://usethis.r-lib.org/dev/reference/git_sitrep.md):
   prints info about your current Git, gert, and GitHub setup.
 
@@ -150,9 +151,9 @@ how to install Git. It is beyond the scope of this article.
 usethis itself does not actually need the Git that you install, because
 it uses the [gert](https://docs.ropensci.org/gert/) package which wraps
 [libgit2](https://libgit2.github.com). But, chances are, you want to do
-normal Git things, like diff and commit and push, from RStudio or in the
-shell and for that you must install Git. Gert’s credential management
-also works best when official Git tooling is available.
+normal Git things, like diff and commit and push, from your IDE or in
+the shell and for that you must install Git. Gert’s credential
+management also works best when official Git tooling is available.
 
 ## Configure `user.name` and `user.email`
 
@@ -163,8 +164,8 @@ Once Git is installed, introduce yourself to Git.
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-# check by running a git situation-report: 
-#   - your user.name and user.email should appear in global Git config 
+# check by running a git situation-report:
+#   - your user.name and user.email should appear in global Git config
 git_sitrep()
 ```
 

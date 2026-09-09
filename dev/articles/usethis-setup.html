@@ -199,10 +199,11 @@ is example code:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
 <span>  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Authors@R"</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span></span>
-<span>        <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,</span>
-<span>        email <span class="op">=</span> <span class="st">"jane@example.com"</span>,</span>
-<span>        role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,</span>
-<span>        comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span></span>
+<span>      <span class="st">"Jane"</span>,</span>
+<span>      <span class="st">"Doe"</span>,</span>
+<span>      email <span class="op">=</span> <span class="st">"jane@example.com"</span>,</span>
+<span>      role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,</span>
+<span>      comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  usethis.destdir <span class="op">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>,</span>
@@ -219,8 +220,8 @@ troubleshoot things:</p>
 <ul>
 <li>
 <code><a href="../reference/proj_sitrep.html">proj_sitrep()</a></code>: prints info about the active usethis
-project, working directory, and the active RStudio Project. Points out
-when things are peculiar and how to fix.</li>
+project, working directory, and the active project according to your
+IDE. Points out when things are peculiar and how to fix.</li>
 <li>
 <code><a href="../reference/git_sitrep.html">git_sitrep()</a></code>: prints info about your current Git, gert,
 and GitHub setup.</li>
@@ -244,7 +245,7 @@ It is beyond the scope of this article.</p>
 because it uses the <a href="https://docs.ropensci.org/gert/" class="external-link">gert</a>
 package which wraps <a href="https://libgit2.github.com" class="external-link">libgit2</a>.
 But, chances are, you want to do normal Git things, like diff and commit
-and push, from RStudio or in the shell and for that you must install
+and push, from your IDE or in the shell and for that you must install
 Git. Gert’s credential management also works best when official Git
 tooling is available.</p>
 </div>
@@ -256,8 +257,8 @@ tooling is available.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span> <span class="co">## or library(devtools)</span></span>
 <span><span class="fu"><a href="../reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>user.name <span class="op">=</span> <span class="st">"Jane Doe"</span>, user.email <span class="op">=</span> <span class="st">"jane@example.com"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># check by running a git situation-report: </span></span>
-<span><span class="co">#   - your user.name and user.email should appear in global Git config </span></span>
+<span><span class="co"># check by running a git situation-report:</span></span>
+<span><span class="co">#   - your user.name and user.email should appear in global Git config</span></span>
 <span><span class="fu"><a href="../reference/git_sitrep.html">git_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/use_git_config.html">usethis::use_git_config()</a></code> helps you configure your
 <code>user.name</code> and <code>user.email</code>. Substitute

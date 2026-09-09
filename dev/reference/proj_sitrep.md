@@ -1,4 +1,4 @@
-# Report working directory and usethis/RStudio project
+# Report working directory and usethis/IDE project
 
 `proj_sitrep()` reports
 
@@ -6,7 +6,8 @@
 
 - the active usethis project
 
-- the active RStudio Project
+- the active project according to your IDE, e.g. RStudio project or
+  current folder/workspace in Positron
 
 Call this function if things seem weird and you're not sure what's wrong
 or how to fix it. Usually, all three of these should coincide (or be
@@ -22,8 +23,8 @@ proj_sitrep()
 ## Value
 
 A named list, with S3 class `sitrep` (for printing purposes), reporting
-current working directory, active usethis project, and active RStudio
-Project
+current working directory, active usethis project, and active IDE
+project
 
 ## See also
 

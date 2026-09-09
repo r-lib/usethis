@@ -3,12 +3,12 @@
 This pair of functions makes it easy to create paired R and test files,
 using the convention that the tests for `R/foofy.R` should live in
 `tests/testthat/test-foofy.R`. You can use them to create new files from
-scratch by supplying `name`, or if you use RStudio, you can call to
-create (or navigate to) the companion file based on the currently open
-file. This also works when a test snapshot file is active, i.e. if
-you're looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or
-`use_test()` take you to `R/foofy.R` or `tests/testthat/test-foofy.R`,
-respectively.
+scratch by supplying `name`, or if you use RStudio or Positron, you can
+call to create (or navigate to) the companion file based on the
+currently open file. This also works when a test snapshot file is
+active, i.e. if you're looking at `tests/testthat/_snaps/foofy.md`,
+`use_r()` or `use_test()` take you to `R/foofy.R` or
+`tests/testthat/test-foofy.R`, respectively.
 
 ## Usage
 
@@ -23,7 +23,7 @@ use_test(name = NULL, open = rlang::is_interactive())
 - name:
 
   Either a string giving a file name (without directory) or `NULL` to
-  take the name from the currently open file in RStudio.
+  take the name from the currently open file in RStudio or Positron.
 
 - open:
 

@@ -28,4 +28,4 @@ use_c(name = NULL)
 - name:
 
   Either a string giving a file name (without directory) or `NULL` to
-  take the name from the currently open file in RStudio.
+  take the name from the currently open file in RStudio or Positron.

@@ -12,8 +12,8 @@ use_news_md(open = rlang::is_interactive())
 
 - open:
 
-  Open the newly created file for editing? Happens in RStudio, if
-  applicable, or via
+  Open the newly created file for editing? Happens in RStudio or
+  Positron, if applicable, or via
   [`utils::file.edit()`](https://rdrr.io/r/utils/file.edit.html)
   otherwise.
 
