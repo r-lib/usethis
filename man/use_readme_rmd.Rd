@@ -13,8 +13,8 @@ use_readme_qmd(open = rlang::is_interactive())
 use_readme_md(open = rlang::is_interactive())
 }
 \arguments{
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Creates skeleton README files with possible stubs for

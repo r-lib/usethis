@@ -23,8 +23,8 @@
 #'   Defaults to `template`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore`?
-#' @param open Open the newly created file for editing? Happens in RStudio, if
-#'   applicable, or via [utils::file.edit()] otherwise.
+#' @param open Open the newly created file for editing? Happens in RStudio or
+#'   Positron, if applicable, or via [utils::file.edit()] otherwise.
 #' @param package Name of the package where the template is found.
 #' @return A logical vector indicating if file was modified.
 #' @export

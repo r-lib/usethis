@@ -1,10 +1,10 @@
 #' Open file for editing
 #'
-#' Opens a file for editing in RStudio, if that is the active environment, or
-#' via [utils::file.edit()] otherwise. If the file does not exist, it is
-#' created. If the parent directory does not exist, it is also created.
-#' `edit_template()` specifically opens templates in `inst/templates` for use
-#' with [use_template()].
+#' Opens a file for editing in RStudio or Positron, if either is the active
+#' development environment, or via [utils::file.edit()] otherwise. If the file
+#' does not exist, it is created. If the parent directory does not exist, it is
+#' also created. `edit_template()` specifically opens templates in
+#' `inst/templates` for use with [use_template()].
 #'
 #' @param path Path to target file.
 #' @param open Whether to open the file for interactive editing.
