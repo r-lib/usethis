@@ -83,6 +83,10 @@
   coding agents in the same way as the tidyverse team
   ([\#2195](https://github.com/r-lib/usethis/issues/2195),
   [\#2239](https://github.com/r-lib/usethis/issues/2239)).
+- [`use_release_issue()`](https://usethis.r-lib.org/dev/reference/use_release_issue.md)
+  now points first-time submitters to `devtools::check_doc_fields()` to
+  verify that exported functions document their return values
+  ([\#2241](https://github.com/r-lib/usethis/issues/2241)).
 - [`use_tidy_upkeep_issue()`](https://usethis.r-lib.org/dev/reference/tidyverse.md)
   no longer includes the deprecated
   [`use_tidy_style()`](https://usethis.r-lib.org/dev/reference/tidy-deprecated.md)
