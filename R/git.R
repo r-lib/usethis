@@ -21,7 +21,7 @@ use_git <- function(message = "Initial commit") {
 
   needs_init <- !uses_git()
   if (needs_init) {
-    ui_bullets(c("v" = "Initialising Git repo."))
+    ui_bullets(c("v" = "Initialising Git repo at {.path {proj_get()}}."))
     git_init()
     rstudio_git_tickle()
   }
