@@ -92,7 +92,7 @@
 <p>There are three possible ways to run code, listed in rough order of desirability:</p>
 <ul><li><p>If you’re running inside Posit Assistant or otherwise have an <code>executeCode()</code> tool available, use it to run code in a session that the user can also interact with.</p></li>
 <li><p>Otherwise, if an R REPL (e.g. <code>mcp__r__repl</code> or <code>btw::run_r</code>) is available, use that. Note that <code>mcp__r__repl</code> uses a sandbox that blocks network requests and reads/writes outside of the current directory.</p></li>
-<li><p>Otherwise, use <code>Rscript -e "code"</code>.</p></li>
+<li><p>Otherwise, use <code>Rscript -e "code"</code>. On Windows, <code>Rscript -e</code> can segfault on multiline or complex code; in that case, write it to a temporary <code>.R</code> file and run <code>Rscript path/to/file.R</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h3>

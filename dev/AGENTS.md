@@ -47,7 +47,9 @@ desirability:
   blocks network requests and reads/writes outside of the current
   directory.
 
-- Otherwise, use `Rscript -e "code"`.
+- Otherwise, use `Rscript -e "code"`. On Windows, `Rscript -e` can
+  segfault on multiline or complex code; in that case, write it to a
+  temporary `.R` file and run `Rscript path/to/file.R`.
 
 ### Code style
 
