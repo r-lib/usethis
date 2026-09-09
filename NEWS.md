@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `use_git()` now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (#2242).
 * Messages and documentation now refer to "RStudio or Positron" instead of just "RStudio", where the functionality applies to both IDEs (#2182).
 * `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
 * `learn_tidy_skill()` is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It's primarily designed to be called by AI coding agents, as directed by the `AGENTS.md` created by `use_tidy_agents()`. It now errors informatively, listing the available skills, when called without a `name`.
