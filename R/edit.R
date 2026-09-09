@@ -125,6 +125,102 @@ edit_r_environ <- function(scope = c("user", "project")) {
   invisible(path)
 }
 
+#' Set an environment variable in `.Renviron`
+#'
+#' Adds or updates an environment variable in the user or project `.Renviron`
+#' and immediately makes it available in the current session via [Sys.setenv()].
+#'
+#' @param name Name of the environment variable. Must contain only letters,
+#'   digits, and underscores, and must start with a letter or underscore.
+#' @param value Value to set. By default, you are prompted to enter the value
+#'   securely using [askpass::askpass()]. Otherwise, we **do not recommend**
+#'   that you provide the value directly in code, as it may be visible in your
+#'   command history. This argument exists primarily to allow you to set an
+#'   environment variable to a value retrieved programmatically, e.g. from
+#'   \pkg{keyring}.
+#' @param scope Edit globally for the current **user** (`"user"`, the default),
+#'   or locally for the current **project** (`"project"`). Setting a variable in
+#'   the user scope ensures that it is available in all future R sessions.
+#'
+#' @return Path to the `.Renviron` file, invisibly.
+#' @export
+#' @examples
+#' \dontrun{
+#' use_env_var("OPENAI_API_KEY")
+#' }
+use_env_var <- function(
+  name,
+  value = NULL,
+  scope = c("user", "project")
+) {
+  scope <- arg_match(scope)
+
+  check_string(name)
+  if (!grepl("^[A-Za-z_][A-Za-z0-9_]*$", name)) {
+    ui_abort(c(
+      "{.arg name} must be a valid environment variable name.",
+      "x" = "{.val {name}} contains invalid characters.",
+      "i" = "Valid names start with a letter or underscore and contain only
+             letters, digits, and underscores."
+    ))
+  }
+
+  path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+  lines <- if (file_exists(path)) read_utf8(path) else character()
+  existing_idx <- grep(paste0("^\\s*", name, "\\s*="), lines)
+
+  if (length(existing_idx) > 0) {
+    ui_bullets(c(
+      "i" = "{.envvar {name}} is already defined in {.file {pth(path)}}."
+    ))
+
+    overwrite <-
+      getOption("usethis.overwrite", FALSE) ||
+      ui_yep("Overwrite the existing value for {.envvar {name}}?")
+
+    if (!overwrite) {
+      ui_abort(c(
+        "{.envvar {name}} already exists in {.file {pth(path)}}.",
+        "i" = "Leaving {.file {pth(path)}} unchanged."
+      ))
+    }
+  }
+
+  if (is.null(value)) {
+    rlang::check_installed("askpass")
+    value <- askpass::askpass(paste0("Enter value for ", name))
+    if (is.null(value)) {
+      ui_abort("No value provided for {.envvar {name}}.")
+    }
+  }
+  check_string(value)
+  if (grepl("[\n\r]", value)) {
+    ui_abort(c(
+      "{.arg value} must not contain newline characters.",
+      "i" = ".Renviron does not support multi-line values."
+    ))
+  }
+
+  new_line <- paste0(name, "=", renviron_quote(value))
+
+  if (length(existing_idx) > 0) {
+    lines[existing_idx] <- new_line
+    write_utf8(path, lines)
+  } else {
+    write_utf8(path, c(lines, new_line))
+  }
+
+  do.call(Sys.setenv, set_names(list(value), name))
+
+  verb <- if (length(existing_idx) > 0) "Updated" else "Added"
+  ui_bullets(c(
+    "v" = "{verb} {.envvar {name}} in {.file {pth(path)}}.",
+    "i" = "{.envvar {name}} is now set in the current session."
+  ))
+
+  invisible(path)
+}
+
 #' @export
 #' @rdname edit
 edit_r_buildignore <- function() {
@@ -265,4 +361,29 @@ edit_pkgdown_config <- function() {
   } else {
     invisible(edit_file(path))
   }
+}
+
+renviron_quote <- function(value) {
+  if (grepl("\\$\\{", value)) {
+    ui_abort(c(
+      "{.arg value} contains {.code ${{VAR}}}, which {.file .Renviron} expands on re-read and cannot be stored literally.",
+      "i" = "Use a plain value without variable references."
+    ))
+  }
+  if (endsWith(value, "\\")) {
+    # Double-quoted form can't represent a trailing backslash (it would
+    # escape the closing "). Fall back to unquoted form, which uses \x->x
+    # escaping, but strips leading/trailing whitespace.
+    if (!identical(value, trimws(value))) {
+      ui_abort(c(
+        "{.arg value} ends with a backslash and has surrounding whitespace, which cannot be encoded in {.file .Renviron}.",
+        "i" = "Remove the backslash or the surrounding whitespace."
+      ))
+    }
+    value <- gsub("\\", "\\\\", value, fixed = TRUE) # \ -> \\
+    value <- gsub('"', '\\"', value, fixed = TRUE) # " -> \"
+    return(value)
+  }
+  value <- gsub('"', '\\"', value, fixed = TRUE)
+  paste0('"', value, '"')
 }

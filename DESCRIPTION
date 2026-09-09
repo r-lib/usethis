@@ -44,6 +44,7 @@ Imports:
     withr (>= 2.3.0),
     yaml
 Suggests:
+    askpass,
     covr,
     knitr,
     magick,
@@ -61,4 +62,4 @@ Config/usethis/last-upkeep: 2025-04-22
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

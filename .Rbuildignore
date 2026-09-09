@@ -29,3 +29,5 @@
 ^scratch\.R$
 ^\.claude$
 ^\.positai$
+^AGENTS\.md$
+^\.posit$

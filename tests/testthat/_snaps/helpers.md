@@ -31,6 +31,14 @@
     Code
       use_dependency("crayon", "Imports", min_version = "1.0.0")
     Message
+      ! Package crayon is already listed with version ">= 2.0.0" in DESCRIPTION; no
+        change made.
+
+# use_dependency() lowers version when force = TRUE
+
+    Code
+      use_dependency("crayon", "Imports", min_version = "1.0.0", force = TRUE)
+    Message
       v Decreasing crayon version to ">= 1.0.0" in DESCRIPTION.
 
 # use_dependency() upgrades a dependency
