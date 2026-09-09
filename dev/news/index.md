@@ -19,6 +19,10 @@
   [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md).
   It now errors informatively, listing the available skills, when called
   without a `name`.
+- [`pr_merge_main()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  and other functions that report merge conflicts no longer offer to
+  open the conflicted files in Positron
+  ([\#2157](https://github.com/r-lib/usethis/issues/2157)).
 - [`pr_init()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
   and other functions that check for uncommitted changes now offer a
   menu with four options: stash changes (and re-apply after), cancel,
