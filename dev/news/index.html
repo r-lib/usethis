@@ -58,7 +58,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
-<ul><li>Messages and documentation now refer to “RStudio or Positron” instead of just “RStudio”, where the functionality applies to both IDEs (<a href="https://github.com/r-lib/usethis/issues/2182" class="external-link">#2182</a>).</li>
+<ul><li>
+<code><a href="../reference/use_git.html">use_git()</a></code> now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (<a href="https://github.com/r-lib/usethis/issues/2242" class="external-link">#2242</a>).</li>
+<li>Messages and documentation now refer to “RStudio or Positron” instead of just “RStudio”, where the functionality applies to both IDEs (<a href="https://github.com/r-lib/usethis/issues/2182" class="external-link">#2182</a>).</li>
 <li>
 <code><a href="../reference/create_from_github.html">create_from_github()</a></code> now installs package dependencies by default, so you’re set up to immediately start working on the package. Use <code>install_dependencies = FALSE</code> to suppress (<a href="https://github.com/r-lib/usethis/issues/2186" class="external-link">#2186</a>).</li>
 <li>

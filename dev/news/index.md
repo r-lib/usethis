@@ -2,6 +2,11 @@
 
 ## usethis (development version)
 
+- [`use_git()`](https://usethis.r-lib.org/dev/reference/use_git.md) now
+  works in a directory that is not yet recognized as a usethis project:
+  it assumes you want to initialise a Git repository in the current
+  working directory
+  ([\#2242](https://github.com/r-lib/usethis/issues/2242)).
 - Messages and documentation now refer to “RStudio or Positron” instead
   of just “RStudio”, where the functionality applies to both IDEs
   ([\#2182](https://github.com/r-lib/usethis/issues/2182)).

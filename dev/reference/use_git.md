@@ -15,6 +15,12 @@ use_git(message = "Initial commit")
 
   Message to use for first commit.
 
+## Details
+
+If there is no active project and the working directory is not inside an
+existing project, `use_git()` treats the working directory as the
+project root and initialises the Git repository there.
+
 ## See also
 
 Other git helpers:
