@@ -41,6 +41,12 @@
   contains curly braces
   ([\#2107](https://github.com/r-lib/usethis/issues/2107),
   [@jonthegeek](https://github.com/jonthegeek)).
+- [`use_description()`](https://usethis.r-lib.org/dev/reference/use_description.md)
+  and
+  [`use_roxygen_md()`](https://usethis.r-lib.org/dev/reference/use_roxygen_md.md)
+  now record the roxygen2 version in the `Config/roxygen2/version` field
+  (instead of `RoxygenNote`) when roxygen2 \>= 8.0.0 is installed
+  ([\#2226](https://github.com/r-lib/usethis/issues/2226)).
 - New
   [`use_env_var()`](https://usethis.r-lib.org/dev/reference/use_env_var.md)
   sets an environment variable in `.Renviron`, prompting for the value

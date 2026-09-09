@@ -68,7 +68,9 @@ use_description_defaults(package = NULL, roxygen = TRUE, fields = list())
 
 - roxygen:
 
-  If `TRUE`, sets `RoxygenNote` to current roxygen2 version
+  If `TRUE`, records the current roxygen2 version in
+  `Config/roxygen2/version` (for roxygen2 \>= 8.0.0) or the legacy
+  `RoxygenNote` otherwise.
 
 - package:
 
