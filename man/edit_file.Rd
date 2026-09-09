@@ -21,11 +21,11 @@ files are offered for interactive selection.}
 Target path, invisibly.
 }
 \description{
-Opens a file for editing in RStudio, if that is the active environment, or
-via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise. If the file does not exist, it is
-created. If the parent directory does not exist, it is also created.
-\code{edit_template()} specifically opens templates in \code{inst/templates} for use
-with \code{\link[=use_template]{use_template()}}.
+Opens a file for editing in RStudio or Positron, if either is the active
+development environment, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise. If the file
+does not exist, it is created. If the parent directory does not exist, it is
+also created. \code{edit_template()} specifically opens templates in
+\code{inst/templates} for use with \code{\link[=use_template]{use_template()}}.
 }
 \examples{
 \dontrun{

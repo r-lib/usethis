@@ -24,8 +24,8 @@ Defaults to \code{template}}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 
 \item{package}{Name of the package where the template is found.}
 }

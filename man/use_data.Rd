@@ -47,8 +47,8 @@ version 2.}
 
 \item{name}{Name of the dataset to be prepared for inclusion in the package.}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 \code{use_data()} makes it easy to save package data in the correct format. I
