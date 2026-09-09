@@ -24,7 +24,7 @@ with a few things to keep in mind:
 \item Instead of \code{x \%>\% f(a = ., b = .)}, define a new helper function.
 }
 
-Learn more in \url{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/}.
+Learn more in \url{https://tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/}.
 }
 \examples{
 \dontrun{

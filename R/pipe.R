@@ -12,7 +12,7 @@
 #' * Instead of `x %>% f(1, y = .)`, use `x |> f(1, y = _)`.
 #' * Instead of `x %>% f(a = ., b = .)`, define a new helper function.
 #'
-#' Learn more in <https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/>.
+#' Learn more in <https://tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/>.
 #'
 #' @param export If `TRUE`, the file `R/utils-pipe.R` is added, which provides
 #' the roxygen template to import and re-export `%>%`. If `FALSE`, the necessary

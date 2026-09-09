@@ -334,7 +334,7 @@ tidy_upkeep_checklist <- function(
 
 # upkeep helpers ----------------------------------------------------------
 
-# https://www.tidyverse.org/blog/2019/04/r-version-support/
+# https://tidyverse.org/blog/2019/04/r-version-support/
 tidy_minimum_r_version <- function() {
   con <- curl::curl("https://api.r-hub.io/rversions/r-oldrel/4")
   withr::defer(close(con))
