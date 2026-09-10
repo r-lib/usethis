@@ -1244,7 +1244,7 @@ welcome to use them if you find them helpful.
 
 * `use_logo()` can override existing logo if user gives permission (#454).
   It also produces retina appropriate logos by default, and matches the
-  aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
+  aspect ratio to the `http://hexb.in/sticker.html` specification (#499).
 
 * `use_news_md()` will optionally commit.
 

@@ -53,7 +53,7 @@ use a CLA to assign copyright to a single entity.}
 
 \item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size. The default
 assumes that you have a hex logo using spec from
-\url{http://hexb.in/sticker.html}.}
+\verb{http://hexb.in/sticker.html}.}
 
 \item{retina}{\code{TRUE}, the default, scales the image on the README,
 assuming that geometry is double the desired size.}

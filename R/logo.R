@@ -8,7 +8,7 @@
 #' @param img The path to an existing image file
 #' @param geometry a [magick::geometry] string specifying size. The default
 #'   assumes that you have a hex logo using spec from
-#'   <http://hexb.in/sticker.html>.
+#'   `http://hexb.in/sticker.html`.
 #' @param retina `TRUE`, the default, scales the image on the README,
 #'   assuming that geometry is double the desired size.
 #'
