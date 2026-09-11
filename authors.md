@@ -19,7 +19,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/r-lib/usethis/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/r-lib/usethis/blob/v3.2.2/DESCRIPTION)
 
 Wickham H, Bryan J, Barrett M, Teucher A (2026). *usethis: Automate
 Package and Project Setup*. R package version 3.2.2,
