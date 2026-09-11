@@ -12,13 +12,16 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Exploring badge accessibility">
-<script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-UPyXHAePcJ3LJp_xWm8Ym.js"></script><script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -28,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +89,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Exploring badge accessibility</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/v3.2.1/vignettes/articles/badge-accessibility.Rmd" class="external-link"><code>vignettes/articles/badge-accessibility.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/main/vignettes/articles/badge-accessibility.Rmd" class="external-link"><code>vignettes/articles/badge-accessibility.Rmd</code></a></small>
       <div class="d-none name"><code>badge-accessibility.Rmd</code></div>
     </div>
 
@@ -178,6 +181,15 @@ detail. Later, we will display badge information very selectively.</p>
 <span><span class="co">#&gt; [1] "my_label: my_message"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $filter</span></span>
+<span><span class="co">#&gt; $filter$feGaussianBlur</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"stdDeviation")</span></span>
+<span><span class="co">#&gt; [1] "16"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"id")</span></span>
+<span><span class="co">#&gt; [1] "blur"</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $linearGradient</span></span>
 <span><span class="co">#&gt; $linearGradient$stop</span></span>
 <span><span class="co">#&gt; list()</span></span>
@@ -211,8 +223,6 @@ detail. Later, we will display badge information very selectively.</p>
 <span><span class="co">#&gt; [1] "20"</span></span>
 <span><span class="co">#&gt; attr(,"rx")</span></span>
 <span><span class="co">#&gt; [1] "3"</span></span>
-<span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#fff"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"id")</span></span>
 <span><span class="co">#&gt; [1] "r"</span></span>
@@ -236,7 +246,7 @@ detail. Later, we will display badge information very selectively.</p>
 <span><span class="co">#&gt; attr(,"height")</span></span>
 <span><span class="co">#&gt; [1] "20"</span></span>
 <span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#fe7d37"</span></span>
+<span><span class="co">#&gt; [1] "#ea7233"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $g$rect</span></span>
 <span><span class="co">#&gt; list()</span></span>
@@ -251,73 +261,103 @@ detail. Later, we will display badge information very selectively.</p>
 <span><span class="co">#&gt; [1] "url(#r)"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $g</span></span>
-<span><span class="co">#&gt; $g$text</span></span>
-<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; $g$g</span></span>
+<span><span class="co">#&gt; $g$g$g</span></span>
+<span><span class="co">#&gt; $g$g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$g$text[[1]]</span></span>
 <span><span class="co">#&gt; [1] "my_label"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
-<span><span class="co">#&gt; [1] "true"</span></span>
 <span><span class="co">#&gt; attr(,"x")</span></span>
 <span><span class="co">#&gt; [1] "315"</span></span>
 <span><span class="co">#&gt; attr(,"y")</span></span>
 <span><span class="co">#&gt; [1] "150"</span></span>
-<span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#010101"</span></span>
 <span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
-<span><span class="co">#&gt; [1] ".3"</span></span>
-<span><span class="co">#&gt; attr(,"transform")</span></span>
-<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; [1] ".8"</span></span>
+<span><span class="co">#&gt; attr(,"filter")</span></span>
+<span><span class="co">#&gt; [1] "url(#blur)"</span></span>
 <span><span class="co">#&gt; attr(,"textLength")</span></span>
 <span><span class="co">#&gt; [1] "510"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $g$text</span></span>
-<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; $g$g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_label"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "315"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "150"</span></span>
+<span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".3"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "510"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
+<span><span class="co">#&gt; [1] "true"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#010101"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$text[[1]]</span></span>
 <span><span class="co">#&gt; [1] "my_label"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"x")</span></span>
 <span><span class="co">#&gt; [1] "315"</span></span>
 <span><span class="co">#&gt; attr(,"y")</span></span>
 <span><span class="co">#&gt; [1] "140"</span></span>
-<span><span class="co">#&gt; attr(,"transform")</span></span>
-<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
-<span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#fff"</span></span>
 <span><span class="co">#&gt; attr(,"textLength")</span></span>
 <span><span class="co">#&gt; [1] "510"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $g$text</span></span>
-<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$g</span></span>
+<span><span class="co">#&gt; $g$g$g</span></span>
+<span><span class="co">#&gt; $g$g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$g$text[[1]]</span></span>
 <span><span class="co">#&gt; [1] "my_message"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
-<span><span class="co">#&gt; [1] "true"</span></span>
 <span><span class="co">#&gt; attr(,"x")</span></span>
 <span><span class="co">#&gt; [1] "1015"</span></span>
 <span><span class="co">#&gt; attr(,"y")</span></span>
 <span><span class="co">#&gt; [1] "150"</span></span>
-<span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#010101"</span></span>
 <span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
-<span><span class="co">#&gt; [1] ".3"</span></span>
-<span><span class="co">#&gt; attr(,"transform")</span></span>
-<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; [1] ".8"</span></span>
+<span><span class="co">#&gt; attr(,"filter")</span></span>
+<span><span class="co">#&gt; [1] "url(#blur)"</span></span>
 <span><span class="co">#&gt; attr(,"textLength")</span></span>
 <span><span class="co">#&gt; [1] "730"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $g$text</span></span>
-<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; $g$g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_message"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "1015"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "150"</span></span>
+<span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".3"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "730"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
+<span><span class="co">#&gt; [1] "true"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#010101"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$g$text</span></span>
+<span><span class="co">#&gt; $g$g$text[[1]]</span></span>
 <span><span class="co">#&gt; [1] "my_message"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"x")</span></span>
 <span><span class="co">#&gt; [1] "1015"</span></span>
 <span><span class="co">#&gt; attr(,"y")</span></span>
 <span><span class="co">#&gt; [1] "140"</span></span>
-<span><span class="co">#&gt; attr(,"transform")</span></span>
-<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
-<span><span class="co">#&gt; attr(,"fill")</span></span>
-<span><span class="co">#&gt; [1] "#fff"</span></span>
 <span><span class="co">#&gt; attr(,"textLength")</span></span>
 <span><span class="co">#&gt; [1] "730"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"fill")</span></span>
 <span><span class="co">#&gt; [1] "#fff"</span></span>
@@ -478,7 +518,7 @@ badge above:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
-<span><span class="co">#&gt; [1] "CRAN 3.2.1"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "CRAN 3.2.2"</span></span></code></pre></div>
 <p>At the time of writing (late December 2021), <code>aria-label</code>
 is present, but <code>title</code> is not. I would be interested to know
 if this is a good situation for those using a screen reader.</p>
@@ -519,10 +559,10 @@ shields.io badges::</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
-<span><span class="co">#&gt; [1] "test coverage: 60%"</span></span>
+<span><span class="co">#&gt; [1] "test coverage: 61%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
-<span><span class="co">#&gt; [1] "test coverage: 60%"</span></span>
+<span><span class="co">#&gt; [1] "test coverage: 61%"</span></span>
 <span></span>
 <span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -568,7 +608,7 @@ badges.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
   </div></footer>

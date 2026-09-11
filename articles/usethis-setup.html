@@ -12,13 +12,16 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="usethis setup">
-<script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-UPyXHAePcJ3LJp_xWm8Ym.js"></script><script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -28,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">3.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +89,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>usethis setup</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/v3.2.1/vignettes/articles/usethis-setup.Rmd" class="external-link"><code>vignettes/articles/usethis-setup.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/main/vignettes/articles/usethis-setup.Rmd" class="external-link"><code>vignettes/articles/usethis-setup.Rmd</code></a></small>
       <div class="d-none name"><code>usethis-setup.Rmd</code></div>
     </div>
 
@@ -195,10 +198,11 @@ is example code:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
 <span>  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Authors@R"</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span></span>
-<span>        <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,</span>
-<span>        email <span class="op">=</span> <span class="st">"jane@example.com"</span>,</span>
-<span>        role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,</span>
-<span>        comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span></span>
+<span>      <span class="st">"Jane"</span>,</span>
+<span>      <span class="st">"Doe"</span>,</span>
+<span>      email <span class="op">=</span> <span class="st">"jane@example.com"</span>,</span>
+<span>      role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,</span>
+<span>      comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  usethis.destdir <span class="op">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>,</span>
@@ -215,8 +219,8 @@ troubleshoot things:</p>
 <ul>
 <li>
 <code><a href="../reference/proj_sitrep.html">proj_sitrep()</a></code>: prints info about the active usethis
-project, working directory, and the active RStudio Project. Points out
-when things are peculiar and how to fix.</li>
+project, working directory, and the active project according to your
+IDE. Points out when things are peculiar and how to fix.</li>
 <li>
 <code><a href="../reference/git_sitrep.html">git_sitrep()</a></code>: prints info about your current Git, gert,
 and GitHub setup.</li>
@@ -240,7 +244,7 @@ It is beyond the scope of this article.</p>
 because it uses the <a href="https://docs.ropensci.org/gert/" class="external-link">gert</a>
 package which wraps <a href="https://libgit2.github.com" class="external-link">libgit2</a>.
 But, chances are, you want to do normal Git things, like diff and commit
-and push, from RStudio or in the shell and for that you must install
+and push, from your IDE or in the shell and for that you must install
 Git. Gert’s credential management also works best when official Git
 tooling is available.</p>
 </div>
@@ -252,8 +256,8 @@ tooling is available.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span> <span class="co">## or library(devtools)</span></span>
 <span><span class="fu"><a href="../reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>user.name <span class="op">=</span> <span class="st">"Jane Doe"</span>, user.email <span class="op">=</span> <span class="st">"jane@example.com"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># check by running a git situation-report: </span></span>
-<span><span class="co">#   - your user.name and user.email should appear in global Git config </span></span>
+<span><span class="co"># check by running a git situation-report:</span></span>
+<span><span class="co">#   - your user.name and user.email should appear in global Git config</span></span>
 <span><span class="fu"><a href="../reference/git_sitrep.html">git_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/use_git_config.html">usethis::use_git_config()</a></code> helps you configure your
 <code>user.name</code> and <code>user.email</code>. Substitute
@@ -383,7 +387,7 @@ install as instructed.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
   </div></footer>

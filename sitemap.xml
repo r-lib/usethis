@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://usethis.r-lib.org/404.html</loc></url>
+<url><loc>https://usethis.r-lib.org/AGENTS.html</loc></url>
 <url><loc>https://usethis.r-lib.org/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://usethis.r-lib.org/CONTRIBUTING.html</loc></url>
 <url><loc>https://usethis.r-lib.org/LICENSE-text.html</loc></url>
@@ -28,6 +29,7 @@
 <url><loc>https://usethis.r-lib.org/reference/github-token.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/index.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/issue-this.html</loc></url>
+<url><loc>https://usethis.r-lib.org/reference/learn_tidy_skill.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/licenses.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/proj_activate.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/proj_sitrep.html</loc></url>
@@ -55,6 +57,7 @@
 <url><loc>https://usethis.r-lib.org/reference/use_data_table.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_description.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_directory.html</loc></url>
+<url><loc>https://usethis.r-lib.org/reference/use_env_var.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_git.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_git_config.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_git_hook.html</loc></url>
@@ -96,6 +99,7 @@
 <url><loc>https://usethis.r-lib.org/reference/use_test_helper.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_testthat.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_tibble.html</loc></url>
+<url><loc>https://usethis.r-lib.org/reference/use_tidy_agents.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_tidy_thanks.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_tutorial.html</loc></url>
 <url><loc>https://usethis.r-lib.org/reference/use_upkeep_issue.html</loc></url>
