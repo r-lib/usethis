@@ -22,13 +22,13 @@ Source:
 [`DESCRIPTION`](https://github.com/r-lib/usethis/blob/main/DESCRIPTION)
 
 Wickham H, Bryan J, Barrett M, Teucher A (2026). *usethis: Automate
-Package and Project Setup*. R package version 3.2.1.9000,
+Package and Project Setup*. R package version 3.2.2.9000,
 <https://usethis.r-lib.org>.
 
     @Manual{,
       title = {usethis: Automate Package and Project Setup},
       author = {Hadley Wickham and Jennifer Bryan and Malcolm Barrett and Andy Teucher},
       year = {2026},
-      note = {R package version 3.2.1.9000},
+      note = {R package version 3.2.2.9000},
       url = {https://usethis.r-lib.org},
     }

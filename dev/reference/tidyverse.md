@@ -56,8 +56,7 @@ use_tidy_upkeep_issue(last_upkeep = last_upkeep_year())
   a
   [magick::geometry](https://docs.ropensci.org/magick/reference/geometry.html)
   string specifying size. The default assumes that you have a hex logo
-  using spec from
-  [http://hexb.in/sticker.html](http://hexb.in/sticker.md).
+  using spec from `http://hexb.in/sticker.html`.
 
 - retina:
 

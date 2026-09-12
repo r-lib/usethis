@@ -465,7 +465,7 @@ inspect_badge("https://www.r-pkg.org/badges/version/usethis")
 #> NULL
 #> 
 #> $`aria-label`
-#> [1] "CRAN 3.2.1"
+#> [1] "CRAN 3.2.2"
 ```
 
 At the time of writing (late December 2021), `aria-label` is present,

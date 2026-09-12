@@ -2,6 +2,10 @@
 
 ## usethis (development version)
 
+## usethis 3.2.2
+
+CRAN release: 2026-09-10
+
 ### AI coding agents
 
 - [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
@@ -2108,8 +2112,8 @@ are welcome to use them if you find them helpful.
   can override existing logo if user gives permission
   ([\#454](https://github.com/r-lib/usethis/issues/454)). It also
   produces retina appropriate logos by default, and matches the aspect
-  ratio to the [http://hexb.in/sticker.html](http://hexb.in/sticker.md)
-  specification ([\#499](https://github.com/r-lib/usethis/issues/499)).
+  ratio to the `http://hexb.in/sticker.html` specification
+  ([\#499](https://github.com/r-lib/usethis/issues/499)).
 
 - [`use_news_md()`](https://usethis.r-lib.org/dev/reference/use_news_md.md)
   will optionally commit.

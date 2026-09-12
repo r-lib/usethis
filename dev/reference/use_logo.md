@@ -25,8 +25,7 @@ use_logo(img, geometry = "240x278", retina = TRUE)
   a
   [magick::geometry](https://docs.ropensci.org/magick/reference/geometry.html)
   string specifying size. The default assumes that you have a hex logo
-  using spec from
-  [http://hexb.in/sticker.html](http://hexb.in/sticker.md).
+  using spec from `http://hexb.in/sticker.html`.
 
 - retina:
 

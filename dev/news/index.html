@@ -10,7 +10,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.2.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">3.2.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,15 +58,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="3.2.2" id="usethis-322">usethis 3.2.2<a class="anchor" aria-label="anchor" href="#usethis-322"></a></h2><p class="text-muted">CRAN release: 2026-09-10</p>
 <div class="section level3">
-<h3 id="ai-coding-agents-development-version">AI coding agents<a class="anchor" aria-label="anchor" href="#ai-coding-agents-development-version"></a></h3>
+<h3 id="ai-coding-agents-3-2-2">AI coding agents<a class="anchor" aria-label="anchor" href="#ai-coding-agents-3-2-2"></a></h3>
 <ul><li>
 <code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code> is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (<a href="https://github.com/r-lib/usethis/issues/2195" class="external-link">#2195</a>, <a href="https://github.com/r-lib/usethis/issues/2239" class="external-link">#2239</a>).</li>
 <li>
 <code><a href="../reference/learn_tidy_skill.html">learn_tidy_skill()</a></code> is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It’s primarily designed to be called by AI coding agents, as directed by the <code>AGENTS.md</code> created by <code><a href="../reference/use_tidy_agents.html">use_tidy_agents()</a></code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="git-and-github-development-version">Git and GitHub<a class="anchor" aria-label="anchor" href="#git-and-github-development-version"></a></h3>
+<h3 id="git-and-github-3-2-2">Git and GitHub<a class="anchor" aria-label="anchor" href="#git-and-github-3-2-2"></a></h3>
 <ul><li>
 <code><a href="../reference/create_from_github.html">create_from_github()</a></code> now installs package dependencies by default, so you’re set up to immediately start working on the package. Use <code>install_dependencies = FALSE</code> to suppress (<a href="https://github.com/r-lib/usethis/issues/2186" class="external-link">#2186</a>).</li>
 <li>
@@ -81,7 +84,7 @@
 <code><a href="../reference/use_git.html">use_git()</a></code> now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (<a href="https://github.com/r-lib/usethis/issues/2242" class="external-link">#2242</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-3-2-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-3-2-2"></a></h3>
 <ul><li>
 <code><a href="../reference/use_readme_rmd.html">use_readme_qmd()</a></code> creates a starter <code>README.qmd</code> with Quarto-flavored YAML frontmatter, analogous to <code><a href="../reference/use_readme_rmd.html">use_readme_rmd()</a></code> (<a href="https://github.com/r-lib/usethis/issues/1671" class="external-link">#1671</a>). Thanks <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a> for getting the ball rolling.</li>
 <li>
@@ -90,7 +93,7 @@
 <code><a href="../reference/use_import_from.html">use_import_from()</a></code> works in packages that use roxygen2 &gt;= 8.0.0 (<a href="https://github.com/JesseAlderliesten" class="external-link">@JesseAlderliesten</a>, <a href="https://github.com/r-lib/usethis/issues/2234" class="external-link">#2234</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
+<h3 id="other-3-2-2">Other<a class="anchor" aria-label="anchor" href="#other-3-2-2"></a></h3>
 <ul><li>More messages and documentation refer to “RStudio or Positron” instead of just “RStudio”, when the functionality applies to both IDEs (<a href="https://github.com/r-lib/usethis/issues/2182" class="external-link">#2182</a>).</li>
 <li>
 <code><a href="../reference/use_env_var.html">use_env_var()</a></code> is a new function that sets an environment variable in <code>.Renviron</code>, prompts for the value securely via <code><a href="https://r-lib.r-universe.dev/askpass/reference/askpass.html" class="external-link">askpass::askpass()</a></code>, and activates it in the current session via <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code> (<a href="https://github.com/r-lib/usethis/issues/2201" class="external-link">#2201</a>, <a href="https://github.com/gadenbuie" class="external-link">@gadenbuie</a>).</li>
@@ -724,7 +727,7 @@
 <li><p><code><a href="../reference/edit.html">edit_r_profile()</a></code> and <code><a href="../reference/edit.html">edit_r_environ()</a></code> now respect environment variables <code>R_PROFILE_USER</code> and <code>R_ENVIRON_USER</code>, respectively (<a href="https://github.com/r-lib/usethis/issues/480" class="external-link">#480</a>).</p></li>
 <li><p><code><a href="../reference/use_description.html">use_description()</a></code> once again prints the generated description (<a href="https://github.com/r-lib/usethis/issues/287" class="external-link">#287</a>).</p></li>
 <li><p><code>use_description_field()</code> is no longer sensitive to whitespace, which allows <code><a href="../reference/use_vignette.html">use_vignette()</a></code> to work even if the <code>VignetteBuilder</code> field is spread over multiple lines (<a href="https://github.com/r-lib/usethis/issues/439" class="external-link">#439</a>).</p></li>
-<li><p><code><a href="../reference/use_logo.html">use_logo()</a></code> can override existing logo if user gives permission (<a href="https://github.com/r-lib/usethis/issues/454" class="external-link">#454</a>). It also produces retina appropriate logos by default, and matches the aspect ratio to the <a href="http://hexb.in/sticker.html" class="external-link uri">http://hexb.in/sticker.html</a> specification (<a href="https://github.com/r-lib/usethis/issues/499" class="external-link">#499</a>).</p></li>
+<li><p><code><a href="../reference/use_logo.html">use_logo()</a></code> can override existing logo if user gives permission (<a href="https://github.com/r-lib/usethis/issues/454" class="external-link">#454</a>). It also produces retina appropriate logos by default, and matches the aspect ratio to the <code>http://hexb.in/sticker.html</code> specification (<a href="https://github.com/r-lib/usethis/issues/499" class="external-link">#499</a>).</p></li>
 <li><p><code><a href="../reference/use_news_md.html">use_news_md()</a></code> will optionally commit.</p></li>
 <li><p><code><a href="../reference/use_package.html">use_package()</a></code> gains a <code>min_version</code> argument to specify a minimum version requirement (<a href="https://github.com/r-lib/usethis/issues/498" class="external-link">#498</a>). Set to <code>TRUE</code> to use the currently installed version (<a href="https://github.com/r-lib/usethis/issues/386" class="external-link">#386</a>). This is used by <code>use_tidy_eval()</code> in order to require version 0.1.2 or greater of rlang (<a href="https://github.com/r-lib/usethis/issues/484" class="external-link">#484</a>).</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> is now configurable with site options (<a href="https://github.com/jayhesselberth" class="external-link">@jayhesselberth</a>, <a href="https://github.com/r-lib/usethis/issues/467" class="external-link">#467</a>), and no longer creates the <code>docs/</code> directory (<a href="https://github.com/r-lib/usethis/issues/495" class="external-link">#495</a>).</p></li>
