@@ -31,6 +31,9 @@
 * `use_release_issue()` points first-time submitters to `devtools::check_doc_fields()` to verify that exported functions document their return values (#2241).
 * `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
+* `git_default_branch_rename()`, if appropriate, offers a reminder to update 
+  codecov configuration (#2078, @ijlyttle).
+
 # usethis 3.2.1
 
 * `create_quarto_project()` exits early if the Quarto CLI does not appear to be
