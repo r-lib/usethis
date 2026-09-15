@@ -14,6 +14,15 @@ test_that("use_package() guides new packages but not pre-existing ones", {
   })
 })
 
+test_that("use_package() honors an explicit request to lower a version", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+
+  use_package("withr", min_version = "2.0.0")
+  expect_snapshot(use_package("withr", min_version = "1.0.0"))
+  expect_equal(subset(proj_deps(), package == "withr")$version, ">= 1.0.0")
+})
+
 test_that("use_package() handles R versions with aplomb", {
   create_local_package()
   withr::local_options(usethis.quiet = FALSE)

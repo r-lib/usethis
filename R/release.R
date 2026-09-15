@@ -75,7 +75,8 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
-  has_readme <- file_exists(proj_path("README.Rmd"))
+  has_readme <- file_exists(proj_path("README.Rmd")) ||
+    file_exists(proj_path("README.qmd"))
   has_github_links <- has_github_links(target_repo)
   is_posit_pkg <- is_posit_pkg()
   milestone_num <- gh_milestone_number(target_repo, version)
@@ -90,7 +91,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         todo("Update (aspirational) install instructions in README"),
         todo("Proofread `Title:` and `Description:`"),
         todo(
-          "Check that all exported functions have `@return` and `@examples`"
+          "Check that all exported functions have `@returns` and `@examples` with `devtools::check_doc_fields()`"
         ),
         todo(
           "Check that `Authors@R:` includes a copyright holder (role 'cph')"
@@ -284,6 +285,7 @@ use_github_release <- function(publish = TRUE) {
   if (!is.null(dat$file)) {
     ui_bullets("Deleting {.path {dat$file}}")
     file_delete(dat$file)
+    rstudio_git_tickle()
   }
 
   invisible()

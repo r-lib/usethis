@@ -59,7 +59,7 @@
       compute_active_name(NULL)
     Condition
       Error:
-      ! No file is open in RStudio.
+      ! No file is open in RStudio or Positron.
       i Please specify `name`.
 
 # compute_active_name() checks directory

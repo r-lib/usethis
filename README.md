@@ -74,9 +74,9 @@ create_package(path)
 #> Description: What the package does (one paragraph).
 #> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 #>     license
+#> Config/roxygen2/version: 8.1.0
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.3.2
 #> ✔ Writing 'NAMESPACE'.
 #> ✔ Setting active project to "<no active project>".
 # only needed since this session isn't interactive
@@ -124,7 +124,7 @@ use_data(x, y)
 
 # Use git ------------------------------------------------------------
 use_git()
-#> ✔ Initialising Git repo.
+#> ✔ Initialising Git repo at '/private/tmp/RtmprTINo0/mypkg'.
 #> ✔ Adding ".Rproj.user", ".Rhistory", ".RData", ".httr-oauth", ".DS_Store", and
 #>   ".quarto" to '.gitignore'.
 ```

@@ -182,3 +182,151 @@
       
       In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
 
+# use_readme_qmd() notices a pre-existing README.Rmd
+
+    Code
+      use_readme_qmd()
+    Message
+      v Writing 'README.qmd'.
+      v Adding "^README\\.qmd$" to '.Rbuildignore'.
+      [ ] Update 'README.qmd' to include installation instructions.
+      ! A pre-existing 'README.Rmd' was found.
+      [ ] Migrate its content to 'README.qmd'.
+      [ ] Delete 'README.Rmd' when the migration is done.
+      [ ] Use `devtools::build_readme()` to render 'README.qmd'.
+
+# use_readme_qmd() has expected form for a non-GitHub package
+
+    Code
+      writeLines(read_utf8("README.qmd"))
+    Output
+      ---
+      format:
+        gfm:
+          default-image-extension: ""
+      ---
+      
+      <!-- README.md is generated from README.qmd. Please edit that file -->
+      
+      ```{r}
+      #| include: false
+      knitr::opts_chunk$set(
+        collapse = TRUE,
+        comment = "#>",
+        fig.path = "man/figures/README-",
+        out.width = "100%"
+      )
+      ```
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} like so:
+      
+      ``` r
+      # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ```{r}
+      #| label: example
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+      What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
+      
+      ```{r}
+      #| label: cars
+      summary(cars)
+      ```
+      
+      You'll still need to render `README.qmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+      
+      You can also embed plots, for example:
+      
+      ```{r}
+      #| label: pressure
+      #| echo: false
+      plot(pressure)
+      ```
+      
+      In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+
+# use_readme_qmd() has expected form for a GitHub package
+
+    Code
+      writeLines(read_utf8("README.qmd"))
+    Output
+      ---
+      format:
+        gfm:
+          default-image-extension: ""
+      ---
+      
+      <!-- README.md is generated from README.qmd. Please edit that file -->
+      
+      ```{r}
+      #| include: false
+      knitr::opts_chunk$set(
+        collapse = TRUE,
+        comment = "#>",
+        fig.path = "man/figures/README-",
+        out.width = "100%"
+      )
+      ```
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} from [GitHub](https://github.com/) with:
+      
+      ``` r
+      # install.packages("pak")
+      pak::pak("OWNER/TESTPKG")
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ```{r}
+      #| label: example
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+      What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
+      
+      ```{r}
+      #| label: cars
+      summary(cars)
+      ```
+      
+      You'll still need to render `README.qmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+      
+      You can also embed plots, for example:
+      
+      ```{r}
+      #| label: pressure
+      #| echo: false
+      plot(pressure)
+      ```
+      
+      In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+

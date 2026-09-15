@@ -1,6 +1,35 @@
 # usethis (development version)
 
+# usethis 3.2.2
+
+## AI coding agents
+
+* `use_tidy_agents()` is an experimental helper to set up an R package to work with AI coding agents in the same way as the tidyverse team (#2195, #2239).
+* `learn_tidy_skill()` is an experimental new function that prints instructions for performing a specialized R package development task (like deprecating a function) the way the tidyverse team does. It's primarily designed to be called by AI coding agents, as directed by the `AGENTS.md` created by `use_tidy_agents()`.
+
+## Git and GitHub
+
+* `create_from_github()` now installs package dependencies by default, so you're set up to immediately start working on the package. Use `install_dependencies = FALSE` to suppress (#2186).
+* `pr_init()` and other functions that check for uncommitted changes now offer to stash and re-apply the changes or to retry, in addition to the existing options to proceed or cancel (#1300).
+* `pr_merge_main()` and other functions that report merge conflicts no longer offer to open the conflicted files in Positron (#2157).
+* `pr_pull()`, `pr_push()`, and friends now give more informative errors if usethis can't retrieve details about a remote (#1929, #2229).
 * `pr_resume()` (without a specific `branch`) and `pr_fetch()` (without a specific `number`) no longer error when a branch name contains curly braces (#2107, @jonthegeek).
+* `use_git()` now works in a directory that is not yet recognized as a usethis project: it assumes you want to initialise a Git repository in the current working directory (#2242).
+
+## Documentation
+
+* `use_readme_qmd()` creates a starter `README.qmd` with Quarto-flavored YAML frontmatter, analogous to `use_readme_rmd()` (#1671). Thanks @VisruthSK for getting the ball rolling.
+* `use_description()` and `use_roxygen_md()` now record the roxygen2 version in the `Config/roxygen2/version` field (instead of `RoxygenNote`) when roxygen2 >= 8.0.0 is installed (#2226).
+* `use_import_from()` works in packages that use roxygen2 >= 8.0.0 (@JesseAlderliesten, #2234).
+
+## Other
+
+* More messages and documentation refer to "RStudio or Positron" instead of just "RStudio", when the functionality applies to both IDEs (#2182).
+* `use_env_var()` is a new function that sets an environment variable in `.Renviron`, prompts for the value securely via `askpass::askpass()`, and activates it in the current session via `Sys.setenv()` (#2201, @gadenbuie).
+* `use_course()`, `use_zip()`, and `use_github_action()` no longer emit download or pagination progress when the `usethis.quiet` option is `TRUE`.
+* `use_pipe()` is deprecated (@math-mcshane, #2124).
+* `use_release_issue()` points first-time submitters to `devtools::check_doc_fields()` to verify that exported functions document their return values (#2241).
+* `use_tidy_upkeep_issue()` no longer includes the deprecated `use_tidy_style()` in the upkeep checklist (#2197, @edgararuiz).
 
 # usethis 3.2.1
 
@@ -682,7 +711,7 @@ The `name` argument to `use_mit_license()` has been changed to `copyright_holder
 
 ## RStudio preferences
 
-usethis is now fully cognizant of the [changes to RStudio preferences](https://posit.co/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
+usethis is now fully cognizant of the [changes to RStudio preferences](https://posit.co/blog/rstudio-1-3-preview-configuration) in RStudio 1.3:
 
 `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
 
@@ -1217,7 +1246,7 @@ welcome to use them if you find them helpful.
 
 * `use_logo()` can override existing logo if user gives permission (#454).
   It also produces retina appropriate logos by default, and matches the
-  aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
+  aspect ratio to the `http://hexb.in/sticker.html` specification (#499).
 
 * `use_news_md()` will optionally commit.
 
