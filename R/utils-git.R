@@ -191,7 +191,7 @@ git_uncommitted <- function(untracked = FALSE) {
 challenge_uncommitted_changes <- function(
   untracked = FALSE,
   msg = NULL,
-  action = c("push", "pull", "switch", "compare branches")
+  action = c("push", "pull", "switch", "compare branches"),
   error_call = caller_env()
 ) {
   if (!uses_git()) {
@@ -259,10 +259,6 @@ challenge_uncommitted_changes <- function(
     } else if (choice == 4) {
       return(invisible())
     }
-    ui_abort(
-      "Uncommitted changes. Please commit before continuing.",
-      call = caller_env()
-    )
   }
 }
 
