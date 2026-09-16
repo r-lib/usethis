@@ -221,7 +221,7 @@ challenge_uncommitted_changes <- function(
       if (choice == 1) {
         return(invisible())
       }
-
+  }
   while (git_uncommitted(untracked = untracked)) {
     if (!is_interactive()) {
       ui_abort(
