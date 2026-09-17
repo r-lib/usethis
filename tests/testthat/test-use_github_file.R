@@ -92,6 +92,7 @@ test_that("use_github_file() respects overwrite for binary files", {
 })
 
 test_that("use_github_file works with non-text files", {
+  skip_if_offline("github.com")
   create_local_project()
   use_github_file(
     "https://github.com/r-lib/usethis/blob/main/man/figures/logo.png",
