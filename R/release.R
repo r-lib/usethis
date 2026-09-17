@@ -402,7 +402,7 @@ get_release_news <- function(
         host = tr$api_url
       ) |>
         read_utf8(),
-      github_error = function(cnd) NULL
+      github_error = function(e) NULL
     )
   }
 
