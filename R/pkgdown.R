@@ -31,6 +31,25 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
   check_installed("pkgdown")
 
+  # New stuff here
+  # Per issue 2065, running use_pkgdown_github_pages in a non-root branch would create an empty site.
+  cfg <- github_remote_config(github_get = NA)
+  check_for_bad_config(cfg)
+  tr <- target_repo(cfg, ask = FALSE)
+  online <- is_online(tr$host)
+
+  default_branch <- if (online) {
+    git_default_branch_(cfg)
+  } else {
+    guess_local_default_branch()
+  }
+  challenge_non_default_branch(
+    "Running use_pkgdown functions when in a non-default branch may create an empty site. Are you sure you want to continue?",
+    default_branch = default_branch
+  )
+
+  # End of new stuff
+
   use_build_ignore(c(config_file, destdir, "pkgdown"))
   use_git_ignore(destdir)
 
