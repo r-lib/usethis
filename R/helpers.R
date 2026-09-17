@@ -124,3 +124,7 @@ view_url <- function(..., open = is_interactive()) {
   }
   invisible(url)
 }
+
+convert_checklist_to_bullets <- function(bullets) {
+  sub("^\\* \\[ \\] ", "* ", bullets)
+}
