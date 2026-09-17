@@ -1,5 +1,7 @@
 # usethis (development version)
 
+- `use_github_file()` now supports non-text (binary) files(#1782).
+
 # usethis 3.2.2
 
 ## AI coding agents
