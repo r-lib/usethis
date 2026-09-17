@@ -119,7 +119,15 @@ edit_r_profile <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
+  scope_missing <- missing(scope)
+  if (scope_missing) {
+    scope <- challenge_renviron_path()
+    if (is.null(scope)) {
+      scope <- "user"
+    }
+  }
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+
   edit_file(path)
   ui_bullets(c("_" = "Restart R for changes to take effect."))
   invisible(path)
@@ -293,6 +301,26 @@ edit_rstudio_prefs <- function() {
   edit_file(path)
   ui_bullets(c("_" = "Restart RStudio for changes to take effect."))
   invisible(path)
+}
+
+challenge_renviron_path <- function() {
+  project <- proj_find()
+  user <- scoped_path_r("user", ".Renviron", envvar = "R_ENVIRON_USER")
+  if (
+    is.null(project) ||
+      !file_exists(path(project, ".Renviron")) ||
+      !file_exists(user)
+  ) {
+    return(invisible())
+  }
+
+  ui_bullets(c(
+    "!" = "Both user and project-level {.path .Renviron} detected."
+  ))
+  if (ui_yeah("Do you want to edit the project-level .Renviron file?")) {
+    return("project")
+  }
+  invisible()
 }
 
 scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {
