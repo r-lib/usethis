@@ -1,3 +1,11 @@
+# use_snapshot() errors for non-existent snapshot file
+
+    Code
+      use_snapshot("foo", open = FALSE)
+    Condition
+      Error in `use_snapshot()`:
+      ! No snapshot file exists for `foo.md`.
+
 # use_test_helper() creates a helper file
 
     Code
@@ -59,7 +67,7 @@
       compute_active_name(NULL)
     Condition
       Error:
-      ! No file is open in RStudio.
+      ! No file is open in RStudio or Positron.
       i Please specify `name`.
 
 # compute_active_name() checks directory

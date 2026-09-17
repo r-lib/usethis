@@ -9,7 +9,7 @@
       * [ ] `usethis::use_cran_comments()`
       * [ ] Update (aspirational) install instructions in README
       * [ ] Proofread `Title:` and `Description:`
-      * [ ] Check that all exported functions have `@return` and `@examples`
+      * [ ] Check that all exported functions have `@returns` and `@examples` with `devtools::check_doc_fields()`
       * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
       * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)
       * [ ] Review <https://github.com/DavisVaughan/extrachecks>

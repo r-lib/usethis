@@ -306,7 +306,8 @@ latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {
     owner = spec_owner(parsed$repo_spec),
     repo = spec_repo(parsed$repo_spec),
     .api_url = parsed$host,
-    .limit = Inf
+    .limit = Inf,
+    .progress = !is_quiet()
   )
   tag_names <- purrr::discard(
     map_chr(raw_releases, "tag_name"),

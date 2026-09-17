@@ -27,3 +27,7 @@
 ^\.vscode$
 ^[.]?air[.]toml$
 ^scratch\.R$
+^\.claude$
+^\.positai$
+^AGENTS\.md$
+^\.posit$

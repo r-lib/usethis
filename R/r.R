@@ -1,13 +1,15 @@
-#' Create or edit R or test files
+#' Create or edit R, test, and snapshot files
 #'
-#' This pair of functions makes it easy to create paired R and test files,
+#' @description
+#' This family of functions makes it easy to create paired R and test files,
 #' using the convention that the tests for `R/foofy.R` should live
-#' in `tests/testthat/test-foofy.R`. You can use them to create new files
-#' from scratch by supplying `name`, or if you use RStudio, you can call
-#' to create (or navigate to) the companion file based on the currently open
-#' file. This also works when a test snapshot file is active, i.e. if you're
-#' looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take
-#' you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
+#' in `tests/testthat/test-foofy.R` and the results of any snapshot tests live
+#' in `tests/testthat/snaps/foofy.md`. You can use them to create new files
+#' from scratch by supplying `name`, or if you use RStudio or Positron, you can
+#' call to create (or navigate to) the companion file based on the currently
+#' open file. This also works when a test snapshot file is active, i.e. if
+#' you're looking at `tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()`
+#' take you to `R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 #'
 #' @section Renaming files in an existing package:
 #'
@@ -41,7 +43,8 @@
 #' The [rename_files()] function can also be helpful.
 #'
 #' @param name Either a string giving a file name (without directory) or
-#'   `NULL` to take the name from the currently open file in RStudio.
+#'   `NULL` to take the name from the currently open file in RStudio or
+#'   Positron.
 #' @inheritParams edit_file
 #' @seealso
 #' * The [testing](https://r-pkgs.org/testing-basics.html) and
@@ -84,6 +87,27 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_template("test-example-2.1.R", save_as = path)
   }
   edit_file(proj_path(path), open = open)
+
+  invisible(TRUE)
+}
+
+#' @rdname use_r
+#' @export
+use_snapshot <- function(
+  name = NULL,
+  open = rlang::is_interactive()
+) {
+  if (!uses_testthat()) {
+    use_testthat_impl()
+  }
+
+  snap_name <- compute_name(name, ext = "md")
+  path <- proj_path("tests", "testthat", "_snaps", snap_name)
+
+  if (!file_exists(path)) {
+    cli::cli_abort("No snapshot file exists for {.var {snap_name}}.")
+  }
+  edit_file(path, open = open)
 
   invisible(TRUE)
 }
@@ -171,7 +195,7 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   if (is.null(path)) {
     cli::cli_abort(
       c(
-        "No file is open in RStudio.",
+        "No file is open in RStudio or Positron.",
         i = "Please specify {.arg name}."
       ),
       call = error_call
@@ -183,7 +207,11 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
+  if (
+    !dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps") &&
+      # This makes sure variants are also supported.
+      !grepl("tests/testthat/_snaps", dir)
+  ) {
     cli::cli_abort(
       "Open file must be code, test, or snapshot.",
       call = error_call

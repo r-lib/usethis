@@ -7,8 +7,8 @@
 use_cran_comments(open = rlang::is_interactive())
 }
 \arguments{
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Creates \code{cran-comments.md}, a template for your communications with CRAN when
