@@ -31,21 +31,6 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
   check_installed("pkgdown")
 
-  cfg <- github_remote_config(github_get = NA)
-  check_for_bad_config(cfg)
-  tr <- target_repo(cfg, ask = FALSE)
-  online <- is_online(tr$host)
-
-  default_branch <- if (online) {
-    git_default_branch_(cfg)
-  } else {
-    guess_local_default_branch()
-  }
-  challenge_non_default_branch(
-    "Running use_pkgdown functions when in a non-default branch may create an empty site. Are you sure you want to continue?",
-    default_branch = default_branch
-  )
-
   use_build_ignore(c(config_file, destdir, "pkgdown"))
   use_git_ignore(destdir)
 
@@ -83,6 +68,9 @@ pkgdown_version <- function() {
 use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to turn on GitHub Pages")
+  challenge_non_default_branch(
+    "The site is deployed from the default branch, so setting it up from another branch may create an empty site. Are you sure you want to continue?"
+  )
 
   use_pkgdown()
   site <- use_github_pages()
