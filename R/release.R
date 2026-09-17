@@ -25,6 +25,14 @@
 #'   returns a character vector. This is currently only supported for
 #'   Posit internal check tooling.
 #'
+#' ## Built-in bullets
+#'
+#' ```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#' bullets <- release_checklist(version = "1.0.0", on_cran = TRUE)
+#' bullets <- convert_checklist_to_bullets(bullets)
+#' knitr::asis_output(paste(bullets, collapse = "\n"))
+#' ```
+#'
 #' @param version Optional version number for release. If unspecified, you can
 #'   make an interactive choice.
 #' @export
