@@ -10,7 +10,8 @@
 #' * `use_pkgdown_github_pages()`: implements the GitHub setup needed to
 #'   automatically publish your pkgdown site to GitHub pages:
 #'
-#'   - (first, it calls `use_pkgdown()`)
+#'   - (first, it checks that you're on the default branch and calls
+#'     `use_pkgdown()`)
 #'   - [use_github_pages()] prepares to publish the pkgdown site from the
 #'     `gh-pages` branch
 #'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
@@ -68,6 +69,11 @@ pkgdown_version <- function() {
 use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to turn on GitHub Pages")
+  challenge_non_default_branch(
+    "The site deploys from the default branch, so it won't be fully functional
+    until all the necessary setup is present on {.val {default_branch}}.
+    Are you sure you want to continue?"
+  )
 
   use_pkgdown()
   site <- use_github_pages()
