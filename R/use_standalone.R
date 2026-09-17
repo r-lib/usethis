@@ -82,7 +82,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
     imports <- dependencies$imports
     n <- cli::qty(length(imports$pkg))
     ui_bullets(c(
-      "!" = "You'll need the following {n} package{?s}: {.pkg {imports$pkg}}."
+      "!" = "You'll need to attach the following {n} package{?s}: {.pkg {imports$pkg}}."
     ))
     return(invisible())
   }
