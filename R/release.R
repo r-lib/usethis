@@ -400,10 +400,10 @@ get_release_news <- function(
         path = "NEWS.md",
         ref = SHA,
         host = tr$api_url
-      ),
-      github_error = NULL
-    ) |>
-      read_utf8()
+      ) |>
+        read_utf8(),
+      github_error = function(cnd) NULL
+    )
   }
 
   if (is.null(news)) {
