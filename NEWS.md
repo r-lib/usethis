@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
+
 # usethis 3.2.2
 
 ## AI coding agents
