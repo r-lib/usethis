@@ -69,7 +69,9 @@ use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to turn on GitHub Pages")
   challenge_non_default_branch(
-    "The site is deployed from the default branch, so setting it up from another branch may create an empty site. Are you sure you want to continue?"
+    "The site deploys from the default branch, so it won't be fully functional
+    until all the necessary setup is present on {.val {default_branch}}.
+    Are you sure you want to continue?"
   )
 
   use_pkgdown()
