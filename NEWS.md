@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_rcpp_armadillo()` no longer sets `CXX_STD = CXX11` in `src/Makevars` and `src/Makevars.win`, since C++17 has been the default since R 4.3.0 and the specification triggers a CRAN NOTE (#1889).
+
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 
 # usethis 3.2.2
