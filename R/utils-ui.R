@@ -233,6 +233,19 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
 }
 
 # questions --------------------------------------------------------------------
+
+# Detects when an LLM agent is likely driving this R session. Uses the same
+# environment variable convention as testthat:::is_llm() and
+# devtools:::is_llm(), plus a check for Posit Assistant, which registers a
+# per-execution task callback around the code it executes in the console.
+is_llm <- function() {
+  nzchar(Sys.getenv("AGENT")) ||
+    nzchar(Sys.getenv("CLAUDECODE")) ||
+    nzchar(Sys.getenv("GEMINI_CLI")) ||
+    nzchar(Sys.getenv("CURSOR_AGENT")) ||
+    any(startsWith(getTaskCallbackNames(), ".assistant_interleave_hook_"))
+}
+
 ui_yep <- function(
   x,
   yes = c(
@@ -248,8 +261,24 @@ ui_yep <- function(
   n_yes = 1,
   n_no = 2,
   shuffle = TRUE,
+  .bypass = NULL,
   .envir = parent.frame()
 ) {
+  if (is_llm()) {
+    question <- cli::format_inline(x, .envir = .envir)
+    if (is.null(.bypass)) {
+      .bypass <- "Ask the user to run the command themselves in the R console."
+    }
+    ui_abort(
+      c(
+        "x" = "User input required, but an LLM agent appears to be driving this session.",
+        "i" = "The agent should relay this question to the user: {.val {question}}",
+        "i" = .bypass
+      ),
+      class = "usethis_error_agent_question"
+    )
+  }
+
   if (!is_interactive()) {
     ui_abort(c(
       "User input required, but session is not interactive.",
@@ -286,6 +315,7 @@ ui_nah <- function(
   n_yes = 1,
   n_no = 2,
   shuffle = TRUE,
+  .bypass = NULL,
   .envir = parent.frame()
 ) {
   # TODO(jennybc): is this correct in the case of no selection / cancelling?
@@ -296,6 +326,7 @@ ui_nah <- function(
     n_yes = n_yes,
     n_no = n_no,
     shuffle = shuffle,
+    .bypass = .bypass,
     .envir = .envir
   )
 }

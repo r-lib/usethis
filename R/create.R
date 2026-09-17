@@ -446,7 +446,12 @@ challenge_nested_project <- function(path, name) {
            session that has {.path {pth(enclosing_project)}} as working
            directory."
   ))
-  if (ui_nah("Do you want to create anyway?")) {
+  if (
+    ui_nah(
+      "Do you want to create anyway?",
+      .bypass = "Re-run with {.code options(usethis.allow_nested_project = TRUE)}."
+    )
+  ) {
     ui_abort("Cancelling project creation.")
   }
   invisible()
@@ -468,7 +473,12 @@ challenge_home_directory <- function(path) {
     "i" = "It is generally a bad idea to create a new project here.",
     "i" = "You should probably create your new project in a subdirectory."
   ))
-  if (ui_nah("Do you want to create anyway?")) {
+  if (
+    ui_nah(
+      "Do you want to create anyway?",
+      .bypass = "No programmatic bypass exists; ask the user to run the command themselves in the R console."
+    )
+  ) {
     ui_abort("Good move! Cancelling project creation.")
   }
   invisible()
