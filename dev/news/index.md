@@ -2,6 +2,11 @@
 
 ## usethis (development version)
 
+- [`use_pkgdown_github_pages()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
+  now challenges the user when they are not on the default branch,
+  because setting up the site on a non-default branch leads to an empty
+  deployed site ([\#2065](https://github.com/r-lib/usethis/issues/2065),
+  [@mhausinger](https://github.com/mhausinger)).
 - [`use_snapshot()`](https://usethis.r-lib.org/dev/reference/use_r.md)
   is a new function to open a testthat snapshot file corresponding to a
   given test/R file

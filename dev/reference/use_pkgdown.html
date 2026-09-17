@@ -5,7 +5,8 @@ use_pkgdown(): creates a pkgdown config file and adds relevant files or
 directories to .Rbuildignore and .gitignore.
 use_pkgdown_github_pages(): implements the GitHub setup needed to
 automatically publish your pkgdown site to GitHub pages:
-(first, it calls use_pkgdown())
+(first, it checks that you're on the default branch and calls
+use_pkgdown())
 use_github_pages() prepares to publish the pkgdown site from the
 gh-pages branch
 use_github_action(&quot;pkgdown&quot;) configures a
@@ -24,7 +25,8 @@ use_pkgdown(): creates a pkgdown config file and adds relevant files or
 directories to .Rbuildignore and .gitignore.
 use_pkgdown_github_pages(): implements the GitHub setup needed to
 automatically publish your pkgdown site to GitHub pages:
-(first, it calls use_pkgdown())
+(first, it checks that you're on the default branch and calls
+use_pkgdown())
 use_github_pages() prepares to publish the pkgdown site from the
 gh-pages branch
 use_github_action(&quot;pkgdown&quot;) configures a
@@ -100,7 +102,8 @@ tidymodels) get some special treatment, in terms of anticipating the
 a beautiful website. usethis provides two functions to help you use pkgdown:</p><ul><li><p><code>use_pkgdown()</code>: creates a pkgdown config file and adds relevant files or
 directories to <code>.Rbuildignore</code> and <code>.gitignore</code>.</p></li>
 <li><p><code>use_pkgdown_github_pages()</code>: implements the GitHub setup needed to
-automatically publish your pkgdown site to GitHub pages:</p><ul><li><p>(first, it calls <code>use_pkgdown()</code>)</p></li>
+automatically publish your pkgdown site to GitHub pages:</p><ul><li><p>(first, it checks that you're on the default branch and calls
+<code>use_pkgdown()</code>)</p></li>
 <li><p><code><a href="use_github_pages.html">use_github_pages()</a></code> prepares to publish the pkgdown site from the
 <code>gh-pages</code> branch</p></li>
 <li><p><code><a href="use_github_action.html">use_github_action("pkgdown")</a></code> configures a

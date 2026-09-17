@@ -10,7 +10,8 @@ pkgdown:
 - `use_pkgdown_github_pages()`: implements the GitHub setup needed to
   automatically publish your pkgdown site to GitHub pages:
 
-  - (first, it calls `use_pkgdown()`)
+  - (first, it checks that you're on the default branch and calls
+    `use_pkgdown()`)
 
   - [`use_github_pages()`](https://usethis.r-lib.org/dev/reference/use_github_pages.md)
     prepares to publish the pkgdown site from the `gh-pages` branch
