@@ -70,6 +70,27 @@ test_that("is_binary_file() detects binary files", {
   expect_identical(is_binary_file(binary), TRUE)
 })
 
+test_that("use_github_file() respects overwrite for binary files", {
+  create_local_project()
+  local_interactive(FALSE)
+
+  tf <- withr::local_tempfile()
+  writeBin(as.raw(1:4), tf)
+  local_mocked_bindings(get_github_file = function(...) tf)
+
+  bf <- proj_path("binary.file")
+  writeBin(as.raw(5:8), bf)
+
+  expect_identical(use_github_file("OWNER/REPO", path = "binary.file"), FALSE)
+  expect_identical(readBin(bf, "raw", 4), as.raw(5:8))
+
+  expect_identical(
+    use_github_file("OWNER/REPO", path = "binary.file", overwrite = TRUE),
+    TRUE
+  )
+  expect_identical(readBin(bf, "raw", 4), as.raw(1:4))
+})
+
 test_that("use_github_file works with non-text files", {
   create_local_project()
   use_github_file(

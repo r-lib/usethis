@@ -98,8 +98,11 @@ use_github_file <- function(
       overwrite = overwrite
     )
   } else {
-    file_copy(tf, proj_path(save_as), overwrite = overwrite)
-    new <- file_exists(proj_path(save_as))
+    dest_path <- proj_path(save_as)
+    new <- overwrite || can_overwrite(dest_path)
+    if (new) {
+      file_copy(tf, dest_path, overwrite = TRUE)
+    }
   }
 
   if (ignore) {
