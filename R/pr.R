@@ -196,10 +196,10 @@ pr_init <- function(branch) {
     }
   }
 
-  default_branch <- if (online) {
-    git_default_branch_(cfg)
+  if (online) {
+    default_branch <- git_default_branch_(cfg)
   } else {
-    guess_local_default_branch()
+    default_branch <- guess_local_default_branch()
   }
   challenge_non_default_branch(
     "Are you sure you want to create a PR branch based on a non-default branch?",
