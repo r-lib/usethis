@@ -64,6 +64,14 @@
       [4] "# ----------------------------------------------------------------------"                                            
       [5] "#"                                                                                                                   
 
+# from a non-package project gives an informative message
+
+    Code
+      use_standalone("r-lib/rlang", "types-check")
+    Message
+      v Writing 'R/import-standalone-types-check.R'.
+      ! You'll need to attach the following package: rlang.
+
 # can offer choices
 
     Code

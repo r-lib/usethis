@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `use_standalone()` now again works outside packages (#2087).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 
 # usethis 3.2.2
