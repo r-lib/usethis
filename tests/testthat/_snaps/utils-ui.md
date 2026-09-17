@@ -453,3 +453,23 @@
     Message
       • Interesting file: [3m[34m<https://usethis.r-lib.org/>[39m[23m
 
+# ui_yep() errors informatively when an LLM agent is driving
+
+    Code
+      ui_yep("Do you want to proceed?")
+    Condition
+      Error in `ui_yep()`:
+      x User input required, but an LLM agent appears to be driving this session.
+      i The agent should relay this question to the user: "Do you want to proceed?"
+      i Ask the user to run the command themselves in the R console.
+
+# ui_yep() can describe a specific bypass for LLM agents
+
+    Code
+      ui_yep("Do you want to proceed?", .bypass = "Re-run with {.code options(foo = TRUE)}.")
+    Condition
+      Error in `ui_yep()`:
+      x User input required, but an LLM agent appears to be driving this session.
+      i The agent should relay this question to the user: "Do you want to proceed?"
+      i Re-run with `options(foo = TRUE)`.
+

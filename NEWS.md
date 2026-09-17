@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* Yes/no questions (e.g. the nested project challenge in `create_package()`) now abort with an informative error, instead of blocking on a console menu, when an LLM agent appears to be driving the R session (#2272).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 
 # usethis 3.2.2

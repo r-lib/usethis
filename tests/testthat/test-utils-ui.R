@@ -268,6 +268,46 @@ cli::test_that_cli(
   configs = c("plain", "fancy")
 )
 
+test_that("is_llm() detects LLM agent environment variables", {
+  withr::local_envvar(AGENT = "1")
+  expect_true(is_llm())
+
+  withr::local_envvar(CLAUDECODE = "1")
+  expect_true(is_llm())
+})
+
+test_that("is_llm() detects Posit Assistant's interleave hook", {
+  id <- addTaskCallback(
+    function(...) TRUE,
+    name = ".assistant_interleave_hook_abc123"
+  )
+  withr::defer(removeTaskCallback(id))
+
+  expect_true(is_llm())
+})
+
+test_that("ui_yep() errors informatively when an LLM agent is driving", {
+  withr::local_envvar(AGENT = "1")
+
+  expect_error(
+    ui_yep("Do you want to proceed?"),
+    class = "usethis_error_agent_question"
+  )
+  expect_snapshot(error = TRUE, ui_yep("Do you want to proceed?"))
+})
+
+test_that("ui_yep() can describe a specific bypass for LLM agents", {
+  withr::local_envvar(AGENT = "1")
+
+  expect_snapshot(
+    error = TRUE,
+    ui_yep(
+      "Do you want to proceed?",
+      .bypass = "Re-run with {.code options(foo = TRUE)}."
+    )
+  )
+})
+
 test_that("ui_escape_glue() doubles curly braces", {
   expect_equal(ui_escape_glue("no braces"), "no braces")
   expect_equal(ui_escape_glue("one { brace"), "one {{ brace")
