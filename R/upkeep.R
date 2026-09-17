@@ -62,7 +62,11 @@ upkeep_checklist <- function(target_repo = NULL) {
   has_github_links <- has_github_links(target_repo)
 
   bullets <- c(
-    todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
+    todo(
+      "`usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`",
+      !file_exists(proj_path("README.Rmd")) &&
+        !file_exists(proj_path("README.qmd"))
+    ),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
@@ -161,7 +165,7 @@ tidy_upkeep_checklist <- function(
       bullets,
       "### Pre-history",
       "",
-      todo("`usethis::use_readme_rmd()`"),
+      todo("`usethis::use_readme_qmd()` or `usethis::use_readme_rmd()`"),
       todo("`usethis::use_roxygen_md()`"),
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
@@ -330,14 +334,14 @@ tidy_upkeep_checklist <- function(
 
 # upkeep helpers ----------------------------------------------------------
 
-# https://www.tidyverse.org/blog/2019/04/r-version-support/
+# https://tidyverse.org/blog/2019/04/r-version-support/
 tidy_minimum_r_version <- function() {
   con <- curl::curl("https://api.r-hub.io/rversions/r-oldrel/4")
   withr::defer(close(con))
   # I do not want a failure here to make use_tidy_upkeep_issue() fail
   json <- tryCatch(readLines(con, warn = FALSE), error = function(e) NULL)
   if (is.null(json)) {
-    oldrel_4 <- "3.6"
+    oldrel_4 <- "4.2"
   } else {
     version <- jsonlite::fromJSON(json)$version
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match

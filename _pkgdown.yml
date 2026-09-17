@@ -9,7 +9,12 @@ template:
   includes:
     in_header: |
       <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
-      <script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+      <!-- Privacy-friendly analytics by Plausible -->
+      <script async src="https://plausible.io/js/pa-UPyXHAePcJ3LJp_xWm8Ym.js"></script>
+      <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
+      </script>
 
 navbar:
   structure:
@@ -105,7 +110,7 @@ reference:
   - matches("tidy")
 - title: Configuration
   desc: >
-    Configure the behaviour of R or RStudio or usethis, globally as a user or
+    Configure the behaviour of R or usethis or your IDE, globally as a user or
     for a specific project
   contents:
   - usethis_options
@@ -115,6 +120,7 @@ reference:
   - use_usethis
   - use_reprex
   - use_conflicted
+  - use_env_var
   - matches("edit_r")
 - title: Git and GitHub
   contents:

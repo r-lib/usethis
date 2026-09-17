@@ -113,3 +113,12 @@ data.frame <- function(..., stringsAsFactors = FALSE) {
 maybe_name <- function(x, ..., arg = caller_arg(x), call = caller_env()) {
   check_name(x, ..., allow_null = TRUE, arg = arg, call = call)
 }
+
+unwrap_purrr <- function(code) {
+  withCallingHandlers(
+    code,
+    purrr_error_indexed = function(err) {
+      rlang::cnd_signal(err$parent)
+    }
+  )
+}

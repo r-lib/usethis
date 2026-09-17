@@ -18,7 +18,9 @@ can be viewed with \code{use_description_defaults()}.}
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
 error if not.}
 
-\item{roxygen}{If \code{TRUE}, sets \code{RoxygenNote} to current roxygen2 version}
+\item{roxygen}{If \code{TRUE}, records the current roxygen2 version in
+\code{Config/roxygen2/version} (for roxygen2 >= 8.0.0) or the legacy
+\code{RoxygenNote} otherwise.}
 
 \item{package}{Package name}
 }

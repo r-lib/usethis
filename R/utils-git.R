@@ -134,6 +134,9 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
     return(invisible())
   }
 
+  rstudio_git_tickle()
+  withr::defer(rstudio_git_tickle())
+
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
     repo <- git_repo()
@@ -185,7 +188,11 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
+challenge_uncommitted_changes <- function(
+  untracked = FALSE,
+  msg = NULL,
+  error_call = caller_env()
+) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -196,20 +203,58 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
 
   default_msg <- "
     There are uncommitted changes, which may cause problems or be lost when \\
-    we push, pull, switch, or compare branches"
+    we push, pull, switch, or compare branches."
   msg <- glue(msg %||% default_msg)
-  if (git_uncommitted(untracked = untracked)) {
-    if (
-      ui_yep(c(
-        "!" = msg,
-        " " = "Do you want to proceed anyway?"
-      ))
-    ) {
+
+  while (git_uncommitted(untracked = untracked)) {
+    if (!is_interactive()) {
+      ui_abort(
+        "
+        There are uncommitted changes.
+        Please commit or stash before continuing.",
+        call = error_call
+      )
+    }
+
+    cli::cli_inform(c("!" = msg))
+    choice <- utils::menu(
+      title = "What do you want to do?",
+      choices = c(
+        "Cancel",
+        "Try again",
+        "Stash changes, re-try, then pop",
+        "Proceed anyway"
+      )
+    )
+
+    if (choice == 0 || choice == 1) {
+      ui_abort("Cancelling.", call = error_call)
+    } else if (choice == 2) {
+      # Loop will re-check git_uncommitted()
+    } else if (choice == 3) {
+      gert::git_stash_save(include_untracked = untracked, repo = git_repo())
+      ui_bullets(c("v" = "Changes stashed."))
+      withr::defer(git_stash_pop(), envir = parent.frame())
       return(invisible())
-    } else {
-      ui_abort("Uncommitted changes. Please commit before continuing.")
+    } else if (choice == 4) {
+      return(invisible())
     }
   }
+}
+
+git_stash_pop <- function() {
+  tryCatch(
+    {
+      gert::git_stash_pop(repo = git_repo())
+      ui_bullets(c("v" = "Stashed changes re-applied."))
+    },
+    error = function(e) {
+      ui_bullets(c(
+        "!" = "Could not re-apply stashed changes automatically.",
+        "i" = "Use {.run gert::git_stash_pop()} to manually re-apply."
+      ))
+    }
+  )
 }
 
 git_conflict_report <- function() {
@@ -230,20 +275,27 @@ git_conflict_report <- function() {
     bulletize(conflicted_paths, n_show = 10)
   ))
 
-  yes <- "Yes, open the conflicted files for editing."
-  yes_soft <- "Yes, but do not open the conflicted files."
+  yes_open <- "Yes, open the conflicted files for editing."
+  yes_no_open <- "Yes, but do not open the conflicted files."
+  yes_accept <- "Yes, I will deal with the conflicted files."
   no <- "No, I want to abort this merge."
-  choice <- utils::menu(
+  if (is_positron()) {
+    choices <- c(yes = yes_accept, no = no)
+  } else {
+    choices <- c(yes_open = yes_open, yes = yes_no_open, no = no)
+  }
+  choice_number <- utils::menu(
     title = "Do you want to proceed with this merge?",
-    choices = c(yes, yes_soft, no)
+    choices = choices
   )
+  choice <- names(choices)[choice_number]
 
-  if (choice < 1 || choice > 2) {
+  if (choice_number == 0 || choice == "no") {
     gert::git_merge_abort(repo = git_repo())
     ui_abort("Abandoning the merge, since it will cause merge conflicts.")
   }
 
-  if (choice == 1) {
+  if (choice == "yes_open") {
     ui_silence(purrr::walk(conflicted, edit_file))
   }
   ui_abort(c(

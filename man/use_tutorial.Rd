@@ -12,8 +12,8 @@ only of numbers, letters, \verb{_} and \code{-}. We recommend using lower case.}
 
 \item{title}{The human-facing title of the tutorial.}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Creates a new tutorial below \verb{inst/tutorials/}. Tutorials are interactive R

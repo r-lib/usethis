@@ -654,9 +654,13 @@ pr_clean <- function(
     tryCatch(
       gert::git_branch_delete(pr_local_branch, repo = repo),
       libgit2_error = function(e) {
-        # The expected error doesn't have a distinctive class, so we have to
+        # There's a specific error that can happen if a config key gets deleted
+        # in the middle of branch deletion.
+        # https://github.com/libgit2/libgit2/issues/7075
+        # We want to catch that and rethrow anything else.
+        #
+        # The config key error doesn't have a distinctive class, so we have to
         # detect it based on the message.
-        # If we get an unexpected libgit2 error, rethrow.
         if (
           !grepl(
             "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number|github-pr-base-branch)' to delete",
@@ -664,6 +668,21 @@ pr_clean <- function(
           )
         ) {
           stop(e)
+        }
+        # Empirically, this config key error prevents the branch deletion
+        # sometimes, but not always! It feels stochastic.
+        # If the branch still exists, we make a second deletion attempt.
+        if (
+          gert::git_branch_exists(pr_local_branch, local = TRUE, repo = repo)
+        ) {
+          tryCatch(
+            gert::git_branch_delete(pr_local_branch, repo = repo),
+            error = function(e) {
+              ui_bullets(c(
+                "!" = "Failed to delete local branch {.val {pr_local_branch}}: {e$message}"
+              ))
+            }
+          )
         }
       }
     )

@@ -11,6 +11,14 @@
     Message
       ! Package withr is already listed in 'Imports' in DESCRIPTION; no change made.
 
+# use_package() honors an explicit request to lower a version
+
+    Code
+      use_package("withr", min_version = "1.0.0")
+    Message
+      v Decreasing withr version to ">= 1.0.0" in DESCRIPTION.
+      [ ] Refer to functions with `withr::fun()`.
+
 # use_package() handles R versions with aplomb
 
     Code

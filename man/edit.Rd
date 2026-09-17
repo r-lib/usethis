@@ -62,7 +62,7 @@ The \verb{edit_r_*()} functions consult R's notion of user's home directory.
 The \verb{edit_git_*()} functions (and \pkg{usethis} in general) inherit home
 directory behaviour from the \pkg{fs} package, which differs from R itself
 on Windows. The \pkg{fs} default is more conventional in terms of the
-location of user-level Git config files. See \code{\link[fs:path_expand]{fs::path_home()}} for more
+location of user-level Git config files. See \code{\link[fs:path_home]{fs::path_home()}} for more
 details.
 
 Files created by \code{edit_rstudio_snippets()} will \emph{mask}, not supplement,

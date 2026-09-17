@@ -25,7 +25,7 @@
 #' cre]` and `use_author()` offers to remove it in interactive sessions.
 #'
 #' @inheritParams utils::person
-#' @inheritDotParams utils::person
+#' @param ... Additional parameters to pass along to [utils::person()]
 #' @export
 #' @examples
 #' \dontrun{

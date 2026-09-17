@@ -41,8 +41,8 @@ about the workflow. Ignored when \code{url} is \code{NULL}.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 
 \item{badge}{Should we add a badge to the \code{README}?}
 }

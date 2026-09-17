@@ -64,6 +64,17 @@ test_that("`roxygen = FALSE` is honoured", {
   d <- use_description_defaults(roxygen = FALSE)
   expect_null(d[["Roxygen"]])
   expect_null(d[["RoxygenNote"]])
+  expect_null(d[["Config/roxygen2/version"]])
+})
+
+test_that("roxygen2 version is recorded in field appropriate for the version", {
+  skip_if_not_installed("roxygen2", minimum_version = "8.0.0")
+  d <- use_description_defaults()
+  expect_equal(
+    as.character(d[["Config/roxygen2/version"]]),
+    as.character(utils::packageVersion("roxygen2"))
+  )
+  expect_null(d[["RoxygenNote"]])
 })
 
 # use_description ---------------------------------------------------------

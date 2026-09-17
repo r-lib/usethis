@@ -1,6 +1,7 @@
-use_dependency <- function(package, type, min_version = NULL) {
+use_dependency <- function(package, type, min_version = NULL, force = FALSE) {
   check_name(package)
   check_name(type)
+  check_bool(force)
 
   if (package != "R") {
     check_installed(package)
@@ -61,7 +62,7 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
-    # don't downgrade
+    # never demote a dependency to a weaker type, eg Imports to Suggests
     ui_bullets(c(
       "!" = "Package {.pkg {package}} is already listed in
              {.field {existing_type}} in DESCRIPTION; no change made."
@@ -69,19 +70,22 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (
     delta == 0 && version_spec(version) != version_spec(existing_version)
   ) {
-    if (version_spec(version) > version_spec(existing_version)) {
-      direction <- "Increasing"
+    increasing <- version_spec(version) > version_spec(existing_version)
+    if (increasing || force) {
+      direction <- if (increasing) "Increasing" else "Decreasing"
+      ui_bullets(c(
+        "v" = "{direction} {.pkg {package}} version to {.val {version}} in
+               DESCRIPTION."
+      ))
+      desc$set_dep(package, type, version = version)
+      desc$write()
+      changed <- TRUE
     } else {
-      direction <- "Decreasing"
+      ui_bullets(c(
+        "!" = "Package {.pkg {package}} is already listed with version
+               {.val {existing_version}} in DESCRIPTION; no change made."
+      ))
     }
-
-    ui_bullets(c(
-      "v" = "{direction} {.pkg {package}} version to {.val {version}} in
-             DESCRIPTION."
-    ))
-    desc$set_dep(package, type, version = version)
-    desc$write()
-    changed <- TRUE
   } else if (delta > 0) {
     # moving from, e.g., Suggests to Imports
     ui_bullets(c(
