@@ -2,6 +2,7 @@
 
 * `use_pkgdown_github_pages()` now challenges the user when they are not on the default branch, because setting up the site on a non-default branch leads to an empty deployed site (#2065, @mhausinger).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
+* `use_github_file()` now supports non-text (binary) files(#1782, @ateucher).
 
 # usethis 3.2.2
 
