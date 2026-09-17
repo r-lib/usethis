@@ -2,6 +2,12 @@
 
 ## usethis (development version)
 
+- [`use_snapshot()`](https://usethis.r-lib.org/dev/reference/use_r.md)
+  is a new function to open a testthat snapshot file corresponding to a
+  given test/R file
+  ([\#2156](https://github.com/r-lib/usethis/issues/2156),
+  [@jonthegeek](https://github.com/jonthegeek)).
+
 ## usethis 3.2.2
 
 CRAN release: 2026-09-10

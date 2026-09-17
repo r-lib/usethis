@@ -173,8 +173,9 @@ Add or modify files typically found in R packages
   : Import a function from another package
 
 - [`use_r()`](https://usethis.r-lib.org/dev/reference/use_r.md)
-  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md) :
-  Create or edit R or test files
+  [`use_test()`](https://usethis.r-lib.org/dev/reference/use_r.md)
+  [`use_snapshot()`](https://usethis.r-lib.org/dev/reference/use_r.md) :
+  Create or edit R, test, and snapshot files
 
 - [`use_rmarkdown_template()`](https://usethis.r-lib.org/dev/reference/use_rmarkdown_template.md)
   : Add an RMarkdown Template

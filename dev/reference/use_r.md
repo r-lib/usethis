@@ -1,14 +1,15 @@
-# Create or edit R or test files
+# Create or edit R, test, and snapshot files
 
-This pair of functions makes it easy to create paired R and test files,
-using the convention that the tests for `R/foofy.R` should live in
-`tests/testthat/test-foofy.R`. You can use them to create new files from
-scratch by supplying `name`, or if you use RStudio or Positron, you can
-call to create (or navigate to) the companion file based on the
-currently open file. This also works when a test snapshot file is
-active, i.e. if you're looking at `tests/testthat/_snaps/foofy.md`,
-`use_r()` or `use_test()` take you to `R/foofy.R` or
-`tests/testthat/test-foofy.R`, respectively.
+This family of functions makes it easy to create paired R and test
+files, using the convention that the tests for `R/foofy.R` should live
+in `tests/testthat/test-foofy.R` and the results of any snapshot tests
+live in `tests/testthat/snaps/foofy.md`. You can use them to create new
+files from scratch by supplying `name`, or if you use RStudio or
+Positron, you can call to create (or navigate to) the companion file
+based on the currently open file. This also works when a test snapshot
+file is active, i.e. if you're looking at
+`tests/testthat/_snaps/foofy.md`, `use_r()` or `use_test()` take you to
+`R/foofy.R` or `tests/testthat/test-foofy.R`, respectively.
 
 ## Usage
 
@@ -16,6 +17,8 @@ active, i.e. if you're looking at `tests/testthat/_snaps/foofy.md`,
 use_r(name = NULL, open = rlang::is_interactive())
 
 use_test(name = NULL, open = rlang::is_interactive())
+
+use_snapshot(name = NULL, open = rlang::is_interactive())
 ```
 
 ## Arguments

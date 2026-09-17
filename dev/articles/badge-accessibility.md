@@ -521,10 +521,10 @@ Here are the `title` and `aria-label` of the shields.io badges::
 
 inspect_badge("https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&logo=codecov")
 #> $title
-#> [1] "test coverage: 61%"
+#> [1] "test coverage: unknown"
 #> 
 #> $`aria-label`
-#> [1] "test coverage: 61%"
+#> [1] "test coverage: unknown"
 
 inspect_badge("https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls")
 #> $title
