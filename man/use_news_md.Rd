@@ -7,8 +7,8 @@
 use_news_md(open = rlang::is_interactive())
 }
 \arguments{
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 This creates a basic \code{NEWS.md} in the root directory.

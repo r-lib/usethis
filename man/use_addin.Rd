@@ -10,8 +10,8 @@ use_addin(addin = "new_addin", open = rlang::is_interactive())
 \item{addin}{Name of the addin function, which should be defined in the
 \code{R} folder.}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{open}{Open the newly created file for editing? Happens in RStudio or
+Positron, if applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 This function helps you add a minimal

@@ -162,6 +162,11 @@ ui_pre_glue <- function(..., .envir = parent.frame()) {
   glue(..., .open = "<<", .close = ">>", .envir = .envir)
 }
 
+ui_escape_glue <- function(x) {
+  gsub("([{}])", "\\1\\1", x)
+}
+
+
 bulletize <- function(x, bullet = "*", n_show = 5, n_fudge = 2) {
   n <- length(x)
   n_show_actual <- compute_n_show(n, n_show, n_fudge)

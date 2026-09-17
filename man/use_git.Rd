@@ -13,15 +13,20 @@ use_git(message = "Initial commit")
 \code{use_git()} initialises a Git repository and adds important files to
 \code{.gitignore}. If user consents, it also makes an initial commit.
 }
+\details{
+If there is no active project and the working directory is not inside an
+existing project, \code{use_git()} treats the working directory as the project
+root and initialises the Git repository there.
+}
 \examples{
 \dontrun{
 use_git()
 }
 }
 \seealso{
-Other git helpers: 
-\code{\link{use_git_config}()},
-\code{\link{use_git_hook}()},
-\code{\link{use_git_ignore}()}
+Other git helpers:
+\code{\link[=use_git_config]{use_git_config()}},
+\code{\link[=use_git_hook]{use_git_hook()}},
+\code{\link[=use_git_ignore]{use_git_ignore()}}
 }
 \concept{git helpers}

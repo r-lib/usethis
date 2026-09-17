@@ -21,7 +21,11 @@ use_roxygen_md <- function(overwrite = FALSE) {
       "list(markdown = TRUE)",
       overwrite = FALSE
     )
-    proj_desc_field_update("RoxygenNote", roxy_ver, overwrite = FALSE)
+    proj_desc_field_update(
+      roxygen2_version_field(),
+      roxy_ver,
+      overwrite = FALSE
+    )
     ui_bullets(c("_" = "Run {.run devtools::document()}."))
     return(invisible())
   }
@@ -78,7 +82,21 @@ uses_roxygen_md <- function() {
 }
 
 uses_roxygen <- function() {
-  proj_desc()$has_fields("RoxygenNote")
+  any(proj_desc()$has_fields(c("RoxygenNote", "Config/roxygen2/version")))
+}
+
+# roxygen2 version    DESCRIPTION field
+# -------------------------------------------
+# roxygen2 >= 8.0.0   Config/roxygen2/version
+# earlier roxygen2    RoxygenNote
+roxygen2_version_field <- function() {
+  if (
+    is_installed("roxygen2") && utils::packageVersion("roxygen2") >= "8.0.0"
+  ) {
+    "Config/roxygen2/version"
+  } else {
+    "RoxygenNote"
+  }
 }
 
 roxygen_ns_append <- function(tag) {

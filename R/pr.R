@@ -574,10 +574,13 @@ pr_clean <- function(
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
-  ing <- switch(mode, finish = "Finishing", forget = "Forgetting")
-  ui_bullets(c(
-    "i" = "{ing} PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
-  ))
+
+  if (!is.null(pr)) {
+    ing <- switch(mode, finish = "Finishing", forget = "Forgetting")
+    ui_bullets(c(
+      "i" = "{ing} PR {.href [{pr$pr_string}]({pr$pr_html_url})}"
+    ))
+  }
 
   pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
 
@@ -587,17 +590,33 @@ pr_clean <- function(
     }
     tracking_branch <- git_branch_tracking(pr_local_branch)
     if (is.na(tracking_branch)) {
+      pr_local_branch_head <- gert::git_commit_info(
+        ref = pr_local_branch,
+        repo = repo
+      )$id
+      # 2026-01-27 It's becoming common to enable
+      # "Automatically delete head branches", which means that we often don't
+      # have a tracking_branch because the PR has been successfully merged and
+      # the associated remote branch was automatically deleted. If HEAD SHA
+      # matches between local PR branch and a merged PR, don't bother the user.
       if (
-        ui_nah(c(
-          "!" = "Local branch {.val {pr_local_branch}} has no associated remote
-               branch.",
-          "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
-               on this branch may be hard for you to recover.",
-          " " = "Proceed anyway?"
-        ))
+        is.null(pr) ||
+          is.na(pr$pr_merged_at) ||
+          is.na(pr$pr_head_sha) ||
+          pr$pr_head_sha != pr_local_branch_head
       ) {
-        ui_bullets(c("x" = "Cancelling."))
-        return(invisible())
+        if (
+          ui_nah(c(
+            "!" = "Local branch {.val {pr_local_branch}} has no associated remote
+                 branch.",
+            "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
+                 on this branch may be hard for you to recover.",
+            " " = "Proceed anyway?"
+          ))
+        ) {
+          ui_bullets(c("x" = "Cancelling."))
+          return(invisible())
+        }
       }
     } else {
       cmp <- git_branch_compare(
@@ -635,16 +654,35 @@ pr_clean <- function(
     tryCatch(
       gert::git_branch_delete(pr_local_branch, repo = repo),
       libgit2_error = function(e) {
-        # The expected error doesn't have a distinctive class, so we have to
+        # There's a specific error that can happen if a config key gets deleted
+        # in the middle of branch deletion.
+        # https://github.com/libgit2/libgit2/issues/7075
+        # We want to catch that and rethrow anything else.
+        #
+        # The config key error doesn't have a distinctive class, so we have to
         # detect it based on the message.
-        # If we get an unexpected libgit2 error, rethrow.
         if (
           !grepl(
-            "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number)' to delete",
+            "could not find key 'branch[.].+[.](vscode-merge-base|github-pr-owner-number|github-pr-base-branch)' to delete",
             e$message
           )
         ) {
           stop(e)
+        }
+        # Empirically, this config key error prevents the branch deletion
+        # sometimes, but not always! It feels stochastic.
+        # If the branch still exists, we make a second deletion attempt.
+        if (
+          gert::git_branch_exists(pr_local_branch, local = TRUE, repo = repo)
+        ) {
+          tryCatch(
+            gert::git_branch_delete(pr_local_branch, repo = repo),
+            error = function(e) {
+              ui_bullets(c(
+                "!" = "Failed to delete local branch {.val {pr_local_branch}}: {e$message}"
+              ))
+            }
+          )
         }
       }
     )
@@ -785,6 +823,7 @@ pr_data_tidy <- function(pr) {
     pr_updated_at = pluck_chr(pr, "updated_at"),
     pr_merged_at = pluck_chr(pr, "merged_at"),
     pr_label = pluck_chr(pr, "head", "label"),
+    pr_head_sha = pluck_chr(pr, "head", "sha"),
     # the 'repo' element of 'head' is NULL when fork has been deleted
     pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
     pr_ref = pluck_chr(pr, "head", "ref"),
@@ -944,7 +983,7 @@ choose_branch <- function(exclude = character()) {
         )
         at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
-          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<ui_escape_glue(pr_title)>>}"
         )
         cli::format_inline(template)
       }
@@ -988,14 +1027,15 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
     function(pr_number, pr_html_url, pr_user, pr_state, pr_title) {
       href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
       at_user <- glue("@{pr_user}")
+      pr_title_escaped <- ui_escape_glue(pr_title)
       if (some_closed) {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title_escaped>>}"
         )
         cli::format_inline(template)
       } else {
         template <- ui_pre_glue(
-          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title_escaped>>}"
         )
         cli::format_inline(template)
       }

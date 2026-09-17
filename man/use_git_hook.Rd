@@ -19,9 +19,9 @@ Sets up a git hook using the specified script. Creates a hook directory if
 needed, and sets correct permissions on hook.
 }
 \seealso{
-Other git helpers: 
-\code{\link{use_git}()},
-\code{\link{use_git_config}()},
-\code{\link{use_git_ignore}()}
+Other git helpers:
+\code{\link[=use_git]{use_git()}},
+\code{\link[=use_git_config]{use_git_config()}},
+\code{\link[=use_git_ignore]{use_git_ignore()}}
 }
 \concept{git helpers}
