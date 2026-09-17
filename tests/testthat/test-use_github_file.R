@@ -60,6 +60,16 @@ test_that("parse_file_url() errors when it should", {
   ))
 })
 
+test_that("is_binary_file() detects binary files", {
+  text <- withr::local_tempfile()
+  writeLines("hello", text)
+  expect_identical(is_binary_file(text), FALSE)
+
+  binary <- withr::local_tempfile()
+  writeBin(as.raw(c(0x89, 0x50, 0x00, 0x47)), binary)
+  expect_identical(is_binary_file(binary), TRUE)
+})
+
 test_that("use_github_file works with non-text files", {
   create_local_project()
   use_github_file(

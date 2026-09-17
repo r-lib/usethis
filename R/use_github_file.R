@@ -88,7 +88,7 @@ use_github_file <- function(
 
   # If it's a text file, we read and write to make sure it is utf-8,
   # otherwise, copy to its final destination
-  is_text <- grepl("^text/", mime::guess_type(tf))
+  is_text <- !is_binary_file(tf)
 
   if (is_text) {
     new <- write_over(
@@ -125,10 +125,7 @@ get_github_file <- function(
   # If the requested {path} points to a symlink, and the symlink's target is a
   # normal file in the repository, then the API responds with the content of the
   # file....
-  tf <- withr::local_tempfile(
-    fileext = paste0(".", path_ext(path)),
-    .local_envir = envir
-  )
+  tf <- withr::local_tempfile(.local_envir = envir)
 
   gh::gh(
     "/repos/{repo_spec}/contents/{path}",
@@ -186,4 +183,9 @@ parse_file_url <- function(x) {
   out$host <- glue_chr("https://{dat$host}")
 
   out
+}
+
+is_binary_file <- function(path) {
+  bytes <- readBin(path, what = "raw", n = 8000)
+  any(bytes == as.raw(0))
 }
