@@ -4,23 +4,41 @@ test_that("use_tidy_agents() creates expected files", {
   use_tidy_agents()
 
   expect_proj_file("AGENTS.md")
-  expect_proj_file(".claude", "CLAUDE.md")
-  expect_proj_file(".claude", "settings.json")
 
-  expect_identical(
-    read_utf8(proj_path(".claude", "CLAUDE.md")),
-    "@../AGENTS.md"
-  )
   expect_identical(
     read_utf8(proj_path("AGENTS.md")),
     read_utf8(path_package("usethis", "AGENTS.md"))
   )
 
   ignore <- read_utf8(proj_path(".Rbuildignore"))
-  expect_in(c("^AGENTS\\.md$", "^\\.claude$"), ignore)
+  expect_in("^AGENTS\\.md$", ignore)
+})
 
-  gitignore <- read_utf8(proj_path(".claude", ".gitignore"))
-  expect_in("settings.local.json", gitignore)
+test_that("use_tidy_agents() deletes a pre-existing .claude directory", {
+  create_local_package()
+  use_git()
+
+  dir_create(proj_path(".claude"))
+  write_utf8(proj_path(".claude", "CLAUDE.md"), "@../AGENTS.md")
+  write_utf8(proj_path(".claude", "settings.json"), "{}")
+
+  use_tidy_agents()
+
+  expect_false(dir_exists(proj_path(".claude")))
+})
+
+test_that("use_tidy_agents() keeps .claude if it contains other files", {
+  create_local_package()
+  use_git()
+
+  dir_create(proj_path(".claude"))
+  write_utf8(proj_path(".claude", "CLAUDE.md"), "@../AGENTS.md")
+  write_utf8(proj_path(".claude", "settings.local.json"), "{}")
+
+  use_tidy_agents()
+
+  expect_false(file_exists(proj_path(".claude", "CLAUDE.md")))
+  expect_proj_file(".claude", "settings.local.json")
 })
 
 test_that("use_tidy_agents() preserves the 'This package' section", {

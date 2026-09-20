@@ -28,3 +28,19 @@ test_that("path_first_existing() works", {
   write_utf8(proj_path("bravo"), "bravo")
   expect_equal(path_first_existing(all_3_files), proj_path("bravo"))
 })
+
+test_that("delete_files() deletes existing paths and reports them", {
+  withr::local_options(usethis.quiet = FALSE)
+  dir <- withr::local_tempdir()
+  paths <- path(dir, c("a", "b", "c"))
+  file_create(paths[1:2])
+
+  expect_snapshot(
+    . <- delete_files(paths),
+    transform = \(x) gsub(dir, "<dir>", x, fixed = TRUE)
+  )
+  expect_false(file_exists(paths[1]))
+  expect_false(file_exists(paths[2]))
+
+  expect_silent(delete_files(paths))
+})

@@ -122,3 +122,14 @@ unwrap_purrr <- function(code) {
     }
   )
 }
+
+# Deletes paths that exist, letting the user know what was removed
+delete_files <- function(paths) {
+  paths <- paths[file_exists(paths) | dir_exists(paths)]
+  if (length(paths) > 0) {
+    ui_bullets(c("v" = "Deleting {.path {pth(paths)}}"))
+    file_delete(paths[file_exists(paths)])
+    dir_delete(paths[dir_exists(paths)])
+  }
+  invisible()
+}
