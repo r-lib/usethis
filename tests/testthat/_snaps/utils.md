@@ -27,6 +27,5 @@
     Code
       . <- delete_files(paths)
     Message
-      v Deleting '<dir>/a' and
-        '<dir>/b'
+      v Deleting 'a' and 'b'
 

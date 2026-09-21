@@ -31,14 +31,11 @@ test_that("path_first_existing() works", {
 
 test_that("delete_files() deletes existing paths and reports them", {
   withr::local_options(usethis.quiet = FALSE)
-  dir <- withr::local_tempdir()
-  paths <- path(dir, c("a", "b", "c"))
+  create_local_package()
+  paths <- proj_path(c("a", "b", "c"))
   file_create(paths[1:2])
 
-  expect_snapshot(
-    . <- delete_files(paths),
-    transform = \(x) gsub(dir, "<dir>", x, fixed = TRUE)
-  )
+  expect_snapshot(. <- delete_files(paths))
   expect_false(file_exists(paths[1]))
   expect_false(file_exists(paths[2]))
 
