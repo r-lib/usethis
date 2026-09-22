@@ -10,18 +10,8 @@ Codex, Gemini CLI, and Cursor.
 The file begins with a &quot;This package&quot; section for your own
 package-specific advice. If you re-run use_tidy_agents() to update
 AGENTS.md, the contents of this section are preserved.
-Creates a .claude/ directory to configure
-Claude Code, which doesn't yet read
-AGENTS.md:
-CLAUDE.md imports AGENTS.md, so Claude Code uses the same
-instructions as other agents.
-settings.json denies the agent access to sensitive files like
-.Renviron and .env.
-.gitignore ignores settings.local.json (for user-specific
-settings).
-
-.Rbuildignore ignores AGENTS.md and .claude/, so they aren't
-included in your built package.
+.Rbuildignore ignores AGENTS.md, so it isn't included in your built
+package.
 
 "><meta property="og:description" content="
 This function sets up a project to work with AI coding agents.
@@ -34,18 +24,8 @@ Codex, Gemini CLI, and Cursor.
 The file begins with a &quot;This package&quot; section for your own
 package-specific advice. If you re-run use_tidy_agents() to update
 AGENTS.md, the contents of this section are preserved.
-Creates a .claude/ directory to configure
-Claude Code, which doesn't yet read
-AGENTS.md:
-CLAUDE.md imports AGENTS.md, so Claude Code uses the same
-instructions as other agents.
-settings.json denies the agent access to sensitive files like
-.Renviron and .env.
-.gitignore ignores settings.local.json (for user-specific
-settings).
-
-.Rbuildignore ignores AGENTS.md and .claude/, so they aren't
-included in your built package.
+.Rbuildignore ignores AGENTS.md, so it isn't included in your built
+package.
 
 "><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><meta name="robots" content="noindex"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-UPyXHAePcJ3LJp_xWm8Ym.js"></script><script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
@@ -116,17 +96,8 @@ Codex, Gemini CLI, and Cursor.</p>
 <p>The file begins with a "This package" section for your own
 package-specific advice. If you re-run <code>use_tidy_agents()</code> to update
 <code>AGENTS.md</code>, the contents of this section are preserved.</p></li>
-<li><p>Creates a <code>.claude/</code> directory to configure
-<a href="https://code.claude.com" class="external-link">Claude Code</a>, which doesn't yet read
-<code>AGENTS.md</code>:</p><ul><li><p><code>CLAUDE.md</code> imports <code>AGENTS.md</code>, so Claude Code uses the same
-instructions as other agents.</p></li>
-<li><p><code>settings.json</code> denies the agent access to sensitive files like
-<code>.Renviron</code> and <code>.env</code>.</p></li>
-<li><p><code>.gitignore</code> ignores <code>settings.local.json</code> (for user-specific
-settings).</p></li>
-</ul></li>
-<li><p><code>.Rbuildignore</code> ignores <code>AGENTS.md</code> and <code>.claude/</code>, so they aren't
-included in your built package.</p></li>
+<li><p><code>.Rbuildignore</code> ignores <code>AGENTS.md</code>, so it isn't included in your built
+package.</p></li>
 </ul></div>
 
     <div class="section level2">

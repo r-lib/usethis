@@ -12,6 +12,11 @@
   given test/R file
   ([\#2156](https://github.com/r-lib/usethis/issues/2156),
   [@jonthegeek](https://github.com/jonthegeek)).
+- [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
+  no longer creates a `.claude/` directory, since Claude Code now reads
+  `AGENTS.md`; files previously created by
+  [`use_tidy_agents()`](https://usethis.r-lib.org/dev/reference/use_tidy_agents.md)
+  are deleted ([\#2274](https://github.com/r-lib/usethis/issues/2274)).
 
 ## usethis 3.2.2
 

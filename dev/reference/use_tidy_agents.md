@@ -17,20 +17,8 @@ Specifically, it:
   package-specific advice. If you re-run `use_tidy_agents()` to update
   `AGENTS.md`, the contents of this section are preserved.
 
-- Creates a `.claude/` directory to configure [Claude
-  Code](https://code.claude.com), which doesn't yet read `AGENTS.md`:
-
-  - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
-    instructions as other agents.
-
-  - `settings.json` denies the agent access to sensitive files like
-    `.Renviron` and `.env`.
-
-  - `.gitignore` ignores `settings.local.json` (for user-specific
-    settings).
-
-- `.Rbuildignore` ignores `AGENTS.md` and `.claude/`, so they aren't
-  included in your built package.
+- `.Rbuildignore` ignores `AGENTS.md`, so it isn't included in your
+  built package.
 
 ## Usage
 
