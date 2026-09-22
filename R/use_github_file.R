@@ -22,6 +22,9 @@
 #' @param ref The name of a branch, tag, or commit. By default, the file at
 #'   `path` will be copied from its current state in the repo's default branch.
 #'   This is extracted from `repo_spec` when user provides a URL.
+#' @param open Open the newly created file for editing, if it is a text file?
+#'   Happens in RStudio or Positron, if applicable, or via
+#'   [utils::file.edit()] otherwise. Binary files will not be opened.
 #' @inheritParams use_template
 #' @inheritParams use_github
 #' @inheritParams write_over
@@ -77,37 +80,57 @@ use_github_file <- function(
     "v" = "Saving {.val {github_string}} to {.path {pth(save_as)}}."
   ))
 
-  lines <- read_github_file(
+  tf <- get_github_file(
     repo_spec = repo_spec,
     path = path,
     ref = ref,
     host = host
   )
-  new <- write_over(
-    proj_path(save_as),
-    lines,
-    quiet = TRUE,
-    overwrite = overwrite
-  )
+
+  # If it's a text file, we read and write to make sure it is utf-8,
+  # otherwise, copy to its final destination
+  is_text <- !is_binary_file(tf)
+
+  if (is_text) {
+    new <- write_over(
+      proj_path(save_as),
+      read_utf8(tf),
+      quiet = TRUE,
+      overwrite = overwrite
+    )
+  } else {
+    dest_path <- proj_path(save_as)
+    new <- overwrite || can_overwrite(dest_path)
+    if (new) {
+      file_copy(tf, dest_path, overwrite = TRUE)
+    }
+  }
 
   if (ignore) {
     use_build_ignore(save_as)
   }
 
-  if (open && new) {
+  if (is_text && open && new) {
     edit_file(proj_path(save_as))
   }
 
   invisible(new)
 }
 
-read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
+get_github_file <- function(
+  repo_spec,
+  path,
+  ref = NULL,
+  host = NULL,
+  envir = parent.frame()
+) {
   # https://docs.github.com/en/rest/reference/repos#contents
   # https://docs.github.com/en/rest/reference/repos#if-the-content-is-a-symlink
   # If the requested {path} points to a symlink, and the symlink's target is a
   # normal file in the repository, then the API responds with the content of the
   # file....
-  tf <- withr::local_tempfile()
+  tf <- withr::local_tempfile(.local_envir = envir)
+
   gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
@@ -117,7 +140,7 @@ read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
     .destfile = tf,
     .accept = "application/vnd.github.v3.raw"
   )
-  read_utf8(tf)
+  tf
 }
 
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
@@ -164,4 +187,9 @@ parse_file_url <- function(x) {
   out$host <- glue_chr("https://{dat$host}")
 
   out
+}
+
+is_binary_file <- function(path) {
+  bytes <- readBin(path, what = "raw", n = 8000)
+  any(bytes == as.raw(0))
 }
