@@ -22,19 +22,8 @@ Codex, Gemini CLI, and Cursor.
 The file begins with a "This package" section for your own
 package-specific advice. If you re-run \code{use_tidy_agents()} to update
 \code{AGENTS.md}, the contents of this section are preserved.
-\item Creates a \verb{.claude/} directory to configure
-\href{https://code.claude.com}{Claude Code}, which doesn't yet read
-\code{AGENTS.md}:
-\itemize{
-\item \code{CLAUDE.md} imports \code{AGENTS.md}, so Claude Code uses the same
-instructions as other agents.
-\item \code{settings.json} denies the agent access to sensitive files like
-\code{.Renviron} and \code{.env}.
-\item \code{.gitignore} ignores \code{settings.local.json} (for user-specific
-settings).
-}
-\item \code{.Rbuildignore} ignores \code{AGENTS.md} and \verb{.claude/}, so they aren't
-included in your built package.
+\item \code{.Rbuildignore} ignores \code{AGENTS.md}, so it isn't included in your built
+package.
 }
 }
 \examples{

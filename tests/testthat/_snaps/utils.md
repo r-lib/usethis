@@ -22,3 +22,10 @@
       Error in `check_is_named_list()`:
       x Names of `somevar` must be non-missing, non-empty, and non-duplicated.
 
+# delete_files() deletes existing paths and reports them
+
+    Code
+      . <- delete_files(paths)
+    Message
+      v Deleting 'a' and 'b'
+

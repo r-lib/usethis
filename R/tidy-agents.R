@@ -17,21 +17,8 @@
 #'   package-specific advice. If you re-run `use_tidy_agents()` to update
 #'   `AGENTS.md`, the contents of this section are preserved.
 #'
-#' - Creates a `.claude/` directory to configure
-#'   [Claude Code](https://code.claude.com), which doesn't yet read
-#'   `AGENTS.md`:
-#'
-#'   - `CLAUDE.md` imports `AGENTS.md`, so Claude Code uses the same
-#'     instructions as other agents.
-#'
-#'   - `settings.json` denies the agent access to sensitive files like
-#'     `.Renviron` and `.env`.
-#'
-#'   - `.gitignore` ignores `settings.local.json` (for user-specific
-#'     settings).
-#'
-#' - `.Rbuildignore` ignores `AGENTS.md` and `.claude/`, so they aren't
-#'   included in your built package.
+#' - `.Rbuildignore` ignores `AGENTS.md`, so it isn't included in your built
+#'   package.
 #' @export
 #' @examples
 #' \dontrun{
@@ -46,9 +33,16 @@ use_tidy_agents <- function() {
   write_over(agents_path, agents_lines)
   use_build_ignore("AGENTS.md")
 
-  use_directory(".claude", ignore = TRUE)
-  copy_claude_directory()
-  use_git_ignore("settings.local.json", directory = ".claude")
+  # Remove claude-specific files created by earlier versions,
+  delete_files(proj_path(
+    ".claude",
+    c("CLAUDE.md", "settings.json", ".gitignore")
+  ))
+  # then delete `.claude/` if it's now empty
+  claude_dir <- proj_path(".claude")
+  if (dir_exists(claude_dir) && length(dir_ls(claude_dir, all = TRUE)) == 0) {
+    delete_files(claude_dir)
+  }
 
   invisible(TRUE)
 }
@@ -87,6 +81,7 @@ learn_tidy_skill <- function(name) {
   invisible()
 }
 
+
 # Replace the "This package" section of `new` with the version found in
 # `old`, so that user-supplied advice survives an update
 preserve_this_package <- function(new, old) {
@@ -112,20 +107,4 @@ find_section <- function(lines, heading) {
   headings <- grep("^## ", lines)
   end <- min(c(headings[headings > start], length(lines) + 1))
   c(start, end - 1)
-}
-
-copy_claude_directory <- function() {
-  source_dir <- path_package("usethis", "claude")
-  dest_dir <- proj_path(".claude")
-
-  source_dirs <- dir_ls(source_dir, recurse = TRUE, type = "directory")
-  dir_create(path(dest_dir, path_rel(source_dirs, source_dir)))
-
-  source_files <- dir_ls(source_dir, recurse = TRUE, type = "file")
-  for (source_file in source_files) {
-    rel_path <- path_rel(source_file, source_dir)
-    dest_file <- path(dest_dir, rel_path)
-
-    write_over(dest_file, readLines(source_file), overwrite = TRUE)
-  }
 }

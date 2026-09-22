@@ -28,3 +28,16 @@ test_that("path_first_existing() works", {
   write_utf8(proj_path("bravo"), "bravo")
   expect_equal(path_first_existing(all_3_files), proj_path("bravo"))
 })
+
+test_that("delete_files() deletes existing paths and reports them", {
+  withr::local_options(usethis.quiet = FALSE)
+  create_local_package()
+  paths <- proj_path(c("a", "b", "c"))
+  file_create(paths[1:2])
+
+  expect_snapshot(. <- delete_files(paths))
+  expect_false(file_exists(paths[1]))
+  expect_false(file_exists(paths[2]))
+
+  expect_silent(delete_files(paths))
+})
