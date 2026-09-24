@@ -43,12 +43,14 @@ A pull request (PR) involves two players, a contributor and a reviewer. To make 
 #| eval: false
 # contributor code
 ```
+
 <div class = "reviewer">
 ```{r}
 #| label: sample_reviewer
 #| eval: false
 # reviewer code
 ```
+
 </div>
 
 ## Set up advice
@@ -83,23 +85,25 @@ The first step is to fork the source repository, to get your own copy on GitHub,
 ```{r}
 #| label: create_from_github
 #| eval: false
-create_from_github("rladies/praise")
+create_from_github("rladies/praise", destdir = "~/Documents")
 ```
 <div class = "output">
 ```{r}
 #| eval: false
-#> ℹ Defaulting to 'https' Git protocol
-#> ✓ Setting `fork = TRUE`
-#> ✓ Creating '/Users/mine/Desktop/praise/'
-#> ✓ Forking 'rladies/praise'
-#> ✓ Cloning repo from 'https://github.com/mine-cetinkaya-rundel/praise.git' into '/Users/mine/Desktop/praise'
-#> ✓ Setting active project to '/Users/mine/Desktop/praise'
-#> ℹ Default branch is 'master'
-#> ✓ Adding 'upstream' remote: 'https://github.com/rladies/praise.git'
-#> ✓ Pulling in changes from default branch of the source repo 'upstream/master'
-#> ✓ Setting remote tracking branch for local 'master' branch to 'upstream/master'
-#> ✓ Opening '/Users/mine/Desktop/praise/' in new RStudio session
-#> ✓ Setting active project to '<no active project>'
+#> ✔ Setting `
+fork = TRUE
+`.
+#> ✔ Creating /Users/rebeccabutler/Documents/praise/.
+#> ✔ Forking "rladies/praise".
+#> ℹ Waiting for the fork to finalize before cloning...
+#> ✔ Cloning repo from "https://github.com/rkb965/praise.git" into /Users/rebeccabutler/Documents/praise.
+#> ✔ Setting active project to "/Users/rebeccabutler/Documents/praise".
+#> ℹ Default branch is "main".
+#> ✔ Adding "upstream" remote: "https://github.com/rladies/praise.git"
+#> ✔ Pulling changes from "upstream/main".
+#> ✔ Setting remote tracking branch for local "main" branch to "upstream/main".
+#> ✔ Opening /Users/rebeccabutler/Documents/praise/ in new RStudio session.
+#> ✔ Setting active project to "<no active project>".
 ```
 </div>
 
@@ -126,43 +130,42 @@ Arguments you might like to know about:
 
 ## Branch, then make your change
 
-We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo's default branch, which is `master` here (another common choice is `main`). We'll call this branch `"formidable"`.
+We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo's default branch, which is `main` here (formerly, many repos used `master`). We'll call this branch `"exhilarating"`.
 
 ```{r}
 #| label: pr_init
 #| eval: false
-pr_init(branch = "formidable")
+pr_init(branch = "exhilarating")
 ```
 <div class = "output">
 ```{r}
 #| eval: false
-#> ✓ Setting active project to '/Users/mine/Desktop/praise'
-#> ℹ Pulling changes from 'upstream/master'
-#> ✓ Creating and switching to local branch 'formidable'
-#> ● Use `pr_push()` to create PR.
+#> ✔ Setting active project to "/Users/rebeccabutler/Documents/praise".
+#> ✔ Pulling changes from "upstream/main".
+#> ✔ Creating and switching to local branch "exhilarating".
+#> ☐ Use usethis::pr_push() to create a PR.
 ```
 </div>
+This creates a local branch called `exhilarating` and we switch to it (or "check it out"). Now you can work locally, making changes to files and committing them to Git.
 
-This creates a local branch called `formidable` and we switch to it (or "check it out"). Now you can work locally, making changes to files and committing them to Git.
-
-Let's go ahead and make the change, which is adding the word "formidable" to the `R/adjective.R` file in the package. Below is the diff and the commit associated with this change.
+Let's go ahead and make the change, which is adding the word "exhilarating" to the `R/adjective.R` file in the package. Below is the diff and the commit associated with this change.
 
 ```{r}
 #| echo: false
 #| fig-alt: >
 #|     Screenshot of the RStudio Git pane showing the file
 #|     R/adjective.R staged for a commit. The preview of the file
-#|     highlights the addition of the line formidabel, with no comma
+#|     highlights the addition of the line exhilerating, with no comma
 #|     at the end of the line. The Commit message says
-#|     Add formidable to adjectives.
+#|     Add exhilarating to adjectives.
 #| out.width: "90%"
-knitr::include_graphics("img/pr-functions-diff.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-diff-light.png", dpi = 300)
 ```
 
 You might spot that we made two mistakes here:
 
-  1. We intended to add "formidable", but added "formidabel" instead.
-  2. We forgot a comma at the end of the line.
+1.  We intended to add "exhilarating", but added "exhilerating" instead.
+2.  We forgot a comma at the end of the line.
 
 Let's assume we didn't actually catch these mistakes, and didn't build and check
 the package, which would have revealed the missing comma. We all make mistakes.
@@ -179,70 +182,62 @@ pr_push()
 <div class = "output">
 ```{r}
 #| eval: false
-#> ✓ Checking that local branch 'formidable' has the changes in 'origin/formidable'
-#> ✓ Pushing local 'formidable' branch to 'origin/formidable'
+#> ✓ Checking that local branch 'exhilarating' has the changes in 'origin/exhilarating'
+#> ✓ Pushing local 'exhilarating' branch to 'origin/exhilarating'
 #> ✓ Create PR at link given below
-#> ✓ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/formidable'
+#> ✓ Opening URL 'https://github.com/rkb965/praise/compare/exhilarating'
 ```
 </div>
 
 This launches a browser window at the URL specified in the last message, which
 looks like the following.
 
-<!-- in local preview, I Jenny am seeing a very wide image here -->
-
 ```{r}
 #| echo: false
 #| fig-alt: >
-#|     A screenshot showing the diff on GitHub, with the old
-#|     version of the file on the left, and the new version
-#|     containing the newly added line formidabel, with no comma,
-#|     on the right. There is a green button that says Create Pull Request.
+#|     A screenshot showing the diff on GitHub, with the new version of the
+#|     file containing the newly added line exhilerating, with no comma,
+#|     highlighted in green. There is a green button that says Create Pull Request.
 #| out.width: "90%"
-knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-pull-request-light.png", dpi = 300)
 ```
 
 Click "Create pull request" to make the PR. After clicking you will be able to choose between [draft PR](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests) and actual PR (If opening a draft PR, [mark it as ready for review](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) once you're done, e.g. after a few more commits and one new call to `pr_push()`).
 
-GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#90](https://github.com/rladies/praise/pull/90).
+GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#108](https://github.com/rladies/praise/pull/108).
 
 ```{r}
 #| label: pr_view
 #| eval: false
-pr_view(90)
+pr_view(108)
 ```
 <div class = "output">
 ```{r}
 #| eval: false
-#> ✔ Opening URL 'https://github.com/rladies/praise/pull/90'
+#> ✔ Opening URL <https://github.com/rladies/praise/pull/108>.
 ```
+
 </div>
 
 ## Review of the pull request
 
-If we're lucky, and our pull request is perfect, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. So the package maintainer leaves us comments requesting changes.
+If we're lucky and our pull request is ready to merge, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. On the pull request, the package maintainer leaves us comments requesting changes.
 
-```{r}
-#| echo: false
-#| fig-alt: >
-#|     A screenshot of the comments section on the pull request.
-#|     A comment from a collaborator on the new line says Did
-#|     you mean to add formidable? And can you please add a comma
-#|     at the end? Thanks!
-#| out.width: "90%"
-knitr::include_graphics("img/pr-functions-comments.png", dpi = 300)
-```
+> **jennybc** I think this is misspelled? Did you mean "exhilarating"? Also, there is a missing comma.
 
 Being somewhat new to all this, we try to address one of these comments (fix spelling) and neglect the other (forget to add the comma). We make another change and commit it.
 
 ```{r}
 #| echo: false
 #| fig-alt: >
-#|     A screenshot of the Rstudio Git pane, showing the changed line
-#|     with formidabel changed to formidable. The file R/adjective.R
+#|     A screenshot of the Positron Git pane, showing the changed line
+#|     with exhilerating changed to exhilarating. The file R/adjective.R
 #|     is staged for a commit, with the commit message Fix Spelling!
 #| out.width: "90%"
-knitr::include_graphics("img/pr-functions-address-comments.png", dpi = 300)
+knitr::include_graphics(
+  "img/pr-functions-address-comments-light.png",
+  dpi = 300
+)
 ```
 
 Run `pr_push()` again to update the branch in our fork, which is automatically reflected in the PR.
@@ -255,120 +250,85 @@ pr_push()
 <div class = "output">
 ```{r}
 #| eval: false
-#> ✔ Pushing local 'formidable' branch to 'origin:formidable'
-#> ✔ Setting upstream tracking branch for 'formidable' to 'origin/formidable'
-#> ✔ Create PR at link given below
-#> ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/formidable'
+#> ✔ Checking that local branch "exhilarating" has the changes in "origin/exhilarating".
+#> ✔ Pushing local "exhilarating" branch to "origin/exhilarating".
+#> ☐ View PR at <https://github.com/rladies/praise/pull/108> or call usethis::pr_view().
 ```
 </div>
 
-Now the reviewer gets another chance to review our changes. At this point they might choose to just make the necessary changes and push their commits into our pull request to finish things up.
+Note: On the first push of a new branch, usethis points you to GitHub’s “compare” page to create a pull request. On subsequent pushes to an existing PR branch, the message instead points you directly to the pull request (“View PR …”).
 
-To do so, the reviewer fetches the PR to their local machine with `pr_fetch()`.
+Now the reviewer gets another chance to review our changes. In this case, the reviewer chooses to use GitHub's "suggest changes" feature to suggest adding the missing comma. 
 
-<div class = "reviewer">
+As the PR author, we can click "Commit suggestion" to apply the suggestion directly. This creates a new commit in the pull request under our name, without needing to switch to our local machine.
+
 ```{r}
-#| label: pr_fetch_reviewer
-#| eval: false
-pr_fetch(90)
+#| echo: false
+#| fig-alt: >
+#|     A screenshot of the GitHub pull request under review, showing the
+#|     suggestion to add the trailing comma. This suggestion is about
+#|     to be committed with the default commit message "Update R/adjective.R"
+#|     pre-filled.
+#| out.width: "90%"
+knitr::include_graphics("img/pr-functions-suggestion-light.png", dpi = 300)
 ```
-</div>
+
+This workflow makes it easy for the reviewer to point out small fixes, while still leaving control of the commits with the person who opened the pull request.
+
+In some cases, the reviewer may instead fetch the branch locally with `pr_fetch()`, make changes themselves, and push back to the pull request with `pr_push()`.
+
+## Pull and finish
+
+Since some of the code changes happened on GitHub, we can get that code back to our computer with `pr_pull()`. 
+
 <div class = "output">
 ```{r}
 #| eval: false
-#> ✔ Setting active project to '/Users/gaborcsardi/works/praise'
-#> ✔ Checking out PR 'rladies/praise/#90' (@mine-cetinkaya-rundel): 'Add "formidable" to adjectives'
-#> ✔ Adding remote 'mine-cetinkaya-rundel' as 'git@github.com:mine-cetinkaya-rundel/praise.git'
-#> ✔ Creating local branch 'mine-cetinkaya-rundel-formidable'
-#> ✔ Setting upstream tracking branch for 'mine-cetinkaya-rundel-formidable' to 'mine-cetinkaya-rundel/formidable'
-#> ✔ Switching to branch 'mine-cetinkaya-rundel-formidable'
-#> ✔ Pulling changes from GitHub PR
+#| #> ✔ Pulling from "origin/exhilarating".
 ```
 </div>
 
-Fetching the PR creates a local branch for them called `mine-cetinkaya-rundel-formidable`, which is a text string comprised of the GitHub username of the contributor and the name of the branch they had created for this PR. `pr_fetch()` also then sets an upstream tracking branch for the local branch that got created and switches to that branch so the reviewer can make their changes on the correct branch.
-
-Once the reviewer makes the necessary changes, such as adding the missing comma, they run `pr_push()` to push their changes into our PR.
-
-<div class = "reviewer">
-```{r}
-#| label: pr_push_reviewer
-#| eval: false
-pr_push()
-```
-</div>
-<div class = "output">
-```{r}
-#| eval: false
-#> ✔ Checking that local branch 'mine-cetinkaya-rundel-formidable' has the changes in 'mine-cetinkaya-rundel/formidable'
-#> ✔ Pushing local 'mine-cetinkaya-rundel-formidable' branch to 'mine-cetinkaya-rundel:formidable'
-#> ✔ View PR at 'https://github.com/rladies/praise/pull/90' or call `pr_view()`
-```
-</div>
-
-## Merge and finish
-
-Finally, the reviewer merges our pull request on GitHub. Locally, they can run `pr_finish()` to switch back to the default branch (usually named `main` or `master`), pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.
-
-<div class = "reviewer">
-```{r}
-#| label: pr_finish_reviewer
-#| eval: false
-pr_finish()
-```
-</div>
-<div class = "output">
-```{r}
-#| eval: false
-#> ✔ Checking that remote branch 'mine-cetinkaya-rundel/formidable' has the changes in 'local/mine-cetinkaya-rundel-formidable'
-#> ✔ Switching back to 'master' branch
-#> ✔ Pulling changes from GitHub source repo 'origin/master'
-#> ✔ Deleting local 'mine-cetinkaya-rundel-formidable' branch
-#> ✔ Removing remote 'mine-cetinkaya-rundel'
-```
-</div>
-
-Since the reviewer has contributed some code to our pull request, we can get that code back to our computer with `pr_pull()`. This is optional here, since the full PR has already been incorporated into the default branch of the source repo (usually named `main` or `master`). But `pr_pull()` can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.
-
-```{r}
-#| label: pr_pull
-#| eval: false
-pr_pull()
-```
-<div class = "output">
-```{r}
-#| eval: false
-#> ✓ Pulling from 'origin/formidable'
-#> Performing fast-forward merge, no commit needed
-```
-</div>
+Once the reviewer is satisfied with the changes, they finalize the process by merging the pull request on GitHub.
 
 Finally, we can also conclude the PR process on our end with `pr_finish()`.
 
 <div class = "output">
 ```{r}
-#| label: pr_finish_contributor
 #| eval: false
-pr_finish()
-```
-</div>
-<div class = "output">
-```{r}
-#| eval: false
-#> ✓ Checking that remote branch 'origin/formidable' has the changes in 'formidable'
-#> ✓ Switching back to default branch ('master')
-#> ℹ Pulling changes from 'origin/master'
-#> ✓ Deleting local 'formidable' branch
+#> ✔ Switching back to default branch ("main").
+#> ✔ Pulling changes from "upstream/main".
+#> ✔ Deleting local "exhilarating" branch. 
+#> ✔ PR rladies/praise/#108 has been merged, deleting remote branch "origin/exhilarating". 
 ```
 </div>
 
-Remember you can see how this whole PR unfolded at [rladies/praise#90](https://github.com/rladies/praise/pull/90).
+After this, our local copy of the package is up-to-date with the source repo and the branch we used for the PR is deleted.
+
+Remember you can see how this whole PR unfolded at [rladies/praise#108](https://github.com/rladies/praise/pull/108).
+
+## Putting it all together
+
+We walked through one specific pull request from start to finish. To see the big picture, this is a handy flowchart that shows how the various `pr_*()` functions fit together — from starting a new branch, to doing work,  
+to sharing changes, and eventually finishing or pausing a PR.  
+
+```{r}
+#| echo: false
+#| fig-alt: >
+#|     Flowchart of the usethis pull request workflow, showing steps
+#|     like pr_init(), pr_push(), pr_pull(), pr_finish(), and how
+#|     they connect when starting, updating, and completing a PR.
+#| out.width: "90%"
+knitr::include_graphics(
+  "img/pr-functions-usethis-pr-flow-medium-light.jpg",
+  dpi = 300
+)
+```
 
 ## Other helpful functions
 
 There are a few other functions in the `pr_*()` family that we didn't encounter in this PR scenario:
 
-- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`) and, indeed, `pr_pause()` includes this. This makes sure that your copy of the package is up-to-date with the source repo.
+- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream main`. If you're making a PR from an internal branch, this does `git pull origin main`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`) and, indeed, `pr_pause()` includes this. This makes sure that your copy of the package is up-to-date with the source repo.
 
 - `pr_pause()` makes sure you're synced with the PR, switches back to the default branch, and calls `pr_merge_main()` to keep you up-to-date with the source repo. This is likely something a package maintainer reviewing numerous PRs will need to use, as they switch back and forth between reviewing/extending PRs and the main line of development on the default branch.
 
