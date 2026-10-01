@@ -20,6 +20,21 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
 })
 
+test_that("use_rcpp() and use_c() check `name` before changing anything", {
+  create_local_package()
+  use_roxygen_md()
+  local_check_installed()
+  desc_before <- read_utf8(proj_path("DESCRIPTION"))
+
+  expect_error(use_rcpp(), "absent")
+  expect_error(use_rcpp("test.c"), "extension")
+  expect_error(use_c(), "absent")
+  expect_error(use_c("test.cpp"), "extension")
+
+  expect_false(dir_exists(proj_path("src")))
+  expect_identical(read_utf8(proj_path("DESCRIPTION")), desc_before)
+})
+
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   create_local_package()
   use_roxygen_md()
