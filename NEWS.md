@@ -3,6 +3,7 @@
 * `pr_finish()` is better at recognizing that a local PR branch is safe to delete, even if its remote branch has already been deleted, probably via GitHub's "Automatically delete head branches" setting.
 * `pr_finish()` and `pr_forget()` now check for uncommitted changes regardless of whether the current branch is the PR branch. Likewise, `pr_finish()` now pulls changes into the default branch regardless of the current branch when it was called.
 * `use_pkgdown_github_pages()` now challenges the user when they are not on the default branch, because setting up the site on a non-default branch leads to an empty deployed site (#2065, @mhausinger).
+* `use_rcpp()`, `use_rcpp_armadillo()`, `use_rcpp_eigen()`, and `use_c()` now check `name` before modifying the package, so an absent or invalid `name` no longer leaves behind changes to `DESCRIPTION` and `src/` (#1953).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 * `use_tidy_agents()` no longer creates a `.claude/` directory, since Claude Code now reads `AGENTS.md`; files previously created by `use_tidy_agents()` are deleted (#2274).
 
