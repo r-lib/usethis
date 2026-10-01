@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `use_rcpp()`, `use_rcpp_armadillo()`, `use_rcpp_eigen()`, and `use_c()` now check `name` before modifying the package, so an absent or invalid `name` no longer leaves behind changes to `DESCRIPTION` and `src/` (#1953).
 * `use_pkgdown_github_pages()` now challenges the user when they are not on the default branch, because setting up the site on a non-default branch leads to an empty deployed site (#2065, @mhausinger).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 * `use_tidy_agents()` no longer creates a `.claude/` directory, since Claude Code now reads `AGENTS.md`; files previously created by `use_tidy_agents()` are deleted (#2274).
