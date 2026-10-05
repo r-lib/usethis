@@ -77,6 +77,24 @@ test_that("use_git_config() facilitates round trips", {
   expect_null(git_cfg_get("aaa.bbb"))
 })
 
+test_that("git_sitrep() reports one default branch name for multi-level config", {
+  local_mocked_bindings(
+    gert_config_global = function() {
+      data.frame(
+        name = c("init.defaultbranch", "init.defaultbranch"),
+        value = c("master", "main"),
+        level = c("xdg", "global"),
+        stringsAsFactors = FALSE
+      )
+    }
+  )
+  withr::local_options(usethis.quiet = FALSE)
+
+  msgs <- capture_messages(git_sitrep("git", "user"))
+  expect_match(msgs, "Default initial branch name: .*main", all = FALSE)
+  expect_no_match(msgs, "master")
+})
+
 test_that("use_git_hook errors if project not using git", {
   create_local_package()
   expect_usethis_error(
