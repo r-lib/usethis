@@ -58,7 +58,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   }
 
   if (where == "global" || !uses_git()) {
-    dat <- gert::git_config_global()
+    dat <- gert_config_global()
   } else {
     dat <- gert::git_config(repo = git_repo())
   }
@@ -67,9 +67,28 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
     dat <- dat[dat$level == "local", ]
   }
 
-  out <- dat$value[tolower(dat$name) == tolower(name)]
-  if (length(out) > 0) out else NULL
+  dat <- dat[tolower(dat$name) == tolower(name), ]
+  if (nrow(dat) == 0) {
+    return(NULL)
+  }
+
+  # a setting can be defined at more than one level; the highest-precedence
+  # level wins
+  levels <- c(
+    "programdata",
+    "system",
+    "xdg",
+    "global",
+    "local",
+    "worktree",
+    "app"
+  )
+  rank <- match(dat$level, levels, nomatch = 0L)
+  dat$value[rank == max(rank)]
 }
+
+# mockable in tests
+gert_config_global <- function() gert::git_config_global()
 
 # more-specific case for user-name and -email
 git_user_get <- function(where = c("de_facto", "local", "global")) {

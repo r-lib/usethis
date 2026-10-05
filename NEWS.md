@@ -1,5 +1,6 @@
 # usethis (development version)
 
+* `git_sitrep()` and `use_git_config()` no longer report several values for a Git setting that is defined at more than one level of the user-level Git config, such as `init.defaultBranch` set in both the XDG and global config files; the value from the highest-precedence level is used (#2057, @taekop).
 * `use_pkgdown_github_pages()` now challenges the user when they are not on the default branch, because setting up the site on a non-default branch leads to an empty deployed site (#2065, @mhausinger).
 * `use_snapshot()` is a new function to open a testthat snapshot file corresponding to a given test/R file (#2156, @jonthegeek).
 * `use_tidy_agents()` no longer creates a `.claude/` directory, since Claude Code now reads `AGENTS.md`; files previously created by `use_tidy_agents()` are deleted (#2274).
