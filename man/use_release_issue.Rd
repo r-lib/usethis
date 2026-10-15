@@ -35,6 +35,44 @@ returns a character vector. This is currently only supported for
 Posit internal check tooling.
 }
 }
+
+\subsection{Built-in bullets}{
+
+Prepare for release:
+\itemize{
+\item \verb{git pull}
+\item Check \href{https://cran.rstudio.org/web/checks/check_results_usethis.html}{current CRAN check results}
+\item \href{https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation}{Advance deprecations}, if needed
+\item \href{https://style.tidyverse.org/news.html#news-release}{Polish NEWS}
+\item \code{urlchecker::url_check()}
+\item \code{devtools::build_readme()}
+\item \code{devtools::check(remote = TRUE, manual = TRUE)}
+\item \code{devtools::check_win_devel()}
+\item \code{revdepcheck::cloud_check()}
+\item Update \code{cran-comments.md}
+\item \verb{git push}
+\item Draft blog post
+\item Check that \code{use_code_of_conduct()} is shipping the latest version of the Contributor Covenant (\url{https://www.contributor-covenant.org}).
+}
+
+Submit to CRAN:
+\itemize{
+\item \code{usethis::use_version('major')}
+\item \code{devtools::submit_cran()}
+\item Approve email
+}
+
+Wait for CRAN...
+\itemize{
+\item Accepted :tada:
+\item Finish & publish blog post
+\item Add link to blog post in pkgdown news menu
+\item \code{usethis::use_github_release()}
+\item \code{usethis::use_dev_version(push = TRUE)}
+\item Share on social media
+\item Slack link to blog post, bluesky, and linkedin in #open-source-comms
+}
+}
 }
 \examples{
 \dontrun{
