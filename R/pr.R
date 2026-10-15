@@ -768,12 +768,19 @@ pr_find <- function(
     return(pr_get(number = sub("^.+pull/", "", url), tr = tr))
   }
 
+  state <- match.arg(state)
   tracking_branch <- git_branch_tracking(branch)
   if (is.na(tracking_branch)) {
-    return(NULL)
+    # Typical after a PR is merged and its remote branch is deleted (and then
+    # pruned locally). We can still look for a PR whose head is this branch's
+    # tip commit.
+    pr <- pr_find_by_sha(branch, tr = tr, state = state)
+    if (!is.null(pr)) {
+      gert::git_config_set(config_url, pr$pr_html_url, repo = git_repo())
+    }
+    return(pr)
   }
 
-  state <- match.arg(state)
   remote <- remref_remote(tracking_branch)
   remote_dat <- github_remotes(remote)
 
@@ -797,6 +804,43 @@ pr_find <- function(
 
   gert::git_config_set(config_url, pr_dat$pr_html_url, repo = git_repo())
   as.list(pr_dat)
+}
+
+# retrieves 1 PR whose head SHA and head ref match the tip and name of the local
+# `branch`, which doesn't rely on `branch` having a tracking branch
+pr_find_by_sha <- function(
+  branch = git_branch(),
+  tr = NULL,
+  state = c("open", "closed", "all")
+) {
+  state <- match.arg(state)
+  tr <- tr %||% target_repo(github_get = NA, ask = FALSE)
+  sha <- gert::git_commit_id(branch, repo = git_repo())
+
+  # PRs associated with a commit, i.e. merged PRs that contain it and open PRs,
+  # if commit is not in the default branch
+  gh <- gh_tr(tr)
+  prs <- tryCatch(
+    gh("GET /repos/{owner}/{repo}/commits/{sha}/pulls", sha = sha),
+    error = function(e) NULL
+  )
+  if (length(prs) == 0) {
+    return(NULL)
+  }
+  prs <- map(prs, pr_data_tidy)
+  is_match <- map_lgl(prs, function(pr) {
+    identical(pr$pr_head_sha, sha) &&
+      identical(pr$pr_ref, branch) &&
+      (state == "all" || identical(pr$pr_state, state))
+  })
+  prs <- prs[is_match]
+  if (length(prs) != 1) {
+    return(NULL)
+  }
+
+  pr <- prs[[1]]
+  pr$pr_local_branch <- pr$pr_local_branch %|% branch
+  pr
 }
 
 pr_url <- function(
