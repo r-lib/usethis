@@ -2,6 +2,10 @@
 
 ## usethis (development version)
 
+- [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  is better at recognizing that a local PR branch is safe to delete,
+  even if its remote branch has already been deleted, probably via
+  GitHub’s “Automatically delete head branches” setting.
 - [`use_pkgdown_github_pages()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
   now challenges the user when they are not on the default branch,
   because setting up the site on a non-default branch leads to an empty
