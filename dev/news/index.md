@@ -6,6 +6,14 @@
   is better at recognizing that a local PR branch is safe to delete,
   even if its remote branch has already been deleted, probably via
   GitHub’s “Automatically delete head branches” setting.
+- [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  and
+  [`pr_forget()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  now check for uncommitted changes regardless of whether the current
+  branch is the PR branch. Likewise,
+  [`pr_finish()`](https://usethis.r-lib.org/dev/reference/pull-requests.md)
+  now pulls changes into the default branch regardless of the current
+  branch when it was called.
 - [`use_pkgdown_github_pages()`](https://usethis.r-lib.org/dev/reference/use_pkgdown.md)
   now challenges the user when they are not on the default branch,
   because setting up the site on a non-default branch leads to an empty
