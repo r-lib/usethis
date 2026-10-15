@@ -584,10 +584,10 @@ pr_clean <- function(
 
   pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
 
+  # this always ends with us force-checking out the default branch and pulling
+  challenge_uncommitted_changes()
+
   if (!is.na(pr_local_branch)) {
-    if (pr_local_branch == git_branch()) {
-      challenge_uncommitted_changes()
-    }
     tracking_branch <- git_branch_tracking(pr_local_branch)
     if (is.na(tracking_branch)) {
       pr_local_branch_head <- gert::git_commit_info(
@@ -644,8 +644,8 @@ pr_clean <- function(
       "v" = "Switching back to default branch ({.val {default_branch}})."
     ))
     gert::git_branch_checkout(default_branch, force = TRUE, repo = repo)
-    pr_pull_source_override(tr = tr, default_branch = default_branch)
   }
+  pr_pull_source_override(tr = tr, default_branch = default_branch)
 
   if (!is.na(pr_local_branch)) {
     ui_bullets(c(
