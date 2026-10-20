@@ -8,10 +8,27 @@ test_that("tidy upkeep bullets don't change accidentally", {
     usethis_version = function() "1.1.0",
     author_has_rstudio_email = function() TRUE,
     is_posit_pkg = function() TRUE,
-    is_posit_person_canonical = function() FALSE
+    is_posit_person_canonical = function() FALSE,
+    tidy_minimum_r_version = function() numeric_version("4.2")
   )
 
   expect_snapshot(writeLines(tidy_upkeep_checklist()))
+})
+
+test_that("tidy upkeep nudges about minimum R version only when needed", {
+  create_local_package()
+  local_mocked_bindings(
+    tidy_minimum_r_version = function() numeric_version("4.2")
+  )
+  bullet <- '`usethis::use_package("R", "Depends", "4.2")`'
+
+  expect_match(tidy_upkeep_checklist(), bullet, fixed = TRUE, all = FALSE)
+
+  use_package("R", "Depends", "4.1")
+  expect_match(tidy_upkeep_checklist(), bullet, fixed = TRUE, all = FALSE)
+
+  use_package("R", "Depends", "4.2")
+  expect_no_match(tidy_upkeep_checklist(), bullet, fixed = TRUE)
 })
 
 test_that("tidy upkeep omits bullets present in last_upkeep", {
@@ -26,7 +43,8 @@ test_that("tidy upkeep omits bullets present in last_upkeep", {
     usethis_version = function() "1.1.0",
     author_has_rstudio_email = function() TRUE,
     is_posit_pkg = function() TRUE,
-    is_posit_person_canonical = function() FALSE
+    is_posit_person_canonical = function() FALSE,
+    tidy_minimum_r_version = function() numeric_version("4.2")
   )
 
   expect_snapshot(writeLines(tidy_upkeep_checklist()))

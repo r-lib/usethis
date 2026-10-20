@@ -51,7 +51,6 @@
       ### 2025
       
       * [ ] `usethis::use_air()` <https://posit-dev.github.io/air/>
-      * [ ] `usethis::use_package("R", "Depends", "4.1")`
       * [ ] Switch to the base pipe (`|>`)
       * [ ] Switch to the base anonymous function syntax (`\(x)`) 
       * [ ] Add ROR for Posit in `DESCRIPTION`:
@@ -62,6 +61,7 @@
       
       ### To finish
       
+      * [ ] `usethis::use_package("R", "Depends", "4.2")`
       * [ ] `usethis::use_mit_license()`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
@@ -97,7 +97,6 @@
       ### 2025
       
       * [ ] `usethis::use_air()` <https://posit-dev.github.io/air/>
-      * [ ] `usethis::use_package("R", "Depends", "4.1")`
       * [ ] Switch to the base pipe (`|>`)
       * [ ] Switch to the base anonymous function syntax (`\(x)`) 
       * [ ] Add ROR for Posit in `DESCRIPTION`:
@@ -108,6 +107,7 @@
       
       ### To finish
       
+      * [ ] `usethis::use_package("R", "Depends", "4.2")`
       * [ ] `usethis::use_mit_license()`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`

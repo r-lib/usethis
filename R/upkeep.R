@@ -277,7 +277,6 @@ tidy_upkeep_checklist <- function(
       "### 2025",
       "",
       todo("`usethis::use_air()` <https://posit-dev.github.io/air/>"),
-      todo('`usethis::use_package("R", "Depends", "4.1")`'),
       todo("Switch to the base pipe (`|>`)"),
       todo("Switch to the base anonymous function syntax (`\\(x)`) "),
       todo(
@@ -304,13 +303,10 @@ tidy_upkeep_checklist <- function(
     bullets,
     "### To finish",
     "",
-    # TODO: if the most recent year doesn't nudge about the minimum R version,
-    # re-introduce that todo()
-    #
-    # todo(
-    #   '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
-    #   is.na(minimum_r_version) || tidy_minimum_r_version() > minimum_r_version
-    # ),
+    todo(
+      '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
+      is.na(minimum_r_version) || tidy_minimum_r_version() > minimum_r_version
+    ),
     todo(
       "`usethis::use_mit_license()`",
       grepl("MIT", desc$get_field("License"))
