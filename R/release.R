@@ -99,6 +99,7 @@ release_checklist <- function(version, on_cran, target_repo = NULL) {
         todo(
           "Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)"
         ),
+        todo("Review <https://contributor.r-project.org/cran-cookbook>"),
         todo("Review <https://github.com/DavisVaughan/extrachecks>"),
         ""
       )
