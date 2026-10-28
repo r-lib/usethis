@@ -11,13 +11,13 @@
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
   check_uses_roxygen("use_rcpp()")
+  path <- path("src", compute_name(name, "cpp"))
 
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
   roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_remind()
 
   use_src()
-  path <- path("src", compute_name(name, "cpp"))
   use_template("code.cpp", path)
   edit_file(proj_path(path))
 
@@ -58,10 +58,9 @@ use_rcpp_eigen <- function(name = NULL) {
 use_c <- function(name = NULL) {
   check_is_package("use_c()")
   check_uses_roxygen("use_c()")
+  path <- path("src", compute_name(name, ext = "c"))
 
   use_src()
-
-  path <- path("src", compute_name(name, ext = "c"))
   use_template("code.c", path)
   edit_file(proj_path(path))
 
