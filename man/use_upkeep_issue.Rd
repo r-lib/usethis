@@ -19,6 +19,21 @@ tasks are meant to be performed only once (and once completed shouldn't show
 up in subsequent lists), and some should be reviewed periodically. The
 tidyverse team uses a similar function \code{\link[=use_tidy_upkeep_issue]{use_tidy_upkeep_issue()}} for our
 annual package Spring Cleaning.
+\subsection{Built-in bullets}{
+\itemize{
+\item \code{usethis::use_tidy_description()}
+\item Align the names of \verb{R/} files and \verb{test/} files for workflow happiness. The docs for \code{usethis::use_r()} include a helpful script. \code{usethis::rename_files()} may be be useful.
+\item Add alt-text to pictures, plots, etc; see \url{https://posit.co/blog/knitr-fig-alt/} for examples
+}
+
+Set up or update GitHub Actions.
+Updating workflows to the latest version will often fix troublesome actions:
+\itemize{
+\item \code{usethis::use_github_action('check-standard')}
+\item \code{usethis::use_github_action('pkgdown')}
+\item \code{usethis::use_github_action('test-coverage')}
+}
+}
 }
 \examples{
 \dontrun{

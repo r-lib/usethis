@@ -10,6 +10,14 @@
 #' tidyverse team uses a similar function [use_tidy_upkeep_issue()] for our
 #' annual package Spring Cleaning.
 #'
+#' ## Built-in bullets
+#'
+#'```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#' bullets <- upkeep_checklist(include_footer = FALSE)
+#' bullets <- convert_checklist_to_bullets(bullets)
+#' knitr::asis_output(paste(bullets, collapse = "\n"))
+#'```
+#'
 #' @param year Year you are performing the upkeep, used in the issue title.
 #'   Defaults to current year
 #'
@@ -58,7 +66,7 @@ make_upkeep_issue <- function(year, last_upkeep, tidy) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(target_repo = NULL) {
+upkeep_checklist <- function(target_repo = NULL, include_footer = TRUE) {
   has_github_links <- has_github_links(target_repo)
 
   bullets <- c(
@@ -118,14 +126,18 @@ upkeep_checklist <- function(target_repo = NULL) {
       <https://posit.co/blog/knitr-fig-alt/> for examples"
     ),
     "",
-    "Set up or update GitHub Actions. \\
+    "Set up or update GitHub Actions.
       Updating workflows to the latest version will often fix troublesome actions:",
     todo("`usethis::use_github_action('check-standard')`"),
     todo("`usethis::use_github_action('pkgdown')`", uses_pkgdown()),
     todo("`usethis::use_github_action('test-coverage')`", uses_testthat())
   )
 
-  c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
+  c(
+    bullets,
+    upkeep_extra_bullets(),
+    if (include_footer) checklist_footer(tidy = FALSE)
+    )
 }
 
 # tidyverse upkeep issue -------------------------------------------------------
