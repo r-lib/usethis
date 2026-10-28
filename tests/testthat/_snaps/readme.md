@@ -70,7 +70,7 @@
       output: github_document
       ---
       
-      <!-- README.md is generated from README.Rmd. Please edit that file -->
+      <!-- README.md is generated from README.Rmd. Please edit only the Rmd file. -->
       
       ```{r, include = FALSE}
       knitr::opts_chunk$set(
@@ -130,7 +130,7 @@
       output: github_document
       ---
       
-      <!-- README.md is generated from README.Rmd. Please edit that file -->
+      <!-- README.md is generated from README.Rmd. Please edit only the Rmd file. -->
       
       ```{r, include = FALSE}
       knitr::opts_chunk$set(
@@ -206,7 +206,7 @@
           default-image-extension: ""
       ---
       
-      <!-- README.md is generated from README.qmd. Please edit that file -->
+      <!-- README.md is generated from README.qmd. Please edit only the qmd file. -->
       
       ```{r}
       #| include: false
@@ -273,7 +273,7 @@
           default-image-extension: ""
       ---
       
-      <!-- README.md is generated from README.qmd. Please edit that file -->
+      <!-- README.md is generated from README.qmd. Please edit only the qmd file. -->
       
       ```{r}
       #| include: false
