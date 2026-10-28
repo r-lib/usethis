@@ -191,6 +191,7 @@ git_uncommitted <- function(untracked = FALSE) {
 challenge_uncommitted_changes <- function(
   untracked = FALSE,
   msg = NULL,
+  action = c("push", "pull", "switch", "compare branches"),
   error_call = caller_env()
 ) {
   if (!uses_git()) {
@@ -201,11 +202,26 @@ challenge_uncommitted_changes <- function(
     rstudioapi::documentSaveAll()
   }
 
-  default_msg <- "
-    There are uncommitted changes, which may cause problems or be lost when \\
-    we push, pull, switch, or compare branches."
-  msg <- glue(msg %||% default_msg)
+  default_msg <-
+    "Uncommitted changes may cause problems or be lost when we {.or {action}}."
+  msg <- cli::format_inline(msg %||% default_msg)
 
+  uncommited <- git_status(untracked)
+  if (nrow(uncommited) > 0) {
+    if (is_interactive()) {
+      choice <- utils::menu(
+        c(
+          "I want to proceed anyway.",
+          cli::format_inline(
+            "I want to take a closer look at {.file {uncommited$file}} first."
+          )
+        ),
+        title = msg
+      )
+      if (choice == 1) {
+        return(invisible())
+      }
+  }
   while (git_uncommitted(untracked = untracked)) {
     if (!is_interactive()) {
       ui_abort(
