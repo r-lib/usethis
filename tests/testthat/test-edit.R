@@ -150,6 +150,30 @@ test_that("edit_r_environ() ensures .Renviron exists in project", {
   expect_proj_file(".Renviron")
 })
 
+test_that("edit_r_environ() challenges when project .Renviron exists and scope is not specified", {
+  create_local_project()
+  edit_r_environ("project")
+  edit_r_environ("user")
+
+  expect_equal(
+    with_mocked_bindings(
+      edit_r_environ(),
+      ui_yeah = function(...) FALSE,
+      edit_file = function(path) invisible(path)
+    ),
+    scoped_path_r("user", ".Renviron", envvar = "R_ENVIRON_USER")
+  )
+
+  expect_equal(
+    with_mocked_bindings(
+      edit_r_environ(),
+      ui_yeah = function(...) TRUE,
+      edit_file = function(path) invisible(path)
+    ),
+    proj_path(".Renviron")
+  )
+})
+
 test_that("edit_r_makevars() ensures .R/Makevars exists in package", {
   create_local_package()
   edit_r_makevars("project")
