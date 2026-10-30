@@ -90,6 +90,24 @@ There are three possible ways to run code, listed in rough order of desirability
 - Only include a GitHub username if the PR was created by someone who isn't an author.
 - Order bullets alphabetically by function name. Put all bullets that don't mention function names at the beginning.
 
+### Package data
+
+Package data lives in two places:
+
+- `data/*.rda`: exported datasets, one object per file, available to users and documented in `R/data.R`.
+- `R/sysdata.rda`: internal data, a single file holding every internal object, available only to package code.
+
+When writing a `data-raw/` script:
+
+- Create new scripts with `usethis::use_data_raw("name")`.
+- End the script with `usethis::use_data(..., overwrite = TRUE)` so it can be rerun.
+
+When updating package data:
+
+- Never modify `data/*.rda` or `R/sysdata.rda` manually (e.g., by loading, editing, and re-saving them).
+- Regenerate them only by editing and rerunning the relevant `data-raw/` script.
+- `use_data(internal = TRUE)` replaces all of `R/sysdata.rda`, so it must be called once with every internal object, not just the one you changed.
+
 ## Specialized skills
 
 - Do you need to deprecate a function or argument? Read `usethis::learn_tidy_skill("deprecate")`.
