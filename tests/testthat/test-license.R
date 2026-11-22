@@ -11,6 +11,45 @@ test_that("use_mit_license() works", {
   expect_false(is_build_ignored("^LICENSE$"))
 })
 
+test_that("switching licenses removes a generated LICENSE stub", {
+  create_local_package()
+  use_mit_license()
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_message(use_apache_license(), "Deleting.*LICENSE")
+  expect_equal(desc::desc_get_field("License"), "Apache License (>= 2)")
+  expect_proj_file("LICENSE.md")
+  expect_equal(unname(file_exists(proj_path("LICENSE"))), FALSE)
+})
+
+test_that("switching licenses preserves a custom LICENSE with advice", {
+  create_local_package()
+  license <- c("YEAR: 2025", "COPYRIGHT HOLDER: Someone", "Additional terms")
+  write_utf8(proj_path("LICENSE"), license)
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_message(use_apache_license(), "Review and remove it manually")
+  expect_equal(read_utf8(proj_path("LICENSE")), license)
+})
+
+test_that("switching licenses preserves an empty LICENSE with advice", {
+  create_local_package()
+  file_create(proj_path("LICENSE"))
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_message(use_cc0_license(), "Review and remove it manually")
+  expect_equal(read_utf8(proj_path("LICENSE")), character())
+})
+
+test_that("non-package licenses preserve LICENSE", {
+  create_local_project()
+  license <- c("YEAR: 2025", "COPYRIGHT HOLDER: Someone")
+  write_utf8(proj_path("LICENSE"), license)
+
+  use_apache_license()
+  expect_equal(read_utf8(proj_path("LICENSE")), license)
+})
+
 test_that("use_proprietary_license() works", {
   create_local_package()
   use_proprietary_license("foo")
