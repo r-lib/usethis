@@ -173,6 +173,28 @@ use_apl2_license <- function() {
 # Helpers -----------------------------------------------------------------
 
 use_license_template <- function(license, data = list()) {
+  if (
+    is_package() &&
+      !grepl("file LICENSE", proj_desc()$get_field("License"), fixed = TRUE)
+  ) {
+    license_path <- proj_path("LICENSE")
+    if (file_exists(license_path)) {
+      lines <- read_utf8(license_path)
+      if (
+        length(lines) == 2 &&
+          grepl("^YEAR: [0-9]{4}$", lines[[1]]) &&
+          grepl("^COPYRIGHT HOLDER: .+$", lines[[2]])
+      ) {
+        delete_files(license_path)
+      } else {
+        ui_bullets(c(
+          "!" = "{.path LICENSE} is no longer needed for this license.",
+          "i" = "Review and remove it manually if appropriate."
+        ))
+      }
+    }
+  }
+
   license_template <- glue("license-{license}.md")
 
   use_template(
